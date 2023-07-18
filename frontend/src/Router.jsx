@@ -31,9 +31,10 @@ const router = createBrowserRouter([
     path: '/',
     element: <App />,
     children: [
+      { path: '', element: <MainPage />},
       { 
-        path: '', element: <MainPage />
-      },
+        // path: ':userId', 
+        path: 'user', element: <MyPage />},
       { 
         // path: 'board/:boardName',
         path: 'board', element: <BoardsAll />
