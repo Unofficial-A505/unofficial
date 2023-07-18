@@ -4,6 +4,7 @@ import ssafyButton from '../../components/ssafyButton/ssafyButton';
 import eduGrantsButton from '../../components/eduGrantsButton/eduGrantsButton';
 import sweaButton from '../../components/sweaButton/sweaButton';
 import AdHorizontal from '../../components/AdHorizontal/AdHorizontal';
+import AdVertical from '../../components/AdVertical/AdVertical';
 import weatherinfoApi from '../../components/weatherinfoApi/weatherinfoApi';
 
 export default function MainPage(){
@@ -21,6 +22,7 @@ export default function MainPage(){
         </div>
       </div>
       <AdHorizontal />
+      <AdVertical />
       <div>
         <div>여기 Best 게시글</div>
       </div>
