@@ -18,6 +18,9 @@ export default function Signup1(){
     setSelectedGisu(event.target.value);
   }
   const handleSubmit = () => {
+    if (!selectedLocal || !selectedGisu) {
+      alert('지역과 기수를 선택해주세요.')
+    }
     // 선택한 지역과 기수 정보를 user 객체에 저장
     dispatch(setLocal(selectedLocal))
     dispatch(setGisu(selectedGisu))
@@ -31,8 +34,8 @@ export default function Signup1(){
       <p className='my-0'>다양한 교육생 서비스를 모두 이용하실 수 있습니다.</p>
       <br />
       <h2>선택</h2>
-      <p className='mb-3' style={{color:'red'}}>선택한 지역과 기수는 이후 변경이 불가합니다.</p>
-      <div className="mb-3">
+      <p className='mt-0 mb-3' style={{color:'red'}}>선택한 지역과 기수는 이후 변경이 불가합니다.</p>
+      <div className="mb-2">
         <label className="form-label mb-0">지역</label>
         <div />
         <select name="enter_local" onChange={handleLocalChange}>
@@ -44,7 +47,7 @@ export default function Signup1(){
           <option value="부울경 캠퍼스">부울경 캠퍼스</option>
         </select>
       </div>
-      <div className="mb-3">
+      <div className="mb-2">
         <label className="form-label mb-0">기수</label>
         <div />
         <select name="enter_gisu" onChange={handleGisuChange}>

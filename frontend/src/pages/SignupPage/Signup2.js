@@ -17,7 +17,7 @@ export default function Signup2(){
   }, [])
 
   let [userEmail, setUserEmail] = useState('')
-  let [validEmail, setValidEmail] = useState(true)
+  let [emailValid, setEmailValid] = useState(true)
   let [userPassword1, setUserPassword1] = useState('')
   let [userPassword2, setUserPassword2] = useState('')
   let [passwordMismatch, setPasswordMismatch] = useState(true)
@@ -30,10 +30,10 @@ export default function Signup2(){
   const handleEmailValid=(event)=>{
     let pattern = /^([0-9a-zA-Z_\.-]+)@[0-9a-zA-Z_-]+\.[a-zA-Z_-]{2,3}$/
     if (!event.target.value.match(pattern)){
-      setValidEmail(false)
+      setEmailValid(false)
       return
     }
-    setValidEmail(true)
+    setEmailValid(true)
   }
   const handlePasswordChange1=(event)=>{
     setUserPassword1(event.target.value);
@@ -49,7 +49,7 @@ export default function Signup2(){
       return false
     }
     // 
-    if (!validEmail){
+    if (!emailValid){
       alert('올바른 이메일 주소를 입력해주세요.')
       return false
     }
@@ -100,19 +100,25 @@ export default function Signup2(){
       <p className='my-0'>다양한 교육생 서비스를 모두 이용하실 수 있습니다.</p>
       <br />
       <h2>등록</h2>
-      <p className='mb-3' style={{color:'red'}}>에듀싸피 계정과 동일한 이메일로 가입해주세요.</p>
-      <div class="mb-0">
-        <label for="exampleInputEmail" class="form-label">이메일 주소</label>
-        <input type="email" class="form-control" id="exampleInputEmail" onChange={handleEmailChange} onBlur={handleEmailValid}/>
-        {userEmail && !validEmail 
+      <p className='mb-3' style={{color:'red'}}>에듀싸피 계정과 동일한 이메일 주소로 가입해주세요.</p>
+      <div class="mb-1">
+        <label for="exampleInputEmail" className="form-label">이메일 주소</label>
+        <input type="email" class="form-control" id="exampleInputEmail" onChange={handleEmailChange} onBlur={handleEmailValid} 
+        />
+        {userEmail && !emailValid 
         && <p style={{color: 'red'}}>올바른 이메일 주소를 입력해주세요.</p> }
       </div>
-      <div class="mb-0">
-        <label for="exampleInputPassword1" class="form-label">비밀번호</label>
+      {/* <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Username" aria-label="Username" />
+        <span class="input-group-text">@</span>
+        <input type="text" class="form-control" placeholder="Server" aria-label="Server" />
+      </div> */}
+      <div class="mb-1">
+        <label for="exampleInputPassword1" className="form-label">비밀번호</label>
         <input type="password" class="form-control" id="exampleInputPassword1" onChange={handlePasswordChange1} />
       </div>
-      <div class="mb-2">
-        <label for="exampleInputPassword2" class="form-label">비밀번호 확인</label>
+      <div class="mb-1">
+        <label for="exampleInputPassword2" className="form-label">비밀번호 확인</label>
         <input type="password" class="form-control" id="exampleInputPassword2" onChange={handlePasswordChange2} />
         {userPassword1 && userPassword2 && passwordMismatch 
         && <p style={{color: 'red'}}>비밀번호가 일치하지 않습니다.</p>}

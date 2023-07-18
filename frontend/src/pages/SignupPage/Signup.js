@@ -16,7 +16,7 @@ function Signup() {
     <div className="Singup">
       <Outlet />
       <div>
-        <button onClick={showModal}>모달 띄우기</button>
+        <button style={{display:'block', margin:'0 auto'}} onClick={showModal}>로그인</button>
         {modalOpen && <Login setModalOpen={setModalOpen} />}
       </div>
     </div>
