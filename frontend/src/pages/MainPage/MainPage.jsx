@@ -1,4 +1,5 @@
 import styles from './MainPage.module.css'
+import UserinfoBox from '../../components/UserinfoBox/UserinfoBox'
 
 export default function MainPage(){
   return (
@@ -7,13 +8,7 @@ export default function MainPage(){
         carousel
       </div>
       <div>
-        <div>
-          <p>SSABRY Time에서 자유롭게 소통해보세요</p>
-          <div>
-            <button>로그인</button>
-            <button>회원가입</button>
-          </div>
-        </div>
+        <UserinfoBox />
         <div>
           <button>
             <img src="" alt="" />
