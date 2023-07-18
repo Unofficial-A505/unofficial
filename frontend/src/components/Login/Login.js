@@ -1,26 +1,36 @@
 import styles from './Login.module.css'
+import logo from './../../assets/images/whale.png'
 
-export default function Login({ setModalOpen, id, title, content, writer }){
+export default function Login({ setModalOpen }){
   // 모달 끄기 
-  const closeModal = () => {
+  const closeModal = ()=>{
     setModalOpen(false);
   };
 
   return (
-    <div className={styles.container}>
-      <button className={styles.close} onClick={closeModal}>X</button>
-      <form>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
-          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    <>
+      <div className={styles.overlay} onClick={closeModal}></div>
+
+      <div className={styles.container}>
+        <div className='d-flex justify-content-between mb-3'>
+          <img src={logo} width='80' height='80' alt="whale" />
+          <div className='d-flex flex-column-reverse'>
+            <p className='mb-0'>지금 <b className='fs-6 fw-bold text-dark'>싸브리타임</b>을 시작하세요!</p>
+          </div>
         </div>
-        <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" />
+        <form>
+          <div>
+            <input type="text" className="form-control mb-1" placeholder="이메일" />
+            <input type="text" className="form-control" placeholder="비밀번호" />
+          </div>
+          <input className='mt-3' type="submit" value="로그인" />
+        </form>
+        <div className='mt-3' style={{ margin:'0 auto' }}>
+          <span>싸브리타임에 처음이신가요?&nbsp;&nbsp;</span>
+          <a href="/signup" className='mb-5 text-decoration-none'>회원가입</a>
         </div>
-        <input type="submit" value="로그인" />
-      </form>
-    </div>
+      </div>
+    </>
   )
 } 
+
