@@ -7,6 +7,7 @@ import Signup3 from './pages/SignupPage/Signup3'
 import App from './App';
 import MainPage from './pages/MainPage/MainPage'
 import BoardsAll from './pages/BoardsAll/BoardsAll'
+import PostDetail from './pages/PostDetail/PostDetail'
 
 const router = createBrowserRouter([
   {
@@ -30,12 +31,15 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { 
-        path: '',
-        element: <MainPage />
+        path: '', element: <MainPage />
       },
       { 
-        path: 'board',
-        element: <BoardsAll />
+        // path: 'board/:boardName',
+        path: 'board', element: <BoardsAll />
+      },
+      { 
+        // path: 'board/:boardName/:postId',
+        path: 'post', element: <PostDetail />
       },
     ]
   }
