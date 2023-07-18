@@ -8,6 +8,7 @@ import App from './App';
 import MainPage from './pages/MainPage/MainPage'
 import BoardsAll from './pages/BoardsAll/BoardsAll'
 import PostDetail from './pages/PostDetail/PostDetail'
+import CreatePostPage from './pages/CreatePostPage/CreatePostPage'
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       { 
         // path: 'board/:boardName',
         path: 'board', element: <BoardsAll />
+      },
+      { 
+        // path: 'board/:boardName/create',
+        path: 'board/create', element: <CreatePostPage />
       },
       { 
         // path: 'board/:boardName/:postId',
