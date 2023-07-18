@@ -7,25 +7,27 @@ import Signup3 from './pages/SignupPage/Signup3'
 
 const router = createBrowserRouter([
   {
+    path: '/',
+    element: <App />
+  },
+  {
     path: '/signup',
     element: <Signup />,
     children: [
-      { path: '',
+      { 
+        path: '',
         element: <Signup1 />
       },
-      { path: 'register',
+      { 
+        path: 'register',
         element: <Signup2 />
       },
-      { path: 'complete',
+      { 
+        path: 'complete',
         element: <Signup3 />
       },
-
     ]
   },
-  {
-    path: '/',
-    element: <App />
-  }
 ])
 
 export default router;
