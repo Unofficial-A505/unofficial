@@ -3,7 +3,7 @@ import styles from './AdVertical.module.css'
 export default function AdVertical(){
   return(
     <>
-      <div className={styles.advertiseVe}>
+      <div className={styles.advertiseVer}>
         adVertical
       </div>
     </>

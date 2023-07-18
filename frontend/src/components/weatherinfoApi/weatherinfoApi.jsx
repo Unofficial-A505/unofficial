@@ -1,6 +1,6 @@
-import styles from './weatherinfoApi.module.css'
+import styles from './WeatherinfoApi.module.css'
 
-export default function weatherinfoApi(){
+export default function WeatherinfoApi(){
   return(
     <div>
       weatherinfoApi

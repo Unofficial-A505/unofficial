@@ -1,6 +1,6 @@
-import styles from './sweaButton.module.css'
+import styles from './SweaButton.module.css'
 
-export default function sweaButton(){
+export default function SweaButton(){
   return(
     <>
       <button>SW Expert Academy</button>

@@ -6,6 +6,7 @@ import Signup3 from './pages/SignupPage/Signup3'
 
 import App from './App';
 import MainPage from './pages/MainPage/MainPage'
+import BoardsAll from './pages/BoardsAll/BoardsAll'
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,11 @@ const router = createBrowserRouter([
       { 
         path: '',
         element: <MainPage />
-      }
+      },
+      { 
+        path: 'board',
+        element: <BoardsAll />
+      },
     ]
   }
 ])

@@ -1,6 +1,6 @@
-import styles from './ssafyButton.module.css'
+import styles from './SsafyButton.module.css'
 
-export default function ssafyButton(){
+export default function SsafyButton(){
   return(
     <button>
         <img src="" alt="" />

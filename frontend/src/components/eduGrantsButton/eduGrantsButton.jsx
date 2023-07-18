@@ -1,6 +1,6 @@
-import styles from './eduGrantsButton.module.css'
+import styles from './EduGrantsButton.module.css'
 
-export default function eduGrantsButton(){
+export default function EduGrantsButton(){
   return(
     <button>
       <img src="" alt="" />

@@ -1,11 +1,11 @@
 import styles from './MainPage.module.css';
 import UserinfoBox from '../../components/UserinfoBox/UserinfoBox';
-import ssafyButton from '../../components/ssafyButton/ssafyButton';
-import eduGrantsButton from '../../components/eduGrantsButton/eduGrantsButton';
-import sweaButton from '../../components/sweaButton/sweaButton';
 import AdHorizontal from '../../components/AdHorizontal/AdHorizontal';
 import AdVertical from '../../components/AdVertical/AdVertical';
-import weatherinfoApi from '../../components/weatherinfoApi/weatherinfoApi';
+import SsafyButton from '../../components/SsafyButton/SsafyButton';
+import SweaButton from '../../components/SweaButton/SweaButton';
+import EduGrantsButton from '../../components/EduGrantsButton/EduGrantsButton';
+import WeatherinfoApi from '../../components/WeatherinfoApi/WeatherinfoApi';
 
 export default function MainPage(){
   return (
@@ -16,9 +16,9 @@ export default function MainPage(){
       <div>
         <UserinfoBox />
         <div>
-          <eduGrantsButton />
-          <ssafyButton />
-          <sweaButton />
+          <SsafyButton />
+          <SweaButton />
+          <EduGrantsButton />
         </div>
       </div>
       <AdHorizontal />
@@ -26,7 +26,7 @@ export default function MainPage(){
       <div>
         <div>여기 Best 게시글</div>
       </div>
-      <weatherinfoApi />
+        <WeatherinfoApi />
 
       <div>
       </div>
