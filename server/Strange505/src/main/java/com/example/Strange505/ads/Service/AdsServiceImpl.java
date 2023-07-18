@@ -18,7 +18,7 @@ public class AdsServiceImpl implements AdsService {
     @Transactional
     public AdsDto createAds(AdsDto adsDto) {
         AdsEntity ads = new AdsEntity();
-        ads.update(adsDto.getImagePath(), adsDto.getRedirectUrl(), adsDto.getEndDate(), adsDto.getAdminConfirmed());
+        ads.update(adsDto.getAdsId(),adsDto.getImagePath(), adsDto.getRedirectUrl(), adsDto.getEndDate(), adsDto.getAdminConfirmed());
 
         AdsEntity savedAds = adsRepository.save(ads);
         return convertToDto(savedAds);
@@ -51,7 +51,7 @@ public class AdsServiceImpl implements AdsService {
     public AdsDto updateAds(Long id, AdsDto adsDto) {
         AdsEntity ads = adsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Ads not found"));
-        ads.update(adsDto.getImagePath(), adsDto.getRedirectUrl(), adsDto.getEndDate(), adsDto.getAdminConfirmed());
+        ads.update(adsDto.getAdsId(), adsDto.getImagePath(), adsDto.getRedirectUrl(), adsDto.getEndDate(), adsDto.getAdminConfirmed());
 
         AdsEntity updatedAds = adsRepository.save(ads);
         return convertToDto(updatedAds);
@@ -77,6 +77,7 @@ public class AdsServiceImpl implements AdsService {
     }
     private AdsDto convertToDto(AdsEntity ads) {
         AdsDto adsDto = new AdsDto();
+        adsDto.setAdsId(ads.getAdsId());
         adsDto.setImagePath(ads.getImagePath());
         adsDto.setRedirectUrl(ads.getRedirectUrl());
         adsDto.setEndDate(ads.getEndDate());

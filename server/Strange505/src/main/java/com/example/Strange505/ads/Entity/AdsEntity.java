@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class AdsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long adsId;
 
     @Column(nullable = false)
     private String imagePath;
@@ -23,7 +23,8 @@ public class AdsEntity {
     @Column(nullable = false)
     private Boolean adminConfirmed;
 
-    public void update(String imagePath, String redirectUrl, LocalDate endDate, Boolean adminConfirmed) {
+    public void update(Long adsId, String imagePath, String redirectUrl, LocalDate endDate, Boolean adminConfirmed) {
+        this.adsId = adsId;
         this.imagePath = imagePath;
         this.redirectUrl = redirectUrl;
         this.endDate = endDate;

@@ -3,7 +3,7 @@ import lombok.Data;
 import java.time.LocalDate;
 @Data
 public class AdsDto {
-    private Long id;
+    private Long adsId;
 
     private String imagePath;
 
