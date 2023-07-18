@@ -1,4 +1,5 @@
 import styles from './NavBar.module.css'
+import { Link } from 'react-router-dom';
 
 export default function NavBar(){
 
@@ -10,7 +11,7 @@ export default function NavBar(){
       <div>
         <span className={styles.navlogo}>logo</span>
         <span className={styles.navtabs}>
-          <button className={styles.tab}>게시판</button>
+          <Link className={styles.tab} to='board'>게시판</Link>
           <button className={styles.tab}>게시판</button>
           <button className={styles.tab}>게시판</button>
         </span>
