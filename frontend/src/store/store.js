@@ -1,5 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
+import user from './signupSlice'
 
 export default configureStore({
-  reducer: { }
+  reducer: {
+    user: user.reducer,
+   }
 }) 

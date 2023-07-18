@@ -13,12 +13,12 @@ function Signup() {
   }
 
   return (
-    <div className="App">
+    <div className="Singup">
+      <Outlet />
       <div>
         <button onClick={showModal}>모달 띄우기</button>
         {modalOpen && <Login setModalOpen={setModalOpen} />}
       </div>
-      <Outlet />
     </div>
   )
 }
