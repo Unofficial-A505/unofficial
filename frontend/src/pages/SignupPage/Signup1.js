@@ -12,7 +12,7 @@ export default function Signup1(){
       <p className='my-0'>다양한 교육생 서비스를 모두 이용하실 수 있습니다.</p>
       <br />
       <h2>선택</h2>
-      <p className='mb-3' style={{color:'red'}}>선택한 지역과 기수는 추후 수정이 불가합니다.</p>
+      <p className='mb-3' style={{color:'red'}}>선택한 지역과 기수는 이후 변경이 불가합니다.</p>
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">지역</label>
         <div />
@@ -30,12 +30,19 @@ export default function Signup1(){
         <div />
         <select name="enter_generation">
           <option disabled selected>기수를 선택하세요</option>
+          <option value="1기">1기</option>
+          <option value="2기">2기</option>
+          <option value="3기">3기</option>
+          <option value="4기">4기</option>
+          <option value="5기">5기</option>
+          <option value="6기">6기</option>
+          <option value="7기">7기</option>
           <option value="8기">8기</option>
           <option value="9기">9기</option>
           <option value="10기">10기</option>
         </select>
       </div>
-      <input type="submit" value="다음" onClick={()=>{navigate('/register')}} />
+      <input type="submit" value="다음" onClick={()=>{navigate('register')}} />
     </div>
   )
 }
