@@ -1,0 +1,56 @@
+package com.example.Strange505.ads.Controller;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import com.example.Strange505.ads.Dto.AdsDto;
+import com.example.Strange505.ads.Service.AdsService;
+import java.util.List;
+@RestController
+@RequestMapping("/api/ads")
+public class AdsController {
+    private final AdsService adsService;
+
+    public AdsController(AdsService adsService) {
+        this.adsService = adsService;
+    }
+
+    @PostMapping
+    public ResponseEntity<AdsDto> createAds(@RequestBody AdsDto adsDto) {
+        AdsDto createdAds = adsService.createAds(adsDto);
+        return ResponseEntity.ok(createdAds);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<AdsDto>> getAllAds() {
+        List<AdsDto> adsDto = adsService.getAllAds();
+        return ResponseEntity.ok(adsDto);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<AdsDto> getAdsById(@PathVariable Long id) {
+        AdsDto adsDto = adsService.getAdsById(id);
+        return ResponseEntity.ok(adsDto);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AdsDto> updateAds(@PathVariable Long id, @RequestBody AdsDto adsDto) {
+        AdsDto updatedAds = adsService.updateAds(id, adsDto);
+        return ResponseEntity.ok(updatedAds);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAds(@PathVariable Long id) {
+        adsService.deleteAds(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/confirm/{id}")
+    public ResponseEntity<Void> confirmAds(@PathVariable Long id) {
+        adsService.confirmAds(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<List<AdsDto>> findActiveAds() {
+        List<AdsDto> activeAds = adsService.findActiveAds();
+        return ResponseEntity.ok(activeAds);
+    }
+}
