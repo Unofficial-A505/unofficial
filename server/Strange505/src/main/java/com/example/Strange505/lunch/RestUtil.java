@@ -1,19 +1,43 @@
 package com.example.Strange505.lunch;
 
-import com.example.Strange505.lunch.responseDTO.FreshMealDTO;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import javax.naming.AuthenticationException;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.HashMap;
 import java.util.Map;
 
 public class RestUtil {
+
+    private static WebClient webClient;
+
+    public static String requestPostGetHeader(String url, String path, Map<String, String> payloads) throws Exception {
+
+        webClient = WebClient.create(url);
+
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        for (String key : payloads.keySet()) {
+            formData.add(key, payloads.get(key));
+        }
+
+        ClientResponse response = webClient.post()
+                .uri(path)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .body(BodyInserters.fromFormData(formData))
+                .exchange()
+                .block();
+        return response.headers().asHttpHeaders().get("set-cookie").get(0);
+    }
+
     public static String requestGet(String apiUrl, Map<String, String> header) throws Exception {
         HttpURLConnection conn = null;
         StringBuffer response = new StringBuffer();
@@ -43,6 +67,7 @@ public class RestUtil {
             System.out.println("401:: Authorization가 잘못됨");
         } else if (responseCode == 500) {
             System.out.println("500:: 서버 에러, 문의 필요");
+            throw new AuthenticationException();
         } else { // 성공 후 응답 JSON 데이터받기
 
             Charset charset = Charset.forName("UTF-8");
@@ -53,6 +78,7 @@ public class RestUtil {
                 response.append(inputLine);
             }
         }
+        conn.disconnect();
 
         return response.toString();
     }
