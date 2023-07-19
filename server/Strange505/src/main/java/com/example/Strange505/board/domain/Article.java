@@ -1,5 +1,6 @@
 package com.example.Strange505.board.domain;
 
+import com.example.Strange505.user.domain.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -11,7 +12,9 @@ public class Article {
     private Long id;
     private String title;
     private String content;
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     @ManyToOne
     @JoinColumn(name = "board_id")
     private Board board;
