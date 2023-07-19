@@ -70,7 +70,7 @@ public class AdsServiceImpl implements AdsService {
     @Transactional(readOnly = true)
     public List<AdsDto> findActiveAds() {
         LocalDate currentDate = LocalDate.now();
-        List<AdsEntity> activeAds = adsRepository.findActiveAds(currentDate);
+        List<AdsEntity> activeAds = adsRepository.findByEndDateAfterAndAdminConfirmedTrue(currentDate);
         return activeAds.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
