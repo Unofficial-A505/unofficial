@@ -50,7 +50,7 @@ export default function Signup1(){
       <div className="mb-2">
         <label className="form-label mb-0">기수</label>
         <div />
-        <select name="enter_gisu" onChange={handleGenChange}>
+        <select name="enter_gen" onChange={handleGenChange}>
           <option disabled selected>기수를 선택하세요</option>
           <option value="1기">1기</option>
           <option value="2기">2기</option>
