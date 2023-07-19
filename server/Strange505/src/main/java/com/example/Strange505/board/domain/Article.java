@@ -9,8 +9,10 @@ import java.time.LocalDateTime;
 public class Article {
 
     @Id @GeneratedValue
+    @Column(name = "article_id")
     private Long id;
     private String title;
+    @Column(length = 5000)
     private String content;
     @ManyToOne
     @JoinColumn(name = "user_id")
