@@ -14,19 +14,25 @@ import CreatePostPage from './pages/CreatePostPage/CreatePostPage'
 
 const router = createBrowserRouter([
   {
+    path: '/',
+    element: <App />
+  },
+  {
     path: '/signup',
     element: <Signup />,
     children: [
-      { path: '',
+      { 
+        path: '',
         element: <Signup1 />
       },
-      { path: 'register',
+      { 
+        path: 'register',
         element: <Signup2 />
       },
-      { path: 'conplete',
+      { 
+        path: 'complete',
         element: <Signup3 />
       },
-
     ]
   },
   {
