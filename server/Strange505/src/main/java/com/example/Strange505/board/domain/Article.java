@@ -2,10 +2,12 @@ package com.example.Strange505.board.domain;
 
 import com.example.Strange505.user.domain.User;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 @Table(name = "Articles")
 public class Article {
 
