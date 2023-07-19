@@ -17,11 +17,13 @@ export default function Login({ setModalOpen }){
   const onPasswordHandler = (event)=>{
     setPassword(event.target.value)
   }
-  const login = ()=>{
+  const login = (e)=>{
     if (!email || !password) {
       alert('이메일 또는 비밀번호를 입력하세요.')
       return
-    } requestLogin(email, password)
+    } 
+    e.preventDefault()
+    requestLogin(email, password)
   }
   
   return (

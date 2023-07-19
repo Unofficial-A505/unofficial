@@ -3,33 +3,43 @@ import { useDispatch } from 'react-redux'
 import { setAccessToken } from '../../store/loginSlice'
 import { useNavigate } from 'react-router-dom'
 
-let serverURL = ''
+// const instance = axios.create({
+//   baseURL: 'https://70.12.247.35:8080',
+// });
+const serverURL = 'http://70.12.247.35:8080/api/auth'
 
 const requestLogin = async (email, password)=>{
+
+  console.log(email, password)
+
+  let data = {
+    email: email,
+    password: password,
+  }
+
   return await axios
   .post(
-    `${serverURL}/login/`,
-    {
-      email: email,
-      password: password,
-    },
+    `${serverURL}/login`,
+    data,
     // 헤더에 Authorization 항목이 있는 요청
-    { withCredentials: true }
+    // { withCredentials: true }
   )
   . then((res)=>{
+    alert('성공')
+    console.log(res.data)
     // token이 필요한 API 요청 시 header Authorization에 token 담아서 보내기
-    axios.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer ${res.data.access_token}`
+    // axios.defaults.headers.common[
+    //   "Authorization"
+    // ] = `Bearer ${res.data.access_token}`
     // redux에 access_token 저장
-    useDispatch(setAccessToken(`${res.data.access_token}`))
+    // useDispatch(setAccessToken(`${res.data.access_token}`))
     // localStorage에 refresh_token 저장
-    localStorage.setItem('refresh_token', `${res.data.refresh_token}`)
-    useNavigate('/')
+    // localStorage.setItem('refresh_token', `${res.data.refresh_token}`)
+    // useNavigate('/')
   })
   .catch((event) => {
     console.log(event.response.data)
-    alert("이메일 혹은 비밀번호를 확인하세요.")
+    alert("실패: 이메일 혹은 비밀번호를 확인하세요.")
   })
 }
 
