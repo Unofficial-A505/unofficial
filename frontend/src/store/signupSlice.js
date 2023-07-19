@@ -4,16 +4,16 @@ const user = createSlice({
   name: 'user',
   initialState: {
     local: '',
-    gisu: '', 
+    gen: '', 
     email: '', 
-    password: ''
+    password: '',
   },
   reducers: {
     setLocal(state, action){
       state.local = action.payload
     },
-    setGisu(state, action){
-      state.gisu = action.payload
+    setGen(state, action){
+      state.gen = action.payload
     },
     setEmail(state, action){
       state.email= action.payload
@@ -24,6 +24,6 @@ const user = createSlice({
   }
 })
 
-export const { setLocal, setGisu, setEmail, setPassword } = user.actions
+export const { setLocal, setGen, setEmail, setPassword } = user.actions
 
 export default user

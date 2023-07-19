@@ -10,9 +10,8 @@ export default function Signup2(){
   let user = useSelector((state)=>state.user)
   // 지역, 기수를 입력하지 않은 상태에서 바로 링크타고 들어오는것 방지
   useEffect(()=> {
-    if (!user.gisu || !user.local){
+    if (!user.gen || !user.local){
       navigate('/signup')
-      return
     }
   }, [])
 
@@ -23,7 +22,6 @@ export default function Signup2(){
   let [passwordMismatch, setPasswordMismatch] = useState(true)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  console.log(passwordMismatch)
   const handleEmailChange=(event)=>{
     setUserEmail(event.target.value)
   }
@@ -108,11 +106,6 @@ export default function Signup2(){
         {userEmail && !emailValid 
         && <p style={{color: 'red'}}>올바른 이메일 주소를 입력해주세요.</p> }
       </div>
-      {/* <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Username" aria-label="Username" />
-        <span class="input-group-text">@</span>
-        <input type="text" class="form-control" placeholder="Server" aria-label="Server" />
-      </div> */}
       <div class="mb-1">
         <label for="exampleInputPassword1" className="form-label">비밀번호</label>
         <input type="password" class="form-control" id="exampleInputPassword1" onChange={handlePasswordChange1} />

@@ -2,28 +2,28 @@ import styles from './Signup.module.css'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { setLocal, setGisu } from './../../store/signupSlice'
+import { setLocal, setGen } from './../../store/signupSlice'
 
 
 export default function Signup1(){
 
   let [selectedLocal, setSelectedLocal] = useState('')
-  let [selectedGisu, setSelectedGisu] = useState('')
+  let [selectedGen, setSelectedGen] = useState('')
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const handleLocalChange = (event) => {
     setSelectedLocal(event.target.value);
   }
-  const handleGisuChange = (event) => {
-    setSelectedGisu(event.target.value);
+  const handleGenChange = (event) => {
+    setSelectedGen(event.target.value);
   }
   const handleSubmit = () => {
-    if (!selectedLocal || !selectedGisu) {
+    if (!selectedLocal || !selectedGen) {
       alert('지역과 기수를 선택해주세요.')
     }
     // 선택한 지역과 기수 정보를 user 객체에 저장
     dispatch(setLocal(selectedLocal))
-    dispatch(setGisu(selectedGisu))
+    dispatch(setGen(selectedGen))
     navigate('register')
   }
 
@@ -50,7 +50,7 @@ export default function Signup1(){
       <div className="mb-2">
         <label className="form-label mb-0">기수</label>
         <div />
-        <select name="enter_gisu" onChange={handleGisuChange}>
+        <select name="enter_gisu" onChange={handleGenChange}>
           <option disabled selected>기수를 선택하세요</option>
           <option value="1기">1기</option>
           <option value="2기">2기</option>

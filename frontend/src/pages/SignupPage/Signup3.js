@@ -9,10 +9,11 @@ export default function Signup3(){
   let navigate = useNavigate()
 
   useEffect(()=> {
-    if (!user.gisu || !user.local || !user.email || !user.password){
+    console.log(user)
+    if (!user.gen || !user.local || !user.email || !user.password){
       navigate('/signup')
-      return
     }
+    console.log(user)
   }, [])
 
   return(
