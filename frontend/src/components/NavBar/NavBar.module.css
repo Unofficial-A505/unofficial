@@ -1,0 +1,60 @@
+.header {
+  position: relative;
+  height: 100px;
+  border: solid 1px gray;
+}
+
+.headertitle {
+  position: absolute;
+  height: 20px;
+  width: 100%;
+
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%; /* 17.83px */
+  text-align: start;
+  color: white;
+
+  background: #3A3A3A;
+  /* background-color: black; */
+  border: solid 1px black;
+}
+
+.navlogo {
+  position: absolute;
+  top: 35%;
+  left: 8vh;
+  width: 10%;
+  height: 50px; 
+  border: 1px red dotted;
+}
+
+.navtabs {
+ position: absolute;
+ top: 35%;
+ left: 30vh;
+
+ border: 1px red dotted;
+ width: 50%;
+ height: 50px;
+ display: flex;
+ justify-content: space-around;
+} 
+ 
+.tab {
+  width: 100px;
+  padding: 10px;
+  border: 1px red dotted;
+}
+
+.darkmode {
+  position: absolute;
+  top: 45%;
+  right: 10vh;
+  width: 45px;
+  height: 45px;
+
+  border: 1px red dotted;
+}
