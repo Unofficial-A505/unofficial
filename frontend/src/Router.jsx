@@ -14,10 +14,6 @@ import CreatePostPage from './pages/CreatePostPage/CreatePostPage'
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <App />
-  },
-  {
     path: '/signup',
     element: <Signup />,
     children: [

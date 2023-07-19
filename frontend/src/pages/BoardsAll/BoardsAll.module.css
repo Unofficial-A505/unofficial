@@ -1,0 +1,46 @@
+.searchbox {
+  position: relative;
+}
+
+#all {
+  width: 50%;
+  height: 45px;
+}
+
+#here {
+  width: 40%;
+  height: 40px;
+}
+
+.search {
+  border: 2px solid black;
+  border-radius: 1rem;
+  margin: 20px 0 2px 0;
+
+  font-size: 0.7rem;
+}
+
+.hotboard {
+  margin: 0 10px 0 0;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.boardtab {
+  margin: 10px;
+  color: #000;
+  font-family: Roboto;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.boardtab:hover {
+  color: #034BB9;
+  /* font-size: 21.044px; */
+  font-weight: 700;
+}
+
+.pagination {
+}

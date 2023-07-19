@@ -17,10 +17,9 @@ export default function CreatePostPage(){
   width: 100%;S
   `
 
-  useDidMountEffect(() => {
-    var quill = null
+  useEffect(() => {
     console.log('mounted')
-    quill = new Quill('#editor-container', {
+    var quill = new Quill('#editor-container', {
       modules: {
         toolbar: [
           [{ header: '1' }, { header: '2' }],
