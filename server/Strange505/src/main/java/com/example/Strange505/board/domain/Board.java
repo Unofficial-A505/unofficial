@@ -1,5 +1,6 @@
 package com.example.Strange505.board.domain;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @Table(name = "Boards")
+@Builder
 public class Board {
     @Id @GeneratedValue
     @Column(name = "board_id")
