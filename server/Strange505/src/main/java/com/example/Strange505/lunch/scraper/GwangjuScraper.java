@@ -7,15 +7,28 @@ import com.example.Strange505.lunch.responseDTO.Meal;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.HashMap;
+import java.util.*;
 
-public class GwangjuScraper {
-    private static final String url = "https://front.cjfreshmeal.co.kr/meal/v1/week-meal?storeIdx=6442&weekType=1";
-
-
-    public static void main(String[] args) throws Exception {
-        getWeeklyMenu();
-    }
+public class GwangjuScraper implements LocalScraper {
+    private final String url = "https://front.cjfreshmeal.co.kr/meal/v1/week-meal?storeIdx=6442&weekType=1";
+    private final String location = "광주";
+    private final Set<String> corners = new HashSet<>() {{
+        add("소담상");
+        add("육수고집");
+        add("더고메");
+        add("차이나호");
+        add("속이찬새참(라면)");
+    }};
+    private final String restaurantCode = "6442";
+    private final Map<String, String> day = new HashMap<String, String>() {
+        {
+            put("mo", "2");
+            put("tu", "2");
+            put("we", "2");
+            put("th", "2");
+            put("fr", "2");
+        }
+    };
 
     public List<Lunch> getDailyMenu(String date) {
         return null;
@@ -42,6 +55,7 @@ public class GwangjuScraper {
                 lunch.setRestaurantId(restaurantCode);
                 lunch.setDetail(meal.getSide());
                 lunch.setCourseName(meal.getCorner());
+                lunch.setLikes(0L);
                 res.add(lunch);
             }
         }

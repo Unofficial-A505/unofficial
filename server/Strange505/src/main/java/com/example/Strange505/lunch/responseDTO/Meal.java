@@ -4,9 +4,10 @@ import lombok.Getter;
 
 @Getter
 public class Meal {
+    String corner;
     String name;
-    String mealDt;
     String side;
+    String mealDt;
     String thumbnailUrl;
     int kcal;
 

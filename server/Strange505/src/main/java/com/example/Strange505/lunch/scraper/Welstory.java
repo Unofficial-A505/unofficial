@@ -9,9 +9,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.naming.AuthenticationException;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -90,6 +87,7 @@ public class Welstory {
             lunch.setRestaurantId(restaurantCode.get(location));
             lunch.setDetail(meal.getSubMenuTxt());
             lunch.setCourseName(meal.getCourseTxt());
+            lunch.setLikes(0L);
             lunches.add(lunch);
         }
 
@@ -105,7 +103,6 @@ public class Welstory {
         }
         return lunches;
     }
-
 
 
 }
