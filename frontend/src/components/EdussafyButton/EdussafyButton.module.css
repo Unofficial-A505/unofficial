@@ -28,3 +28,7 @@
   font-weight: 400;
   line-height: 100%; /* 15px */
 }
+
+.edussafyAlink {
+  text-decoration: none;
+}

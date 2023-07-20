@@ -7,6 +7,10 @@
   border: 0;
 }
 
+.sweaAlink {
+  text-decoration: none;
+}
+
 .sweabuttonTitle {
   margin: 1px 0 0 0;
 

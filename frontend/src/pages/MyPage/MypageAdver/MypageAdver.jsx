@@ -1,9 +1,9 @@
 import styles from './MypageAdver.module.css'
 
-export default function MypageAdmile(){
+export default function MypageAdver(){
   return(
     <div>
-      MypageAdmile
+      MypageAdver
     </div>
   );
 }

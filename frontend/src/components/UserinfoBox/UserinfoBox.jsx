@@ -38,14 +38,14 @@ export default function UserinfoBox(){
 
         <div className={styles.usermidContainer}>
           <button class={styles.secondmypageButton} onClick={() => navigate('/user')}>{user}</button><span class={styles.secondhelloMessage}>의 이야기를 들려주세요</span>
-          <li class={styles.adverMessage}>진행중인 <button class={styles.adverButton}>광고</button>가 없습니다.</li>
+          <li class={styles.adverMessage}>진행중인 <button class={styles.adverButton} onClick={() => navigate('/user/advertisement')}>광고</button>가 없습니다.</li>
         </div> 
         
         <div class={styles.mypageContent}>
-          <button class={styles.mymileButton}><RiDatabase2Line class={styles.mymileIcon} /><p class={styles.mileageTotal}>{mileage}</p></button>
+          <button class={styles.mymileButton} onClick={() => navigate('/user/advertisement')}><RiDatabase2Line class={styles.mymileIcon} /><p class={styles.mileageTotal}>{mileage}</p></button>
           <div class={styles.mypostsAndcomments}>
-            <button class={styles.myButton}><BsFileEarmarkText class={styles.myIcon} /><p>3</p></button>
-            <button class={styles.myButton}><AiOutlineComment class={styles.myIcon}/><p>12</p></button>
+            <button class={styles.myButton} onClick={() => navigate('/user/history')}><BsFileEarmarkText class={styles.myIcon} /><p>3</p></button>
+            <button class={styles.myButton} onClick={() => navigate('/user/history')}><AiOutlineComment class={styles.myIcon}/><p>12</p></button>
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import styles from './MainPage.module.css';
 import UserinfoBox from '../../components/UserinfoBox/UserinfoBox';
 import AdHorizontal from '../../components/AdHorizontal/AdHorizontal';
 import AdVertical from '../../components/AdVertical/AdVertical';
-import SsafyButton from '../../components/SsafyButton/SsafyButton';
+import EdussafyButton from '../../components/EdussafyButton/EdussafyButton';
 import SweaButton from '../../components/SweaButton/SweaButton';
 import EduGrantsButton from '../../components/EduGrantsButton/EduGrantsButton';
 import BoardView from '../../components/BoardView/BoardView';
@@ -24,7 +24,7 @@ export default function MainPage(){
           </div>
           <div className={styles.bannerContainer}>
             <EduGrantsButton />
-            <SsafyButton />
+            <EdussafyButton />
             <SweaButton />
           </div>
         </div>
