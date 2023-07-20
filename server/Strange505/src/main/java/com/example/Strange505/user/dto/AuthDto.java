@@ -1,5 +1,9 @@
 package com.example.Strange505.user.dto;
 
+import com.example.Strange505.user.domain.Role;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
 public class AuthDto {
@@ -20,20 +24,27 @@ public class AuthDto {
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @ToString
     public static class SignupDto {
         private String email;
         private String password;
+        private String local;
+        private int gen;
 
         @Builder
-        public SignupDto(String email, String password) {
+        public SignupDto(String email, String password, String local, int gen) {
             this.email = email;
             this.password = password;
+            this.local = local;
+            this.gen = gen;
         }
 
         public static SignupDto encodePassword(SignupDto signupDto, String encodedPassword) {
             SignupDto newSignupDto = new SignupDto();
             newSignupDto.email = signupDto.getEmail();
             newSignupDto.password = encodedPassword;
+            newSignupDto.gen = signupDto.getGen();
+            newSignupDto.local = signupDto.getLocal();
             return newSignupDto;
         }
     }

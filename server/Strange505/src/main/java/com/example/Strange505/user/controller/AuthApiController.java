@@ -26,7 +26,6 @@ public class AuthApiController {
     public ResponseEntity<Void> signup(@RequestBody @Valid AuthDto.SignupDto signupDto) {
         String encodedPassword = encoder.encode(signupDto.getPassword());
         AuthDto.SignupDto newSignupDto = AuthDto.SignupDto.encodePassword(signupDto, encodedPassword);
-
         userService.registerUser(newSignupDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }

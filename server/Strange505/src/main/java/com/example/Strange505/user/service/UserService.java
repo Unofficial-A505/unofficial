@@ -16,6 +16,7 @@ public class UserService {
 
     @Transactional
     public void registerUser(AuthDto.SignupDto signupDto) {
+        System.out.println(signupDto);
         User user = User.registerUser(signupDto);
         userRepository.save(user);
     }
