@@ -1,6 +1,7 @@
 package com.example.Strange505.lunch.scraper;
 
-import com.example.Strange505.lunch.Menu;
+import com.example.Strange505.lunch.DateUtil;
+import com.example.Strange505.lunch.Lunch;
 import com.example.Strange505.lunch.RestUtil;
 import com.example.Strange505.lunch.responseDTO.WelstoryDTO;
 import com.example.Strange505.lunch.responseDTO.WelstoryMeal;
@@ -53,14 +54,14 @@ public class Welstory {
         System.out.println("JSESSIONID has been updated" + JSESSIONID);
     }
 
-    public List<Menu> getMenu(String date, String location) throws Exception {
+    public List<Lunch> getMenu(String date, String location) throws Exception {
         StringBuilder params = new StringBuilder();
         params.append("?")
                 .append("menuDt=").append(date).append("&")
                 .append("menuMealType=2").append("&")
                 .append("restaurantCode=").append(restaurantCode.get(location));
 
-        List<Menu> menus = new ArrayList<>();
+        List<Lunch> lunches = new ArrayList<>();
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);   // 없는 필드 있어도 에러 안나게
@@ -81,42 +82,30 @@ public class Welstory {
             if (meal.getCourseTxt().startsWith("T/O") || meal.getCourseTxt().startsWith("D")) {
                 continue;
             }
-            Menu menu = new Menu();
-            menu.setDate(date);
-            menu.setLocal(location);
-            menu.setName(meal.getMenuName() + " (" + meal.getSumKcal() + ")");
-            menu.setImageUrl(meal.getPhotoUrl() + meal.getPhotoCd());
-            menu.setRestaurantId(restaurantCode.get(location));
-            menu.setDetail(meal.getSubMenuTxt());
-            menus.add(menu);
+            Lunch lunch = new Lunch();
+            lunch.setDate(date);
+            lunch.setLocal(location);
+            lunch.setName(meal.getMenuName() + " (" + meal.getSumKcal() + ")");
+            lunch.setImageUrl(meal.getPhotoUrl() + meal.getPhotoCd());
+            lunch.setRestaurantId(restaurantCode.get(location));
+            lunch.setDetail(meal.getSubMenuTxt());
+            lunch.setCourseName(meal.getCourseTxt());
+            lunches.add(lunch);
         }
 
-        return menus;
+        return lunches;
     }
 
-    public List<Menu> getMealForNextWeek(String location) throws Exception {
-        List<Menu> menus = new ArrayList<>();
+    public List<Lunch> getMealForNextWeek(String location) throws Exception {
+        List<Lunch> lunches = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            String date = getNextMonday(i);
-            List<Menu> dayMenu = getMenu(date, location);
-            menus.addAll(dayMenu);
+            String date = DateUtil.getNextMonday(i);
+            List<Lunch> dayMenu = getMenu(date, location);
+            lunches.addAll(dayMenu);
         }
-        return menus;
+        return lunches;
     }
 
-    public static String getNextMonday(int i) {
-        LocalDate currentDate = LocalDate.now();
-        DayOfWeek currentDayOfWeek = currentDate.getDayOfWeek();
-        int daysUntilNextMonday = DayOfWeek.MONDAY.getValue() - currentDayOfWeek.getValue();
 
-        if (daysUntilNextMonday <= 0) {
-            // 이미 오늘이 월요일인 경우 다음주 월요일로 넘김
-            daysUntilNextMonday += 7;
-        }
-
-        LocalDate nextMonday = currentDate.plusDays(daysUntilNextMonday + i);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        return nextMonday.format(formatter);
-    }
 
 }

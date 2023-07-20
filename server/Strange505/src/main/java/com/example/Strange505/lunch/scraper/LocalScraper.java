@@ -1,7 +1,11 @@
 package com.example.Strange505.lunch.scraper;
 
-public interface LocalScraper {
-    public boolean getDailyMenu(String date) throws Exception;
+import com.example.Strange505.lunch.Lunch;
 
-    public boolean getWeeklyMenu() throws Exception;
+import java.util.List;
+
+public interface LocalScraper {
+    public List<Lunch> getDailyMenu(String date) throws Exception;
+
+    public List<Lunch> getWeeklyMenu() throws Exception;
 }

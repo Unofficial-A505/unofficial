@@ -1,7 +1,9 @@
 package com.example.Strange505.lunch.scraper;
 
+import com.example.Strange505.lunch.Lunch;
 import com.example.Strange505.lunch.RestUtil;
 import com.example.Strange505.lunch.responseDTO.FreshMealDTO;
+import com.example.Strange505.lunch.responseDTO.Meal;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -15,19 +17,34 @@ public class GwangjuScraper {
         getWeeklyMenu();
     }
 
-    public boolean getDailyMenu() {
-        return false;
+    public List<Lunch> getDailyMenu(String date) {
+        return null;
     }
 
 
-    public static boolean getWeeklyMenu() throws Exception {
+    public List<Lunch> getWeeklyMenu() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);   // 없는 필드 있어도 에러 안나게
-
         FreshMealDTO freshMeal = objectMapper.readValue(RestUtil.requestGet(url, new HashMap<>()), FreshMealDTO.class);
 
-        System.out.println(freshMeal.getData().get("tu").get("1").get(1).getName()); //sample
-
-        return false;
+        List<Lunch> res = new ArrayList<>();
+        for (String d : day.keySet()) {
+            List<Meal> meals = freshMeal.getData().get(d).get(day.get(d));
+            for (Meal meal : meals) {
+                if (!corners.contains(meal.getCorner())) {
+                    continue;
+                }
+                Lunch lunch = new Lunch();
+                lunch.setDate(meal.getMealDt());
+                lunch.setLocal(location);
+                lunch.setName(meal.getName() + " (" + meal.getKcal() + ")");
+                lunch.setImageUrl(meal.getThumbnailUrl());
+                lunch.setRestaurantId(restaurantCode);
+                lunch.setDetail(meal.getSide());
+                lunch.setCourseName(meal.getCorner());
+                res.add(lunch);
+            }
+        }
+        return res;
     }
 }

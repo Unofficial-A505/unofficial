@@ -1,6 +1,6 @@
 package com.example.Strange505.lunch.scraper;
 
-import com.example.Strange505.lunch.Menu;
+import com.example.Strange505.lunch.Lunch;
 
 import java.util.List;
 
@@ -9,22 +9,16 @@ public class SeoulScraper implements LocalScraper {
     Welstory welstory;
 
     @Override
-    public boolean getDailyMenu(String date) throws Exception {
+    public List<Lunch> getDailyMenu(String date) throws Exception {
         welstory = Welstory.getInstance();
-        List<Menu> res = welstory.getMenu(date, location);
-        if (res != null && res.size() > 0) {
-            return true;
-        }
-        return false;
+        List<Lunch> res = welstory.getMenu(date, location);
+        return res;
     }
 
     @Override
-    public boolean getWeeklyMenu() throws Exception {
+    public List<Lunch> getWeeklyMenu() throws Exception {
         welstory = Welstory.getInstance();
-        List<Menu> res = welstory.getMealForNextWeek(location);
-        if (res != null && res.size() > 0) {
-            return true;
-        }
-        return false;
+        List<Lunch> res = welstory.getMealForNextWeek(location);
+        return res;
     }
 }
