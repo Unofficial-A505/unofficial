@@ -2,6 +2,7 @@ package com.example.Strange505.board.service;
 
 import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.dto.ArticleDTO;
+import com.example.Strange505.board.dto.BoardDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,13 +10,13 @@ import java.util.List;
 public interface ArticleService {
     void createArticle(ArticleDTO articleDTO);
 
-    ArticleDTO getArticleById(Long id);
+    Article getArticleById(Long id);
 
-    List<ArticleDTO> getAllArticles();
+    List<Article> getArticlesByBoard(String board);
 
-    List<ArticleDTO> getArticlesByTitle(String title);
+    List<Article> getArticlesByTitle(String title);
 
-    List<ArticleDTO> getArticlesByContent(String content);
+    List<Article> getArticlesByContent(String content);
 
     void updateArticle(Long id, ArticleDTO articleDTO);
 
