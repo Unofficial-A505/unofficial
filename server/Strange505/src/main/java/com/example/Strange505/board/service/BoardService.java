@@ -12,7 +12,9 @@ public interface BoardService {
     void deleteBoard(Long id);
 
     default Board dtoToEntity(BoardDTO boardDTO) {
-        Board entity = new Board(boardDTO.getId(), boardDTO.getName(), boardDTO.get);
+        Board entity = Board.builder()
+                .name(boardDTO.getName())
+                .build();
         return entity;
     }
 }
