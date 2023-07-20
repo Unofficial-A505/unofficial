@@ -1,5 +1,6 @@
 package com.example.Strange505.lunch.cron;
 
+import com.example.Strange505.lunch.DateUtil;
 import com.example.Strange505.lunch.Lunch;
 import com.example.Strange505.lunch.repository.LunchRepository;
 import com.example.Strange505.lunch.scraper.*;
@@ -21,7 +22,7 @@ public class LunchScrapCron {
     }
 
     @Scheduled(cron = "0 0 3 ? * SUN")
-    public void cronJob() throws Exception {
+    public void cronJobNextWeek() throws Exception {
         localScraper = new SeoulScraper();
         List<Lunch> lunches = localScraper.getWeeklyMenu();
         updateMenu(lunches);
@@ -37,13 +38,21 @@ public class LunchScrapCron {
         localScraper = new GwangjuScraper();
         lunches = localScraper.getWeeklyMenu();
         updateMenu(lunches);
+
     }
 
-
     @Scheduled(cron = "0 10 11 ? * MON-FRI")
-    public void gwangjuCron() throws Exception {
+    public void dailyCron() throws Exception {
         localScraper = new GwangjuScraper();
         List<Lunch> lunches = localScraper.getWeeklyMenu();
+        updateMenu(lunches);
+
+        localScraper = new GumiScraper();
+        lunches = localScraper.getDailyMenu(DateUtil.getToday(0));
+        updateMenu(lunches);
+
+        localScraper = new BusanScraper();
+        lunches = localScraper.getDailyMenu(DateUtil.getToday(0));
         updateMenu(lunches);
     }
 

@@ -10,7 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.*;
 
 public class GwangjuScraper implements LocalScraper {
-    private final String url = "https://front.cjfreshmeal.co.kr/meal/v1/week-meal?storeIdx=6442&weekType=1";
+    private final String urlThisWeek = "https://front.cjfreshmeal.co.kr/meal/v1/week-meal?storeIdx=6442&weekType=1";
+    private final String url = "https://front.cjfreshmeal.co.kr/meal/v1/week-meal?storeIdx=6442&weekType=2";
     private final String location = "광주";
     private final Set<String> corners = new HashSet<>() {{
         add("소담상");
@@ -30,8 +31,31 @@ public class GwangjuScraper implements LocalScraper {
         }
     };
 
-    public List<Lunch> getDailyMenu(String date) {
-        return null;
+    public List<Lunch> getDailyMenu(String date) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);   // 없는 필드 있어도 에러 안나게
+        FreshMealDTO freshMeal = objectMapper.readValue(RestUtil.requestGet(urlThisWeek, new HashMap<>()), FreshMealDTO.class);
+
+        List<Lunch> res = new ArrayList<>();
+        for (String d : day.keySet()) {
+            List<Meal> meals = freshMeal.getData().get(d).get(day.get(d));
+            for (Meal meal : meals) {
+                if (!corners.contains(meal.getCorner())) {
+                    continue;
+                }
+                Lunch lunch = new Lunch();
+                lunch.setDate(meal.getMealDt());
+                lunch.setLocal(location);
+                lunch.setName(meal.getName() + " (" + meal.getKcal() + ")");
+                lunch.setImageUrl(meal.getThumbnailUrl());
+                lunch.setRestaurantId(restaurantCode);
+                lunch.setDetail(meal.getSide());
+                lunch.setCourseName(meal.getCorner());
+                lunch.setLikes(0L);
+                res.add(lunch);
+            }
+        }
+        return res;
     }
 
 
