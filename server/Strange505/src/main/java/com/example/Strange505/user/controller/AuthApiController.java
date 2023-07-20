@@ -45,7 +45,7 @@ public class AuthApiController {
                 .build();
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, httpCookie.toString())
+                .header("REFRESH_TOKEN", httpCookie.toString())
                 // AT 저장
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + tokenDto.getAccessToken())
                 .build();
@@ -75,7 +75,7 @@ public class AuthApiController {
                     .build();
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+                    .header("REFRESH_TOKEN", responseCookie.toString())
                     // AT 저장
                     .header(HttpHeaders.AUTHORIZATION, "Bearer " + reissuedTokenDto.getAccessToken())
                     .build();
@@ -89,7 +89,7 @@ public class AuthApiController {
                     .build();
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+                    .header("REFRESH_TOKEN", responseCookie.toString())
                     .build();
         }
     }
@@ -105,7 +105,7 @@ public class AuthApiController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+                .header("REFRESH_TOKEN", responseCookie.toString())
                 .build();
     }
 }

@@ -148,7 +148,7 @@ public class JwtTokenProvider implements InitializingBean {
                     .parseClaimsJws(accessToken);
             return true;
         } catch(ExpiredJwtException e) {
-            return true;
+            return false;
         } catch (Exception e) {
             return false;
         }
