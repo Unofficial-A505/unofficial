@@ -12,7 +12,7 @@ import BoardsAll from './pages/BoardsAll/BoardsAll'
 import PostDetail from './pages/PostDetail/PostDetail'
 import CreatePostPage from './pages/CreatePostPage/CreatePostPage'
 
-import Carousel from './components/Carousel/Carousel'
+import Meal from './components/Meal/Meal'
 
 const router = createBrowserRouter([
   {
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
     children: [
       { path: '', element: <MainPage />},
       {
-        path: 'meal', element: <Carousel />
+        path: 'meal', element: <Meal />
       },
       { 
         // path: ':userId', 
