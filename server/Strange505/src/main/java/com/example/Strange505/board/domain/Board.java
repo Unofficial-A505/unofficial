@@ -19,4 +19,9 @@ public class Board {
     private LocalDateTime modifyTime;
     @OneToMany(mappedBy = "board")
     private List<Article> articles = new ArrayList<>();
+
+    public void update(String name, LocalDateTime modifyTime) {
+        this.name = name;
+        this.modifyTime = modifyTime;
+    }
 }
