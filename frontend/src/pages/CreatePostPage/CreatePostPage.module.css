@@ -1,0 +1,49 @@
+.craetecontainer {
+  width: 1200px;
+  height: 600px;
+
+  /* border: 1px dotted red; */
+  margin: 10px auto;
+}
+
+.upmenu {
+  display: flex;
+  justify-content: space-between;
+
+  margin: 20px 0 0 0;
+}
+
+#createpagetitle {
+  text-align: start;
+  margin: 20px 0 10px 0;
+}
+
+.editorcontainer {
+  margin: 0 auto;
+}
+
+.undermenu {
+  width: 100%;
+  margin: 20px auto;
+
+  display: flex;
+  justify-content: space-between;
+
+  border-radius: 1px dotted red;
+}
+
+.grayoutbutton {
+  border: 0;
+  background-color: transparent;
+
+  color: rgba(117, 117, 117, 0.80);
+  font-family: Inter;
+  font-size: 17.537px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+#createsubmitbutton:hover {
+  background-color: rgba(208, 208, 208, 0.264);  
+  border: 1px solid black;
+}

@@ -2,8 +2,8 @@ import styles from './SweaButton.module.css'
 
 export default function SweaButton(){
   return(
-    <>
-      <button>SW Expert Academy</button>
-    </>
+    <button className={styles.swaebuttonContainer}>
+      <p className={styles.sweabuttonTitle}>SW Expert Academy</p>
+    </button>
   );
 }

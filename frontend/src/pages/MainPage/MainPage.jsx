@@ -7,30 +7,44 @@ import SweaButton from '../../components/SweaButton/SweaButton';
 import EduGrantsButton from '../../components/EduGrantsButton/EduGrantsButton';
 import BoardView from '../../components/BoardView/BoardView';
 import WeatherinfoApi from '../../components/WeatherinfoApi/WeatherinfoApi';
+import LunchCarousel from '../../components/LunchCarousel/LunchCarousel';
+
+import TopSpace from '../../components/TopSpace/TopSpace';
+import UnderSpace from '../../components/UnderSpace/UnderSpace';
 
 export default function MainPage(){
   return (
     <section>
-      <div>
-        carousel
-      </div>
-      <div>
-        <UserinfoBox />
+      <TopSpace />
+      <div className={styles.topcontainer}>
+        <LunchCarousel />
         <div>
-          <SsafyButton />
-          <SweaButton />
-          <EduGrantsButton />
+          <div className={styles.usermainContainer}>
+            <UserinfoBox />
+          </div>
+          <div className={styles.bannerContainer}>
+            <EduGrantsButton />
+            <SsafyButton />
+            <SweaButton />
+          </div>
         </div>
       </div>
-      <AdHorizontal />
-      <AdVertical />
       <div>
-        <BoardView />
       </div>
-        <WeatherinfoApi />
 
-      <div>
+      <div className={styles.horiadcontainer}>
+        <AdHorizontal />
       </div>
+
+      <div className={styles.middlecontainer}>
+        <AdVertical />
+        <span className={styles.bestboard}>
+          <BoardView />
+        </span>
+        <WeatherinfoApi />
+      </div>
+
+      <UnderSpace />
     </section>
   )
 }

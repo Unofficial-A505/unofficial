@@ -1,9 +1,7 @@
 .advertiseVer {
-  width:240px;
+  width: 240px;
   height: 400px;
 
   border-radius: 5px;
   border: 1px black dotted;
-
-  margin:10px auto;
 }
