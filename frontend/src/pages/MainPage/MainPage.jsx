@@ -29,8 +29,6 @@ export default function MainPage(){
           </div>
         </div>
       </div>
-      <div>
-      </div>
 
       <div className={styles.horiadcontainer}>
         <AdHorizontal />

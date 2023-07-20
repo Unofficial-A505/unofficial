@@ -1,7 +1,7 @@
 import styles from './UserinfoBox.module.css'
 
 import react, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { IoIosArrowForward } from '@react-icons/all-files/io/IoIosArrowForward';
 import { RiDatabase2Line } from '@react-icons/all-files/ri/RiDatabase2Line';
@@ -13,6 +13,7 @@ export default function UserinfoBox(){
   const user = 'SSAFY 서울 9기'
   const mileage = 5100
 
+  const navigate = useNavigate();
   // user정보 없는 상황
   // return(
   //   <div className={styles.usercontainer}>
@@ -32,11 +33,11 @@ export default function UserinfoBox(){
       <div className={styles.usercenterbox}>
         <div className={styles.usertopContainer}>
           <p className={styles.hellomessage}>안녕하세요!</p>
-          <button className={styles.mypageButton}>마이페이지<IoIosArrowForward size="15"/></button>
+          <button className={styles.mypageButton} onClick={() => navigate('/user')}>마이페이지<IoIosArrowForward size="15"/></button>
         </div>
 
         <div className={styles.usermidContainer}>
-          <Link class={styles.secondmypageButton}>{user}</Link><span class={styles.secondhelloMessage}>의 이야기를 들려주세요</span>
+          <button class={styles.secondmypageButton} onClick={() => navigate('/user')}>{user}</button><span class={styles.secondhelloMessage}>의 이야기를 들려주세요</span>
           <li class={styles.adverMessage}>진행중인 <button class={styles.adverButton}>광고</button>가 없습니다.</li>
         </div> 
         
