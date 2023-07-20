@@ -1,0 +1,67 @@
+.carouselContainer {
+  position: relative;
+  width: 80vh;
+  margin: 3rem auto;
+  perspective: 1000px;
+}
+
+.carouselSlide {
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+  margin: 0 auto;
+  cursor: pointer;
+  /* position: relative; */
+  z-index: 1;
+}
+
+.carouselSlide img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* opacity: 0.5; */
+}
+
+/* .center {
+  transform: scale(1.08) translateZ(10px);
+  width: 100%;
+  z-index: 2;
+  opacity: 1;
+} */
+
+.slick-center .carouselSlide {
+  transform: scale(1.2) translateZ(50px);
+  z-index: 2; /* Higher z-index for the center slide */
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.7);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 20px;
+  color: #555;
+  z-index: 10;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.arrow:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #222;
+}
+
+.next {
+  right: 0;
+}
+
+.prev {
+  left: 0;
+}

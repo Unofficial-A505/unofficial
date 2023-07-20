@@ -12,6 +12,8 @@ import BoardsAll from './pages/BoardsAll/BoardsAll'
 import PostDetail from './pages/PostDetail/PostDetail'
 import CreatePostPage from './pages/CreatePostPage/CreatePostPage'
 
+import Carousel from './components/Carousel/Carousel'
+
 const router = createBrowserRouter([
   {
     path: '/signup',
@@ -36,6 +38,9 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: '', element: <MainPage />},
+      {
+        path: 'meal', element: <Carousel />
+      },
       { 
         // path: ':userId', 
         path: 'user', element: <MyPage />},
