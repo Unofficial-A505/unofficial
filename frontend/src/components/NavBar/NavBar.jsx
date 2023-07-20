@@ -8,8 +8,9 @@ export default function NavBar(){
       <div className={styles.headertitle}>
         💻 개발자 커뮤니티 SSABRY Time
       </div>
+
       <div>
-        <span className={styles.navlogo}>logo</span>
+        <Link to='' className={styles.navlogo}>logo</Link>
         <span className={styles.navtabs}>
           <Link className={styles.tab} to='board'>게시판</Link>
           <button className={styles.tab}>게시판</button>

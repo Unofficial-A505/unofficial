@@ -1,9 +1,9 @@
 .advertiseHo {
-  width: 100vh;
-  height: 10vh;
+  width: 800px;
+  height: 90px;
 
   border-radius: 5px;
   border: 1px black dotted;
 
-  margin:10px 0 20px 0;
+  margin:10px auto;
 }

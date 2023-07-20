@@ -1,10 +1,9 @@
 import styles from './CreatePostPage.module.css'
 
 import React, { useEffect, useRef } from 'react';
-import useDidMountEffect from '../../components/DidMountEffect';
+// import useDidMountEffect from '../../components/DidMountEffect';
 import styled from 'styled-components';
 import Quill from 'quill';
-import 'quill/dist/quill.bubble.css';
 import 'quill/dist/quill.snow.css';
 
 export default function CreatePostPage(){
