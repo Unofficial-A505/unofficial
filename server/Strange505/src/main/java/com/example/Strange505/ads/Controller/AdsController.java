@@ -3,20 +3,33 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.Strange505.ads.Dto.AdsDto;
 import com.example.Strange505.ads.Service.AdsService;
+import com.example.Strange505.s3.Service.S3UploaderService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 import java.util.List;
 @RestController
 @RequestMapping("/api/ads")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AdsController {
     private final AdsService adsService;
-
-    public AdsController(AdsService adsService) {
+    private final S3UploaderService s3Uploader;
+    public AdsController(AdsService adsService,S3UploaderService s3Uploader) {
         this.adsService = adsService;
+        this.s3Uploader = s3Uploader;
     }
 
     @PostMapping
     public ResponseEntity<AdsDto> createAds(@RequestBody AdsDto adsDto) {
         AdsDto createdAds = adsService.createAds(adsDto);
         return ResponseEntity.ok(createdAds);
+    }
+
+    @PostMapping("/upload")
+    @ResponseBody
+    public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file) throws IOException {
+        return ResponseEntity.ok(s3Uploader.upload(file, "static"));
     }
 
     @GetMapping("/list")

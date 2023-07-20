@@ -2,6 +2,14 @@ spring:
   h2:
     console:
       enabled: true
+  server:
+    tomcat:
+      max-http-post-size: 100MB
+      max-swallow-size: 100MB
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
 
   datasource:
     url: jdbc:h2:mem:testdb
@@ -22,8 +30,8 @@ logging:
 cloud:
   aws:
     credentials:
-      access-key: {AKIAWEYQVFMPLZ45LNXQ}
-      secret-key: {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}
+      access-key: AKIAWEYQVFMPLZ45LNXQ
+      secret-key: 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
     s3:
       bucket: 505bucket
     region:
