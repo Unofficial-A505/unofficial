@@ -27,9 +27,18 @@ export default function UserinfoBox(){
   //   </div>
   // );
 
-  // user정보 있는 상황
   return(
-    <div className={styles.usercontainer}>
+    <div>
+        <p>SSABRY Time에서 자유롭게 소통해보세요</p>
+        <button onClick={()=>{setModalOpen(true)}}>로그인</button>
+        <button onClick={()=>{navigate('/signup')}}>회원가입</button>
+        {modalOpen && <Login setModalOpen={setModalOpen} />}
+    </div>
+  )
+
+  // user정보 있는 상황
+  // return(
+  //   <div className={styles.usercontainer}>
       // <div className={styles.usercenterbox}>
       //   <div className={styles.usertopContainer}>
       //     <p className={styles.hellomessage}>안녕하세요!</p>
@@ -49,6 +58,6 @@ export default function UserinfoBox(){
       //     </div>
       //   </div>
       // </div>
-    </div>
-  )
-} 
+      //   </div>
+      // )
+  } 
