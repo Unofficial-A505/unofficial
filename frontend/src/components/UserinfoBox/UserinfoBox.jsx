@@ -1,8 +1,6 @@
-// import react, { useState } from 'react';
-// import { Link, useNavigate } from 'react-router-dom';
+import react, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
 import styles from './UserinfoBox.module.css'
 import Login from './../../components/Login/Login'
 
@@ -20,26 +18,18 @@ export default function UserinfoBox(){
 
   const navigate = useNavigate();
   // user정보 없는 상황
-  // return(
-  //   <div className={styles.usercontainer}>
-  //     <div className={styles.logincenterbox}>
-  //       <p className={styles.unloginmessage}>SSABRY Time에서 자유롭게 소통해보세요</p>
-  //       <div className={styles.loginContainer}>
-  //         <button className={styles.userButton}>로그인</button>
-  //         <button className={styles.userButton}>회원가입</button>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
-
   return(
-    <div>
-        <p>SSABRY Time에서 자유롭게 소통해보세요</p>
-        <button onClick={()=>{setModalOpen(true)}}>로그인</button>
-        <button onClick={()=>{navigate('/signup')}}>회원가입</button>
-        {modalOpen && <Login setModalOpen={setModalOpen} />}
+    <div className={styles.usercontainer}>
+      <div className={styles.logincenterbox}>
+        <p className={styles.unloginmessage}>SSABRY Time에서 자유롭게 소통해보세요</p>
+        <div className={styles.loginContainer}>
+          <button className={styles.userButton} onClick={()=>{setModalOpen(true)}}>로그인</button>
+          <button className={styles.userButton} onClick={()=>{navigate('/signup')}}>회원가입</button>
+          {modalOpen && <Login setModalOpen={setModalOpen} />}
+        </div>
+      </div>
     </div>
-  )
+  );
 
   // user정보 있는 상황
   // return(

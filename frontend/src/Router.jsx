@@ -41,9 +41,6 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: '', element: <MainPage />},
-      {
-        path: 'meal', element: <Meal />
-      },
       { 
         // path: ':userId', 
         path: 'user', 

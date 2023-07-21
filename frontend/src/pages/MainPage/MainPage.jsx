@@ -3,10 +3,10 @@ import UserinfoBox from '../../components/UserinfoBox/UserinfoBox';
 import AdHorizontal from '../../components/AdHorizontal/AdHorizontal';
 import AdVertical from '../../components/AdVertical/AdVertical';
 import EdussafyButton from '../../components/EdussafyButton/EdussafyButton';
-import SweaButton from '../../components/SweaButton/SweaButton';
-import EduGrantsButton from '../../components/EduGrantsButton/EduGrantsButton';
+import SweaButton from '../../components/SweaBtn/SweaButton';
+import EduGrantsButton from '../../components/EduGrantButton/EduGrantsButton';
 import BoardView from '../../components/BoardView/BoardView';
-import WeatherinfoApi from '../../components/WeatherinfoApi/WeatherinfoApi';
+import WeatherinfoApi from '../../components/WeatherAPI/WeatherinfoApi';
 import LunchCarousel from '../../components/LunchCarousel/LunchCarousel';
 
 import TopSpace from '../../components/TopSpace/TopSpace';
