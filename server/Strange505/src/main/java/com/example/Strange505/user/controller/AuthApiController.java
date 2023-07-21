@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthApiController {
 
@@ -50,6 +50,7 @@ public class AuthApiController {
                 // AT 저장
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + tokenDto.getAccessToken())
                 .build();
+//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("이메일 인증 안됨");
     }
 
     @PostMapping("/validate")

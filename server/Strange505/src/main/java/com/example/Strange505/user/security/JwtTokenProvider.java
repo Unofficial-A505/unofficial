@@ -1,6 +1,7 @@
 package com.example.Strange505.user.security;
 
 import com.example.Strange505.user.dto.AuthDto;
+import com.example.Strange505.user.repository.UserRepository;
 import com.example.Strange505.user.service.RedisService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -23,10 +24,12 @@ public class JwtTokenProvider implements InitializingBean {
 
     private final UserDetailsServiceImpl userDetailsService;
     private final RedisService redisService;
+    private final UserRepository userRepository;
 
     private static final String AUTHORITIES_KEY = "role";
     private static final String EMAIL_KEY = "email";
     private static final String url = "https://localhost:8080";
+    private static final String USER_ID = "user_id";
 
     private final String secretKey;
     private static Key signingKey;
@@ -39,13 +42,14 @@ public class JwtTokenProvider implements InitializingBean {
             RedisService redisService,
             @Value("${jwt.secret}") String secretKey,
             @Value("${jwt.access-token-validity-in-seconds}") Long accessTokenValidityInMilliseconds,
-            @Value("${jwt.refresh-token-validity-in-seconds}") Long refreshTokenValidityInMilliseconds) {
+            @Value("${jwt.refresh-token-validity-in-seconds}") Long refreshTokenValidityInMilliseconds, UserRepository userRepository) {
         this.userDetailsService = userDetailsService;
         this.redisService = redisService;
         this.secretKey = secretKey;
         // seconds -> milliseconds
         this.accessTokenValidityInMilliseconds = accessTokenValidityInMilliseconds * 1000;
         this.refreshTokenValidityInMilliseconds = refreshTokenValidityInMilliseconds * 1000;
+        this.userRepository = userRepository;
     }
 
     // 시크릿 키 설정
@@ -54,6 +58,8 @@ public class JwtTokenProvider implements InitializingBean {
         byte[] secretKeyBytes = Decoders.BASE64.decode(secretKey);
         signingKey = Keys.hmacShaKeyFor(secretKeyBytes);
     }
+
+
 
     @Transactional
     public AuthDto.TokenDto createToken(String email, String authorities){
@@ -65,7 +71,7 @@ public class JwtTokenProvider implements InitializingBean {
                 .setExpiration(new Date(now + accessTokenValidityInMilliseconds))
                 .setSubject("access-token")
                 .claim(url, true)
-                .claim(EMAIL_KEY, email)
+                .claim(USER_ID, userRepository.findByEmail(email).get().getId())
                 .claim(AUTHORITIES_KEY, authorities)
                 .signWith(signingKey, SignatureAlgorithm.HS512)
                 .compact();
@@ -97,7 +103,8 @@ public class JwtTokenProvider implements InitializingBean {
     }
 
     public Authentication getAuthentication(String token) {
-        String email = getClaims(token).get(EMAIL_KEY).toString();
+        Long id = Long.parseLong(getClaims(token).get(USER_ID).toString());
+        String email = userRepository.findById(id).get().getEmail();
         UserDetailsImpl userDetailsImpl = userDetailsService.loadUserByUsername(email);
         return new UsernamePasswordAuthenticationToken(userDetailsImpl, "", userDetailsImpl.getAuthorities());
     }
@@ -157,6 +164,7 @@ public class JwtTokenProvider implements InitializingBean {
     // 재발급 검증 API에서 사용
     public boolean validateAccessTokenOnlyExpired(String accessToken) {
         try {
+            System.out.println(accessToken);
             return getClaims(accessToken)
                     .getExpiration()
                     .before(new Date());

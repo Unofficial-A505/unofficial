@@ -71,7 +71,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests() // '인증'이 필요하다
                 .requestMatchers("/api/mypage/**").authenticated() // 마이페이지 인증 필요
-                .requestMatchers("/test/**").authenticated()
+                .requestMatchers("/user/**").authenticated()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN") // 관리자 페이지
                 .anyRequest().permitAll()
 

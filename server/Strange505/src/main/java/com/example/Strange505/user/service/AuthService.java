@@ -120,6 +120,11 @@ public class AuthService {
         return null;
     }
 
+    public Long extractionID(String accessToken) {
+        String token = resolveToken(accessToken);
+        return Long.parseLong(jwtTokenProvider.getClaims(token).get("user_id").toString());
+    }
+
     // 로그아웃
     @Transactional
     public void logout(String requestAccessTokenInHeader) {

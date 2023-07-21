@@ -58,4 +58,9 @@ public class User {
         user.verification = null;
         return user;
     }
+
+    // 수정 메서드
+    public void update(String password) {
+        this.password = password;
+    }
 }
