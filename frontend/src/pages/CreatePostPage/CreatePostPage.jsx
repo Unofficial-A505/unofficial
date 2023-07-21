@@ -30,7 +30,7 @@ export default function CreatePostPage(){
   padding-button: 0.5rem;
   border: none;
   margin-bottom: 2rem;
-  width: 100%;S
+  width: 100%;
   `
 
   useEffect(() => {

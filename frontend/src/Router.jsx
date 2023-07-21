@@ -12,7 +12,6 @@ import BoardsAll from './pages/BoardsAll/BoardsAll'
 import PostDetail from './pages/PostDetail/PostDetail'
 import CreatePostPage from './pages/CreatePostPage/CreatePostPage'
 
-import MypagePassword from './pages/MyPage/MypagePassword/MypagePassword'
 import MypageUser from './pages/MyPage/MypageUser/MypageUser'
 import MypageActivity from './pages/MyPage/MypageActivity/MypageActivity'
 import MypageAdver from './pages/MyPage/MypageAdver/MypageAdver'
@@ -47,7 +46,6 @@ const router = createBrowserRouter([
         element: <MyPage />,
         children: [
           { index: true, element: <MypageUser />},
-          { path: 'password', element: <MypagePassword />},
           { path: 'activity', element: <MypageActivity />},
           { path: 'advertisement', element: <MypageAdver />},
         ]

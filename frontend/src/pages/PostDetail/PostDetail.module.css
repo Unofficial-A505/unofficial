@@ -1,0 +1,29 @@
+.postdetailallContainer {
+  width: 1250px;
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: space-between;
+
+  border: 1px dotted red;
+}
+
+.postviewContainer {
+  width: 1000px;
+
+  border: 1px dotted aqua;
+}
+
+.postContainer {
+
+}
+
+.posttitleTopbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sideviewContainer {
+  width: 280px;
+  margin: 20px 0 0 25px;
+}
