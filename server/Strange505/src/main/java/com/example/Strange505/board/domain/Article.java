@@ -32,6 +32,8 @@ public class Article {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private String nickName;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
@@ -49,10 +51,16 @@ public class Article {
         article.createTime = LocalDateTime.now();
         article.modifyTime = LocalDateTime.now();
         article.user = user;
+        article.nickName = dto.getNickName();
         article.likes = 0;
         article.views = 0;
 
         return article;
+    }
+
+    public void updateArticle(ArticleRequestDTO articleRequestDTO) {
+        this.title = articleRequestDTO.getTitle();
+        this.content = articleRequestDTO.getContent();
     }
 
     @Override
