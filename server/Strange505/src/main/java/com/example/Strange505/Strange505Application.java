@@ -8,9 +8,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 @EnableScheduling
 public class Strange505Application {
+	public static final String APPLICATION_LOCATIONS = "spring.config.location="
+			+ "classpath:application.yml,";
+	public static void main(String[] args) {
+		SpringApplication.run(Strange505Application.class, args);
 
-    public static void main(String[] args) {
-        SpringApplication.run(Strange505Application.class, args);
-    }
-
+	}
 }
