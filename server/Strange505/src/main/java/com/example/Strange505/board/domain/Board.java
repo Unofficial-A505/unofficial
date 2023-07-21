@@ -1,8 +1,6 @@
 package com.example.Strange505.board.domain;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,6 +10,8 @@ import java.util.List;
 @Getter
 @Table(name = "Boards")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Board {
     @Id @GeneratedValue
     @Column(name = "board_id")
