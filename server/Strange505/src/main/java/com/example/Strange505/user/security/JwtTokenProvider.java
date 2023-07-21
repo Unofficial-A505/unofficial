@@ -164,7 +164,6 @@ public class JwtTokenProvider implements InitializingBean {
     // 재발급 검증 API에서 사용
     public boolean validateAccessTokenOnlyExpired(String accessToken) {
         try {
-            System.out.println(accessToken);
             return getClaims(accessToken)
                     .getExpiration()
                     .before(new Date());
