@@ -1,0 +1,110 @@
+
+.searchboxall {
+  position: relative;
+
+  width:706px;
+  margin: 0 auto;
+
+  border: 1px red dotted;
+}
+
+.searchboxhere {
+  position: relative;
+
+  width: 450px;
+  margin: 0 auto;
+
+  border: 1px red dotted;
+}
+
+#all {
+  width: 706px;
+  height: 45px;
+}
+
+#here {
+  width: 450px;
+  height: 40px;
+}
+
+.search {
+  border: 2px solid black;
+  border-radius: 1rem;
+  margin: 7px 0 2px 0;
+
+  font-size: 0.7rem;
+}
+
+.searchbutton {
+  position: absolute;
+  right: 20px;
+  top: 25%;
+  
+  border: 0;
+  border-radius: 1rem;
+  background-color: transparent;
+}
+
+.searchbutton:hover {
+  background-color: rgba(208, 208, 208, 0.264);        
+}
+
+.hotcontainer {
+  height: 25px;
+
+  border: 1px dotted aqua;
+}
+
+.hottitle{
+  /* position: absolute; */
+
+  margin: 0 10px 0 0;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.hotboard {
+  /* position: absolute; */
+
+  margin: 0 10px 0 0;
+  font-size: 13px;
+}
+
+.boardtabcontainer {
+  width: 100%;
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: space-between;
+
+  border: 1px dotted red; 
+}
+
+.boardtab {
+  margin: 10px;
+  color: #000;
+  font-family: Roboto;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.boardtab:hover {
+  color: #034BB9;
+  /* font-size: 21.044px; */
+  font-weight: 700;
+}
+
+.boardcontainer{
+  width: 1200px;
+  margin: 0 auto;
+  border: 1px dotted green;
+}
+
+.pagination {
+  margin: 0 auto;
+  width: 80px;
+
+  border: 1px dotted red;
+}

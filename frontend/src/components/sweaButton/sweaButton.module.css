@@ -1,0 +1,25 @@
+.swaebuttonContainer {
+  width: 276px;
+  height: 61.5px;
+
+  border-radius: 0px 0px 5px 5px;
+  background: #0072DC;
+  border: 0;
+}
+
+.sweaAlink {
+  text-decoration: none;
+}
+
+.sweabuttonTitle {
+  margin: 1px 0 0 0;
+
+  color: #FFF;
+  text-align: center;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Mako;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%; /* 24px */
+}
