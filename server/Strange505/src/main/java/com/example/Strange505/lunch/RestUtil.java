@@ -1,11 +1,14 @@
 package com.example.Strange505.lunch;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import javax.naming.AuthenticationException;
 import java.io.BufferedReader;
@@ -14,6 +17,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class RestUtil {
@@ -36,6 +40,29 @@ public class RestUtil {
                 .exchange()
                 .block();
         return response.headers().asHttpHeaders().get("set-cookie").get(0);
+    }
+
+    public static String requestPost(String url, String path, Map<String, String> headers, Map<String, String> payloads) throws Exception {
+        String responseMessage = null;
+        webClient = WebClient.builder()
+                .baseUrl(url)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .build();
+
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            responseMessage = webClient.post()
+                    .uri(path)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(BodyInserters.fromValue(mapper.writeValueAsString(payloads)))
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+        } catch (WebClientResponseException ex) {
+            responseMessage = ex.getResponseBodyAsString(StandardCharsets.UTF_8);
+        }
+        return responseMessage;
     }
 
     public static String requestGet(String apiUrl, Map<String, String> header) throws Exception {
