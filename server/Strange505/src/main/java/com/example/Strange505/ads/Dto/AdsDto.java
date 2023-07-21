@@ -12,4 +12,8 @@ public class AdsDto {
     private LocalDate endDate;
 
     private Boolean adminConfirmed;
+
+    private Long userId;
+
+    private int adsCost;
 }

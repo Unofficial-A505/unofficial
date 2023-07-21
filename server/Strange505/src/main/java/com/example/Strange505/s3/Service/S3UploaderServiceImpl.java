@@ -29,6 +29,7 @@ public class S3UploaderServiceImpl implements S3UploaderService {
 
     private Optional<File> convert(MultipartFile file) throws IOException {
         File convertFile = new File(file.getOriginalFilename());
+
         convertFile.createNewFile(); // Ignore the result of createNewFile
 
         try (FileOutputStream fos = new FileOutputStream(convertFile)) {
@@ -40,7 +41,11 @@ public class S3UploaderServiceImpl implements S3UploaderService {
 
     private String upload(File uploadFile, String dirName) {
         String originalFileName = uploadFile.getName();
-        String extension = originalFileName.substring(originalFileName.lastIndexOf('.'));
+        String extension = "";
+        int dotIndex = originalFileName.lastIndexOf('.');
+        if (dotIndex > -1) {
+            extension = originalFileName.substring(dotIndex);
+        }
         String uniqueFileName = UUID.randomUUID().toString() + extension;
         String fileName = dirName + "/" + uniqueFileName;
         String uploadUrl = putS3(uploadFile, fileName);

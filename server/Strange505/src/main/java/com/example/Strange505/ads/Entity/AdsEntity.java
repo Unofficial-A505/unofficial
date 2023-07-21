@@ -23,12 +23,20 @@ public class AdsEntity {
     @Column(nullable = false)
     private Boolean adminConfirmed;
 
-    public void update(Long adsId, String imagePath, String redirectUrl, LocalDate endDate, Boolean adminConfirmed) {
+    @Column
+    private Long userId;
+
+    @Column
+    private int adsCost;
+
+    public void update(Long adsId, String imagePath, String redirectUrl, LocalDate endDate, Boolean adminConfirmed, Long userId, int adsCost) {
         this.adsId = adsId;
         this.imagePath = imagePath;
         this.redirectUrl = redirectUrl;
         this.endDate = endDate;
         this.adminConfirmed = adminConfirmed;
+        this.userId = userId;
+        this.adsCost = adsCost;
     }
 
     public void confirm() {
