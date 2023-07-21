@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
+@Commit
 class ArticleServiceImplTest {
 
     @Autowired
@@ -45,20 +46,49 @@ class ArticleServiceImplTest {
         Article savedArticle = articleService.createArticle(articleDTO, "");
         List<Article> articles = articleService.getArticlesByTitle("제목");
         Article searchedArticle = articles.get(0);
-        assertThat("제목").isEqualTo(searchedArticle.getTitle());
-        System.out.println("생성시간 : " + searchedArticle.getCreateTime());
+//        assertThat("제목").isEqualTo(searchedArticle.getTitle());
+        assertThat(savedArticle).isEqualTo(searchedArticle);
+//        System.out.println("생성시간 : " + searchedArticle.getCreateTime());
+    }
+
+    @Test
+    public void 게시글_내용_검색() {
+        List<Article> articles = articleService.getArticlesByContent("내");
+        Article searchedArticle = articles.get(0);
+        System.out.println(searchedArticle.getContent());
     }
 
 //    @Test
-//    public void 게시글_제목_검색() {
-//        ArticleRequestDTO articleDTO = ArticleRequestDTO.builder()
-//                .title("제목")
-//                .content("내용")
-//                .boardName()
-//                .build();
+//    public void 게시글_사용자_검색() {
 //
-//        Article savedArticle = articleService.createArticle(articleDTO, "");
-//        articleService.getArticlesByTitle("제목");
 //    }
+
+    @Test
+    public void 게시글_수정() {
+        ArticleRequestDTO articleDTO = ArticleRequestDTO.builder()
+                .title("수정_제목")
+                .content("수정_내용")
+                .boardName("게시판")
+                .build();
+        articleService.updateArticle(1L, articleDTO);
+        List<Article> articles = articleService.getArticlesByContent("내");
+        Article searchedArticle = articles.get(0);
+        assertThat("수정_제목").isEqualTo(searchedArticle.getTitle());
+    }
+
+    @Test
+    public void 게시글_삭제() {
+        ArticleRequestDTO articleDTO = ArticleRequestDTO.builder()
+                .title("2_제목")
+                .content("2_내용")
+                .boardName("2_게시판")
+                .build();
+
+        Article savedArticle = articleService.createArticle(articleDTO, "");
+        articleService.deleteArticle(savedArticle.getId());
+        List<Article> articles = articleService.getAllArticles();
+        assertThat(articles.size()).isEqualTo(1);
+
+    }
 
 }
