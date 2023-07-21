@@ -1,6 +1,8 @@
-.carouselcontainer {
-  width: 946px;
-  height: 357px;
-
+.LunchCarousel {
   border: 1px dotted red;
+  width: 100%;
+  height: 24rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
