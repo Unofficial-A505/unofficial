@@ -5,16 +5,16 @@ import com.example.Strange505.board.dto.BoardDTO;
 
 public interface BoardService {
 
-    void createBoard(BoardDTO boardDTO);
+    Board createBoard(BoardDTO boardDTO);
 
     void updateBoard(Long id, BoardDTO boardDTO);
 
-    void deleteBoard(Long id);
+    void deleteBoardWithArticles(Long id);
 
-    default Board dtoToEntity(BoardDTO boardDTO) {
-        Board entity = Board.builder()
-                .name(boardDTO.getName())
-                .build();
-        return entity;
-    }
+//    default Board dtoToEntity(BoardDTO boardDTO) {
+//        Board entity = Board.builder()
+//                .name(boardDTO.getName())
+//                .build();
+//        return entity;
+//    }
 }

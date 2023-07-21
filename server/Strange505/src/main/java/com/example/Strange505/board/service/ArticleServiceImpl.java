@@ -2,40 +2,39 @@ package com.example.Strange505.board.service;
 
 import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.domain.Board;
-import com.example.Strange505.board.dto.ArticleDTO;
+import com.example.Strange505.board.dto.ArticleRequestDTO;
 import com.example.Strange505.board.dto.BoardDTO;
 import com.example.Strange505.board.repository.ArticleRepository;
-import jakarta.transaction.Transactional;
+import com.example.Strange505.board.repository.BoardRepository;
+import com.example.Strange505.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final BoardRepository boardRepository;
 
     @Override
-    public void createArticle(ArticleDTO articleDTO) {
-        Article article = Article.builder()
-                .id(articleDTO.getId())
-                .title(articleDTO.getTitle())
-                .content(articleDTO.getContent())
-                .user(articleDTO.getUser())
-                .board(articleDTO.getBoard())
-                .createTime(articleDTO.getCreateTime())
-                .modifyTime(articleDTO.getModifyTime())
-                .likes(articleDTO.getLikes())
-                .views(articleDTO.getViews())
-                .build();
-        articleRepository.save(article);
-        article.addToBoard(articleDTO.getBoard());
+    @Transactional
+    public Article createArticle(ArticleRequestDTO dto, String jwt) {
+        User user = null;
+        Board board = boardRepository.findByName(dto.getBoardName());
+        Article article = Article.createArticle(dto, user, board);
+        Article savedArticle = articleRepository.save(article);
+//        article.addToBoard(articleDTO.getBoard());
+        return savedArticle;
     }
 
     @Override
@@ -44,24 +43,29 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> getArticlesByBoard(String board) {
-        return articleRepository.findByBoard(board).orElseThrow();
+    public List<Article> getAllArticles() {
+        return articleRepository.findAll();
     }
 
     @Override
     public List<Article> getArticlesByTitle(String title) {
-        return null;
+        return articleRepository.searchByTitle(title);
     }
 
     @Override
     public List<Article> getArticlesByContent(String content) {
-        return null;
+        return articleRepository.searchByContent(content);
     }
 
     @Override
-    public void updateArticle(Long id, ArticleDTO articleDTO) {
+    public List<Article> getArticlesByUser(Long userId) {
+        return articleRepository.searchByUser(userId);
+    }
+
+    @Override
+    public void updateArticle(Long id, ArticleRequestDTO articleDTO) { // 게시판 종류 수정은 어떻게?
         Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException("Article not found"));
-//        article.update();
+        article.updateArticle(articleDTO);
     }
 
     @Override
