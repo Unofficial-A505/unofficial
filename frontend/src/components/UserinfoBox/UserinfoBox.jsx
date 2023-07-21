@@ -1,7 +1,10 @@
-import styles from './UserinfoBox.module.css'
+// import react, { useState } from 'react';
+// import { Link, useNavigate } from 'react-router-dom';
 
-import react, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
+import styles from './UserinfoBox.module.css'
+import Login from './../../components/Login/Login'
 
 import { IoIosArrowForward } from '@react-icons/all-files/io/IoIosArrowForward';
 import { RiDatabase2Line } from '@react-icons/all-files/ri/RiDatabase2Line';
@@ -9,6 +12,8 @@ import { BsFileEarmarkText } from '@react-icons/all-files/bs/BsFileEarmarkText';
 import { AiOutlineComment } from '@react-icons/all-files/ai/AiOutlineComment';
 
 export default function UserinfoBox(){
+  const [modalOpen, setModalOpen] = useState(false)
+
   const [userInfo, setUserInfo] = useState({})
   const user = 'SSAFY 서울 9기'
   const mileage = 5100
