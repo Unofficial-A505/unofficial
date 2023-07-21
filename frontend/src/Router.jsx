@@ -12,11 +12,9 @@ import BoardsAll from './pages/BoardsAll/BoardsAll'
 import PostDetail from './pages/PostDetail/PostDetail'
 import CreatePostPage from './pages/CreatePostPage/CreatePostPage'
 
+import Meal from './components/Meal/Meal'
+
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <App />
-  },
   {
     path: '/signup',
     element: <Signup />,
@@ -40,6 +38,9 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: '', element: <MainPage />},
+      {
+        path: 'meal', element: <Meal />
+      },
       { 
         // path: ':userId', 
         path: 'user', element: <MyPage />},
