@@ -1,3 +1,4 @@
+import styles from './Meal.module.css'
 import { v4 as uuidv4 } from "uuid";
 import Card from "./Card";
 import Carousel from "./Carousel";
@@ -64,7 +65,7 @@ export default function Meal() {
   let cards = []
   
   meals.map((meal)=>{
-    cards.push({
+    return cards.push({
       key: uuidv4(),
       content: (
       <Card meal={meal} />
@@ -73,13 +74,15 @@ export default function Meal() {
   })
 
   return (
-    <Carousel
-      cards = {cards}
-      height="500px"
-      width="80%"
-      margin="0 auto"
-      offset={2}
-      showArrows={false}
+    <div className={styles.Meal}>
+      <Carousel
+        cards = {cards}
+        height="500px"
+        width="50%"
+        margin="0 auto"
+        offset={2}
+        showArrows={false}
     />
+    </div>
   );
 }
