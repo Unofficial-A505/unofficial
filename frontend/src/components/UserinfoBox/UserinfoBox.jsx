@@ -44,8 +44,8 @@ export default function UserinfoBox(){
         <div class={styles.mypageContent}>
           <button class={styles.mymileButton} onClick={() => navigate('/user/advertisement')}><RiDatabase2Line class={styles.mymileIcon} /><p class={styles.mileageTotal}>{mileage}</p></button>
           <div class={styles.mypostsAndcomments}>
-            <button class={styles.myButton} onClick={() => navigate('/user/history')}><BsFileEarmarkText class={styles.myIcon} /><p>3</p></button>
-            <button class={styles.myButton} onClick={() => navigate('/user/history')}><AiOutlineComment class={styles.myIcon}/><p>12</p></button>
+            <button class={styles.myButton} onClick={() => navigate('/user/activity')}><BsFileEarmarkText class={styles.myIcon} /><p>3</p></button>
+            <button class={styles.myButton} onClick={() => navigate('/user/activity')}><AiOutlineComment class={styles.myIcon}/><p>12</p></button>
           </div>
         </div>
       </div>

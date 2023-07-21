@@ -48,7 +48,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <MypageUser />},
           { path: 'password', element: <MypagePassword />},
-          { path: 'history', element: <MypageActivity />},
+          { path: 'activity', element: <MypageActivity />},
           { path: 'advertisement', element: <MypageAdver />},
         ]
       },

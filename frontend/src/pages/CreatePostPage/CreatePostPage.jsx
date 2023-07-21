@@ -1,13 +1,14 @@
 import styles from './CreatePostPage.module.css'
+// import HistoryBack from './HistoryBack'
 
 import React, { useEffect, useRef } from 'react';
-
-import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
 
 import styled from 'styled-components';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
+
+import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
 
 import TopSpace from '../../components/TopSpace/TopSpace';
 import UnderSpace from '../../components/UnderSpace/UnderSpace';
@@ -84,7 +85,7 @@ export default function CreatePostPage(){
         </div>
 
         <div class={styles.editorcontainer} id="editor-container"></div>
-      
+
         <div className={styles.undermenu}>
           <button class={styles.grayoutbutton}><IoIosArrowBack />목록으로 돌아가기</button>
           <button class='btn' id={styles.createsubmitbutton}>게시하기</button>
