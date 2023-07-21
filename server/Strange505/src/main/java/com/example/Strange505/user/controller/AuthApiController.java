@@ -38,14 +38,15 @@ public class AuthApiController {
         AuthDto.TokenDto tokenDto = authService.login(loginDto);
 
         // RT 저장
-        HttpCookie httpCookie = ResponseCookie.from("refresh-token", tokenDto.getRefreshToken())
-                .maxAge(COOKIE_EXPIRATION)
-                .httpOnly(true)
-                .secure(true)
-                .build();
+//        HttpCookie httpCookie = ResponseCookie.from("refresh-token", tokenDto.getRefreshToken())
+//                .maxAge(COOKIE_EXPIRATION)
+//                .httpOnly(true)
+//                .secure(true)
+//                .build();
 
         return ResponseEntity.ok()
-                .header("REFRESH_TOKEN", httpCookie.toString())
+//                .header("REFRESH_TOKEN", httpCookie.toString())
+                .header("REFRESH_TOKEN", tokenDto.getRefreshToken())
                 // AT 저장
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + tokenDto.getAccessToken())
                 .build();
@@ -61,22 +62,23 @@ public class AuthApiController {
     }
     // 토큰 재발급
     @PostMapping("/reissue")
-    public ResponseEntity<?> reissue(@CookieValue(name = "refresh-token") String requestRefreshToken,
-//    public ResponseEntity<?> reissue(@RequestHeader(name = "REFRESH_TOKEN") String requestRefreshToken,
+//    public ResponseEntity<?> reissue(@CookieValue(name = "refresh-token") String requestRefreshToken,
+    public ResponseEntity<?> reissue(@RequestHeader(name = "REFRESH_TOKEN") String requestRefreshToken,
                                      @RequestHeader("Authorization") String requestAccessToken) {
         System.out.println(requestRefreshToken);
         AuthDto.TokenDto reissuedTokenDto = authService.reissue(requestAccessToken, requestRefreshToken);
 
         if (reissuedTokenDto != null) { // 토큰 재발급 성공
             // RT 저장
-            ResponseCookie responseCookie = ResponseCookie.from("refresh-token", reissuedTokenDto.getRefreshToken())
-                    .maxAge(COOKIE_EXPIRATION)
-                    .httpOnly(true)
-                    .secure(true)
-                    .build();
+//            ResponseCookie responseCookie = ResponseCookie.from("refresh-token", reissuedTokenDto.getRefreshToken())
+//                    .maxAge(COOKIE_EXPIRATION)
+//                    .httpOnly(true)
+//                    .secure(true)
+//                    .build();
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .header("REFRESH_TOKEN", responseCookie.toString())
+//                    .header("REFRESH_TOKEN", responseCookie.toString())
+                    .header("REFRESH_TOKEN", reissuedTokenDto.getRefreshToken())
                     // AT 저장
                     .header(HttpHeaders.AUTHORIZATION, "Bearer " + reissuedTokenDto.getAccessToken())
                     .build();
@@ -84,13 +86,14 @@ public class AuthApiController {
         } else { // Refresh Token 탈취 가능성
             System.out.println("재로그인 유도");
             // Cookie 삭제 후 재로그인 유도
-            ResponseCookie responseCookie = ResponseCookie.from("refresh-token", "")
-                    .maxAge(0)
-                    .path("/")
-                    .build();
+//            ResponseCookie responseCookie = ResponseCookie.from("refresh-token", "")
+//                    .maxAge(0)
+//                    .path("/")
+//                    .build();
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .header("REFRESH_TOKEN", responseCookie.toString())
+//                    .header("REFRESH_TOKEN", responseCookie.toString())
+                    .header("REFRESH_TOKEN", "")
                     .build();
         }
     }
@@ -99,14 +102,15 @@ public class AuthApiController {
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@RequestHeader("Authorization") String requestAccessToken) {
         authService.logout(requestAccessToken);
-        ResponseCookie responseCookie = ResponseCookie.from("refresh-token", "")
-                .maxAge(0)
-                .path("/")
-                .build();
+//        ResponseCookie responseCookie = ResponseCookie.from("refresh-token", "")
+//                .maxAge(0)
+//                .path("/")
+//                .build();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .header("REFRESH_TOKEN", responseCookie.toString())
+//                .header("REFRESH_TOKEN", responseCookie.toString())
+                .header("REFRESH_TOKEN", "")
                 .build();
     }
 }
