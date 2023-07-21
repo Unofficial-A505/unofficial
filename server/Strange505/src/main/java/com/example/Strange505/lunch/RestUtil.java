@@ -23,6 +23,10 @@ import java.util.Map;
 public class RestUtil {
 
     private static WebClient webClient;
+    private static final WebClient EduSsafyClient = WebClient.builder()
+            .baseUrl("https://project.ssafy.com/ssafy/api/auth/signin")
+            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE)
+            .build();
 
     public static String requestPostGetHeader(String url, String path, Map<String, String> payloads) throws Exception {
 
@@ -49,12 +53,26 @@ public class RestUtil {
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .build();
 
-        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         ObjectMapper mapper = new ObjectMapper();
         try {
             responseMessage = webClient.post()
                     .uri(path)
                     .contentType(MediaType.APPLICATION_JSON)
+                    .body(BodyInserters.fromValue(mapper.writeValueAsString(payloads)))
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+        } catch (WebClientResponseException ex) {
+            responseMessage = ex.getResponseBodyAsString(StandardCharsets.UTF_8);
+        }
+        return responseMessage;
+    }
+
+    public static String eduSsafyLogin(Map<String, String> payloads) throws Exception {
+        String responseMessage = null;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            responseMessage = EduSsafyClient.post()
                     .body(BodyInserters.fromValue(mapper.writeValueAsString(payloads)))
                     .retrieve()
                     .bodyToMono(String.class)
