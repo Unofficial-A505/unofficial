@@ -14,11 +14,5 @@ import java.time.LocalDateTime;
 public class ArticleRequestDTO {
     private String title;
     private String content;
-    private User user;
-    private Board board;
-    private Long likes;
-    private Long views;
-    private LocalDateTime createTime;
-    private LocalDateTime modifyTime;
-
+    private String boardName;
 }

@@ -12,7 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class BoardDTO {
-    private Long id;
     private String name;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
