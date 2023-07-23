@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/board")
+@RequestMapping("/boards")
 @RequiredArgsConstructor
 public class BoardController {
 
     private final BoardService boardService;
 
     @PostMapping
-    public ResponseEntity<BoardResponseDto> createBoard(@RequestBody BoardRequestDto boardRequestDto) {
+    public ResponseEntity<BoardResponseDto> registerBoard(@RequestBody BoardRequestDto boardRequestDto) {
         BoardResponseDto boardResponseDto = boardService.createBoard(boardRequestDto);
         return new ResponseEntity(boardResponseDto, HttpStatus.OK);
     }
