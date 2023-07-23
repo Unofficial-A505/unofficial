@@ -26,7 +26,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional
     public Article createArticle(ArticleRequestDto dto, String jwt) {
         User user = null;
-        Board board = boardRepository.findByName(dto.getBoardName());
+        Board board = null;
         Article article = Article.createArticle(dto, user, board);
         Article savedArticle = articleRepository.save(article);
 //        article.addToBoard(articleDTO.getBoard());
@@ -35,7 +35,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article getArticleById(Long id) {
-        return articleRepository.findById(id).orElseThrow();
+        return articleRepository.findById(id).orElseThrow(() -> new RuntimeException("Article not found"));
     }
 
     @Override
