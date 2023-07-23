@@ -1,15 +1,17 @@
 package com.example.Strange505.board.service;
 
-import com.example.Strange505.board.dto.CommentDTO;
-import org.springframework.stereotype.Service;
+import com.example.Strange505.board.dto.ArticleRequestDto;
+import com.example.Strange505.board.dto.CommentRequestDto;
+import com.example.Strange505.board.dto.CommentResponseDto;
+import com.example.Strange505.user.domain.User;
 
 import java.util.List;
 
-@Service
-public class CommentService {
-//    void createComment(CommentDTO commentDTO);
-//    CommentDTO getCommentById(Long id);
-//    List<CommentDTO> getAllComments();
-//    void updateComment(Long id, CommentDTO commentDTO);
-//    void deleteComment(Long id);
+public interface CommentService {
+    void createComment(CommentRequestDto requestDto);
+    CommentResponseDto getCommentById(Long id);
+    List<CommentResponseDto> getCommentByArticle(Long articleId);
+    List<CommentResponseDto> getCommentByUser(Long userId);
+    CommentResponseDto updateComment(Long id, CommentRequestDto requestDto);
+    void deleteComment(Long id);
 }
