@@ -2,20 +2,16 @@ package com.example.Strange505.board.service;
 
 import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.domain.Board;
-import com.example.Strange505.board.dto.ArticleRequestDTO;
-import com.example.Strange505.board.dto.BoardDTO;
+import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.BoardRepository;
 import com.example.Strange505.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -28,7 +24,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional
-    public Article createArticle(ArticleRequestDTO dto, String jwt) {
+    public Article createArticle(ArticleRequestDto dto, String jwt) {
         User user = null;
         Board board = boardRepository.findByName(dto.getBoardName());
         Article article = Article.createArticle(dto, user, board);
@@ -63,7 +59,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void updateArticle(Long id, ArticleRequestDTO articleDTO) { // 게시판 종류 수정은 어떻게?
+    public void updateArticle(Long id, ArticleRequestDto articleDTO) { // 게시판 종류 수정은 어떻게?
         Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException("Article not found"));
         article.updateArticle(articleDTO);
     }

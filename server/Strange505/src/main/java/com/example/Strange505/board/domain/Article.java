@@ -1,6 +1,6 @@
 package com.example.Strange505.board.domain;
 
-import com.example.Strange505.board.dto.ArticleRequestDTO;
+import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -43,7 +43,7 @@ public class Article {
     private LocalDateTime modifyTime;
 
 
-    public static Article createArticle(ArticleRequestDTO dto, User user, Board board) {
+    public static Article createArticle(ArticleRequestDto dto, User user, Board board) {
         Article article = new Article();
         article.title = dto.getTitle();
         article.content = dto.getContent();
@@ -58,7 +58,7 @@ public class Article {
         return article;
     }
 
-    public void updateArticle(ArticleRequestDTO articleRequestDTO) {
+    public void updateArticle(ArticleRequestDto articleRequestDTO) {
         this.title = articleRequestDTO.getTitle();
         this.content = articleRequestDTO.getContent();
     }

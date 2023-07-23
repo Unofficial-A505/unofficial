@@ -2,10 +2,8 @@ package com.example.Strange505.board.service;
 
 import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.domain.Board;
-import com.example.Strange505.board.dto.ArticleRequestDTO;
-import com.example.Strange505.board.dto.BoardDTO;
+import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.board.repository.BoardRepository;
-import com.example.Strange505.user.domain.User;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -37,7 +34,7 @@ class ArticleServiceImplTest {
                 .modifyTime(LocalDateTime.now())
                 .build();
         boardRepository.save(board);
-        ArticleRequestDTO articleDTO = ArticleRequestDTO.builder()
+        ArticleRequestDto articleDTO = ArticleRequestDto.builder()
                 .title("제목")
                 .content("내용")
                 .boardName(board.getName())
@@ -65,7 +62,7 @@ class ArticleServiceImplTest {
 
     @Test
     public void 게시글_수정() {
-        ArticleRequestDTO articleDTO = ArticleRequestDTO.builder()
+        ArticleRequestDto articleDTO = ArticleRequestDto.builder()
                 .title("수정_제목")
                 .content("수정_내용")
                 .boardName("게시판")
@@ -78,7 +75,7 @@ class ArticleServiceImplTest {
 
     @Test
     public void 게시글_삭제() {
-        ArticleRequestDTO articleDTO = ArticleRequestDTO.builder()
+        ArticleRequestDto articleDTO = ArticleRequestDto.builder()
                 .title("2_제목")
                 .content("2_내용")
                 .boardName("2_게시판")

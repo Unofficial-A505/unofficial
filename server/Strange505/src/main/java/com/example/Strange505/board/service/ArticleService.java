@@ -1,14 +1,13 @@
 package com.example.Strange505.board.service;
 
 import com.example.Strange505.board.domain.Article;
-import com.example.Strange505.board.dto.ArticleRequestDTO;
-import com.example.Strange505.user.domain.User;
+import com.example.Strange505.board.dto.ArticleRequestDto;
 
 import java.util.List;
 
 public interface ArticleService {
 
-    Article createArticle(ArticleRequestDTO articleDTO, String jwt);
+    Article createArticle(ArticleRequestDto articleDTO, String jwt);
 
     Article getArticleById(Long id);
 
@@ -20,7 +19,7 @@ public interface ArticleService {
 
     List<Article> getArticlesByUser(Long userId);
 
-    void updateArticle(Long id, ArticleRequestDTO articleDTO);
+    void updateArticle(Long id, ArticleRequestDto articleDTO);
 
     void deleteArticle(Long id);
 }
