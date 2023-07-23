@@ -1,16 +1,15 @@
 package com.example.Strange505.board.service;
 
-import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.domain.Board;
-import com.example.Strange505.board.dto.BoardDTO;
-import com.example.Strange505.board.repository.ArticleRepository;
+import com.example.Strange505.board.dto.BoardRequestDto;
+import com.example.Strange505.board.dto.BoardResponseDto;
 import com.example.Strange505.board.repository.BoardRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -19,29 +18,26 @@ import java.util.List;
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
-    private final ArticleRepository articleRepository;
+//    private final ArticleRepository articleRepository;
 
     @Override
-    public Board createBoard(BoardDTO boardDTO) {
-        Board board = Board.builder()
-                .name(boardDTO.getName())
-                .createTime(boardDTO.getCreateTime())
-                .modifyTime(boardDTO.getModifyTime())
-                .build();
+    public BoardResponseDto createBoard(BoardRequestDto dto) {
+        Board board = dto.dtoToEntity(dto);
         Board save = boardRepository.save(board);
-        return save;
+        return new BoardResponseDto(save);
     }
 
     @Override
-    public void updateBoard(Long id, BoardDTO boardDTO) {
+    public BoardResponseDto updateBoard(Long id, BoardRequestDto dto) {
         Board board = boardRepository.findById(id).orElseThrow(() -> new RuntimeException("Board not found"));
-        board.update(boardDTO.getName(), boardDTO.getModifyTime());
-        boardRepository.save(board);
+        board.update(dto.getName(), LocalDateTime.now());
+        Board save = boardRepository.save(board);
+        return new BoardResponseDto(save);
     }
 
-    @Override
-    public void deleteBoardWithArticles(Long id) {
+//    @Override
+//    public void deleteBoardWithArticles(Long id) {
 //        articleRepository.deleteByBoard();
-        boardRepository.deleteById(id);
-    }
+//        boardRepository.deleteById(id);
+//    }
 }
