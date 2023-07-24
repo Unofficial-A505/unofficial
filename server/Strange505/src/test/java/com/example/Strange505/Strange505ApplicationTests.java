@@ -8,6 +8,7 @@ class Strange505ApplicationTests {
 
 	@Test
 	void contextLoads() {
+		
 	}
 
 }
