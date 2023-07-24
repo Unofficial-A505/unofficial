@@ -1,6 +1,7 @@
 package com.example.Strange505.user.service;
 
 import com.example.Strange505.user.dto.AuthDto;
+import com.example.Strange505.user.exception.NotActivatedException;
 import com.example.Strange505.user.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,14 +25,20 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RedisService redisService;
+    private final UserService userService;
 
     private final String SERVER = "Server";
 
     // 로그인: 인증 정보 저장 및 비어 토큰 발급
     @Transactional
     public AuthDto.TokenDto login(AuthDto.LoginDto loginDto) {
+
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
+
+        if (!userService.getUserByEmail(loginDto.getEmail()).is_activated()) {
+            throw new NotActivatedException("이메일 인증이 이루어 지지 않았습니다.");
+        }
 
         Authentication authentication = authenticationManagerBuilder.getObject()
                 .authenticate(authenticationToken);

@@ -22,10 +22,13 @@ public class UserService {
         return userRepository.findById(id).get();
     }
 
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).get();
+    }
+
     @Transactional
     public void registerUser(AuthDto.SignupDto signupDto) {
         System.out.println(signupDto);
-        signupDto.setVerification(UUIDProvider.getUuid(signupDto.getEmail()));
         User user = User.registerUser(signupDto);
         userRepository.save(user);
     }

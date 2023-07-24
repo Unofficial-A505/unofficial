@@ -23,6 +23,7 @@ public class EmailVerifyController {
     @GetMapping
     public ResponseEntity<Result<Boolean>> acceptEmail(@RequestParam(value = "verificationCode") String verificationCode) {
         emailVerifyService.acceptEmail(verificationCode);
+        System.out.println("억셉트 메서드 실행");
         return ResponseEntity.status(HttpStatus.OK).body(Result.success(Boolean.TRUE));
     }
 

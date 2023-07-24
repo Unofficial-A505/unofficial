@@ -3,6 +3,8 @@ package com.example.Strange505.user.controller;
 import com.example.Strange505.user.dto.AuthDto;
 import com.example.Strange505.user.service.AuthService;
 import com.example.Strange505.user.service.UserService;
+import com.example.Strange505.verificate.UUIDProvider;
+import com.example.Strange505.verificate.service.EmailVerifyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,15 +20,19 @@ public class AuthApiController {
     private final AuthService authService;
     private final UserService userService;
     private final BCryptPasswordEncoder encoder;
+    private final EmailVerifyService emailVerifyService;
 
     private final long COOKIE_EXPIRATION = 7776000; // 90일
 
     // 회원가입
     @PostMapping("/signup")
-    public ResponseEntity<Void> signup(@RequestBody @Valid AuthDto.SignupDto signupDto) {
+    public ResponseEntity<Void> signup(@RequestBody @Valid AuthDto.SignupDto signupDto) throws Exception {
         String encodedPassword = encoder.encode(signupDto.getPassword());
         AuthDto.SignupDto newSignupDto = AuthDto.SignupDto.encodePassword(signupDto, encodedPassword);
+        newSignupDto.setVerification(UUIDProvider.getUuid(signupDto.getEmail()));
         userService.registerUser(newSignupDto);
+        // 인증 이메일 발송
+        emailVerifyService.sendEmail(newSignupDto.getEmail(), newSignupDto.getVerification());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

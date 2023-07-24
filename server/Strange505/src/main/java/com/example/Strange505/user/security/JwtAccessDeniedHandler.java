@@ -21,4 +21,6 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
         response.setCharacterEncoding("utf-8");
         response.sendError(403, "권한이 없습니다.");
     }
+
+
 }
