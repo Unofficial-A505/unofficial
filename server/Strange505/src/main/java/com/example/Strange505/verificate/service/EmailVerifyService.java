@@ -5,11 +5,15 @@ import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.repository.UserRepository;
 import com.example.Strange505.verificate.Emails;
 import com.example.Strange505.verificate.repository.EmailRepository;
+import com.example.Strange505.vo.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -19,7 +23,7 @@ import java.util.Map;
 
 @Service
 @Transactional
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class EmailVerifyService {
     private final String mailSubject = "언오피셜 이메일 인증 메일입니다.";
     private final String baseUrl = "http://localhost:8080/api/verify?verificationCode=";
@@ -46,19 +50,27 @@ public class EmailVerifyService {
             "        </div>\n" +
             "    </div>";
 
-    UserRepository userRepository;
-    EmailRepository emailRepository;
-    JavaMailSender javaMailSender;
+    private final UserRepository userRepository;
+    private final EmailRepository emailRepository;
+    private final JavaMailSender javaMailSender;
 
-    @Autowired
-    public EmailVerifyService(UserRepository userRepository, EmailRepository emailRepository, JavaMailSender javaMailSender) {
-        this.userRepository = userRepository;
-        this.emailRepository = emailRepository;
-        this.javaMailSender = javaMailSender;
+
+    public Result<Boolean> verifyEmail(String email) throws Exception {
+        if (userRepository.findByEmail(email).orElse(null) != null) {
+            return Result.fail("이미 존재하는 회원 입니다.");
+        }
+        if (emailRepository.findByEmail(email).orElse(null) != null) {
+            return Result.success(null);
+        }
+        if (!isSsafyMember(email)) {
+            return Result.fail("싸피 회원 인증에 실패 하였습니다.");
+        }
+        return Result.success(null);
     }
 
+
     public boolean isSsafyMember(String email) throws Exception {
-        if (emailRepository.findById(email).isPresent()) {
+        if (emailRepository.findByEmail(email).isPresent()) {
             return true;
         }
         Map<String, String> payload = new HashMap<>();
@@ -97,7 +109,7 @@ public class EmailVerifyService {
 
     }
 
-    public void verifyEmail(String verificationCode) {
+    public void acceptEmail(String verificationCode) {
         User user = userRepository.findByVerification(verificationCode);
         if (user != null) {
             user.activated();

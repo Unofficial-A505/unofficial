@@ -1,5 +1,8 @@
 package com.example.Strange505.vo;
 
+import lombok.Getter;
+
+@Getter
 public class Result<T> {
     private boolean success;
     private T documents;
@@ -18,7 +21,7 @@ public class Result<T> {
         return new Result(true,documents);
     }
 
-    public static Result fail(String documents) {
-        return new Result(false,documents);
+    public static Result fail(String message) {
+        return new Result(false,message);
     }
 }

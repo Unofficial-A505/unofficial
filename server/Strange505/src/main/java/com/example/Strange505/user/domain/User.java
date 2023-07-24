@@ -55,7 +55,7 @@ public class User {
         user.point = 0;
         user.is_activated = false;
         user.is_withdraw = false;
-        user.verification = null;
+        user.verification = signupDto.getVerification();
         return user;
     }
 

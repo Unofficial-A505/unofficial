@@ -23,6 +23,7 @@ public class AuthDto {
     }
 
     @Getter
+    @Setter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @ToString
     public static class SignupDto {
@@ -30,6 +31,7 @@ public class AuthDto {
         private String password;
         private String local;
         private int gen;
+        private String verification;
 
         @Builder
         public SignupDto(String email, String password, String local, int gen) {
