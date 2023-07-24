@@ -6,6 +6,7 @@ import emailImg from './../../assets/images/emailImg.png'
 export default function Signup3(){
 
   let user = useSelector((state)=>state.user)
+  console.log(user)
   let navigate = useNavigate()
 
   useEffect(()=> {
@@ -16,9 +17,6 @@ export default function Signup3(){
     // console.log(user)
   }, [])
 
-  // 
-
-
   return(
     <div className={styles.complete}>
       <img src={emailImg} alt="" width={180} height={180} className='mb-3' />
@@ -26,9 +24,9 @@ export default function Signup3(){
       <div className='mb-3' />
       <p>이메일 인증을 위한 메일이 발송 되었습니다.</p>
       <p>회원가입 완료를 위한 이메일 인증을 진행 해 주세요.</p>
-      <div className='mb-3' />
-      <p>가입 이메일 주소: {user.emial}</p>
-      <div className='mb-3' />
+      <div className='mb-5' />
+      <p>가입 이메일 주소: { user.email }</p>
+      <div className='mb-4' />
       <p>이메일 주소를 잘못 입력하신 경우</p>
       <p>'고객문의'로 이메일 주소 수정을 요청해 주시기 바랍니다.</p>
       <div className='mb-3' />

@@ -9,12 +9,12 @@ import { setEmail, setPassword } from './../../store/signupSlice'
 export default function Signup2(){
 
   let user = useSelector((state)=>state.user)
-  // // 지역, 기수를 입력하지 않은 상태에서 바로 링크타고 들어오는것 방지
-  // useEffect(()=> {
-  //   if (!user.gen || !user.local){
-  //     navigate('/signup')
-  //   }
-  // }, [])
+  // 지역, 기수를 입력하지 않은 상태에서 바로 링크타고 들어오는것 방지
+  useEffect(()=> {
+    if (!user.gen || !user.local){
+      navigate('/signup')
+    }
+  }, [])
 
   const [userEmail, setUserEmail] = useState('')
   const [emailValid, setEmailValid] = useState(false)
@@ -58,16 +58,17 @@ export default function Signup2(){
     return true
   }
   // 이메일 중복 확인
-  let duplication = ''
   const doubleCheck=()=>{
     if (!checkEmail()) {
       return false
     }
     setDuplicationMent(<p style={{color: 'green'}}>확인 중입니다.</p>)
-    // const serverURL = 'http://70.12.247.35:8080'
-    const serverURL = 'https://www.youtube.com'
-    axios.get(`${serverURL}/`)
+    const serverURL = 'http://70.12.247.35:8080'
+
+    axios
+      .post(`${serverURL}/auth/signup`, { userEmail })
       .then((res)=>{
+        console.log(res)
         if (res.status === 200) {
           setDuplicationMent(<p style={{color: 'green'}}>사용 가능한 아이디입니다.</p>)
           setIsDuplicate(false)
@@ -75,6 +76,10 @@ export default function Signup2(){
           setDuplicationMent(<p style={{color: 'red'}}>이미 존재하는 이메일입니다.</p>)
           setIsDuplicate(true)
         }
+      })
+      .catch((err)=>{
+        setDuplicationMent(<p style={{color: 'red'}}>오류가 발생했습니다. 다시 시도해 주세요.</p>)
+        console.log(err)
       })
   }
   // 비밀번호 입력 오류 확인
@@ -143,7 +148,7 @@ export default function Signup2(){
         <label for="exampleInputPassword1" className="form-label">비밀번호</label>
         <input type="password" class="form-control" id="exampleInputPassword1" onChange={handlePasswordChange1} />
       </div>
-      <div class="mb-3">
+      <div class="mb-4">
         <label for="exampleInputPassword2" className="form-label">비밀번호 확인</label>
         <input type="password" class="form-control" id="exampleInputPassword2" onChange={handlePasswordChange2} />
         {userPassword1 && userPassword2 && passwordMismatch 
