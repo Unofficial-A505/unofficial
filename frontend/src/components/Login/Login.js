@@ -3,11 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styles from './Login.module.css'
 import logo from './../../assets/images/whale.png'
-import { setAccessToken } from '../../store/loginSlice'
+import { setEmail } from './../../store/signupSlice'
+import { setAccessToken } from './../../store/loginSlice'
 import axios from 'axios'
 
 
 export default function Login({ setModalOpen }){
+
+  let user = useSelector((state)=>state.user)
 
   let authUser = useSelector((state)=>state.authUser)
   useEffect(()=>{
@@ -15,45 +18,55 @@ export default function Login({ setModalOpen }){
   }, [authUser])
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   // 로그인 유저 정보
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const onEmailHandler = (event)=>{setEmail(event.target.value)}
-  const onPasswordHandler = (event)=>{setPassword(event.target.value)}
+  const [userEmail, setUserEmail] = useState('')
+  const [userPassword, setUserPassword] = useState('')
+  const onEmailHandler = (event)=>{setUserEmail(event.target.value)}
+  const onPasswordHandler = (event)=>{setUserPassword(event.target.value)}
+
+  // 로그인 알고리즘
+  const login = async (e)=>{
+    e.preventDefault() // 새로고침 방지
+
+    if (!userEmail || !userPassword) {
+      alert('이메일 또는 비밀번호를 입력하세요.')
+      return
+    } 
+    try {
+      await requestLogin(userEmail, userPassword)
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   // 로그인 유저 인증
-  const serverURL = 'http://70.12.247.35:8080';
+  const serverURL = 'http://localhost:8080';
   const requestLogin = async (email, password) => {
     try {
       const response = await axios.post(`${serverURL}/api/auth/login`, {
-        email: email,
-        password: password,
+        email: userEmail,
+        password: userPassword,
       });
       // console.log(response.headers);
       dispatch(setAccessToken(response.headers.authorization));
       localStorage.setItem('refresh_token', response.headers.refresh_token);
-      alert('로그인 성공');
       setModalOpen(false)
     } 
     catch (err) {
-      console.log(err);
-      alert('로그인 실패: 이메일 혹은 비밀번호를 확인하세요.');
-    }
-  };
-
-  const login = async (e)=>{
-    e.preventDefault() // 새로고침 방지
-
-    if (!email || !password) {
-      alert('이메일 또는 비밀번호를 입력하세요.')
-      return
-    } 
-
-    try {
-      await requestLogin(email, password)
-    } catch (err) {
       console.log(err)
+      if (err.response && err.response.data.success === false){
+
+        
+        alert(err.response.data.message)  // '이메일 인증이 이루어 지지 않았습니다.'
+        dispatch(setEmail(userEmail))
+        navigate('/signup/complete')
+
+      } else {
+        alert('이메일 또는 비밀번호를 확인해주세요.')
+      }
+      console.log(user.email)
     }
   }
 
