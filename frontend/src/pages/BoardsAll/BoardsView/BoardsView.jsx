@@ -1,24 +1,23 @@
 import styles from './BoardsView.module.css'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
 import PostsView from './PostsView'
 
 export default function BoardsView( ){
   const [ posts, setPosts ] = useState([]);
   let { boardTitle } = useParams();
-  if (!boardTitle) {
-    boardTitle = '자유게시판'
+  if (! boardTitle ) {
+    boardTitle = '1'
   }
-
   const navigate = useNavigate();
 
   useEffect(() => {
 
     axios({
       method: "get",
-      url: `http://127.0.0.1:8000/api/v1/articles/`,
+      url: `http://127.0.0.1:8000/api/v1/boards/${boardTitle}/articles`,
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
@@ -32,7 +31,7 @@ export default function BoardsView( ){
       console.log('unmounted')
      }}, []);
 
-  if (boardTitle) {
+  if (posts) {
     return(
       <div>
         <hr />

@@ -23,7 +23,7 @@ export default function BoardsAll(){
   useEffect(() => {
     axios({
       method: "get",
-      url: `http://127.0.0.1:8000/api/v1/articles/boards/`,
+      url: 'http://127.0.0.1:8000/api/v1/boards/'
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
@@ -55,8 +55,8 @@ export default function BoardsAll(){
     <div className={styles.boardcontainer}>
       <div className={styles.boardtabcontainer}>
         <div>
-          {boardTitles.map((data, index) => 
-            <button key={index} className={styles.boardtab} onClick={() => navigate(`/boards/${data.title}`)}>{data.title}</button>
+          {boardTitles.map((board, index) => 
+            <button key={index} className={styles.boardtab} onClick={() => navigate(`/boards/${board.title}`)}>{board.title}</button>
           )}
         </div>
         <div>

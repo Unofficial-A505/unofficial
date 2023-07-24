@@ -16,6 +16,11 @@ import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
 import TopSpace from '../../components/TopSpace/TopSpace';
 import UnderSpace from '../../components/UnderSpace/UnderSpace';
 
+// import ImageResize from '@looop/quill-image-resize-module-react'
+// import ImageResize from 'quill-image-resize-module'
+
+// Quill.register('modules/ImageResize', ImageResize)
+
 export default function CreatePostPage(){
   const navigate = useNavigate();
   const { boardTitle } = useParams();
@@ -57,6 +62,9 @@ export default function CreatePostPage(){
           ['blockquote', 'code-block', 'link', 'image']
         ]
       },
+      imageResize : {
+        modules : ['Resize']
+      },
       placeholder: '내용을 작성하세요',
       theme: 'snow'  // or 'bubble'
     });
@@ -87,7 +95,7 @@ export default function CreatePostPage(){
 
       axios({
         method: "post",
-        url: `http://127.0.0.1:8000/api/v1/articles/`,
+        url: `http://127.0.0.1:8000/api/v1/boards/<int:board_pk>/articles/`,
         data: formData,
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
