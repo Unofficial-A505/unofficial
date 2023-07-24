@@ -2,6 +2,15 @@ spring:
   h2:
     console:
       enabled: true
+  server:
+    tomcat:
+      max-http-post-size: 100MB
+      max-swallow-size: 100MB
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
   datasource:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
@@ -17,6 +26,20 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: strangedev505
+    password: nnmoxsmunzocukuh
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+          auth: true
+
 logging:
   level:
     org.hibernate.SQL: debug
@@ -26,3 +49,15 @@ jwt:
   secret: VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4=VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4= # 임의의 문자열을 Base64로 인코딩한 값
   refresh-token-validity-in-seconds: 1209600 # 14일
   access-token-validity-in-seconds: 43200 # 12시간
+
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAWEYQVFMPLZ45LNXQ
+      secret-key: 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
+    s3:
+      bucket: 505bucket
+    region:
+      static: ap-northeast-2 # 리전 정보
+    stack:
+      auto: false
