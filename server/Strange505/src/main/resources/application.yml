@@ -61,3 +61,6 @@ cloud:
       static: ap-northeast-2 # 리전 정보
     stack:
       auto: false
+
+file:
+  dir: /Users/jeongseung-gu/Desktop/file/

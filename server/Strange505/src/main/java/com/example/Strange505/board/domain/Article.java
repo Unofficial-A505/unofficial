@@ -48,7 +48,7 @@ public class Article {
         article.title = dto.getTitle();
         article.content = dto.getContent();
         article.board = board;
-        article.addToBoard(board);
+//        article.addToBoard(board);
         article.createTime = LocalDateTime.now();
         article.modifyTime = LocalDateTime.now();
         article.user = user;
