@@ -1,0 +1,109 @@
+.postdetailallContainer {
+  width: 1290px;
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: space-between;
+
+  border: 1px dotted red;
+}
+
+.postviewContainer {
+  width: 1000px;
+
+  border: 1px dotted aqua;
+}
+
+.postContainer {
+  text-align: start;
+  margin: 0 45px;
+}
+
+.postTopbar {
+  width: 90%;
+  margin: 23px auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sideviewContainer {
+  width: 280px;
+  margin: 20px 0 0 25px;
+}
+
+.boardTitle {
+  color: #000;
+  text-align: center;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Inter;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%; /* 25.955px */
+}
+
+.grayoutbutton {
+  border: 0;
+  background-color: transparent;
+
+  color: rgba(117, 117, 117, 0.80);
+  font-family: Inter;
+  font-size: 17.537px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.postTitle {
+  color: #000;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Inter;
+  font-size: 31.567px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%; /* 31.567px */
+}
+
+.postusername {
+  color: #034BB9;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+
+  margin: 15px 10px;
+}
+
+.posttimeago {
+  color: #000;
+  font-family: Roboto;
+  font-size: 12.627px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+
+  margin: 0 10px;
+}
+
+.tabIcon {
+  margin: 0 8px 4px 0;
+}
+
+.postcontentContainer {
+  margin: 50px 20px;
+}
+
+.postBottombar {
+  width: 94%;
+  margin: 15px auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.postupdateBottom {
+  display: flex;
+}
+
+.postupdateBottomtab {
+  margin: 0 15px 0 0;
+}

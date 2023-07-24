@@ -18,7 +18,7 @@ export default function MainPage(){
       <TopSpace />
       <div className={styles.topcontainer}>
         <LunchCarousel />
-        <div>
+        <div div={styles.toprightContainer}>
           <div className={styles.usermainContainer}>
             <UserinfoBox />
           </div>

@@ -76,8 +76,6 @@
 
   display: flex;
   justify-content: space-between;
-
-  border: 1px dotted red; 
 }
 
 .boardtab {
@@ -99,7 +97,7 @@
 .boardcontainer{
   width: 1200px;
   margin: 0 auto;
-  border: 1px dotted green;
+  /* border: 1px dotted green; */
 }
 
 .pagination {

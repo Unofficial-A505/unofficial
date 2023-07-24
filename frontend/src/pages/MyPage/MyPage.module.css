@@ -1,0 +1,133 @@
+
+.mypageTitle {
+  width: 180px;
+  height: 50px;
+  text-align: start;
+
+  margin: 40px 10px 0 60px;
+
+  color: #000;
+  font-family: Manrope;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.mypageContainer {
+  width: 1170px;
+  height: 600px;
+
+  margin: 40px auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.mypageNavContainer {
+  position: relative;
+
+  width: 270px;
+  height: 600px;
+
+  border: 1px solid #75757518;
+  border-radius: 1rem;
+
+  box-shadow: 0px 0px 28.423511505126953px 0px rgba(170, 170, 170, 0.16);
+}
+
+.mypageContentContainer {
+  width: 870px;
+  height: 600px;
+
+  border: 1px solid #75757518;
+  border-radius: 1rem;
+
+  background: #FFF;
+  box-shadow: 0px 7.974554538726807px 15.949109077453613px 0px rgba(194, 194, 194, 0.16), 0px 0px 23.923662185668945px 0px rgba(170, 170, 170, 0.16);
+}
+
+.navtopnameContainer {
+  width: 200px;
+  height: 50px;
+
+  display: flex;
+
+  margin: 0 0 0 45px;
+}
+
+.navnameContainer {
+  width: 200px;
+  height: 50px;
+  
+  display: flex;
+
+  margin: 0 0 0 45px;
+}
+
+.navtopContainer {
+  width: 270px;
+  height: 250px;
+
+  border: 1px dotted aqua;
+}
+
+.navtoptitle {
+  color: #000;
+  font-family: Manrope;
+  font-size: 17.054px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.mypagenavIcon {
+  width: 20px;
+  height: 20px;
+  margin: 0 10px 0 0;
+
+  border: 1px dotted aqua;
+}
+
+.mypagenavtab {
+  width: 180px;
+  height: 40px;
+  display: block;
+
+  text-align: start;
+  text-decoration: none;
+
+
+  color: #4C535F;
+  font-family: Manrope;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+
+  border: 1px dotted red;
+}
+
+.logoutButton {
+  border: 0;
+  background-color: transparent;
+
+  width: 50px;
+  height: 40px;
+
+  margin: 0 0 0 10px;
+}
+/* 
+.logoutButton:hover {
+  width: 50px;
+  border-radius: 1rem;
+  background-color: rgba(208, 208, 208, 0.264);
+} */
+
+.navlogoutContainer {
+  width: 130px;
+  height: 50px;
+
+  position: absolute;
+  left: 25px;
+  bottom: 20px;
+}

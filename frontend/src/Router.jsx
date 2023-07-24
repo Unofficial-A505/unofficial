@@ -8,11 +8,15 @@ import Signup3 from './pages/SignupPage/Signup3'
 import App from './App';
 import MainPage from './pages/MainPage/MainPage'
 import MyPage from './pages/MyPage/MyPage'
+
 import BoardsAll from './pages/BoardsAll/BoardsAll'
+import BoardsView from './pages/BoardsAll/BoardsView/BoardsView'
+import BoardSearchView from './pages/BoardsAll/BoardSearchView/BoardSearchView'
+
 import PostDetail from './pages/PostDetail/PostDetail'
 import CreatePostPage from './pages/CreatePostPage/CreatePostPage'
+import SearchView from './pages/SearchView/SearchView'
 
-import MypagePassword from './pages/MyPage/MypagePassword/MypagePassword'
 import MypageUser from './pages/MyPage/MypageUser/MypageUser'
 import MypageActivity from './pages/MyPage/MypageActivity/MypageActivity'
 import MypageAdver from './pages/MyPage/MypageAdver/MypageAdver'
@@ -47,22 +51,28 @@ const router = createBrowserRouter([
         element: <MyPage />,
         children: [
           { index: true, element: <MypageUser />},
-          { path: 'password', element: <MypagePassword />},
           { path: 'activity', element: <MypageActivity />},
           { path: 'advertisement', element: <MypageAdver />},
         ]
       },
       { 
-        // path: 'board/:boardName',
-        path: 'board', element: <BoardsAll />
+        path: 'boards',
+        element: <BoardsAll />,
+        children: [
+          { index: '자유게시판', element: <BoardsView />},
+          { path: ':boardTitle', element: <BoardsView />},
+          { path: ':boardTitle/search/:keyword', element: <BoardSearchView />}
+        ]
       },
-      { 
-        // path: 'board/:boardName/create',
-        path: 'board/create', element: <CreatePostPage />
+      {
+        path: 'boards/:boardTitle/create', element: <CreatePostPage />
       },
       { 
         // path: 'board/:boardName/:postId',
-        path: 'post', element: <PostDetail />
+        path: 'boards/:boardTitle/:postId', element: <PostDetail />
+      },
+      {
+        path: 'boards/search/:keyword', element: <SearchView />
       },
     ]
   }
