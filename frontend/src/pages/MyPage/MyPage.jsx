@@ -32,11 +32,13 @@ export default function MyPage(){
         <div className={styles.mypageNavContainer}>
           <nav>
             <div className={styles.navtopContainer}>
-              <NavtopSpace>here is space</NavtopSpace> 
-              <div className={styles.navtopnameContainer}><FiSettings className={styles.mypagenavIcon}/><div className={styles.navtoptitle}>설정</div></div>
-              <div className={styles.navnameContainer}><FiHome className={styles.mypagenavIcon}/><Link to='/user' className={styles.mypagenavtab}>내 정보 수정</Link></div>
-              <div className={styles.navnameContainer}><FiActivity className={styles.mypagenavIcon}/><Link to='/user/activity' className={styles.mypagenavtab} size="30">내 활동 모아보기</Link></div>
-              <div className={styles.navnameContainer}><RiAdvertisementLine className={styles.mypagenavIcon}/><Link to='/user/advertisement' className={styles.mypagenavtab}>광고 및 마일리지 관리</Link></div>
+              <NavtopSpace>here is space</NavtopSpace>
+              <div>
+                <div className={styles.navtopnameContainer}><FiSettings className={styles.mypagenavIcon}/><div className={styles.navtoptitle}>설정</div></div>
+                <div className={styles.navnameContainer}><FiHome className={styles.mypagenavIcon}/><Link to='/user' className={styles.mypagenavtab}>내 정보 수정</Link></div>
+                <div className={styles.navnameContainer}><FiActivity className={styles.mypagenavIcon}/><Link to='/user/activity' className={styles.mypagenavtab} size="30">내 활동 모아보기</Link></div>
+                <div className={styles.navnameContainer}><RiAdvertisementLine className={styles.mypagenavIcon}/><Link to='/user/advertisement' className={styles.mypagenavtab}>광고 및 마일리지 관리</Link></div>
+              </div>
             </div>
           </nav>
 
