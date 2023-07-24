@@ -10,12 +10,11 @@ import axios from 'axios'
 
 export default function Login({ setModalOpen }){
 
-  let user = useSelector((state)=>state.user)
-
-  let authUser = useSelector((state)=>state.authUser)
-  useEffect(()=>{
-    console.log(authUser)
-  }, [authUser])
+  // let user = useSelector((state)=>state.user)
+  // let authUser = useSelector((state)=>state.authUser)
+  // useEffect(()=>{
+  //   console.log(authUser)
+  // }, [authUser])
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -34,6 +33,7 @@ export default function Login({ setModalOpen }){
       alert('이메일 또는 비밀번호를 입력하세요.')
       return
     } 
+
     try {
       await requestLogin(userEmail, userPassword)
     } catch (err) {
@@ -43,30 +43,27 @@ export default function Login({ setModalOpen }){
 
   // 로그인 유저 인증
   const serverURL = 'http://localhost:8080';
-  const requestLogin = async (email, password) => {
+
+  const requestLogin = async ()=>{
     try {
       const response = await axios.post(`${serverURL}/api/auth/login`, {
         email: userEmail,
         password: userPassword,
       });
-      // console.log(response.headers);
+      // 성공 ? 토큰 저장 && 모달 off
       dispatch(setAccessToken(response.headers.authorization));
-      localStorage.setItem('refresh_token', response.headers.refresh_token);
+      localStorage.setItem('REFRESH_TOKEN', response.headers.REFRESH_TOKEN);
       setModalOpen(false)
     } 
     catch (err) {
-      console.log(err)
+      // 실패(이메일 인증 X) ? 이메일 인증화면으로 이동
       if (err.response && err.response.data.success === false){
-
-        
         alert(err.response.data.message)  // '이메일 인증이 이루어 지지 않았습니다.'
         dispatch(setEmail(userEmail))
         navigate('/signup/complete')
-
       } else {
         alert('이메일 또는 비밀번호를 확인해주세요.')
       }
-      console.log(user.email)
     }
   }
 
