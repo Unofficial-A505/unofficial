@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -33,6 +35,15 @@ public class BoardServiceImpl implements BoardService {
         board.update(dto.getName(), LocalDateTime.now());
         Board save = boardRepository.save(board);
         return new BoardResponseDto(save);
+    }
+
+    @Override
+    public List<BoardResponseDto> getAllBoards() {
+        List<Board> list = boardRepository.findAll();
+        List<BoardResponseDto> dtoList = new ArrayList<>();
+        list.stream().forEach(findAll -> dtoList.add(new BoardResponseDto(
+                findAll.getName())));
+        return dtoList;
     }
 
 //    @Override
