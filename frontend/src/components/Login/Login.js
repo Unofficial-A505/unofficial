@@ -15,7 +15,6 @@ export default function Login({ setModalOpen }){
   }, [authUser])
 
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   // 로그인 유저 정보
   const [email, setEmail] = useState('')
