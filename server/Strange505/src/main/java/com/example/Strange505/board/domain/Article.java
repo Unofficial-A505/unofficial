@@ -48,6 +48,7 @@ public class Article {
         article.title = dto.getTitle();
         article.content = dto.getContent();
         article.board = board;
+        article.addToBoard(board);
         article.createTime = LocalDateTime.now();
         article.modifyTime = LocalDateTime.now();
         article.user = user;
@@ -58,9 +59,16 @@ public class Article {
         return article;
     }
 
+    // 게시판에 게시글 추가
+    public void addToBoard(Board board) {
+        this.board = board;
+        this.board.getArticles().add(this);
+    }
+
     public void updateArticle(ArticleRequestDto articleRequestDTO) {
         this.title = articleRequestDTO.getTitle();
         this.content = articleRequestDTO.getContent();
+        this.nickName = articleRequestDTO.getNickName();
     }
 
     @Override
@@ -75,10 +83,4 @@ public class Article {
     public int hashCode() {
         return Objects.hash(id, title, content, user, board, likes, views, createTime, modifyTime);
     }
-
-    // 게시판에 게시글 추가
-//    public void addToBoard(Board board) {
-//        this.board = board;
-//        this.board.getArticles().add(this);
-//    }
 }
