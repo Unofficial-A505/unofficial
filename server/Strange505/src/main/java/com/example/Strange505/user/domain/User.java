@@ -14,13 +14,24 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
     @Column(nullable = false, length = 50, unique = true)
+    private String email;
+    @Column(nullable = false, unique = true)
+    private String encryptedPwd;
+    @Column(nullable = false, unique = true)
+    private String local;
+    @Column(nullable = false, unique = true)
+    private int gen;
+    private int point;
+    private boolean is_activated;
+    private boolean is_auth;
+    private boolean is_withdraw;
+}
     private String email; // Principal
 
     @Column(nullable = false, unique = true)
