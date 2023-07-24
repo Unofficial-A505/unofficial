@@ -47,7 +47,7 @@ export default function Signup1(){
           <option value="부울경 캠퍼스">부울경 캠퍼스</option>
         </select>
       </div>
-      <div className="mb-2">
+      <div className="mb-4">
         <label className="form-label mb-0">기수</label>
         <div />
         <select name="enter_gen" onChange={handleGenChange}>
