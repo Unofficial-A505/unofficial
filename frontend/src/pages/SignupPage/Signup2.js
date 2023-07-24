@@ -63,22 +63,25 @@ export default function Signup2(){
       return false
     }
     setDuplicationMent(<p style={{color: 'green'}}>확인 중입니다.</p>)
-    const serverURL = 'http://70.12.247.35:8080'
+    
+    const serverURL = 'http://localhost:8080'
 
     axios
-      .post(`${serverURL}/auth/signup`, { userEmail })
+      .post(`${serverURL}/api/verify`, { email: userEmail })
       .then((res)=>{
         console.log(res)
         if (res.status === 200) {
           setDuplicationMent(<p style={{color: 'green'}}>사용 가능한 아이디입니다.</p>)
           setIsDuplicate(false)
-        } else {
-          setDuplicationMent(<p style={{color: 'red'}}>이미 존재하는 이메일입니다.</p>)
-          setIsDuplicate(true)
-        }
+        } 
       })
       .catch((err)=>{
-        setDuplicationMent(<p style={{color: 'red'}}>오류가 발생했습니다. 다시 시도해 주세요.</p>)
+        if (err.response.data.message) {
+          setDuplicationMent(<p style={{color: 'red'}}>{ err.response.data.message }</p>)
+        } else {
+          setDuplicationMent(<p style={{color: 'red'}}>오류가 발생했습니다. 잠시후 다시 시도해 주세요.</p>)
+        }
+        setIsDuplicate(true)
         console.log(err)
       })
   }
