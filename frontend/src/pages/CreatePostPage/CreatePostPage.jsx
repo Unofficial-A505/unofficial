@@ -60,12 +60,50 @@ export default function CreatePostPage(){
       placeholder: '내용을 작성하세요',
       theme: 'snow'  // or 'bubble'
     });
+
+    quillInstance.current.getModule('toolbar').addHandler('image', function () {
+      selectLocalImage();
+    });
+    
+    
     return () => {
       console.log('unmount')
     }
   }, []);
 
-  // const quill = quillInstance.current;
+  function selectLocalImage() {
+    const fileInput = document.createElement('input');
+    fileInput.setAttribute('type', 'file');
+    console.log("input.type " + fileInput.type);
+
+    fileInput.click();
+
+    fileInput.addEventListener("change", function () {  // change 이벤트로 input 값이 바뀌면 실행
+      const formData = new FormData();
+      const file = fileInput.files[0];
+      formData.append('uploadFile', file);
+      console.log('file', file)
+      console.log(formData)
+
+      axios({
+        method: "post",
+        url: `http://127.0.0.1:8000/api/v1/articles/`,
+        data: formData,
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
+      })
+      .then((res) => {
+        const range = quillInstance.current.getSelection(); // 사용자가 선택한 에디터 범위
+        // uploadPath에 역슬래시(\) 때문에 경로가 제대로 인식되지 않는 것을 슬래시(/)로 변환
+        res.uploadPath = res.uploadPath.replace(/\\/g, '/');
+
+        quillInstance.current.insertEmbed(range.index, 'image', "/board/display?fileName=" + res.uploadPath +"/"+ res.uuid +"_"+ res.fileName);
+      })
+      .catch((err) => console.log(err))
+    })};
+
+
   // quill.value('text-change', (delta, oldDelta, source) => {
   //   console.log(quill.root.innerHTML)
   // }, [])
@@ -130,6 +168,7 @@ export default function CreatePostPage(){
       
         <div>
           <TitleInput placeholder="제목을 입력하세요" ref={titleInstance}/>
+          <input type="hidden" id="quill_html" name="content" />
         </div>
 
         <div className={styles.editorcontainer} id="editor-container" ref={quillElement}></div>
