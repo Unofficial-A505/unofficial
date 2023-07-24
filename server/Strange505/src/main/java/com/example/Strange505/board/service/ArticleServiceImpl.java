@@ -6,6 +6,7 @@ import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.BoardRepository;
 import com.example.Strange505.user.domain.User;
+import com.example.Strange505.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,12 @@ public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
     private final BoardRepository boardRepository;
+    private final UserRepository userRepository;
 
     @Override
     @Transactional
-    public Article createArticle(ArticleRequestDto dto, String jwt) {
-        User user = null;
+    public Article createArticle(ArticleRequestDto dto, Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
         List<Board> list = boardRepository.searchBoardByName(dto.getBoardName());
         Board board = list.get(0);
 //        System.out.println("보드 아이디: " + board.getId());

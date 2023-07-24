@@ -5,6 +5,7 @@ import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.board.dto.ArticleResponseDto;
 import com.example.Strange505.board.service.ArticleService;
+import com.example.Strange505.user.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +20,17 @@ import java.util.List;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final AuthService authService;
 
     @PostMapping
-    public ResponseEntity<?> registerArticle(@RequestBody ArticleRequestDto dto, @RequestParam String jwt) {
-        articleService.createArticle(dto, jwt);
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity<?> registerArticle(@RequestHeader("Authorization") String accessToken,
+                                             @RequestBody ArticleRequestDto dto) {
+        Long userId = authService.extractionID(accessToken);
+        if (userId == null) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+        articleService.createArticle(dto, userId);
+        return new ResponseEntity<>("Article created successfully", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
@@ -79,7 +86,11 @@ public class ArticleController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<ArticleResponseDto>> getArticlesByUser(@RequestParam Long userId) {
+    public ResponseEntity<List<ArticleResponseDto>> getArticlesByUser(@RequestHeader("Authorization") String accessToken) {
+        Long userId = authService.extractionID(accessToken);
+        if (userId == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
         List<Article> articles = articleService.getArticlesByUser(userId);
         List<ArticleResponseDto> articleResponseDtoList = new ArrayList<>();
 

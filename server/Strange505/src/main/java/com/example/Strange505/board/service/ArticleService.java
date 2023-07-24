@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ArticleService {
 
-    Article createArticle(ArticleRequestDto articleDTO, String jwt);
+    Article createArticle(ArticleRequestDto articleDTO, Long userId);
 
     Article getArticleById(Long id);
 
