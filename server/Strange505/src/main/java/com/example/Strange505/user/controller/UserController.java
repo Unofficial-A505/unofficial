@@ -12,8 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.netty.http.server.HttpServerRequest;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -21,6 +23,12 @@ public class UserController {
     private final AuthService authService;
 
     @GetMapping
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> users = userService.getUsers();
+        return ResponseEntity.status(HttpStatus.OK).body(users);
+    }
+
+    @GetMapping("/user")
     public ResponseEntity<User> getUser(@RequestHeader("Authorization") String accessToken) {
         Long id = authService.extractionID(accessToken);
         User findUser = userService.getUserById(id);
@@ -33,6 +41,4 @@ public class UserController {
         userService.updateUser(dto, id);
         return ResponseEntity.ok().build();
     }
-
-
 }

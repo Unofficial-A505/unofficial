@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -30,5 +32,9 @@ public class UserService {
     public void updateUser(RequestUserDto dto, Long id) {
         User user = userRepository.findById(id).get();
         user.update(dto.getPassword());
+    }
+
+    public List<User> getUsers() {
+        return userRepository.findAll();
     }
 }
