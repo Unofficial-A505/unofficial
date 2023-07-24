@@ -7,26 +7,34 @@ import com.example.Strange505.board.dto.CommentResponseDto;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.CommentRepository;
 import com.example.Strange505.user.domain.User;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
-    private CommentRepository commentRepository;
-    private ArticleRepository articleRepository;
+    private final CommentRepository commentRepository;
+    private final ArticleRepository articleRepository;
 
     @Override
     public void createComment(CommentRequestDto dto) {
         Article article = articleRepository.getReferenceById(dto.getArticleId());
+
         Comment parent = commentRepository.findById(dto.getParentId()).orElse(null);
         User user = null;
         Comment comment = Comment.builder()
                 .article(article)
                 .content(dto.getContent())
+                .createTime(LocalDateTime.now())
                 .parent(parent)
                 .user(user)
                 .build();
@@ -37,7 +45,10 @@ public class CommentServiceImpl implements CommentService {
     public CommentResponseDto getCommentById(Long id) {
         Comment comment = commentRepository.findById(id).orElseThrow(()->new RuntimeException("Comment not found"));
         return CommentResponseDto.builder()
+                .userId(comment.getUser().getId())
+                .articleId(comment.getArticle().getId())
                 .content(comment.getContent())
+                .parentId(comment.getParent().getId())
                 .build();
     }
 
