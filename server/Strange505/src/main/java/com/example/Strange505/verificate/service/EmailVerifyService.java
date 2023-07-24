@@ -100,7 +100,7 @@ public class EmailVerifyService {
     public void verifyEmail(String verificationCode) {
         User user = userRepository.findByVerification(verificationCode);
         if (user != null) {
-            user.set_activated(true);
+            user.activated();
         }
     }
 

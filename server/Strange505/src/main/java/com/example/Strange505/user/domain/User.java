@@ -63,4 +63,9 @@ public class User {
     public void update(String password) {
         this.password = password;
     }
+
+    // 이메일 인증 로직
+    public void activated() {
+        this.is_activated = true;
+    }
 }
