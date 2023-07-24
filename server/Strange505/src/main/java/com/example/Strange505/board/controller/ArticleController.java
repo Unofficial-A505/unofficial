@@ -59,8 +59,8 @@ public class ArticleController {
     }
 
     @GetMapping("/title")
-    public ResponseEntity<List<ArticleResponseDto>> getArticlesByTitle(@RequestParam String title) {
-        List<Article> articles = articleService.getArticlesByTitle(title);
+    public ResponseEntity<List<ArticleResponseDto>> getArticlesByTitle(@RequestParam String title, @RequestParam Long boardId) {
+        List<Article> articles = articleService.getArticlesByTitle(title, boardId);
         List<ArticleResponseDto> articleResponseDtoList = new ArrayList<>();
 
         articles.stream().forEach(findArticle -> articleResponseDtoList.add(
@@ -73,8 +73,8 @@ public class ArticleController {
 
 
     @GetMapping("/content")
-    public ResponseEntity<List<ArticleResponseDto>> getArticlesByContent(@RequestParam String content) {
-        List<Article> articles = articleService.getArticlesByContent(content);
+    public ResponseEntity<List<ArticleResponseDto>> getArticlesByContent(@RequestParam String content, @RequestParam Long boardId) {
+        List<Article> articles = articleService.getArticlesByContent(content, boardId);
         List<ArticleResponseDto> articleResponseDtoList = new ArrayList<>();
 
         articles.stream().forEach(findArticle -> articleResponseDtoList.add(
