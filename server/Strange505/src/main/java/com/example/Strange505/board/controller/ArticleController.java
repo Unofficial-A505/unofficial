@@ -14,14 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/articles")
+@RequestMapping("/api/articles")
 @RequiredArgsConstructor
 public class ArticleController {
 
     private final ArticleService articleService;
 
     @PostMapping
-    public ResponseEntity<?> registerArticle(@RequestBody ArticleRequestDto dto, String jwt) {
+    public ResponseEntity<?> registerArticle(@RequestBody ArticleRequestDto dto, @RequestParam String jwt) {
         articleService.createArticle(dto, jwt);
         return new ResponseEntity(HttpStatus.OK);
     }
