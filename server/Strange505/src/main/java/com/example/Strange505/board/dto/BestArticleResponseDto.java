@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class BestArticleResponseDto {
 
     private String title;
-    private Long likes;
-    private String gen;
+    private Integer likes;
+    private Integer gen;
     private String local;
 }
