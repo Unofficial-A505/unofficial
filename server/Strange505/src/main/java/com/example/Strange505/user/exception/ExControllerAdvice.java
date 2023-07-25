@@ -15,4 +15,10 @@ public class ExControllerAdvice {
         log.error("[exceptionHandler] ex", e);
         return new ResponseEntity<>(Result.fail(e.getMessage()), HttpStatus.UNAUTHORIZED);
     }
+
+    @ExceptionHandler
+    public ResponseEntity<Result> passwordExHandler(NoMatchPasswordException e) {
+        log.error("[exceptionHandler] ex", e);
+        return new ResponseEntity<>(Result.fail(e.getMessage()), HttpStatus.UNAUTHORIZED);
+    }
 }

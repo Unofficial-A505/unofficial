@@ -22,8 +22,8 @@ spring:
 #    username: root
 #    password: strange505
   redis:
-    host: localhost
-#    host: i9a505.p.ssafy.io
+#    host: localhost
+    host: i9a505.p.ssafy.io
     port: 6379
 
   jpa:
