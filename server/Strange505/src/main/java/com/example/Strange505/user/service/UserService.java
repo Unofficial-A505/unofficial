@@ -4,7 +4,6 @@ import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.dto.AuthDto;
 import com.example.Strange505.user.dto.RequestUserDto;
 import com.example.Strange505.user.repository.UserRepository;
-import com.example.Strange505.verificate.UUIDProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

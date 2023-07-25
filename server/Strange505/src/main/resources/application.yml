@@ -16,13 +16,19 @@ spring:
     url: jdbc:mysql://localhost:3308/ssafy_web_db?serverTimezone=Asia/Seoul
     username: root
     password: 1234
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://i9a505.p.ssafy.io:3306/ssafy_web_db?serverTimezone=Asia/Seoul
+#    username: root
+#    password: strange505
   redis:
     host: localhost
+#    host: i9a505.p.ssafy.io
     port: 6379
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
@@ -61,3 +67,6 @@ cloud:
       static: ap-northeast-2 # 리전 정보
     stack:
       auto: false
+
+file:
+  dir: C:\Users\SSAFY\Desktop/file/
