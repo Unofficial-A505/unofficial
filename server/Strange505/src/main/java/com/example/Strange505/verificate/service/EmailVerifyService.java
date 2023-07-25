@@ -69,7 +69,7 @@ public class EmailVerifyService {
     }
 
 
-    public boolean isSsafyMember(String email) throws Exception {
+    private boolean isSsafyMember(String email) throws Exception {
         if (emailRepository.findByEmail(email).isPresent()) {
             return true;
         }
