@@ -43,7 +43,7 @@ export default function UserinfoBox(){
   //   </div>
   // );
 
-  // user정보 있는 상황
+  // // user정보 있는 상황
   // return(
   //   <div className={styles.usercontainer}>
   //     <div className={styles.usercenterbox}>
