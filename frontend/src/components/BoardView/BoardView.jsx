@@ -1,6 +1,6 @@
 import styles from './BoardView.module.css'
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useParams } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import PostView from '../PostView/PostView'

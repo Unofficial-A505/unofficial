@@ -1,0 +1,37 @@
+.commentContainer {
+  width: 100%;
+}
+
+.commentTopbar {
+  margin: 5px 20px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.commentTitle {
+  color: #034BB9;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 450;
+  line-height: normal;
+}
+
+.commentcreateTimeago {
+  margin: 0 10px;
+}
+
+.commentIcons {
+  margin: 10px 5px;
+}
+
+.commentContent {
+  margin: 0 20px;
+}
+
+.commentBottombar {
+  margin: 10px 20px;
+
+  display: flex;
+  justify-content: space-between;
+}

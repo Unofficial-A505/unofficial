@@ -9,7 +9,7 @@ export default function BoardsView( ){
   const [ posts, setPosts ] = useState([]);
   let { boardTitle } = useParams();
   if (! boardTitle ) {
-    boardTitle = '1'
+    boardTitle = '자유게시판'
   }
   const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ export default function BoardsView( ){
 
     axios({
       method: "get",
-      url: `http://127.0.0.1:8000/api/v1/boards/${boardTitle}/articles`,
+      url: `http://127.0.0.1:8000/api/v1/articles`,
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }

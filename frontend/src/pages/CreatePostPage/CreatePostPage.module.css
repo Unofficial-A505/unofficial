@@ -24,7 +24,7 @@
 
 .undermenu {
   width: 100%;
-  margin: 20px auto;
+  margin: 60px auto;
 
   display: flex;
   justify-content: space-between;
@@ -46,4 +46,13 @@
 #createsubmitbutton:hover {
   background-color: rgba(208, 208, 208, 0.264);  
   border: 1px solid black;
+}
+
+/* 곧 삭제할 css */
+
+.bottomMargin {
+  margin : 600px 0 0 0;
+
+  height: 300px;
+  width: 700px;
 }

@@ -14,12 +14,15 @@ import BoardsView from './pages/BoardsAll/BoardsView/BoardsView'
 import BoardSearchView from './pages/BoardsAll/BoardSearchView/BoardSearchView'
 
 import PostDetail from './pages/PostDetail/PostDetail'
-import CreatePostPage from './pages/CreatePostPage/CreatePostPage'
+// import CreatePostPage from './pages/CreatePostPage/CreatePostPage'
 import SearchView from './pages/SearchView/SearchView'
 
 import MypageUser from './pages/MyPage/MypageUser/MypageUser'
 import MypageActivity from './pages/MyPage/MypageActivity/MypageActivity'
 import MypageAdver from './pages/MyPage/MypageAdver/MypageAdver'
+
+import CreatePostPage from './pages/CreatePostPage/QuillContainer'
+// import CreatePostPage from './pages/CreatePostPage/CreatePost'
 
 const router = createBrowserRouter([
   {
@@ -55,24 +58,16 @@ const router = createBrowserRouter([
           { path: 'advertisement', element: <MypageAdver />},
         ]
       },
+      { path: 'boards/search/:keyword', element: <SearchView /> },
+      { path: 'boards/:boardTitle/create', element: <CreatePostPage /> },
+      { path: 'boards/:boardTitle/:postId', element: <PostDetail /> },
       { 
         path: 'boards',
         element: <BoardsAll />,
         children: [
-          { index: '자유게시판', element: <BoardsView />},
           { path: ':boardTitle', element: <BoardsView />},
           { path: ':boardTitle/search/:keyword', element: <BoardSearchView />}
         ]
-      },
-      {
-        path: 'boards/:boardTitle/create', element: <CreatePostPage />
-      },
-      { 
-        // path: 'board/:boardName/:postId',
-        path: 'boards/:boardTitle/:postId', element: <PostDetail />
-      },
-      {
-        path: 'boards/search/:keyword', element: <SearchView />
       },
     ]
   }
