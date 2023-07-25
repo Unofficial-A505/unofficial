@@ -2,7 +2,9 @@ package com.example.Strange505.board.repository;
 
 
 import com.example.Strange505.board.domain.Article;
+import com.example.Strange505.board.domain.ArticleLike;
 import com.example.Strange505.board.domain.QArticle;
+import com.example.Strange505.board.dto.ArticleLikeRequestDto;
 import com.example.Strange505.user.domain.User;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -54,5 +56,15 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
                 .from(article)
                 .where(article.user.id.eq(userId))
                 .fetch();
+    }
+
+    @Override
+    public void addLikeCount(Article article) {
+        article.addLike();
+    }
+
+    @Override
+    public void subLikeCount(Article article) {
+        article.subLike();
     }
 }

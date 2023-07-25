@@ -63,9 +63,11 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional
-    public void updateArticle(Long id, ArticleRequestDto articleDTO) { // 게시판 종류 수정은 어떻게?
+    public void updateArticle(Long id, ArticleRequestDto dto) {
+        List<Board> list = boardRepository.searchBoardByName(dto.getBoardName());
+        Board board = list.get(0);
         Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException("Article not found"));
-        article.updateArticle(articleDTO);
+        article.updateArticle(dto, board);
     }
 
     @Override
@@ -73,4 +75,11 @@ public class ArticleServiceImpl implements ArticleService {
     public void deleteArticle(Long id) {
         articleRepository.deleteById(id);
     }
+
+    @Override
+    public void addViewCount(Long id) {
+        Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        article.addView();
+    }
+
 }

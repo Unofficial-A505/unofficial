@@ -37,6 +37,7 @@ public class Article {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
+
     private Integer likes;
     private Integer views;
     private LocalDateTime createTime;
@@ -65,10 +66,23 @@ public class Article {
         this.board.getArticles().add(this);
     }
 
-    public void updateArticle(ArticleRequestDto articleRequestDTO) {
-        this.title = articleRequestDTO.getTitle();
-        this.content = articleRequestDTO.getContent();
-        this.nickName = articleRequestDTO.getNickName();
+    public void updateArticle(ArticleRequestDto dto, Board board) {
+        this.title = dto.getTitle();
+        this.content = dto.getContent();
+        this.nickName = dto.getNickName();
+        this.board = board;
+    }
+
+    public void addView() {
+        this.views++;
+    }
+
+    public void addLike() {
+        this.likes++;
+    }
+
+    public void subLike() {
+        this.likes--;
     }
 
     @Override
