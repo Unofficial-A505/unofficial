@@ -82,7 +82,9 @@ public class Article {
     }
 
     public void subLike() {
-        this.likes--;
+        if(this.likes > 0) {
+            this.likes--;
+        }
     }
 
     @Override
