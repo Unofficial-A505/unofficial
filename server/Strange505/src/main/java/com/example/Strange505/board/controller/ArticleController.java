@@ -8,6 +8,8 @@ import com.example.Strange505.board.dto.UploadFile;
 import com.example.Strange505.board.file.FileStore;
 import com.example.Strange505.board.service.ArticleService;
 import com.example.Strange505.board.service.ImageService;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -102,11 +104,14 @@ public class ArticleController {
     }
 
     @PostMapping("/images")
-    public ResponseEntity<Boolean> saveImage(@RequestPart List<MultipartFile> files, @RequestParam Long articleId) throws IOException {
+//    public ResponseEntity<Boolean> saveImage(@RequestPart List<MultipartFile> files, @RequestParam Long articleId) throws IOException {
+    public ResponseEntity<Boolean> saveImage(@ModelAttribute ImageForm form) throws IOException {
+        List<MultipartFile> files = form.getUploadFile();
+        System.out.println(files);
         // 실제 디렉토리에 파일 저장
         List<UploadFile> attachFile = fileStore.storeFiles(files);
         // DB에 데이터 저장
-        attachFile.stream().forEach(file -> imageService.saveImage(file, articleId));
+//        attachFile.stream().forEach(file -> imageService.saveImage(file, articleId));
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
@@ -120,4 +125,10 @@ public class ArticleController {
     public Resource downLoadImage(@PathVariable String filename) throws MalformedURLException {
         return new UrlResource("file:" + fileStore.getFullPath(filename));
     }
+
+    @Data
+    public static class ImageForm {
+        private List<MultipartFile> uploadFile;
+    }
+
 }
