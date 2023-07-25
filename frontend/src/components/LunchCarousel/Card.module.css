@@ -8,11 +8,15 @@
     border-radius: 8px;
     margin: 10px;
     box-shadow: 0 2px 10px rgb(0 0 0 / 8%);
-    background-color: #f0f0f0;
+    background-color: #fafafa;
 }
 .card:hover {
     transform: scale(1.05);
     box-shadow: 0 5px 12px rgb(0 0 0 / 10%);
+}
+.title {
+    width : 100%;
+    background-color: #ffffff;
 }
 .title p {
     text-align: center;
@@ -21,6 +25,7 @@
 }
 .menus {
     display: flex;
+    background-color: #fafafa;
 }
 .menu {
     display: flex;
@@ -43,11 +48,21 @@
     font-weight: 600;
     margin-top: 0;
     margin-bottom: 0.5rem;
+    padding: 0 0.4rem;
 }
 .menu p {
     font-size: 0.2rem;
     margin: 0;
     text-align: left;
+    padding: 0 0.4rem;
+}
+.detail {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Show only two lines of text */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Display ellipsis (...) for the remaining text */
+    max-height: 9em; /* Adjust this value as needed to control the height of two lines */
 }
 
 /* 반응형 스타일 */
