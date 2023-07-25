@@ -38,6 +38,9 @@ public class Article {
     @JoinColumn(name = "board_id")
     private Board board;
 
+    @OneToOne(mappedBy = "best_article_id")
+    private BestArticle bestArticle;
+
     private Integer likes;
     private Integer views;
     private LocalDateTime createTime;
@@ -49,7 +52,6 @@ public class Article {
         article.title = dto.getTitle();
         article.content = dto.getContent();
         article.board = board;
-        article.addToBoard(board);
         article.createTime = LocalDateTime.now();
         article.modifyTime = LocalDateTime.now();
         article.user = user;
@@ -58,12 +60,6 @@ public class Article {
         article.views = 0;
 
         return article;
-    }
-
-    // 게시판에 게시글 추가
-    public void addToBoard(Board board) {
-        this.board = board;
-        this.board.getArticles().add(this);
     }
 
     public void updateArticle(ArticleRequestDto dto, Board board) {
