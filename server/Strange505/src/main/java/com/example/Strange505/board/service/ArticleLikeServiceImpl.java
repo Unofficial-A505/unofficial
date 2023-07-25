@@ -2,9 +2,11 @@ package com.example.Strange505.board.service;
 
 import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.domain.ArticleLike;
+import com.example.Strange505.board.domain.BestArticle;
 import com.example.Strange505.board.dto.ArticleLikeRequestDto;
 import com.example.Strange505.board.repository.ArticleLikeRepository;
 import com.example.Strange505.board.repository.ArticleRepository;
+import com.example.Strange505.board.repository.BestArticleRepository;
 import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class ArticleLikeServiceImpl implements ArticleLikeService {
     public final ArticleLikeRepository articleLikeRepository;
     public final ArticleRepository articleRepository;
     public final UserRepository userRepository;
+    public final BestArticleRepository bestArticleRepository;
 
     @Override
     public void like(ArticleLikeRequestDto dto) {
@@ -41,6 +44,10 @@ public class ArticleLikeServiceImpl implements ArticleLikeService {
 
         articleLikeRepository.save(articleLike);
         articleRepository.addLikeCount(article);
+        // 추천수 10 이상이면 베스트 게시글에 저장
+        if (article.getLikes() == 10) {
+            bestArticleRepository.save(BestArticle.builder().article(article).build());
+        }
     }
 
     @Override
