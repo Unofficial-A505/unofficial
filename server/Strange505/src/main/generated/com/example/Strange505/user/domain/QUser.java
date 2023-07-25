@@ -21,21 +21,23 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath email = createString("email");
 
-    public final StringPath encryptedPwd = createString("encryptedPwd");
-
     public final NumberPath<Integer> gen = createNumber("gen", Integer.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final BooleanPath is_activated = createBoolean("is_activated");
 
-    public final BooleanPath is_auth = createBoolean("is_auth");
-
     public final BooleanPath is_withdraw = createBoolean("is_withdraw");
 
     public final StringPath local = createString("local");
 
+    public final StringPath password = createString("password");
+
     public final NumberPath<Integer> point = createNumber("point", Integer.class);
+
+    public final EnumPath<Role> role = createEnum("role", Role.class);
+
+    public final StringPath verification = createString("verification");
 
     public QUser(String variable) {
         super(User.class, forVariable(variable));
