@@ -36,13 +36,13 @@ public class AuthService {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
 
-        if (!userService.getUserByEmail(loginDto.getEmail()).is_activated()) {
-            throw new NotActivatedException("이메일 인증이 이루어 지지 않았습니다.");
-        }
-
         Authentication authentication = authenticationManagerBuilder.getObject()
                 .authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        if (!userService.getUserByEmail(loginDto.getEmail()).is_activated()) {
+            throw new NotActivatedException("이메일 인증이 이루어 지지 않았습니다.");
+        }
 
         return generateToken(SERVER, authentication.getName(), getAuthorities(authentication));
     }
