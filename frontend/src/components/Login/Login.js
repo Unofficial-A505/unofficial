@@ -42,7 +42,7 @@ export default function Login({ setModalOpen }){
   }
 
   // 로그인 유저 인증
-  const serverURL = 'http://localhost:8080';
+  const serverURL = 'http://unofficial.kr:8080';
 
   const requestLogin = async ()=>{
     try {
@@ -51,6 +51,7 @@ export default function Login({ setModalOpen }){
         password: userPassword,
       });
       // 성공 ? 토큰 저장 && 모달 off
+      dispatch(setEmail(userEmail))
       dispatch(setAccessToken(response.headers.authorization));
       localStorage.setItem('REFRESH_TOKEN', response.headers.REFRESH_TOKEN);
       setModalOpen(false)
@@ -75,7 +76,7 @@ export default function Login({ setModalOpen }){
         <div className='d-flex justify-content-between mb-3'>
           <img src={logo} width='80' height='80' alt="whale" />
           <div className='d-flex flex-column-reverse'>
-            <p className='mb-0'>지금 <b className='fs-6 fw-bold text-dark'>싸브리타임</b>을 시작하세요!</p>
+            <p className='mb-0'>지금 <b className='fs-6 fw-bold text-dark'>언오피셜</b>을 시작하세요!</p>
           </div>
         </div>
         <form>
@@ -86,7 +87,7 @@ export default function Login({ setModalOpen }){
           <input className='mt-3' type="submit" value="로그인" onClick={login} />
         </form>
         <div className='mt-3' style={{ margin:'0 auto' }}>
-          <span>싸브리타임에 처음이신가요?&nbsp;&nbsp;</span>
+          <span>언오피셜 처음이신가요?&nbsp;&nbsp;</span>
           <a href="/signup" className='mb-5 text-decoration-none'>회원가입</a>
         </div>
       </div>

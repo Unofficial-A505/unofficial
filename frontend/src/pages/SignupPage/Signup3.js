@@ -10,7 +10,7 @@ export default function Signup3(){
 
   let user = useSelector((state)=>state.user)
   const navigate = useNavigate()
-  const serverURL = 'http://localhost:8080'
+  const serverURL = 'http://unofficial.kr:8080'
 
   useEffect(()=> {
     // console.log(user)

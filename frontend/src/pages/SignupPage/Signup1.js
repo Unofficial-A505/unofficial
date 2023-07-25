@@ -29,8 +29,8 @@ export default function Signup1(){
 
   return(
     <div id={styles.container}>
-      <h2>싸브리타임 회원가입</h2>
-      <p className='my-0'>싸브리타임 계정으로 <b>캠퍼스픽, 싸브리타임</b>등</p>
+      <h2>언오피셜 회원가입</h2>
+      <p className='my-0'>언오피셜 계정으로 <b>점심식단, 자유게시판</b>등</p>
       <p className='my-0'>다양한 교육생 서비스를 모두 이용하실 수 있습니다.</p>
       <br />
       <h2>선택</h2>
