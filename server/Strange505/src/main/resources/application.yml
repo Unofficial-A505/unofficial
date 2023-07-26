@@ -21,10 +21,11 @@ spring:
 #    url: jdbc:mysql://i9a505.p.ssafy.io:3306/ssafy_web_db?serverTimezone=Asia/Seoul
 #    username: root
 #    password: strange505
-  redis:
-#    host: localhost
-    host: i9a505.p.ssafy.io
-    port: 6379
+  data:
+    redis:
+#      host:
+      host: localhost
+      port: 6379
 
   jpa:
     hibernate:
@@ -70,3 +71,6 @@ cloud:
 
 file:
   dir: C:\Users\SSAFY\Desktop/file/
+
+mail:
+  base-url : "http://localhost:8080/api/verify?verificationCode="

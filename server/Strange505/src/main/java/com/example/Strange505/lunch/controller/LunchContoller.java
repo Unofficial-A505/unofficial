@@ -3,6 +3,7 @@ package com.example.Strange505.lunch.controller;
 import com.example.Strange505.lunch.DateUtil;
 import com.example.Strange505.lunch.Lunch;
 import com.example.Strange505.lunch.service.LunchService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/lunch")
+@RequiredArgsConstructor
 public class LunchContoller {
-    @Autowired
-    LunchService lunchService;
+
+    private final LunchService lunchService;
 
     @GetMapping
     ResponseEntity<List<Lunch>> getTodayLunch(@RequestParam(value = "date", required = false) String date) {
