@@ -1,3 +1,27 @@
+.backButtonContainer {
+    text-decoration: none;
+    position: relative;
+    left: 1.5rem;
+    top: 1rem;
+    font-weight: 600;
+}
+
+.backButtonContainer a {
+    position: relative;
+    top: 0.15rem;
+    text-decoration: none;
+    color: black;
+}
+
+.backButton {
+    text-decoration: none;
+    color: black;
+    position: relative;
+    left: 15px;
+    top: 15px;
+    font-weight: bold;
+}
+
 #container {
     position: absolute;
     left: 50%;
