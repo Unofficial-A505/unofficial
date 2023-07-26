@@ -36,11 +36,8 @@ export default function CommentView({ comment, CommentDelete }){
           <div><IoChatboxOutline className={styles.commentIcons}/><span>대댓글</span></div>
           {/* <div><FaRegThumbsUp className={styles.commentIcons}/><span>{commentRecommended}</span></div> */}
           <div>
-            <span className={styles.commentIcons}><HiOutlinePencilAlt size='20'/></span>
-            <span className={styles.commentIcons} onClick={() => {
-              CommentDelete(id)
-              console.log(id)
-            }}><IoTrashOutline size='20' /></span>
+            <span className={styles.commentIcons} onClick={() => setupdateState((prev) => !prev)}><span className={styles.updatetextPosition}><HiOutlinePencilAlt />수정하기</span></span>
+            <span className={styles.commentIcons} onClick={() => {CommentDelete(id)}}><span className={styles.updatetextPosition}><IoTrashOutline />삭제하기</span></span>
           </div>
         </div>
         <hr />
@@ -58,13 +55,15 @@ export default function CommentView({ comment, CommentDelete }){
           <div>
           </div>
         </div>
-
-        <input type="text" value={comment.content}/>
-        {/* <div className={styles.commentContent}>{comment.content}</div> */}
+        
+        <div className={styles.updateinputContainer}>
+          <textarea  className={styles.updateInput} type="text" value={comment.content}/>
+          {/* <div className={styles.commentContent}>{comment.content}</div> */}
+        </div>
   
-        <div className={styles.commentBottombar}>
-          <button onClick={setupdateState((prev) => !prev)}>취소</button>
-          <button>수정</button>
+        <div className={styles.commentupdateBottombar}>
+          <button className={styles.updateButtons}><HiOutlinePencilAlt className={styles.updateIcons} />수정 완료</button>
+          <button className={styles.updateButtons} onClick={() => setupdateState((prev) => !prev)}>취소</button>
         </div>
         <hr />
   

@@ -70,7 +70,6 @@ export default function PostDetail(){
       .catch((err) => console.log(err))
 
       window.scrollTo({ top: 0, behavior: "smooth" }); 
-
       return () => {  
         console.log('unmounted')}
       }, [postId]);
@@ -154,7 +153,7 @@ const commentCreate = () => {
               <div className={styles.postupdateBottom}>
                 <div className={styles.postupdateBottomtab}><HiOutlinePencilAlt size='15'/>update</div>
                 <div className={styles.postupdateBottomtab}><IoTrashOutline size='15'/>delete</div>
-                <div className={styles.postupdateBottomtab}><HiOutlineSpeakerphone />공지로 설정하기</div>
+                {/* <div className={styles.postupdateBottomtab}><HiOutlineSpeakerphone />공지로 설정하기</div> */}
               </div>
             </div>
 
@@ -164,7 +163,7 @@ const commentCreate = () => {
             <div className={styles.commentTitle}><p>댓글 {commentsNum}</p></div>
 
             <div className={styles.commentbox}>
-              <input className={styles.commentInput} type="text" ref={commentElement} placeholder="댓글을 작성해보세요"/>
+              <textarea className={styles.commentInput} type="text" ref={commentElement} placeholder="댓글을 작성해보세요"/>
               <button className={styles.commentButton} onClick={commentCreate}><IoChatboxOutline size="23"/></button>
             </div>
           </div>

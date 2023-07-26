@@ -131,23 +131,30 @@
 .commentbox {
   position: relative;
   width: 100%;
+
+  display: flex;
+  border: 1px solid black;
+  border-radius: 0.4rem;
+  margin: 7px 0 13px 0;
 }
 
 .commentInput {
-  border: 2px solid black;
-  border-radius: 0.4rem;
-  margin: 7px 0 13px 0;
-
-  width: 100%;
+  width: 90%;
+  margin: 10px 0 10px 10px;
   height: 50px;
-
   font-size: 1rem;
+
+  border: 0;
+}
+
+textarea:focus {
+  outline: none;
 }
 
 .commentButton {
   position: absolute;
   right: 20px;
-  top: 25%;
+  top: 40%;
   
   border: 0;
   border-radius: 1rem;
@@ -166,12 +173,6 @@
   display: flex;
   justify-content: space-between;
 }
-
-.commentIcons {
-  margin: 10px 5px;
-  cursor: pointer;
-} 
-
 
 /* comment pagination */
 .commentPagination {
