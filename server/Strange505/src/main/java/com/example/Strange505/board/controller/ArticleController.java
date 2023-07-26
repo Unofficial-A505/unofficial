@@ -26,8 +26,6 @@ import java.util.List;
 public class ArticleController {
 
     private final ArticleService articleService;
-    private final FileStore fileStore;
-    private final ImageService imageService;
     private final S3UploaderService s3Uploader;
 
     @PostMapping

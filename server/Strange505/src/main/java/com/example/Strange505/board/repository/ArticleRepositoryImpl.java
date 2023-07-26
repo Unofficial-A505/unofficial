@@ -3,7 +3,6 @@ package com.example.Strange505.board.repository;
 
 import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.domain.QArticle;
-import com.example.Strange505.user.domain.User;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 

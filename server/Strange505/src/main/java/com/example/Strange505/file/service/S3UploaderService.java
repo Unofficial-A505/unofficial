@@ -6,4 +6,5 @@ import java.io.IOException;
 
 public interface S3UploaderService {
     String upload(MultipartFile multipartFile, String dirName) throws IOException;
+    void getList();
 }

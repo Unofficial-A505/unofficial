@@ -1,7 +1,9 @@
 package com.example.Strange505.file.service;
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,22 @@ public class S3UploaderServiceImpl implements S3UploaderService {
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
+
+    public void getList() {
+        ListObjectsRequest listObject = new ListObjectsRequest();
+        listObject.setBucketName(bucket);
+        listObject.setPrefix("");
+        ObjectListing objects = amazonS3.listObjects(listObject);
+        do {
+            objects = amazonS3.listObjects(listObject);
+            //1000개 단위로 읽음
+            for (S3ObjectSummary objectSummary : objects.getObjectSummaries()) {
+                System.out.println(objectSummary);
+            }
+            //objects = s3.listNextBatchOfObjects(objects);  <--이녀석은 1000개 단위로만 가져옴..
+            listObject.setMarker(objects.getNextMarker());
+        } while (objects.isTruncated());
+    }
 
     @Override
     public String upload(MultipartFile multipartFile, String dirName) throws IOException {
