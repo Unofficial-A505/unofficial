@@ -1,7 +1,7 @@
-package com.example.Strange505.board.service;
+package com.example.Strange505.file.service;
 
-import com.example.Strange505.board.domain.Image;
-import com.example.Strange505.board.dto.UploadFile;
+import com.example.Strange505.file.entity.Image;
+import com.example.Strange505.file.dto.UploadFile;
 
 import java.util.List;
 

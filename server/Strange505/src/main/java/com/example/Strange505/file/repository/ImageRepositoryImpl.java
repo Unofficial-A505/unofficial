@@ -1,8 +1,6 @@
-package com.example.Strange505.board.repository;
+package com.example.Strange505.file.repository;
 
-import com.example.Strange505.board.domain.Comment;
-import com.example.Strange505.board.domain.Image;
-import com.example.Strange505.board.domain.QComment;
+import com.example.Strange505.file.entity.Image;
 import com.example.Strange505.board.domain.QImage;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

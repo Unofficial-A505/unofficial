@@ -1,11 +1,8 @@
-package com.example.Strange505.board.domain;
+package com.example.Strange505.file.entity;
 
-import com.example.Strange505.board.dto.UploadFile;
+import com.example.Strange505.board.domain.Article;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
 
 @Entity
 @Builder

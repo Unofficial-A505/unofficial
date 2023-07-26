@@ -1,6 +1,6 @@
-package com.example.Strange505.board.file;
+package com.example.Strange505.file.fileStore;
 
-import com.example.Strange505.board.dto.UploadFile;
+import com.example.Strange505.file.dto.UploadFile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;

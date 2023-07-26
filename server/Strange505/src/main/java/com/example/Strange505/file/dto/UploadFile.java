@@ -1,4 +1,4 @@
-package com.example.Strange505.board.dto;
+package com.example.Strange505.file.dto;
 
 import lombok.Data;
 

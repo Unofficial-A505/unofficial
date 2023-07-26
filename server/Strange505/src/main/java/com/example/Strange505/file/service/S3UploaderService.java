@@ -1,4 +1,4 @@
-package com.example.Strange505.file.Service;
+package com.example.Strange505.file.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
