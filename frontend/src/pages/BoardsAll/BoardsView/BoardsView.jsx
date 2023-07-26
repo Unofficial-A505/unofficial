@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
-import PostsView from './PostsView'
+import PostsView from '../../../components/PostView/PostView'
 
 export default function BoardsView( ){
   const [ posts, setPosts ] = useState([]);

@@ -58,9 +58,9 @@ const router = createBrowserRouter([
           { path: 'advertisement', element: <MypageAdver />},
         ]
       },
-      { path: 'boards/search/:keyword', element: <SearchView /> },
       { path: 'boards/:boardTitle/create', element: <CreatePostPage /> },
-      { path: 'boards/:boardTitle/:postId', element: <PostDetail /> },
+      { path: 'boards/:boardTitle/:postId', element: <PostDetail />,}, 
+      { path: 'boards/search/:keyword', element: <SearchView /> },
       { 
         path: 'boards',
         element: <BoardsAll />,

@@ -69,9 +69,11 @@ export default function PostDetail(){
       })
       .catch((err) => console.log(err))
 
+      window.scrollTo({ top: 0, behavior: "smooth" }); 
+
       return () => {  
         console.log('unmounted')}
-        }, []);
+      }, [postId]);
 
   // const { isLoading, error, data: hello } = useQuery(
   //   ['hello', postId ], () => 

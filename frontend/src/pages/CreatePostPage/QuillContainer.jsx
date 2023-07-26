@@ -17,6 +17,18 @@ import TopSpace from '../../components/TopSpace/TopSpace';
 import UnderSpace from '../../components/UnderSpace/UnderSpace';
 
 Quill.register('modules/ImageResize', ImageResize);
+
+const Title = styled.h3`
+    margin: 0 0 0 10px;
+    text-align: start;
+    color: #000;s
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700px;
+    line-height: normal;
+    display: flex;
+    `
 const QuillContainer = () => {
     const navigate = useNavigate();
     const { boardTitle } = useParams();
@@ -26,26 +38,15 @@ const QuillContainer = () => {
     const quillElement = useRef(null); 
     const imageURL = 'https://plus.unsplash.com/premium_photo-1682855669043-fd359f155d3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=505&q=80'
     
-    // styled components
-    const Title = styled.h3`
-    margin: 0 0 0 10px;
-    text-align: start;
-    color: #000;
-    font-family: Inter;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 700px;
-    line-height: normal;
-    display: flex;
-    `
-    const TitleInput = styled.input`
-    font-size: 3rem;
-    outline: none;
-    padding-button: 0.5rem;
-    border: none;
-    margin-bottom: 2rem;
-    width: 100%;
-    `
+    // // styled components
+    // const TitleInput = styled.input`
+    // font-size: 3rem;
+    // outline: none;
+    // padding-button: 0.5rem;
+    // border: none;
+    // margin-bottom: 2rem;
+    // width: 100%;
+    // `
     
     const modules = {
         toolbar: {
@@ -141,7 +142,7 @@ const QuillContainer = () => {
         url: `http://127.0.0.1:8000/api/v1/articles/`,
         data: {
           title,
-        content,
+          content,
         },
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
@@ -151,7 +152,9 @@ const QuillContainer = () => {
         navigate(`/boards/${boardTitle}/${res.data.id}`, { replace: true });
         console.log(res.data);
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        console.log(err)
+        })
     }
 
     // 이외 함수들
@@ -170,7 +173,8 @@ const QuillContainer = () => {
       </div>
       
         <div>
-          <TitleInput placeholder="제목을 입력하세요" ref={TitleElement} onChang={changetitleValue}/>
+          <input className={styles.inputTitle} type="text" placeholder="제목을 입력하세요" ref={TitleElement}/>
+          {/* <TitleInput placeholder="제목을 입력하세요" ref={TitleElement}/> */}
         </div>
 
         <ReactQuill 
@@ -185,17 +189,13 @@ const QuillContainer = () => {
           ref={quillElement}
         />
 
-
-         <div className={styles.bottomMargin}>
-        </div>
-
-          <button onClick={() => console.log(quillElement.current.editor.root.innerHTML)}>html까지 뽑고싶어</button>
+          {/* <button onClick={() => console.log(quillElement.current.editor.root.innerHTML)}>html까지 뽑고싶어</button>
           <button onClick={() => console.log(quillElement.current.editor)}>제목 input value</button>
           <button onClick={() => {
             console.log(quillElement.current)
             // const range = quillElement.current.getSelection();
             quillElement.current.editor.insertEmbed(quillElement.current.editor.root, 'image', `${imageURL}`);
-            }}>이미지 태그로 삽입하기 테스트</button> 
+            }}>이미지 태그로 삽입하기 테스트</button>  */}
         <div className={styles.undermenu}>
           <button className={styles.grayoutbutton} onClick={handleCancel}><IoIosArrowBack />목록으로 돌아가기</button>
           <button className='btn' id={styles.createsubmitbutton} onClick={createPost}>게시하기</button>

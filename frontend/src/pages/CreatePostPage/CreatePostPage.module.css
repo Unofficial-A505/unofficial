@@ -13,9 +13,30 @@
   margin: 20px 0 0 0;
 }
 
+.boardnameTitle {
+  margin: 0 0 0 10px;
+  text-align: start;
+  color: #000;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700px;
+  line-height: normal;
+  display: flex;
+}
+
 #createpagetitle {
   text-align: start;
   margin: 20px 0 10px 0;
+}
+
+.inputTitle {
+  font-size: 3rem;
+  outline: none;
+  padding-button: 0.5rem;
+  border: none;
+  margin-bottom: 2rem;
+  width: 100%;
 }
 
 .editorcontainer {
