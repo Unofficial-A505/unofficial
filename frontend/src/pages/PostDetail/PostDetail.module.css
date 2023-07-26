@@ -15,10 +15,8 @@
 }
 
 /* post 내용 container */
-
 .postviewContainer {
   width: 1000px;
-
   border: 1px dotted aqua;
 }
 
@@ -160,7 +158,20 @@
   background-color: rgba(208, 208, 208, 0.264);        
 }
 
-/* comment list here */
+/* comment detail here */
+
+.commentBottombar {
+  margin: 10px 20px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.commentIcons {
+  margin: 10px 5px;
+  cursor: pointer;
+} 
+
 
 /* comment pagination */
 .commentPagination {

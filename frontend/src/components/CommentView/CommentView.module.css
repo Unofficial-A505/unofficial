@@ -23,6 +23,7 @@
 
 .commentIcons {
   margin: 10px 5px;
+  cursor: pointer;
 }
 
 .commentContent {
