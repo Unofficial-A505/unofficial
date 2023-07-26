@@ -86,7 +86,10 @@ public class CommentServiceImpl implements CommentService {
     public void deleteComment(Long id) {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new RuntimeException());
         comment.remove();
+
         List<Comment> removableCommentList = comment.findRemovableList();
+        log.info("removeList = {}", removableCommentList);
         commentRepository.deleteAll(removableCommentList);
+        System.out.println("서비스단");
     }
 }
