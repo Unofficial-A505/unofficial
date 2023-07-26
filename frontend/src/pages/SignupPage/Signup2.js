@@ -64,7 +64,7 @@ export default function Signup2(){
     }
     setDuplicationMent(<p style={{color: 'green'}}>확인 중입니다.</p>)
     
-    const serverURL = 'http://unofficial.kr:8080'
+    const serverURL = 'https://unofficial.kr'
 
     axios
       .post(`${serverURL}/api/verify`, { email: userEmail })

@@ -42,7 +42,7 @@ export default function Login({ setModalOpen }){
   }
 
   // 로그인 유저 인증
-  const serverURL = 'http://unofficial.kr:8080';
+  const serverURL = 'https://unofficial.kr';
 
   const requestLogin = async ()=>{
     try {
@@ -82,7 +82,7 @@ export default function Login({ setModalOpen }){
         <form>
           <div>
             <input type="email" className="form-control mb-1" placeholder="이메일" onChange={onEmailHandler} />
-            <input type="password" className="form-control" placeholder="비밀번호" onChange={onPasswordHandler} />
+            <input type="password" className="form-control" placeholder="비밀번호" autoComplete="off" onChange={onPasswordHandler} />
           </div>
           <input className='mt-3' type="submit" value="로그인" onClick={login} />
         </form>
