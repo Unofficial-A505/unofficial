@@ -79,19 +79,24 @@
 }
 
 .boardtab {
-  margin: 10px;
+  margin: 6px;
   color: #000;
-  font-family: Roboto;
-  font-size: 18px;
+
+  border: 0;
+  background-color: transparent;
+
+  font-size: 17px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
 }
 
 .boardtab:hover {
   color: #034BB9;
   /* font-size: 21.044px; */
   font-weight: 700;
+  text-underline-position: under;
 }
 
 .boardcontainer{
@@ -105,4 +110,8 @@
   width: 80px;
 
   border: 1px dotted red;
+}
+
+.createpageIcon {
+  margin: 0 5px 5px 0;;
 }

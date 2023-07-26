@@ -66,7 +66,7 @@ export default function BoardsAll(){
             <button key={index} className={styles.boardtab} onClick={() => navigate(`/boards/${board.title}`)}>{board.title}</button>)}
         </div>
         <div>
-          <button onClick={() => navigate(`/boards/${boardTitle}/create`)}><CgAddR size={20}/>새 글 작성</button>
+          <button className={styles.boardtab} onClick={() => navigate(`/boards/${boardTitle}/create`)}><CgAddR className={styles.createpageIcon}/>새 글 작성</button>
         </div>
       </div>
         <div>
