@@ -1,49 +1,64 @@
-# This file is a template, and might need editing before it works on your project.
-# This is a sample GitLab CI/CD configuration file that should run without any modifications.
-# It demonstrates a basic 3 stage CI/CD pipeline. Instead of real tests or scripts,
-# it uses echo commands to simulate the pipeline execution.
-#
-# A pipeline is composed of independent jobs that run scripts, grouped into stages.
-# Stages run in sequential order, but jobs within stages run in parallel.
-#
-# For more information, see: https://docs.gitlab.com/ee/ci/yaml/index.html#stages
-#
-# You can copy and paste this template into a new `.gitlab-ci.yml` file.
-# You should not add this template to an existing `.gitlab-ci.yml` file by using the `include:` keyword.
-#
-# To contribute improvements to CI/CD templates, please follow the Development guide at:
-# https://docs.gitlab.com/ee/development/cicd/templates.html
-# This specific template is located at:
-# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
-
 stages:          # List of stages for jobs, and their order of execution
   - build
   - test
+  - package
   - deploy
 
-build-job:       # This job runs in the build stage, which runs first.
+build:       # This job runs in the build stage, which runs first.
+  image: openjdk:17.0.1-oraclelinux8
   stage: build
-  script:
-    - echo "Compiling the code..."
-    - echo "Compile complete."
+  script: 
+    - cd ./server/Strange505
+    - ./gradlew clean
+    - ./gradlew build
+  artifacts:
+    paths: 
+      - /server/Strange505/build/libs/*.jar
+    expire_in: 10 min
 
-unit-test-job:   # This job runs in the test stage.
+test:   # This job runs in the test stage.
+  image: openjdk:17.0.1-oraclelinux8
   stage: test    # It only starts when the job in the build stage completes successfully.
   script:
-    - echo "Running unit tests... This will take about 60 seconds."
-    - sleep 60
-    - echo "Code coverage is 90%"
+    - ./gradlew test
 
-lint-test-job:   # This job also runs in the test stage.
-  stage: test    # It can run at the same time as unit-test-job (in parallel).
+package: 
+  image: docker:latest
+  stage: package
+  variables:
+    IMAGE_NAME: strangedev505/springboot-app
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u $DOCKER_HUB_USER --password-stdin < $DOCKER_HUB_PW
   script:
-    - echo "Linting code... This will take about 10 seconds."
-    - sleep 10
-    - echo "No lint issues found."
+    - docker build -t $IMAGE_NAME .
+    - docker push $IMAGE_NAME
+  after_script:
+    - docker logout
 
-deploy-job:      # This job runs in the deploy stage.
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
-  environment: production
+deploy-was1:      # This job runs in the deploy stage.
+  stage: deploy 
+  tags:
+    - deployer
+  before_script:
+    - docker login -u $DOCKER_HUB_USER --password-stdin < $DOCKER_HUB_PW
   script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
+    - docker stop springboot-app || true
+    - docker rm springboot-app || true
+    - docker rmi strangedev505/springboot-app:lastest || true
+    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.50 --name springboot-app strangedev505/springboot-app:lastest
+
+deploy-was2:      # This job runs in the deploy stage.
+  stage: deploy 
+  tags:
+    - deployer
+  script:
+    - docker stop springboot-app2 || true
+    - docker rm springboot-app2 || true
+    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.51 --name springboot-app2 strangedev505/springboot-app:lastest
+  after_script:
+    - docker logout
+  when: on_success
+  only: 
+    - master
