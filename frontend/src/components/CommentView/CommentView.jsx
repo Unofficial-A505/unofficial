@@ -11,25 +11,12 @@ import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 // 수정 아이콘
 import { HiOutlinePencilAlt } from '@react-icons/all-files/hi/HiOutlinePencilAlt';
 
-export default function CommentView({ comment }){
+export default function CommentView({ comment, CommentDelete }){
   const commentRecommended = 0
   const comentContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce venenatis velit id justo vulputate eleifend. Integer maximus sapien enim, vel faucibus risus auctor vel. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus hendrerit tincidunt diam sed accumsan. Aenean rhoncus erat et nisi lobortis, nec tincidunt elit finibus. Cras ipsum nulla, egestas non nisl vel, pharetra mollis tellus. Nullam dignissim metus lectus, at faucibus ex lacinia a. Proin tristique augue ut turpis tincidunt lacinia.'
   const [ updateState, setupdateState ] = useState(false)
+  const { id, content } = comment
   console.log('rendering')
-  
-  const CommentDelete = (id) => {
-    axios({
-      method: "delete",
-      url: `http://127.0.0.1:8000/api/v1/comments/${comment.id}/`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.log(err))
-    }
 
   if (!updateState) {
     return(
@@ -50,7 +37,10 @@ export default function CommentView({ comment }){
           {/* <div><FaRegThumbsUp className={styles.commentIcons}/><span>{commentRecommended}</span></div> */}
           <div>
             <span className={styles.commentIcons}><HiOutlinePencilAlt size='20'/></span>
-            <span className={styles.commentIcons} onClick={CommentDelete}><IoTrashOutline size='20' /></span>
+            <span className={styles.commentIcons} onClick={() => {
+              CommentDelete(id)
+              console.log(id)
+            }}><IoTrashOutline size='20' /></span>
           </div>
         </div>
         <hr />

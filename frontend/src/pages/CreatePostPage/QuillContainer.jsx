@@ -186,7 +186,7 @@ const QuillContainer = () => {
         />
 
 
-         {/* <div className={styles.bottomMargin}>
+         <div className={styles.bottomMargin}>
         </div>
 
           <button onClick={() => console.log(quillElement.current.editor.root.innerHTML)}>html까지 뽑고싶어</button>
@@ -195,7 +195,7 @@ const QuillContainer = () => {
             console.log(quillElement.current)
             // const range = quillElement.current.getSelection();
             quillElement.current.editor.insertEmbed(quillElement.current.editor.root, 'image', `${imageURL}`);
-            }}>이미지 태그로 삽입하기 테스트</button>  */}
+            }}>이미지 태그로 삽입하기 테스트</button> 
         <div className={styles.undermenu}>
           <button className={styles.grayoutbutton} onClick={handleCancel}><IoIosArrowBack />목록으로 돌아가기</button>
           <button className='btn' id={styles.createsubmitbutton} onClick={createPost}>게시하기</button>

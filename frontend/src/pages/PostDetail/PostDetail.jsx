@@ -28,7 +28,6 @@ import { HiOutlineSpeakerphone } from '@react-icons/all-files/hi/HiOutlineSpeake
 import { IoChatboxOutline } from '@react-icons/all-files/io5/IoChatboxOutline';
 
 // API import 
-
 export default function PostDetail(){
   const navigate = useNavigate();
   const { boardTitle } = useParams();
@@ -172,7 +171,7 @@ const commentCreate = () => {
             <hr />
             {comments.map((comment, index) =>
               <div key={index}> 
-                <CommentView comment={comment}/>
+                <CommentView comment={comment} CommentDelete={CommentDelete}/>
 
                 {/* <div className={styles.commentBottombar}>
                   <div><IoChatboxOutline className={styles.commentIcons}/><span>대댓글</span></div>
