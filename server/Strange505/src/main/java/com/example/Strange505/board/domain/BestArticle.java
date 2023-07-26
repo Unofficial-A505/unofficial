@@ -16,6 +16,7 @@ public class BestArticle {
 
     @Id
     @GeneratedValue
+    @Column(name = "best_article_id")
     private Long id;
 
     @OneToOne

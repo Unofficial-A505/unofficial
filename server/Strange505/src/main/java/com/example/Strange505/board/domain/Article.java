@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -38,8 +39,11 @@ public class Article {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @OneToOne(mappedBy = "best_article_id")
+    @OneToOne(mappedBy = "article")
     private BestArticle bestArticle;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
 
     private Integer likes;
     private Integer views;
