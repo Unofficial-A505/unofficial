@@ -7,6 +7,8 @@ import com.example.Strange505.board.dto.CommentResponseDto;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.CommentRepository;
 import com.example.Strange505.user.domain.User;
+import com.example.Strange505.user.repository.UserRepository;
+import com.example.Strange505.user.service.AuthService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,13 +26,13 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final ArticleRepository articleRepository;
+    private final UserRepository userRepository;
 
     @Override
     public void createComment(CommentRequestDto dto) {
         Article article = articleRepository.getReferenceById(dto.getArticleId());
-
         Comment parent = commentRepository.findById(dto.getParentId()).orElse(null);
-        User user = null;
+        User user = userRepository.findById(dto.getUserId()).orElse(null);
         Comment comment = Comment.builder()
                 .article(article)
                 .content(dto.getContent())
@@ -82,6 +84,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void deleteComment(Long id) {
-        commentRepository.deleteById(id);
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        comment.remove();
+        List<Comment> removableCommentList = comment.findRemovableList();
+        commentRepository.deleteAll(removableCommentList);
     }
 }

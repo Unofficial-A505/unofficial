@@ -22,7 +22,11 @@ public class QArticle extends EntityPathBase<Article> {
 
     public static final QArticle article = new QArticle("article");
 
+    public final QBestArticle bestArticle;
+
     public final QBoard board;
+
+    public final ListPath<Comment, QComment> comments = this.<Comment, QComment>createList("comments", Comment.class, QComment.class, PathInits.DIRECT2);
 
     public final StringPath content = createString("content");
 
@@ -60,6 +64,7 @@ public class QArticle extends EntityPathBase<Article> {
 
     public QArticle(Class<? extends Article> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.bestArticle = inits.isInitialized("bestArticle") ? new QBestArticle(forProperty("bestArticle"), inits.get("bestArticle")) : null;
         this.board = inits.isInitialized("board") ? new QBoard(forProperty("board")) : null;
         this.user = inits.isInitialized("user") ? new com.example.Strange505.user.domain.QUser(forProperty("user")) : null;
     }
