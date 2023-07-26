@@ -8,7 +8,7 @@ import com.example.Strange505.board.dto.UploadFile;
 import com.example.Strange505.board.file.FileStore;
 import com.example.Strange505.board.service.ArticleService;
 import com.example.Strange505.board.service.ImageService;
-import jakarta.servlet.http.HttpServletRequest;
+import com.example.Strange505.file.Service.S3UploaderService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -31,6 +31,7 @@ public class ArticleController {
     private final ArticleService articleService;
     private final FileStore fileStore;
     private final ImageService imageService;
+    private final S3UploaderService s3Uploader;
 
     @PostMapping
     public ResponseEntity<?> registerArticle(@RequestBody ArticleRequestDto dto) {
@@ -101,6 +102,13 @@ public class ArticleController {
                         findArticle.getCreateTime(), findArticle.getModifyTime())));
 
         return new ResponseEntity<>(articleResponseDtoList, HttpStatus.OK);
+    }
+
+    @PostMapping("/uploadImage")
+    @ResponseBody
+    public ResponseEntity<String> upload(@ModelAttribute ArticleController.ImageForm form) throws IOException {
+        MultipartFile file = form.getUploadFile().get(0);
+        return ResponseEntity.ok(s3Uploader.upload(file, "static"));
     }
 
     @PostMapping("/images")

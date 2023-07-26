@@ -1,4 +1,4 @@
-package com.example.Strange505.s3.Config;
+package com.example.Strange505.file.Config;
 
 import org.springframework.context.annotation.Configuration;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
