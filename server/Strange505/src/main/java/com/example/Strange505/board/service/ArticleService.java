@@ -7,19 +7,21 @@ import java.util.List;
 
 public interface ArticleService {
 
-    Article createArticle(ArticleRequestDto articleDTO, String jwt);
+    Article createArticle(ArticleRequestDto articleDTO, Long userId);
 
     Article getArticleById(Long id);
 
     List<Article> getAllArticles();
 
-    List<Article> getArticlesByTitle(String title);
+    List<Article> getArticlesByTitle(String title, Long boardId);
 
-    List<Article> getArticlesByContent(String content);
+    List<Article> getArticlesByContent(String content, Long boardId);
 
     List<Article> getArticlesByUser(Long userId);
 
     void updateArticle(Long id, ArticleRequestDto articleDTO);
 
     void deleteArticle(Long id);
+
+    void addViewCount(Long id);
 }

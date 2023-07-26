@@ -40,8 +40,8 @@ class ArticleServiceImplTest {
                 .boardName(board.getName())
                 .build();
 
-        Article savedArticle = articleService.createArticle(articleDTO, "");
-        List<Article> articles = articleService.getArticlesByTitle("제목");
+        Article savedArticle = articleService.createArticle(articleDTO, 1L);
+        List<Article> articles = articleService.getArticlesByTitle("제목", 0L);
         Article searchedArticle = articles.get(0);
 //        assertThat("제목").isEqualTo(searchedArticle.getTitle());
         assertThat(savedArticle).isEqualTo(searchedArticle);
@@ -50,7 +50,7 @@ class ArticleServiceImplTest {
 
     @Test
     public void 게시글_내용_검색() {
-        List<Article> articles = articleService.getArticlesByContent("내");
+        List<Article> articles = articleService.getArticlesByContent("내", 0L);
         Article searchedArticle = articles.get(0);
         System.out.println(searchedArticle.getContent());
     }
@@ -68,7 +68,7 @@ class ArticleServiceImplTest {
                 .boardName("게시판")
                 .build();
         articleService.updateArticle(1L, articleDTO);
-        List<Article> articles = articleService.getArticlesByContent("내");
+        List<Article> articles = articleService.getArticlesByContent("내", 0L);
         Article searchedArticle = articles.get(0);
         assertThat("수정_제목").isEqualTo(searchedArticle.getTitle());
     }
@@ -81,7 +81,7 @@ class ArticleServiceImplTest {
                 .boardName("2_게시판")
                 .build();
 
-        Article savedArticle = articleService.createArticle(articleDTO, "");
+        Article savedArticle = articleService.createArticle(articleDTO, 1L);
         articleService.deleteArticle(savedArticle.getId());
         List<Article> articles = articleService.getAllArticles();
         assertThat(articles.size()).isEqualTo(1);
