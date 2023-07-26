@@ -1,88 +1,85 @@
-import styles from './LunchCarousel.module.css'
+import styles from "./LunchCarousel.module.css";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import Card from "./Card";
 import Carousel from "./Carousel";
 
 export default function LunchCarousel() {
-  let lunchInfo = [
-    {
-      "id": 0,
-      "date": "20230724",
-      "restaurantId": "REST000133",
-      "imageUrl": "http://samsungwelstory.com/data/manager/recipe/E110/20230724/s20230704181635.jpg",
-      "name": "만둣국 (1,367)",
-      "detail": "만둣국,현미밥,오징어김치전,시래기된장조림,도라지오이생채,소떡소떡꼬치,깍두기,오미자차",
-      "likes": 2,
-      "local": "서울",
-      "courseName": "A:한식"
-    },
-    {
-      "id": 1,
-      "date": "20230724",
-      "restaurantId": "REST000133",
-      "imageUrl": "http://samsungwelstory.com/data/manager/recipe/E110/20230724/s20220829181739.png",
-      "name": "짬뽕밥 (1,634)",
-      "detail": "짬뽕밥,강황탕수육,소떡소떡꼬치,게맛살겨자냉채,짜사이채무침,김치,오미자차",
-      "likes": 0,
-      "local": "서울",
-      "courseName": "B:일품"
-    },
-    {
-      "id": 2,
-      "date": "20230724",
-      "restaurantId": "REST000133",
-      "imageUrl": "http://samsungwelstory.com/data/manager/recipe/E110/20230724/s20230704181635.jpg",
-      "name": "만둣국 (1,367)",
-      "detail": "만둣국,현미밥,오징어김치전,시래기된장조림,도라지오이생채,소떡소떡꼬치,깍두기,오미자차",
-      "likes": 2,
-      "local": "서울",
-      "courseName": "A:한식"
-    },
-    {
-      "id": 3,
-      "date": "20230724",
-      "restaurantId": "REST000133",
-      "imageUrl": "http://samsungwelstory.com/data/manager/recipe/E110/20230724/s20220829181739.png",
-      "name": "짬뽕밥 (1,634)",
-      "detail": "짬뽕밥,강황탕수육,소떡소떡꼬치,게맛살겨자냉채,짜사이채무침,김치,오미자차",
-      "likes": 0,
-      "local": "서울",
-      "courseName": "B:일품"
-    },
-    {
-      "id": 4,
-      "date": "20230724",
-      "restaurantId": "REST000133",
-      "imageUrl": "http://samsungwelstory.com/data/manager/recipe/E110/20230724/s20230704181635.jpg",
-      "name": "만둣국 (1,367)",
-      "detail": "만둣국,현미밥,오징어김치전,시래기된장조림,도라지오이생채,소떡소떡꼬치,깍두기,오미자차",
-      "likes": 2,
-      "local": "서울",
-      "courseName": "A:한식"
-    },
-  ]
- 
-  let cards = []
-  
-  lunchInfo.map((lunch)=>{
-    return cards.push({
-      key: uuidv4(),
-      content: (
-      <Card meal={lunch} />
-      )
-    })
-  })
+  // let [lunchInfo, setLunchInfo] = useState([]);
+  const [cards, setCards] = useState([]);
+  const [today, setToday] = useState("");
+
+  // 오늘 날짜 구하기
+  useEffect(() => {
+    const newDate = new Date();
+    const year = newDate.getFullYear().toString();
+    let month = (newDate.getMonth() + 1).toString();
+    if (month.length === 1) {
+      month = "0" + month;
+    }
+    const date = newDate.getDate().toString();
+    const todayDate = year + month + date;
+    setToday(todayDate);
+  }, []);
+
+  // 점심 메뉴 가져오기
+  useEffect(() => {
+    const fetchLunchInfo = async () => {
+      try {
+        const response = await axios.get(
+          "https://unofficial.kr/api/lunch?date=20230731"
+          // `https://unofficial.kr/api/lunch?date=${today}`
+        );
+
+        const lunchData = response.data;
+
+        // 지역별 식단 카드 만들기
+        const cardsByLocal = {};
+        lunchData.forEach((lunch) => {
+          if (!cardsByLocal[lunch.local]) {
+            cardsByLocal[lunch.local] = [];
+          }
+
+          cardsByLocal[lunch.local].push({
+            key: lunch.id,
+            content: <Card lunch={lunch} />,
+          });
+        });
+        // 지역별 카드를 하나의 배열로 합치기
+        const mergedCards = Object.values(cardsByLocal).flat();
+
+        // 카드 업데이트
+        setCards(mergedCards);
+
+        // // 카드에 파싱하기
+        // const newCards = lunchInfo.map((lunch) => ({
+        //   key: uuidv4(),
+        //   content: <Card lunch={lunch} />,
+        // }));
+        //
+        // setCards(newCards);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    if (today) {
+      fetchLunchInfo();
+    }
+  }, [today]);
+
+  console.log("cards", cards);
 
   return (
     <div className={styles.LunchCarousel}>
       <Carousel
-        cards = {cards}
+        cards={cards}
         height="500px"
         width="50%"
         margin="0 auto"
         offset={2}
         showArrows={false}
-    />
+      />
     </div>
   );
 }

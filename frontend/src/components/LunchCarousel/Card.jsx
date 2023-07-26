@@ -1,42 +1,42 @@
-import Styles from "./Card.module.css";
+import styles from "./Card.module.css";
 import { animated } from "react-spring";
 
-export default function Card({meal}) {
+export default function Card({ lunch }) {
   return (
-    <animated.div className={Styles.card}>
-      <div className={Styles.title}>
-        <p>{meal.local} 캠퍼스</p>
+    <animated.div className={styles.card}>
+      <div className={styles.title}>
+        <p>{lunch.local} 캠퍼스</p>
       </div>
-      <div className={Styles.menus}>
-        <Menu meal={meal}/>
-        <Menu meal={meal}/>
-        <Menu meal={meal}/>
+      <div className={styles.menus}>
+        <Menu lunch={lunch} />
+        <Menu lunch={lunch} />
+        <Menu lunch={lunch} />
       </div>
     </animated.div>
   );
 }
 
-function Menu({meal}){
-
-  const { name, cal } = extractNameAndCal(meal.name);
+function Menu({ lunch }) {
+  const { name, cal } = extractNameAndCal(lunch.name);
+  console.log("메뉴");
 
   return (
-    <div className={Styles.menu}>
-      <img className={Styles.cover} src={meal.imageUrl} alt={name} />
+    <div className={styles.menu}>
+      <img className={styles.cover} src={lunch.imageUrl} alt={name} />
       <div className="d-flex justify-content-between mb-1">
-        <p>{meal.courseName}</p>
+        <p>{lunch.courseName}</p>
         <p>{cal}kcal</p>
       </div>
       <h2 className="mb-1">{name}</h2>
-      <p className={Styles.detail}>{meal.detail}</p>
+      <p className={styles.detail}>{lunch.detail}</p>
     </div>
-  )
+  );
 }
 
-// '만둣국 (1367)' => name:'만둣국', cal:'1367'로 parsing 
+// '만둣국 (1367)' => name:'만둣국', cal:'1367'로 parsing
 function extractNameAndCal(str) {
-  const regex = /(.+) \(([\d,]+)\)/
-  const match = str.match(regex)
+  const regex = /(.+) \(([\d,]+)\)/;
+  const match = str.match(regex);
 
   if (match) {
     const name = match[1].trim();
