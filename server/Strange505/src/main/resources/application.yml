@@ -11,11 +11,13 @@ spring:
       max-file-size: 5MB
       max-request-size: 5MB
 
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3308/ssafy_web_db?serverTimezone=Asia/Seoul
     username: root
     password: 1234
+
 #  datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://i9a505.p.ssafy.io:3306/ssafy_web_db?serverTimezone=Asia/Seoul
@@ -32,6 +34,7 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
+        default_batch_fetch_size: 10
         format_sql: true
 
   mail:
@@ -50,7 +53,8 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug
-    org.hibernate.type: trace
+    org.hibernate.type: debug
+    p6spy: info
 
 jwt:
   secret: VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4=VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4= # 임의의 문자열을 Base64로 인코딩한 값
@@ -74,3 +78,8 @@ file:
 
 mail:
   base-url : "http://localhost:8080/api/verify?verificationCode="
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
