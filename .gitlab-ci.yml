@@ -40,7 +40,7 @@ package:
 deploy-was1:      # This job runs in the deploy stage.
   stage: deploy 
   tags:
-    - latest
+    - deployer
   before_script:
     - docker login -u $DOCKER_HUB_USER --password-stdin < $DOCKER_HUB_PW
   script:
@@ -52,7 +52,7 @@ deploy-was1:      # This job runs in the deploy stage.
 deploy-was2:      # This job runs in the deploy stage.
   stage: deploy 
   tags:
-    - latest
+    - deployer
   script:
     - docker stop springboot-app2 || true
     - docker rm springboot-app2 || true
