@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 570px;
     padding: 1rem 0.5rem;
     border: 0.1px solid #ccc;
     border-radius: 8px;
@@ -16,7 +15,7 @@
 }
 .title {
     width : 100%;
-    background-color: #ffffff;
+    background-color: #fafafa;
 }
 .title p {
     text-align: center;
@@ -28,13 +27,15 @@
     background-color: #fafafa;
 }
 .menu {
+    width: 12rem;
     display: flex;
     flex-direction: column;
     padding: 0.2rem;
 }
 .menu img {
     width: 100%;
-    height: auto;
+    height: 10rem;
+    object-fit: cover;
     margin-top: 0;
     margin-bottom: 0.5rem;
     border: 0.2px solid #cdcdcd;
@@ -66,7 +67,7 @@
 }
 
 /* 반응형 스타일 */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .card {
         width: 330px
     }
@@ -75,4 +76,4 @@
     .card {
         width: 270px
     }
-}
+} */

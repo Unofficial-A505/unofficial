@@ -6,78 +6,160 @@ import Card from "./Card";
 import Carousel from "./Carousel";
 
 export default function LunchCarousel() {
-  // let [lunchInfo, setLunchInfo] = useState([]);
+
+  // let cards = []
   const [cards, setCards] = useState([]);
-  const [today, setToday] = useState("");
+  // const [lunchData, setLunchData] = useState([]);
 
-  // 오늘 날짜 구하기
-  useEffect(() => {
-    const newDate = new Date();
-    const year = newDate.getFullYear().toString();
-    let month = (newDate.getMonth() + 1).toString();
-    if (month.length === 1) {
-      month = "0" + month;
-    }
-    const date = newDate.getDate().toString();
-    const todayDate = year + month + date;
-    setToday(todayDate);
-  }, []);
+  // // 오늘 날짜 가져오기
+  // const getTodayDate = () => {
+  //   const newDate = new Date();
+  //   const year = newDate.getFullYear().toString();
+  //   let month = (newDate.getMonth() + 1).toString().padStart(2, '0');
+  //   let date = newDate.getDate().toString().padStart(2, '0');
+  //   return `${year}${month}${date}`;
+  // };
 
-  // 점심 메뉴 가져오기
-  useEffect(() => {
-    const fetchLunchInfo = async () => {
-      try {
-        const response = await axios.get(
-          "https://unofficial.kr/api/lunch?date=20230731"
-          // `https://unofficial.kr/api/lunch?date=${today}`
-        );
+  // // API 호출로 점심메뉴 데이터 가져오기
+  // const fetchLunchData = async () => {
+  //   try {
+  //     const today = getTodayDate();
+  //     const response = await axios.get(
+  //       "https://unofficial.kr/api/lunch?date=20230731"
+  //       // `https://unofficial.kr/api/lunch?date=${today}`
+  //     );
+  //     setLunchData(response.data);
+  //   } catch (error) {
+  //     console.log('API 호출 요류', error);
+  //   }
+  // };
 
-        const lunchData = response.data;
+  // 지역별 식단 정보 나눠 저장하기
+  const groupByLocal = (lunchData) => {
+    const localLunchData = [[], [], [], [], []];
 
-        // 지역별 식단 카드 만들기
-        const cardsByLocal = {};
-        lunchData.forEach((lunch) => {
-          if (!cardsByLocal[lunch.local]) {
-            cardsByLocal[lunch.local] = [];
-          }
-
-          cardsByLocal[lunch.local].push({
-            key: lunch.id,
-            content: <Card lunch={lunch} />,
-          });
-        });
-        // 지역별 카드를 하나의 배열로 합치기
-        const mergedCards = Object.values(cardsByLocal).flat();
-
-        // 카드 업데이트
-        setCards(mergedCards);
-
-        // // 카드에 파싱하기
-        // const newCards = lunchInfo.map((lunch) => ({
-        //   key: uuidv4(),
-        //   content: <Card lunch={lunch} />,
-        // }));
-        //
-        // setCards(newCards);
-      } catch (err) {
-        console.log(err);
+    lunchData.forEach((lunch) => {
+      switch (lunch.local) {
+        case '서울':
+          localLunchData[0].push(lunch);
+          break;
+        case '광주':
+          localLunchData[1].push(lunch);
+          break;
+        case '구미':
+          localLunchData[2].push(lunch);
+          break;
+        case '대전':
+          localLunchData[3].push(lunch);
+          break;
+        case '부울경':
+          localLunchData[4].push(lunch);
+          break;
+        default:
+          break;
       }
-    };
-    if (today) {
-      fetchLunchInfo();
-    }
-  }, [today]);
+    });
+    return localLunchData;
+  };
 
-  console.log("cards", cards);
+  // 지역별 식단메뉴 카드 만들기
+  const createCards = (localLunchData) => {
+    console.log('createCards', localLunchData);
+    const newCards = localLunchData.map((data) => {
+      return {
+        key : uuidv4(),
+        content : (
+          <Card lunchZip={data} key={data[0].id} />
+        )
+      };
+    });
+
+    setCards(newCards);
+  };
+  console.log('cards', cards);
+
+  useEffect(() => {
+    let lunchData = [
+      {
+        "id": 1,
+        "date": "20230731",
+        "restaurantId": "REST000133",
+        "imageUrl": "http://samsungwelstory.com/data/manager/recipe/main/100026/1281.png",
+        "name": "돼지갈비찜 (1,045)",
+        "detail": "돼지갈비찜,흑미밥,비지찌개,잡채,오이양파무침,깍두기,ICE초코",
+        "likes": 0,
+        "local": "서울",
+        "courseName": "A:한식"
+      },
+      {
+        "id": 2,
+        "date": "20230731",
+        "restaurantId": "REST000133",
+        "imageUrl": "http://samsungwelstory.com/data/manager/recipe/E110/20230731/s20221007145950.png",
+        "name": "왕새우튀김우동 (1,272)",
+        "detail": "왕새우튀김우동,오복지볶음밥,핫도그,음료,코올슬로,매운미역오이초무침,김치,ICE초코",
+        "likes": 0,
+        "local": "서울",
+        "courseName": "B:일품"
+      },
+      {
+        "id": 3,
+        "date": "20230731",
+        "restaurantId": "REST000133",
+        "imageUrl": "http://samsungwelstory.com/data/manager/recipe/main/100026/1281.png",
+        "name": "돼지갈비찜 (1,045)",
+        "detail": "돼지갈비찜,흑미밥,비지찌개,잡채,오이양파무침,깍두기,ICE초코",
+        "likes": 0,
+        "local": "대전",
+        "courseName": "A:한식"
+      },
+      {
+        "id": 4,
+        "date": "20230731",
+        "restaurantId": "REST000133",
+        "imageUrl": "http://samsungwelstory.com/data/manager/recipe/E110/20230731/s20221007145950.png",
+        "name": "왕새우튀김우동 (1,272)",
+        "detail": "왕새우튀김우동,오복지볶음밥,핫도그,음료,코올슬로,매운미역오이초무침,김치,ICE초코",
+        "likes": 0,
+        "local": "구미",
+        "courseName": "B:일품"
+      },
+      {
+        "id": 5,
+        "date": "20230731",
+        "restaurantId": "REST000133",
+        "imageUrl": "http://samsungwelstory.com/data/manager/recipe/main/100026/1281.png",
+        "name": "돼지갈비찜 (1,045)",
+        "detail": "돼지갈비찜,흑미밥,비지찌개,잡채,오이양파무침,깍두기,ICE초코",
+        "likes": 0,
+        "local": "부울경",
+        "courseName": "A:한식"
+      },
+      {
+        "id": 6,
+        "date": "20230731",
+        "restaurantId": "REST000133",
+        "imageUrl": "http://samsungwelstory.com/data/manager/recipe/E110/20230731/s20221007145950.png",
+        "name": "왕새우튀김우동 (1,272)",
+        "detail": "왕새우튀김우동,오복지볶음밥,핫도그,음료,코올슬로,매운미역오이초무침,김치,ICE초코",
+        "likes": 0,
+        "local": "광주",
+        "courseName": "B:일품"
+      },
+    ]
+    // fetchLunchData();
+    const localLunchData = groupByLocal(lunchData);
+    createCards(localLunchData);
+  }, []);
 
   return (
     <div className={styles.LunchCarousel}>
       <Carousel
         cards={cards}
         height="500px"
-        width="50%"
+        width="70%"
         margin="0 auto"
-        offset={2}
+        offset={1}
         showArrows={false}
       />
     </div>
