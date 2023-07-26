@@ -70,10 +70,11 @@
   font-size: 13px;
 }
 
-.boardtabcontainer {
-  width: 100%;
-  margin: 0 auto;
+/* 게시판 탭 (자유게시판, 비밀게시판, 9기게시판 etc...) */
 
+.boardtabContainer {
+  width: 98%;
+  margin: 10px auto;
   display: flex;
   justify-content: space-between;
 }
@@ -89,20 +90,38 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-
 }
 
 .boardtab:hover {
   color: #034BB9;
   /* font-size: 21.044px; */
   font-weight: 700;
+  text-decoration: underline;
   text-underline-position: under;
+}
+
+/* 새 글 작성 버튼 스타일링 */
+.createpageButton {
+  margin: 6px;
+  color: #000;
+
+  border: 0;
+  background-color: transparent;
+
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .boardcontainer{
   width: 1200px;
   margin: 0 auto;
   /* border: 1px dotted green; */
+}
+
+.createpageIcon {
+  margin: 0 5px 0 10px;
 }
 
 .pagination {
@@ -112,6 +131,3 @@
   border: 1px dotted red;
 }
 
-.createpageIcon {
-  margin: 0 5px 5px 0;;
-}

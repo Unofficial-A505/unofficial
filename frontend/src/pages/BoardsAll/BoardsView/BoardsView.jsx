@@ -34,7 +34,6 @@ export default function BoardsView( ){
   if (posts) {
     return(
       <div>
-        <hr />
         {posts.map((post, index) => (
           <PostsView key={index} boardTitle={boardTitle} post={post}/>
         ))}

@@ -60,13 +60,13 @@ export default function BoardsAll(){
     <AdHorizontal />
     
     <div className={styles.boardcontainer}>
-      <div className={styles.boardtabcontainer}>
+      <div className={styles.boardtabContainer}>
         <div>
           {boardTitles.map((board, index) => 
             <button key={index} className={styles.boardtab} onClick={() => navigate(`/boards/${board.title}`)}>{board.title}</button>)}
         </div>
         <div>
-          <button className={styles.boardtab} onClick={() => navigate(`/boards/${boardTitle}/create`)}><CgAddR className={styles.createpageIcon}/>새 글 작성</button>
+          <button className={styles.createpageButton} onClick={() => navigate(`/boards/${boardTitle}/create`)}><CgAddR className={styles.createpageIcon} size='15'/>새 글 작성</button>
         </div>
       </div>
         <div>
