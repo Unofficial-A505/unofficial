@@ -35,13 +35,11 @@
 
   display: flex;
   justify-content: space-between;
-  border: 1px dotted red;
 }
 
 /* 베스트 게시글 */
 .bestboard {
   width: 700px;
-  border: 1px dotted aquamarine;
 }
 
 .bestTitle {
