@@ -1,5 +1,5 @@
 package com.example.Strange505.ads.Controller;
-import com.example.Strange505.board.controller.ArticleController;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.Strange505.ads.Dto.AdsDto;
@@ -11,14 +11,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/ads")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class AdsController {
     private final AdsService adsService;
     private final S3UploaderService s3Uploader;
-    public AdsController(AdsService adsService,S3UploaderService s3Uploader) {
-        this.adsService = adsService;
-        this.s3Uploader = s3Uploader;
-    }
 
     @PostMapping
     public ResponseEntity<AdsDto> createAds(@RequestBody AdsDto adsDto) {
@@ -29,14 +25,6 @@ public class AdsController {
     @PostMapping("/upload")
     @ResponseBody
     public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file) throws IOException {
-        System.out.println(file);
-        return ResponseEntity.ok(s3Uploader.upload(file, "static"));
-    }
-
-    @PostMapping("/uploadForArticle")
-    @ResponseBody
-    public ResponseEntity<String> upload(@ModelAttribute ArticleController.ImageForm form) throws IOException {
-        MultipartFile file = form.getUploadFile().get(0);
         System.out.println(file);
         return ResponseEntity.ok(s3Uploader.upload(file, "static"));
     }
