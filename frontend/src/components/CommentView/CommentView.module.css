@@ -49,14 +49,17 @@
 
 /* comment update 상태 스타일링 */
 .updateinputContainer {
-  border: 1px solid black;
+  width: 100%;
+  margin: 0 auto;
+
+  border: 0.1rem solid #D9D9D9;
   border-radius: 0.3rem;
 }
 .updateInput {
   margin: 10px 20px;
 
   width: 95%;
-  height: 80px;
+  height: 70px;
   border: 0;
 }
 

@@ -133,8 +133,8 @@
   width: 100%;
 
   display: flex;
-  border: 1px solid black;
-  border-radius: 0.4rem;
+  border: 2px solid #D9D9D9;
+  border-radius: 0.3rem;
   margin: 7px 0 13px 0;
 }
 
