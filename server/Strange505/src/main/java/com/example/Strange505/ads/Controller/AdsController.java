@@ -1,14 +1,14 @@
 package com.example.Strange505.ads.Controller;
+import com.example.Strange505.board.controller.ArticleController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.Strange505.ads.Dto.AdsDto;
 import com.example.Strange505.ads.Service.AdsService;
 import com.example.Strange505.s3.Service.S3UploaderService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
+
 @RestController
 @RequestMapping("/api/ads")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -29,6 +29,15 @@ public class AdsController {
     @PostMapping("/upload")
     @ResponseBody
     public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file) throws IOException {
+        System.out.println(file);
+        return ResponseEntity.ok(s3Uploader.upload(file, "static"));
+    }
+
+    @PostMapping("/uploadForArticle")
+    @ResponseBody
+    public ResponseEntity<String> upload(@ModelAttribute ArticleController.ImageForm form) throws IOException {
+        MultipartFile file = form.getUploadFile().get(0);
+        System.out.println(file);
         return ResponseEntity.ok(s3Uploader.upload(file, "static"));
     }
 

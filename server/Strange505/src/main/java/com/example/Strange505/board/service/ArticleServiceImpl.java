@@ -29,7 +29,7 @@ public class ArticleServiceImpl implements ArticleService {
     public Article createArticle(ArticleRequestDto dto, Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         List<Board> list = boardRepository.searchBoardByName(dto.getBoardName());
-        Board board = list.get(0);
+        Board board = null;
 //        System.out.println("보드 아이디: " + board.getId());
         Article article = Article.createArticle(dto, user, board);
         Article savedArticle = articleRepository.save(article);

@@ -3,9 +3,10 @@ package com.example.Strange505.user.service;
 import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.dto.AuthDto;
 import com.example.Strange505.user.dto.RequestUserDto;
+import com.example.Strange505.user.exception.NoMatchPasswordException;
 import com.example.Strange505.user.repository.UserRepository;
-import com.example.Strange505.verificate.UUIDProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder encoder;
 
     public User getUserById(Long id) {
         return userRepository.findById(id).get();
@@ -34,9 +36,13 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUser(RequestUserDto dto, Long id) {
-        User user = userRepository.findById(id).get();
-        user.update(dto.getPassword());
+    public void updateUser(RequestUserDto dto) {
+        User user = userRepository.findByEmail(dto.getEmail()).get();
+        if(encoder.matches(dto.getOldPassword(), user.getPassword())) {
+            user.update(encoder.encode(dto.getNewPassword()));
+        } else {
+            throw new NoMatchPasswordException("이전 비밀번호가 일치하지 않습니다.");
+        }
     }
 
     public List<User> getUsers() {

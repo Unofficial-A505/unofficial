@@ -35,10 +35,9 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(findUser);
     }
 
-    @PostMapping
+    @PostMapping("/password")
     public ResponseEntity updateUser(@RequestBody RequestUserDto dto) {
-        Long id = null;
-        userService.updateUser(dto, id);
+        userService.updateUser(dto);
         return ResponseEntity.ok().build();
     }
 }
