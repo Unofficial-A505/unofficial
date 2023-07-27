@@ -8,6 +8,7 @@ build:       # This job runs in the build stage, which runs first.
   image: openjdk:17.0.1-oraclelinux8
   stage: build
   script: 
+    - chmod -R 775 server/
     - cd ./server/Strange505
     - ./gradlew clean
     - ./gradlew build
@@ -20,6 +21,8 @@ test:   # This job runs in the test stage.
   image: openjdk:17.0.1-oraclelinux8
   stage: test    # It only starts when the job in the build stage completes successfully.
   script:
+    - chmod -R 775 server/
+    - cd ./server/Strange505
     - ./gradlew test
 
 package: 
@@ -48,11 +51,16 @@ deploy-was1:      # This job runs in the deploy stage.
     - docker rm springboot-app || true
     - docker rmi strangedev505/springboot-app:lastest || true
     - docker run -d --restart always --network ubuntu_default --ip 172.18.0.50 --name springboot-app strangedev505/springboot-app:lastest
+  when: on_success
+  only: 
+    - master
 
 deploy-was2:      # This job runs in the deploy stage.
   stage: deploy 
   tags:
     - deployer
+  before_script:
+    - docker login -u $DOCKER_HUB_USER --password-stdin < $DOCKER_HUB_PW
   script:
     - docker stop springboot-app2 || true
     - docker rm springboot-app2 || true
