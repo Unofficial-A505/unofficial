@@ -1,18 +1,15 @@
 .edugrantsContainer {
-  width: 265px;
-  height: 43.495px;
-
+  width: 100%;
+  height: 3rem;
   border-radius: 5px;
   text-align: center;
   border: 0.307px solid rgba(255, 26, 26, 0.5);
   background: #282C34;
-
-  margin: 12PX 0 5px 0 ;
+  margin: 0.4rem 0 ;
 }
 
 .educenterbox {
   width: 220px;
-
   display: flex;
   margin: 0 auto;
 }
