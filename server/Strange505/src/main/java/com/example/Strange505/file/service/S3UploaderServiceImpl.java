@@ -1,18 +1,17 @@
 package com.example.Strange505.file.service;
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
+
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import java.util.UUID;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class S3UploaderServiceImpl implements S3UploaderService {
@@ -80,5 +79,11 @@ public class S3UploaderServiceImpl implements S3UploaderService {
             return;
         }
         throw new IllegalArgumentException("파일을 삭제하는데 실패했습니다. 파일이 존재하지 않을 수 있습니다.");
+    }
+
+    @Override
+    public boolean deleteFile(String key) {
+        amazonS3.deleteObject(bucket,key);
+        return true;
     }
 }
