@@ -1,49 +1,46 @@
-import Styles from "./Card.module.css";
+import styles from "./Card.module.css";
 import { animated } from "react-spring";
 
-export default function Card({meal}) {
-
-  console.log(meal)
+export default function Card({ lunchZip }) {
   return (
-    <animated.div className={Styles.card}>
-      <div className={Styles.title}>
-        <p>{meal.local} 캠퍼스</p>
+    <animated.div className={styles.card}>
+      <div className={styles.title}>
+        <p>{lunchZip[0].local} 캠퍼스</p>
       </div>
-      <div className={Styles.menus}>
-        <Menu meal={meal}/>
-        <Menu meal={meal}/>
-        <Menu meal={meal}/>
+      <div className={styles.menus}>
+        {lunchZip.map((menu) => {
+          return <Menu menu={menu} />;
+        })}
       </div>
     </animated.div>
   );
 }
 
-// 만둣국 (1367) => name:'만둣국', cal:'1367'로 parsing 
-function extractNameAndCal(str) {
-  const regex = /(.+) \(([\d,]+)\)/
-  const match = str.match(regex)
+function Menu({ menu }) {
+  const { name, cal } = extractNameCal(menu.name);
+
+  return (
+    <div className={styles.menu}>
+      <img className={styles.cover} src={menu.imageUrl} alt={name} />
+      <div className="d-flex justify-content-between mb-1">
+        <p>{menu.courseName}</p>
+        <p>{cal}kcal</p>
+      </div>
+      <h2 className="mb-1">{name}</h2>
+      <p className={styles.detail}>{menu.detail}</p>
+    </div>
+  );
+}
+
+// '만둣국 (1367)' => name:'만둣국', cal:'1367'로 parsing
+function extractNameCal(string) {
+  const regex = /(.+) \(([\d,]+)\)/;
+  const match = string.match(regex);
 
   if (match) {
     const name = match[1].trim();
-    const cal = parseInt(match[2].replace(/,/g, ''));
+    const cal = match[2].trim();
     return { name, cal };
   }
-  return { name: str, cal: null };
-}
-
-function Menu({meal}){
-
-  const { name, cal } = extractNameAndCal(meal.name);
-
-  return (
-    <div className={Styles.menu}>
-      <img className={Styles.cover} src={meal.imageUrl} alt={name} />
-      <p>{meal.courseName}</p>
-      <div className="d-flex justify-content-between">
-        <h2>{name}</h2>
-        <p>{cal}kcal</p>
-      </div>
-      <p>{meal.detail}</p>
-    </div>
-  )
+  return { name: string, cal: null };
 }

@@ -4,30 +4,35 @@ import { RiDatabase2Line } from '@react-icons/all-files/ri/RiDatabase2Line';
 
 export default function MypageAdver(){
   const mileage = 5100
-
+ 
   return(
     <div>
-      <div>광고 및 마일리지 관리</div>
-      <hr />
-
-      <RiDatabase2Line size='30'/><span>내 마일리지</span><span>{mileage}</span>
-
-      <div>
-        <div>마일리지 사용 내역</div>
-        <div></div>
+      <div className={styles.titleContainer}>
+        <p>마일리지 및 광고</p>
+        
       </div>
-
-      <hr />
-
-      <div>
-        <h3>광고 관리</h3>
-        <button>광고 신청하기 (여기 modal 연결하기)</button>
-
-        <div>
-          <div>현재 게시중인 광고</div>
+      <div className={styles.contentContainer}>
+        <div className={styles.welcomeContainer}>
+          <div/>
+          <p style={{color:'#282828'}}>
+            <RiDatabase2Line size='30'/>
+            <span>내 마일리지 &nbsp;</span>
+            <span style={{color:'#0969FB', fontSize:'1.2rem', fontWeight:'600'}}>{mileage} </span>
+          </p>
+        </div>
+        <div className={styles.myMileageContainer}>
+          <h3>마일리지 사용 내역</h3>
+          <div className={styles.temp} />
+        </div>
+        <div className={styles.myAdvContainer}>
+          <h3>광고 관리</h3>
+          <div className={styles.buttonContainer}>
+            <button>광고 추가하기</button>
+            <button>광고 게시종료</button>
+          </div>
+          <div className={styles.temp} />
         </div>
       </div>
-      
     </div>
   );
 }

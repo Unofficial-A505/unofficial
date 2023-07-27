@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const serverURL = 'http://70.12.247.35:8080'
+const serverURL = 'https://unofficial.kr'
 
 // access_token 요청
 export const requestAccessToken = async (refresh_token) => {

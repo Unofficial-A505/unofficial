@@ -63,22 +63,25 @@ export default function Signup2(){
       return false
     }
     setDuplicationMent(<p style={{color: 'green'}}>확인 중입니다.</p>)
-    const serverURL = 'http://70.12.247.35:8080'
+    
+    const serverURL = 'https://unofficial.kr'
 
     axios
-      .post(`${serverURL}/auth/signup`, { userEmail })
+      .post(`${serverURL}/api/verify`, { email: userEmail })
       .then((res)=>{
         console.log(res)
         if (res.status === 200) {
           setDuplicationMent(<p style={{color: 'green'}}>사용 가능한 아이디입니다.</p>)
           setIsDuplicate(false)
-        } else {
-          setDuplicationMent(<p style={{color: 'red'}}>이미 존재하는 이메일입니다.</p>)
-          setIsDuplicate(true)
-        }
+        } 
       })
       .catch((err)=>{
-        setDuplicationMent(<p style={{color: 'red'}}>오류가 발생했습니다. 다시 시도해 주세요.</p>)
+        if (err.response.data.message) {
+          setDuplicationMent(<p style={{color: 'red'}}>{ err.response.data.message }</p>)
+        } else {
+          setDuplicationMent(<p style={{color: 'red'}}>오류가 발생했습니다. 잠시후 다시 시도해 주세요.</p>)
+        }
+        setIsDuplicate(true)
         console.log(err)
       })
   }
@@ -127,8 +130,8 @@ export default function Signup2(){
   return(
     <div id={styles.container}>
 
-      <h2>싸브리타임 회원가입</h2>
-      <p className='my-0'>싸브리타임 계정으로 <b>캠퍼스픽, 싸브리타임</b>등</p>
+      <h2>언오피셜 회원가입</h2>
+      <p className='my-0'>언오피셜 계정으로 <b>점심식단, 자유게시판</b>등</p>
       <p className='my-0'>다양한 교육생 서비스를 모두 이용하실 수 있습니다.</p>
       <br />
       <h2>등록</h2>
