@@ -23,8 +23,8 @@ export default function LunchCarousel() {
     try {
       const today = getTodayDate();
       let response = await axios.get(
-        "https://unofficial.kr/api/lunch?date=20230731"
-        // `https://unofficial.kr/api/lunch?date=${today}`
+        // "https://unofficial.kr/api/lunch?date=20230731"
+        `https://unofficial.kr/api/lunch?date=${today}`
       );
       console.log("API호출", response.data);
       if (response.data) {
@@ -60,7 +60,7 @@ export default function LunchCarousel() {
     const newCards = localLunchData.map((data) => {
       return {
         key: uuidv4(),
-        content: <Card lunchZip={data} />,
+        content: <Card lunchZip={data} key={data[0].local} />,
       };
     });
     console.log("newCards", newCards);
@@ -83,7 +83,7 @@ export default function LunchCarousel() {
       <Carousel
         cards={cards}
         height="500px"
-        width="70%"
+        width="90%"
         margin="0 auto"
         offset={1}
         showArrows={false}
