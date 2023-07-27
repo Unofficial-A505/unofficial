@@ -1,5 +1,5 @@
 .topcontainer {
-  width: 1150px;
+  width: 1280px;
   margin: 0 auto;
 
   display: flex;
@@ -9,11 +9,13 @@
 }
 
 .toprightContainer {
+  width: 240px;
+  border: 1px dotted aqua;
   margin: 0 0 0 10px;
 }
 
 .usermainContainer {
-  margin: 10px auto;
+  margin: auto;
 }
 
 .bannerContainer {
@@ -24,13 +26,13 @@
 }
 
 .horiadcontainer {
-  width: 1300px;
+  width: 1280px;
   margin: 0 auto;
   border: 1px dotted aquamarine;
 }
 
 .middlecontainer {
-  width: 1200px;
+  width: 1280px;
   margin: 0 auto;
 
   display: flex;
