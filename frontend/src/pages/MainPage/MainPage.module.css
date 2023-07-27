@@ -7,20 +7,25 @@
 
   border: 1px dotted aqua;
 }
-
+.topleftContainer {
+  margin: 0 auto;
+}
 .toprightContainer {
-  width: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content:first baseline;
+  width: 276px;
   border: 1px dotted aqua;
   margin: 0 0 0 10px;
 }
 
 .usermainContainer {
-  margin: auto;
+  margin: 1.5rem 0 0.5rem 0;
 }
 
 .bannerContainer {
   width: 276px;
-  margin: 10px auto;
+  margin: 0.5rem auto;
 
   border: 1px dotted plum;
 }

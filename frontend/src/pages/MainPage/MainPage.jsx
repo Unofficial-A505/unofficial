@@ -20,8 +20,10 @@ export default function MainPage(){
     <section>
       <TopSpace />
       <div className={styles.topcontainer}>
-        <LunchCarousel />
-        <div div={styles.toprightContainer}>
+        <div className={styles.topleftContainer}> 
+          <LunchCarousel />
+        </div>
+        <div className={styles.toprightContainer}>
           <div className={styles.usermainContainer}>
             <UserinfoBox />
           </div>
