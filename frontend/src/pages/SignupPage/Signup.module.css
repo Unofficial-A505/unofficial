@@ -3,13 +3,17 @@
     position: relative;
     left: 1.5rem;
     top: 1rem;
-    font-weight: 600;
 }
 
-.backButtonContainer a {
+.backButtonContainer:hover {
+    cursor: pointer;
+    scale: 1.002;
+}
+
+.backButtonContainer span {
     position: relative;
+    font-weight: 600;
     top: 0.15rem;
-    text-decoration: none;
     color: black;
 }
 
