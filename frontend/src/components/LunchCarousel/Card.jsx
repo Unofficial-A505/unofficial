@@ -2,18 +2,15 @@ import styles from "./Card.module.css";
 import { animated } from "react-spring";
 
 export default function Card({ lunchZip }) {
-  console.log('카드컴포', {lunchZip})
   return (
     <animated.div className={styles.card}>
       <div className={styles.title}>
         <p>{lunchZip[0].local} 캠퍼스</p>
       </div>
       <div className={styles.menus}>
-        {
-          lunchZip.map((menu) => {
-            return <Menu menu={menu} />;
-          })
-        }
+        {lunchZip.map((menu) => {
+          return <Menu menu={menu} />;
+        })}
       </div>
     </animated.div>
   );

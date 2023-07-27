@@ -3,7 +3,6 @@ import { config } from "react-spring";
 import Carousel from "react-spring-3d-carousel";
 
 export default function Carroussel(props) {
-
   const [offsetRadius, setOffsetRadius] = useState(2);
   const [showArrows, setShowArrows] = useState(false);
   const [goToSlide, setGoToSlide] = useState(null);
@@ -17,7 +16,6 @@ export default function Carroussel(props) {
       return { ...element, onClick: () => setGoToSlide(index) };
     });
     setCards(table);
-    
   }, [props.offset, props.showArrows, props.cards]);
 
   return (
