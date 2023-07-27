@@ -1,6 +1,6 @@
 .usercontainer {
   width: 276px;
-  height: 127px;
+  height: 133px;
 
   border-radius: 5px;
   border: 1px solid rgba(117, 117, 117, 0.50);
@@ -50,7 +50,7 @@
   width: 240px;
   margin: 13px auto;
 
-  border: 1px dotted red;
+  /* border: 1px dotted red; */
 }
 
 .usertopContainer {
@@ -92,7 +92,7 @@
 .usermidContainer {
   text-align: start;
 
-  border: 1px dotted aquamarine;
+  /* border: 1px dotted aquamarine; */
 }
 
 .secondmypageButton {

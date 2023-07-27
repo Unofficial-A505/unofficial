@@ -1,10 +1,15 @@
 .ssafybuttonContainer {
   width: 276px;
-  height: 61.5px;
+  height: 50px;
 
-  border-radius: 5px 5px 0px 0px;
+  border-radius: 5px;
   border: 1px solid #C8C8C8;
-  background: #FFF;
+  background: #FFF; 
+  margin: 0.3rem 0 0 0 ;
+}
+
+.edussafyAlink {
+  text-decoration: none;
 }
 
 .ssafycenterbox {
@@ -27,8 +32,4 @@
   font-style: normal;
   font-weight: 400;
   line-height: 100%; /* 15px */
-}
-
-.edussafyAlink {
-  text-decoration: none;
 }

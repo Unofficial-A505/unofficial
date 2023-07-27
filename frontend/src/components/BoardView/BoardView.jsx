@@ -12,6 +12,24 @@ export default function BoardView( ){
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+
+    axios({
+      method: "get",
+      url: `http://127.0.0.1:8000/api/v1/articles`,
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
+      })
+      .then((res) => {
+        console.log(res.data);
+        setPosts(res.data);
+      })
+      .catch((err) => console.log(err))
+    return () => {  
+      console.log('unmounted')
+     }}, []);
+
   return(
     <div>
       {posts.map((post, index) => (

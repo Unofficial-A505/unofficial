@@ -139,8 +139,8 @@ const QuillContainer = () => {
   
       axios({
         method: "post",
-        // url: `http://127.0.0.1:8000/api/v1/articles/`,
-        url: `http://70.12.247.35:8080/files/articleTest`,
+        url: `http://127.0.0.1:8000/api/v1/articles/`,
+        // url: `http://70.12.247.35:8080/files/articleTest`,
         data: {
           title,
           content,

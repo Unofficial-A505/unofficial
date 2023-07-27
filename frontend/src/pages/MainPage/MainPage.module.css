@@ -5,7 +5,7 @@
   display: flex;
   justify-content: space-between;
 
-  border: 1px dotted aqua;
+  /* border: 1px dotted aqua; */
 }
 
 .toprightContainer {
@@ -20,13 +20,13 @@
   width: 276px;
   margin: 10px auto;
 
-  border: 1px dotted plum;
+  /* border: 1px dotted plum; */
 }
 
 .horiadcontainer {
   width: 1300px;
   margin: 0 auto;
-  border: 1px dotted aquamarine;
+  /* border: 1px dotted aquamarine; */
 }
 
 .middlecontainer {
