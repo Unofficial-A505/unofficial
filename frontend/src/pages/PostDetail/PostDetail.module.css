@@ -221,7 +221,7 @@ textarea:focus {
 .sideContentContainer {
   position: sticky;
   right: 1%;
-  top: 0.2%;
+  top: 3%;
   /* border: 1px dotted violet; */
 }
 
