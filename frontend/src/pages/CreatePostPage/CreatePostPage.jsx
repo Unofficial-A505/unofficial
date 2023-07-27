@@ -1,24 +1,26 @@
 import styles from './CreatePostPage.module.css'
 import axios from 'axios';
-// import HistoryBack from './HistoryBack'
 
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback , useState} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
 import styled from 'styled-components';
 import Quill from 'quill';
-import 'quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
+import ImageResize from '@looop/quill-image-resize-module-react'
 
 import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
 
 import TopSpace from '../../components/TopSpace/TopSpace';
 import UnderSpace from '../../components/UnderSpace/UnderSpace';
 
+Quill.register('modules/ImageResize', ImageResize)
 export default function CreatePostPage(){
   const navigate = useNavigate();
   const { boardTitle } = useParams();
+  const imageURL = 'https://plus.unsplash.com/premium_photo-1682855669043-fd359f155d3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=505&q=80'
 
   // styled components
   const Title = styled.h3`
@@ -46,24 +48,30 @@ export default function CreatePostPage(){
   const quillElement = useRef(null);
   const quillInstance = useRef(null);
 
+  const ReactQuillEX = () => {
+    const [quillText, setQuillText] = useState("");
+
   useEffect(() => {
     console.log('mounted')
     quillInstance.current = new Quill(quillElement.current, {
       modules: {
         toolbar: [
-          [{ header: '1' }, { header: '2' }],
-          [ 'bold', 'italic', 'underline', 'strike' ],
+          [{ header: [1, 2, 3, false] }],
+          ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+          [{ color: [] }, { background: [] }],
           [{ list: 'ordered' }, { list: 'bullet' }],
-          ['blockquote', 'code-block', 'link', 'image']
+          [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
+          ['link', 'image'],
         ]
       },
+      ImageResize : { modules : ['Resize'] },
       placeholder: '내용을 작성하세요',
       theme: 'snow'  // or 'bubble'
     });
 
-    quillInstance.current.getModule('toolbar').addHandler('image', function () {
-      selectLocalImage();
-    });
+    // quillInstance.current.getModule('toolbar').addHandler('image', function () {
+    //   selectLocalImage();
+    // });
     
     
     return () => {
@@ -71,37 +79,44 @@ export default function CreatePostPage(){
     }
   }, []);
 
-  function selectLocalImage() {
-    const fileInput = document.createElement('input');
-    fileInput.setAttribute('type', 'file');
-    console.log("input.type " + fileInput.type);
+  // 이미지 url 추출 함수
+  // function selectLocalImage() {
+  //   const fileInput = document.createElement('input');
+  //   fileInput.setAttribute('type', 'file');
+  //   console.log("input.type " + fileInput.type);
 
-    fileInput.click();
+  //   fileInput.click();
 
-    fileInput.addEventListener("change", function () {  // change 이벤트로 input 값이 바뀌면 실행
-      const formData = new FormData();
-      const file = fileInput.files[0];
-      formData.append('uploadFile', file);
-      console.log('file', file)
-      console.log(formData)
+  //   fileInput.addEventListener("change", function (e) {  // change 이벤트로 input 값이 바뀌면 실행
+  //     e.preventDefault();
+  //     const formData = new FormData();
+  //     const file = fileInput.files[0];
+  //     formData.append('uploadFile', file);
+  //     console.log('file', file)
+  //     console.log(formData)
 
-      axios({
-        method: "post",
-        url: `http://127.0.0.1:8000/api/v1/articles/`,
-        data: formData,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
-      })
-      .then((res) => {
-        const range = quillInstance.current.getSelection(); // 사용자가 선택한 에디터 범위
-        // uploadPath에 역슬래시(\) 때문에 경로가 제대로 인식되지 않는 것을 슬래시(/)로 변환
-        res.uploadPath = res.uploadPath.replace(/\\/g, '/');
-
-        quillInstance.current.insertEmbed(range.index, 'image', "/board/display?fileName=" + res.uploadPath +"/"+ res.uuid +"_"+ res.fileName);
-      })
-      .catch((err) => console.log(err))
-    })};
+  //     axios({
+  //       method: "post",
+  //       url: `http://70.12.247.35:8080/api/ads/uploadForArticle`,
+  //       data: formData,
+  //       headers: { "Content-Type": "multipart/form-data" }
+  //     // headers: {
+  //     //   Authorization: `Token ${this.$store.state.token}`,
+  //     // }
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       console.log('success')
+  //       console.log(typeof res.data)
+  //       const range = quillInstance.current.getSelection(); // 사용자가 선택한 에디터 범위
+  //       // // uploadPath에 역슬래시(\) 때문에 경로가 제대로 인식되지 않는 것을 슬래시(/)로 변환
+  //       // res.data = res.data.replace(/\\/g, '/');
+  //       const uploadPath = res.data
+  //       // quillInstance.current.insertEmbed(range.index, 'image', "/board/display?fileName=" + res.uploadPath +"/"+ res.uuid +"_"+ res.fileName);
+  //       quillInstance.current.insertEmbed(quillInstance.current.root, 'image', `${uploadPath}`);
+  //     })
+  //     .catch((err) => console.log(err))
+  //   })};
 
 
   // quill.value('text-change', (delta, oldDelta, source) => {
@@ -127,7 +142,6 @@ export default function CreatePostPage(){
   // }, []);
 
   // post CRUD
-
   const createPost = () => {
     const title = titleInstance.current.value
     const content = quillInstance.current.root.innerHTML
@@ -156,6 +170,10 @@ export default function CreatePostPage(){
     navigate(-1);
   }
 
+  const checkChange = () => {
+    console.log(quillInstance.current.root.innerHTML)
+  }
+
   return(
     <div>
       <TopSpace />
@@ -168,24 +186,27 @@ export default function CreatePostPage(){
       
         <div>
           <TitleInput placeholder="제목을 입력하세요" ref={titleInstance}/>
-          <input type="hidden" id="quill_html" name="content" />
         </div>
 
         <div className={styles.editorcontainer} id="editor-container" ref={quillElement}></div>
+        <input type="hidden" id="quill_html" name="content"/>
 
         <button onClick={() => console.log(quillInstance.current.root.innerHTML)}>html까지 뽑고싶어</button>
         <button onClick={() => console.log(titleInstance.current.value)}>제목 input value</button>
+        <button onClick={() => {
+          console.log(quillInstance.current.root)
+          quillInstance.current.insertEmbed(quillInstance.current.root, 'image', `${imageURL}`);
+          }}>이미지 태그로 삽입하기 테스트</button>
 
         <div className={styles.undermenu}>
           <button className={styles.grayoutbutton} onClick={handleCancel}><IoIosArrowBack />목록으로 돌아가기</button>
           <button className='btn' id={styles.createsubmitbutton} onClick={createPost}>게시하기</button>
         </div>
-      
+
       <UnderSpace />
       
       </div>
 
-
     </div>
   );
-}
+}}

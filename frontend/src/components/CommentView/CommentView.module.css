@@ -1,0 +1,94 @@
+.commentContainer {
+  width: 100%;
+}
+
+.commentTopbar {
+  margin: 5px 20px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.commentTitle {
+  color: #034BB9;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 450;
+  line-height: normal;
+}
+
+.commentcreateTimeago {
+  margin: 0 10px;
+}
+
+/* 수정하기, 삭제하기 아이콘 */
+.commentIcons {
+  margin: 10px 5px;
+  cursor: pointer;
+}
+
+/* 수정하기 삭제하기 텍스트 위치 조정*/
+.updatetextPosition {
+  border: 1px dotted aqua;
+
+  margin: 30px 0 0 0;
+}
+
+.commentContent {
+  margin: 0 20px;
+}
+
+.commentBottombar {
+  margin: 10px 20px;
+
+  display: flex;
+  justify-content: space-between;
+
+  border: 1px dotted red;
+}
+
+/* comment update 상태 스타일링 */
+.updateinputContainer {
+  width: 100%;
+  margin: 0 auto;
+
+  border: 0.1rem solid #D9D9D9;
+  border-radius: 0.3rem;
+}
+.updateInput {
+  margin: 10px 20px;
+
+  width: 95%;
+  height: 70px;
+  border: 0;
+}
+
+.commentupdateBottombar {
+  text-align: right;
+}
+
+.updateButtons {
+  border: 0;
+  background-color: transparent;
+  pointer: cursor;
+  margin: 10px 15px 0 0;
+}
+
+.updateIcons {
+  margin: 0 0 5px 0;
+}
+
+textarea::-webkit-scrollbar {
+  width: 4px;  /* 스크롤바의 너비 */
+}
+
+textarea::-webkit-scrollbar-thumb {
+  height: 40%; /* 스크롤바의 길이 */
+  background: #d9d9d96a; /* 스크롤바의 색상 */
+  
+  border-radius: 10px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: rgba(232, 232, 232, 0.1);  /*스크롤바 뒷 배경 색상*/
+}

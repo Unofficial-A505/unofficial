@@ -1,19 +1,31 @@
+
+/* post detail 전체 container */
 .postdetailallContainer {
+  position: relative;
   width: 1290px;
   margin: 0 auto;
 
   display: flex;
   justify-content: space-between;
-
-  border: 1px dotted red;
 }
 
+/* button 디폴트 layout 삭제 */
+.buttonlayoutDel {
+  border: 0;
+  background-color: transparent;
+}
+
+/* post 내용 container */
 .postviewContainer {
   width: 1000px;
-
   border: 1px dotted aqua;
 }
 
+.postContentContainer {
+  width: 90%;
+}
+
+/* post, comment 비율 */
 .postContainer {
   text-align: start;
   margin: 0 45px;
@@ -23,12 +35,8 @@
   width: 90%;
   margin: 23px auto;
   display: flex;
+  text-align: start;
   justify-content: space-between;
-}
-
-.sideviewContainer {
-  width: 280px;
-  margin: 20px 0 0 25px;
 }
 
 .boardTitle {
@@ -47,7 +55,6 @@
   background-color: transparent;
 
   color: rgba(117, 117, 117, 0.80);
-  font-family: Inter;
   font-size: 17.537px;
   font-style: normal;
   font-weight: 400;
@@ -56,7 +63,6 @@
 .postTitle {
   color: #000;
   font-feature-settings: 'clig' off, 'liga' off;
-  font-family: Inter;
   font-size: 31.567px;
   font-style: normal;
   font-weight: 700;
@@ -65,7 +71,6 @@
 
 .postusername {
   color: #034BB9;
-  font-family: Roboto;
   font-size: 14px;
   font-style: normal;
   font-weight: 300;
@@ -76,7 +81,6 @@
 
 .posttimeago {
   color: #000;
-  font-family: Roboto;
   font-size: 12.627px;
   font-style: normal;
   font-weight: 300;
@@ -107,3 +111,123 @@
 .postupdateBottomtab {
   margin: 0 15px 0 0;
 }
+
+/* comment input css */
+
+.commentInputContainer{
+  width: 82%;
+  margin: 0 auto;
+}
+
+.commentTitle {
+  width: 100%;
+  text-align: start;
+}
+
+.commentbox {
+  position: relative;
+  width: 100%;
+
+  display: flex;
+  border: 2px solid #D9D9D9;
+  border-radius: 0.3rem;
+  margin: 7px 0 13px 0;
+}
+
+.commentInput {
+  width: 90%;
+  margin: 10px 0 10px 10px;
+  height: 50px;
+  font-size: 1rem;
+
+  border: 0;
+}
+
+textarea:focus {
+  outline: none;
+}
+
+.commentButton {
+  position: absolute;
+  right: 20px;
+  top: 40%;
+  
+  border: 0;
+  border-radius: 1rem;
+  background-color: transparent;
+}
+
+.commentButton:hover {
+  background-color: rgba(208, 208, 208, 0.264);        
+}
+
+/* comment detail here */
+
+.commentBottombar {
+  margin: 10px 20px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+/* comment pagination */
+.commentPagination {
+  margin: 0 auto;
+  width: 80px;
+}
+
+.pageBottomtab {
+  width: 90%;
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+/* board 게시글 더보기 */
+.moreTopbar {
+  width: 94%;
+  margin: 15px auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.boardmoreTitleA {
+  margin: 5pX 10px 0 10px;
+
+  color: #034BB9;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.boardmoreTitleB {
+  color: #757575;
+  font-size: 16.5px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+/* 사이드바 */
+
+.sideviewContainer {
+  position: sticky;
+  width: 280px;
+  /* border: 1px red dotted; */
+}
+
+.sideContentContainer {
+  position: sticky;
+  right: 1%;
+  top: 3%;
+  /* border: 1px dotted violet; */
+}
+
+.bestpostsBox {
+  width: 260px;
+  margin: 0 auto;
+  /* border: 1px dotted orangered; */
+}
+

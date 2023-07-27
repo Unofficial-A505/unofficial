@@ -12,6 +12,9 @@ import LunchCarousel from '../../components/LunchCarousel/LunchCarousel';
 import TopSpace from '../../components/TopSpace/TopSpace';
 import UnderSpace from '../../components/UnderSpace/UnderSpace';
 
+// best 게시물 아이콘
+import { FaCrown } from '@react-icons/all-files/fa/FaCrown';
+
 export default function MainPage(){
   return (
     <section>
@@ -37,6 +40,7 @@ export default function MainPage(){
       <div className={styles.middlecontainer}>
         <AdVertical />
         <span className={styles.bestboard}>
+          <div className={styles.bestTitle}>Best 게시글<FaCrown className={styles.bestIcons}/></div>
           <BoardView />
         </span>
         <WeatherinfoApi />
