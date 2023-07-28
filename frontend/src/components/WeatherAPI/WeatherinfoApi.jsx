@@ -50,8 +50,8 @@ export default function WeatherinfoApi() {
   };
 
   return (
-    <div className="App">
-      <h1>역삼역 날씨</h1>
+    <div className={styles.WeatherapiContainer}>
+      <h2>역삼역 날씨</h2>
       {loading ? (
         <p>Loading...</p>
       ) : weatherData.length > 0 ? (
