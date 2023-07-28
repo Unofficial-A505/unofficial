@@ -23,7 +23,7 @@ export default function MyPage() {
     : isActiveAdvertisement
     ? "광고"
     : "정보"; // 기본 탭 설정
-
+  
   return (
     <>
       <TopSpace />
