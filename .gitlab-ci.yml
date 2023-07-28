@@ -27,7 +27,7 @@ build:   # This job runs in the test stage.
 npm: 
   stage: libs
   only:
-    - master
+    - develop
   cache:
     paths:
       - frontend/node_modules
@@ -46,7 +46,7 @@ deploy-was1:      # This job runs in the deploy stage.
     - docker run -d --restart always --network ubuntu_default --ip 172.18.0.50 --name springboot-app strangedev505/springboot-app:lastest
   when: on_success
   only: 
-    - master
+    - develop
 
 deploy-was2:      # This job runs in the deploy stage.
   stage: deploy 
@@ -58,7 +58,7 @@ deploy-was2:      # This job runs in the deploy stage.
     - docker run -d --restart always --network ubuntu_default --ip 172.18.0.51 --name springboot-app2 strangedev505/springboot-app:lastest
   when: on_success
   only: 
-    - master
+    - develop
 
 deploy-react:      # This job runs in the deploy stage.
   stage: deploy 
@@ -72,4 +72,4 @@ deploy-react:      # This job runs in the deploy stage.
     - sudo cp -r dist /home/ubuntu/react-build-files
     - docker exec nginx-container service nginx reload
   only: 
-    - master
+    - develop
