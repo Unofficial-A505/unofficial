@@ -9,23 +9,23 @@
 }
 .topleftContainer {
   margin: 0 auto;
+  /* border: 1px dotted aqua; */
 }
 .toprightContainer {
   display: flex;
   flex-direction: column;
   justify-content:first baseline;
   width: 276px;
-  border: 1px dotted aqua;
-  margin: 0 0 0 10px;
+  margin-bottom: 10px;
+  /* border: 1px dotted aqua; */
 }
 
 .usermainContainer {
-  margin: 1.5rem 0 0.5rem 0;
+  margin-bottom: 0.5rem;
 }
 
 .bannerContainer {
   width: 276px;
-  margin: 0.5rem auto;
 
   /* border: 1px dotted plum; */
 }

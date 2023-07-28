@@ -6,7 +6,6 @@
     padding: 1rem 0.5rem;
     border: 0.1px solid #ccc;
     border-radius: 8px;
-    margin: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
     background-color: #fafafa;
 }
@@ -15,7 +14,7 @@
     box-shadow: 0 5px 12px rgb(0 0 0 / 10%);
 }
 .title {
-    width : 100%;
+    width: 100%;
     background-color: #fafafa;
 }
 .title p {
