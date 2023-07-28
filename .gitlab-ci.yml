@@ -61,16 +61,16 @@ deploy-was2:      # This job runs in the deploy stage.
   only: 
     - develop
 
-# deploy-react:      # This job runs in the deploy stage.
-#   stage: deploy 
-#   tags:
-#     - deployer
-#   script:
-#     - chmod -R 775 frontend/
-#     - cd frontend
-#     - npm run build
-#     - sudo rm -rf /home/ubuntu/react-build-files
-#     - sudo cp -r dist /home/ubuntu/react-build-files
-#     - docker exec nginx-container service nginx reload
-#   only: 
-#     - develop
+deploy-react:      # This job runs in the deploy stage.
+  stage: deploy 
+  tags:
+    - deployer
+  script:
+    - chmod -R 775 frontend/
+    - cd frontend
+    - npm run build
+    - sudo rm -rf /home/ubuntu/react-build-files
+    - sudo cp -r dist /home/ubuntu/react-build-files
+    - docker exec nginx-container service nginx reload
+  only: 
+    - develop
