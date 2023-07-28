@@ -20,6 +20,7 @@ import SearchView from './pages/SearchView/SearchView'
 import MypageUser from './pages/MyPage/MypageUser/MypageUser'
 import MypageActivity from './pages/MyPage/MypageActivity/MypageActivity'
 import MypageAdver from './pages/MyPage/MypageAdver/MypageAdver'
+import AddAdvPage from './pages/MyPage/MypageAdver/AddAdvPage'
 
 import CreatePostPage from './pages/CreatePostPage/QuillContainer'
 // import CreatePostPage from './pages/CreatePostPage/CreatePost'
@@ -58,9 +59,6 @@ const router = createBrowserRouter([
           { path: 'advertisement', element: <MypageAdver />},
         ]
       },
-      { path: 'boards/:boardTitle/create', element: <CreatePostPage /> },
-      { path: 'boards/:boardTitle/:postId', element: <PostDetail />,}, 
-      { path: 'boards/search/:keyword', element: <SearchView /> },
       { 
         path: 'boards',
         element: <BoardsAll />,
@@ -69,8 +67,13 @@ const router = createBrowserRouter([
           { path: ':boardTitle/search/:keyword', element: <BoardSearchView />}
         ]
       },
+      { path: 'boards/:boardTitle/create', element: <CreatePostPage /> },
+      { path: 'boards/:boardTitle/:postId', element: <PostDetail />,}, 
+      { path: 'boards/search/:keyword', element: <SearchView /> },
     ]
-  }
+  },
+  { path: '/user/advertisement/form', 
+    element: <AddAdvPage />,}
 ])
 
 export default router;
