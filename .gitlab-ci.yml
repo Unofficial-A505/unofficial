@@ -28,8 +28,6 @@ build:   # This job runs in the test stage.
 
 npm: 
   stage: libs
-  only:
-    - develop
   cache:
     paths:
       - frontend/node_modules
@@ -82,4 +80,4 @@ deploy-react:      # This job runs in the deploy stage.
     - cp -r build /home/ubuntu/react-build-files
     - docker exec ubuntu_nginx_1 service nginx reload
   only: 
-    - develop
+    - master
