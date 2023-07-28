@@ -213,10 +213,10 @@ const commentCreate = () => {
 
         <span className={styles.sideviewContainer}>
           <div className={styles.sideContentContainer}>
-            <div className={styles.bestpostsBox}>
+            <div className={styles.sidecontentmiddleBox}>
               <BestpostsWidget />
+              <EduGrantButton />
             </div>
-            <EduGrantButton />
           </div>
         </span>
       </div>
