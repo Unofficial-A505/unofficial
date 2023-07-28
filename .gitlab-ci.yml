@@ -3,6 +3,7 @@ stages:          # List of stages for jobs, and their order of execution
   - build
   - libs
   - deploy
+  - finish
 
 test:       # This job runs in the build stage, which runs first.
   image: openjdk:17.0.1-oraclelinux8
@@ -44,7 +45,6 @@ deploy-was1:      # This job runs in the deploy stage.
     - docker stop springboot-app || true
     - docker rm springboot-app || true
     - docker run -d --restart always --network ubuntu_default --ip 172.18.0.50 --name springboot-app strangedev505/springboot-app
-    - docker rmi $(docker images -f "dangling=true" -q)
   when: on_success
   only: 
     - master
@@ -57,7 +57,6 @@ deploy-was2:      # This job runs in the deploy stage.
     - docker stop springboot-app2 || true
     - docker rm springboot-app2 || true
     - docker run -d --restart always --network ubuntu_default --ip 172.18.0.51 --name springboot-app2 strangedev505/springboot-app
-    - docker rmi $(docker images -f "dangling=true" -q)
   when: on_success
   only: 
     - master
@@ -78,6 +77,10 @@ deploy-react:      # This job runs in the deploy stage.
     - whoami
     - rm -rf /home/ubuntu/react-build-files
     - cp -r build /home/ubuntu/react-build-files
-    - docker exec ubuntu_nginx_1 service nginx reload
   only: 
     - master
+
+finish:
+  stage: finish
+  script:
+    - docker rmi $(docker images -f "dangling=true" -q)
