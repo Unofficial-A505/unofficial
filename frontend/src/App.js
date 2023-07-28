@@ -17,7 +17,7 @@ function App() {
     <div className="App">
       <NavBar />
       <QueryClientProvider client={queryClient}>
-      <Outlet />
+        <Outlet />
       </QueryClientProvider>
     </div>
   )
