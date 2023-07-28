@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import NavBar from './components/NavBar/NavBar';
 
-import { Outlet } from 'react-router-dom';
+import { Outlet, BrowserRouter } from 'react-router-dom';
 
 import {
   QueryClient,
@@ -14,12 +14,14 @@ const queryClient = new QueryClient();
 function App() {
 
   return (
+  <BrowserRouter>
     <div className="App">
       <NavBar />
       <QueryClientProvider client={queryClient}>
-      <Outlet />
+        <Outlet />
       </QueryClientProvider>
     </div>
+  </BrowserRouter>
   )
 }
 

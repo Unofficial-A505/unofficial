@@ -1,5 +1,5 @@
 import styles from './NavBar.module.css'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function NavBar(){
   const navigate = useNavigate();
@@ -12,9 +12,9 @@ export default function NavBar(){
       
       <div className={styles.navContainerBox}>
         <div className={styles.navContainer}>
-          <Link to='' className={styles.navlogo}>logo</Link>
+          <div onClick={() => navigate('/')} className={styles.navlogo}>logo</div>
           <span className={styles.navtabs}>
-            <button className={styles.tab} onClick={() => {navigate('boards/자유게시판')}}>게시판</button>
+            <button className={styles.tab} onClick={() => {navigate('/boards/자유게시판')}}>게시판</button>
             <button className={styles.tab}>건의하기</button>
             <button className={styles.tab}>칠판</button>
           </span>
