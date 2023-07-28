@@ -74,6 +74,7 @@ deploy-react:      # This job runs in the deploy stage.
   script:
     - chmod -R 775 frontend/
     - cd frontend
+    - npm install
     - npm run build
     - sudo rm -rf /home/ubuntu/react-build-files
     - sudo cp -r dist /home/ubuntu/react-build-files
