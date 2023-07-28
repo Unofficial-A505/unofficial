@@ -1,7 +1,9 @@
 .advertiseHo {
-  width: 1151px;
-  height: 92px;
+  width: 970px;
+  height: 120px;
 
   border-radius: 5px;
   border: 1px black dotted;
+
+  margin: 20px auto;
 }

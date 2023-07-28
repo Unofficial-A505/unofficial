@@ -1,0 +1,7 @@
+.LunchCarousel {
+  width: 900px;
+  height: 24rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

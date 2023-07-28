@@ -1,0 +1,83 @@
+.mypageContainer {
+  width: 1170px;
+  height: 600px;
+  margin: 40px auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.mypageNavContainer {
+  position: relative;
+  width: 270px;
+  height: 600px;
+  border: 1px solid #75757518;
+  border-radius: 1rem;
+  box-shadow: 0px 0px 28px 0px rgba(170, 170, 170, 0.16);
+}
+
+.mypageContentContainer {
+  width: 870px;
+  height: 600px;
+  border: 1px solid #75757518;
+  border-radius: 1rem;
+  background: #FFF;
+  box-shadow: 0px 8px 16px 0px rgba(194, 194, 194, 0.16), 0px 0px 24px 0px rgba(170, 170, 170, 0.16);
+}
+.navtitleContainer{
+  display: flex;
+  justify-content: left;
+  align-items: flex-end;
+  height: 5rem;
+  padding: 0 2.5rem;
+  /* border-bottom: 1px solid #d0d6e4; */
+}
+
+.navtopContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 270px;
+  padding: 2rem 0;
+  /* border: 1px dotted aqua; */
+}
+
+.navnameContainer {
+  display: flex;
+  width: 100%;
+  margin-bottom: 0.7rem;
+}
+
+.mypagenavIcon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  /* border: 1px dotted aqua; */
+}
+
+.mypagenavtab {
+  width: 100%;
+  height: 2.5rem;
+  text-align: start;
+  text-decoration: none;
+  color: #666a71;
+  font-size: 1.08rem;
+  font-weight: 500;
+  line-height: normal;
+  /* border: 1px dotted red; */
+}
+
+.logoutButton {
+  border: 0;
+  background-color: transparent;
+  width: 70px;
+  height: 40px;
+  margin: 0 0 0 10px;
+}
+
+.navlogoutContainer {
+  width: 130px;
+  height: 50px;
+  position: absolute;
+  left: 25px;
+  bottom: 20px;
+}

@@ -1,0 +1,175 @@
+.usercontainer {
+  width: 17.25rem;
+  height: 8rem;
+
+  border-radius: 5px;
+  border: 1px solid rgba(117, 117, 117, 0.50);
+}
+
+.logincenterbox {
+  width: 200px;
+  margin: 20px auto;
+}
+
+.unloginmessage {
+  color: #757575;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Inter;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+}
+
+.loginContainer {
+  width: 188px;
+  display: flex;
+  justify-content: space-between;
+
+  margin: 0 auto;
+}
+
+.userButton {
+  display: flex;
+  width: 94px;
+  height: 56.436px;
+  padding: 1.114px;
+  justify-content: center;
+  align-items: center;
+  gap: 4.458px;
+
+  border-radius: 6.686px;
+}
+
+
+
+
+/* login status */
+
+.usercenterbox {
+  width: 240px;
+  margin: 13px auto;
+
+  /* border: 1px dotted red; */
+}
+
+.usertopContainer {
+  width: 260px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.hellomessage {
+  color: #757575;
+  text-align: center;
+  font-family: Source Sans Pro;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  margin: 5px 0 0 0;
+}
+
+.mypageButton {
+  color: #034BB9;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Source Sans Pro;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%; /* 10.013px */
+
+  border: 0;
+  background-color: transparent;
+
+  margin: 5px 0 0 0;
+}
+
+
+
+.usermidContainer {
+  text-align: start;
+
+  /* border: 1px dotted aquamarine; */
+}
+
+.secondmypageButton {
+  text-decoration: none;
+  border: 0;
+  background-color: transparent;
+
+  color: #000;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Source Sans Pro;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 680;
+  line-height: 100%; /* 14px */
+}
+
+.secondhelloMessage {
+  color: #000;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Source Sans Pro;
+  font-size: 7px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%; /* 7px */
+}
+
+.adverMessage {
+  margin: 15px 0 0 0;
+
+  color: #000;
+  font-family: Inter;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.adverButton {
+  border: 0;
+  background-color: transparent;
+  text-decoration: underline;
+  margin: 0 0;
+
+  color: #034BB9;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.mypageContent {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mymileButton {
+  display: flex;
+  background-color: transparent;
+  border: 0;
+}
+
+.mymileIcon {
+  margin: 4px 2px 0 0;
+}
+
+
+.mypostsAndcomments {
+  display: flex;
+}
+
+.myButton {
+  display: flex;
+  border: 0;
+  background-color: transparent;
+}
+
+.myIcon {
+  margin: 4px 2px 0 0;
+}
