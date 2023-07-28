@@ -1,58 +1,51 @@
-.topcontainer {
+.mainPage {
   width: 1008px;
   margin: 0 auto;
-
+}
+.topContainer {
   display: flex;
+  height: 20rem;
   justify-content: space-between;
-
   /* border: 1px dotted aqua; */
 }
-.topleftContainer {
-  margin: 0 auto;
-  width: 728;
-  /* border: 1px dotted aqua; */
+.topLeftContainer {
+  width: 720px;
+  margin-right: 0.5rem;
+  /* border: 1px dotted pink; */
 }
-.toprightContainer {
+.topRightContainer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 280px;
-  /* border: 1px dotted aqua; */
+  /* border: 1px dotted pink; */
 }
-/* .usermainContainer {
-  margin-bottom: 0.3rem;
-}
-.bannerContainer {
-  width: 100%;
-
-  /* border: 1px dotted plum; */
-.horiadcontainer {
-  width: 1008px;
+.horiAdContainer {
   margin: 0 auto;
   /* border: 1px dotted aquamarine; */
 }
-
-.middlecontainer {
-  width: 1008px;
-  margin: 0 auto;
-
+.middleContainer {
   display: flex;
-  justify-content: space-between;
+  height: 40rem;
 }
-
 /* 베스트 게시글 */
-.bestboard {
-  width: 700px;
+.bestBoard {
+  width: 720px;
+  margin-right: 0.5rem;
+  border: 1px dotted pink;
 }
-
 .bestTitle {
   text-align: start;
-
   font-size: 25px;
   font-weight: 600;
   margin: 0 0 10px 15px;
 }
-
 .bestIcons {
   margin: 0 0 6px 6px;
+}
+.middleRightContainer {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  /* border: 1px dotted pink; */
 }

@@ -34,7 +34,7 @@ export default function LunchCarousel() {
     const year = newDate.getFullYear().toString();
     let month = (newDate.getMonth() + 1).toString().padStart(2, "0");
     let date = newDate.getDate().toString().padStart(2, "0");
-
+    console.log(`${year}${month}${date}`)
     return `${year}${month}${date}`;
   };
 
@@ -43,8 +43,8 @@ export default function LunchCarousel() {
     try {
       const today = getToday();
       let response = await axios.get(
-        "https://unofficial.kr/api/lunch?date=20230728"
-        // `https://unofficial.kr/api/lunch?date=${today}`
+        // "https://unofficial.kr/api/lunch?date=20230728"
+        `https://unofficial.kr/api/lunch?date=${today}`
       );
       console.log("점심API", response.data);
       if (response.data) {

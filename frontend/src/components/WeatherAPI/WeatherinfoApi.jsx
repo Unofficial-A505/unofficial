@@ -51,12 +51,12 @@ export default function WeatherinfoApi() {
 
   return (
     <div className={styles.WeatherapiContainer}>
-      <h2>역삼역 날씨</h2>
+      <h5>역삼역 날씨</h5>
       {loading ? (
         <p>Loading...</p>
       ) : weatherData.length > 0 ? (
         <div>
-          <h2>향후 10~12시간 날씨 예보</h2>
+          <h6>향후 10~12시간 날씨 예보</h6>
           {weatherData.map((entry) => (
             <p key={entry.dt}>{`${new Date(
               entry.dt * 1000
