@@ -80,6 +80,6 @@ deploy-react:      # This job runs in the deploy stage.
     - whoami
     - rm -rf /home/ubuntu/react-build-files
     - cp -r build /home/ubuntu/react-build-files
-    - docker exec nginx-container service nginx reload
+    - docker exec ubuntu_nginx_1 service nginx reload
   only: 
     - develop
