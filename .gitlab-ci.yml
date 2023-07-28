@@ -34,6 +34,7 @@ npm:
   script:
     - chmod -R 775 frontend/
     - cd frontend
+    - node -v
     - npm install
 
 deploy-was1:      # This job runs in the deploy stage.
