@@ -82,7 +82,7 @@ export default function LunchCarousel() {
     <div className={styles.LunchCarousel}>
       <Carousel
         cards={cards}
-        height="500px"
+        height="100%"
         width="90%"
         margin="0 auto"
         offset={1}

@@ -2,8 +2,6 @@ import styles from './TopSpace.module.css'
 
 export default function TopSpace(){
   return(
-    <div className={styles.topcontainer}>
-      TopSpace
-    </div>
+    <div className={styles.topcontainer} />
   );
 }
