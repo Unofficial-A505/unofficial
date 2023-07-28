@@ -13,6 +13,8 @@ public interface ArticleService {
 
     List<Article> getAllArticles();
 
+    List<Article> getArticlesByBoard(Long boardId);
+
     List<Article> getArticlesByTitle(String title, Long boardId);
 
     List<Article> getArticlesByContent(String content, Long boardId);
