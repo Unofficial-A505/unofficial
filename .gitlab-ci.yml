@@ -75,6 +75,7 @@ deploy-react:      # This job runs in the deploy stage.
     - chmod -R 775 frontend/
     - cd frontend
     - npm install
+    - npm install --save-dev @babel/plugin-proposal-private-property-in-object
     - npm run build
     - sudo rm -rf /home/ubuntu/react-build-files
     - sudo cp -r dist /home/ubuntu/react-build-files
