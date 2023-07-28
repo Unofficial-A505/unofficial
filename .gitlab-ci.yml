@@ -77,8 +77,9 @@ deploy-react:      # This job runs in the deploy stage.
     - npm install
     - npm install --save-dev @babel/plugin-proposal-private-property-in-object
     - npm run build
-    - sudo rm -rf /home/ubuntu/react-build-files
-    - sudo cp -r dist /home/ubuntu/react-build-files
+    - whoami
+    - rm -rf /home/ubuntu/react-build-files
+    - cp -r dist /home/ubuntu/react-build-files
     - docker exec nginx-container service nginx reload
   only: 
     - develop
