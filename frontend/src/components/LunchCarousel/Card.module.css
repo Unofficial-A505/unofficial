@@ -1,7 +1,8 @@
 .card {
-    display: flex;
+    width: 640px;
+    /* display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: left; */
     padding: 1rem 0.5rem;
     border: 0.1px solid #ccc;
     border-radius: 8px;
@@ -42,7 +43,6 @@
     background-color: white;
     border-radius: 0.3rem;
 }
-
 .menu h2 {
     text-align: left;
     font-size: 0.9rem;
@@ -59,13 +59,12 @@
 }
 .detail {
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* Show only two lines of text */
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis; /* Display ellipsis (...) for the remaining text */
-    max-height: 9em; /* Adjust this value as needed to control the height of two lines */
+    text-overflow: ellipsis;
+    max-height: 10em;
 }
-
 /* 반응형 스타일 */
 /* @media (max-width: 768px) {
     .card {
