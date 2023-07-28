@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -25,9 +26,12 @@ import java.util.Map;
 @Transactional
 @RequiredArgsConstructor
 public class EmailVerifyService {
-    private final String mailSubject = "언오피셜 이메일 인증 메일입니다.";
-    private final String baseUrl = "http://localhost:8080/api/verify?verificationCode=";
-    private final String mailContentFront = "<div style=\"width: 80vw;border-top: solid 1vh #034bb9; padding: 30px 10px; border-bottom: solid 1px lightgrey; max-width: 600px;\">\n" +
+
+    @Value("${mail.base-url}")
+    String baseUrl;
+
+    private final String MAIL_SUBJECT = "언오피셜 이메일 인증 메일입니다.";
+    private final String MAIL_CONTENT_FRONT = "<div style=\"width: 80vw;border-top: solid 1vh #034bb9; padding: 30px 10px; border-bottom: solid 1px lightgrey; max-width: 600px;\">\n" +
             "        <div style=\"padding: 10px 0px;\">\n" +
             "            언오피셜\n" +
             "        </div>\n" +
@@ -42,13 +46,14 @@ public class EmailVerifyService {
             "        </div>\n" +
             "        <div style=\"padding: 5vh 0;\">\n" +
             "            <a href=";
-    private final String mailContentEnd = " target=\"_blank\">\n" +
+    private final String MAIL_CONTENT_END = " target=\"_blank\">\n" +
             "                <button style=\"background-color: #034bb9; border:0px;cursor: pointer;\">\n" +
             "                    <p style=\"color: aliceblue; width: 30vw; max-width: 225px;\">메일 인증</p>\n" +
             "                </button>\n" +
             "            </a>\n" +
             "        </div>\n" +
             "    </div>";
+    private final String MAIL_PARAM = "&email=";
 
     private final UserRepository userRepository;
     private final EmailRepository emailRepository;
@@ -69,7 +74,7 @@ public class EmailVerifyService {
     }
 
 
-    public boolean isSsafyMember(String email) throws Exception {
+    private boolean isSsafyMember(String email) throws Exception {
         if (emailRepository.findByEmail(email).isPresent()) {
             return true;
         }
@@ -81,7 +86,8 @@ public class EmailVerifyService {
 
         ObjectMapper mapper = new ObjectMapper();
         Map<String, String> response = mapper.readValue(jsonResponse, Map.class);
-        if (response.get("message").startsWith("비밀번호")) {
+        String responseMessage = response.get("message");
+        if (responseMessage.startsWith("비밀번호")|| responseMessage.startsWith("퇴소")) {
             Emails emails = new Emails(email);
             emailRepository.save(emails);
             return true;
@@ -98,21 +104,22 @@ public class EmailVerifyService {
         messageHelper.setTo(receiveList);
 
         // 2. 메일 제목 설정
-        messageHelper.setSubject(mailSubject);
+        messageHelper.setSubject(MAIL_SUBJECT);
 
         // 3. 메일 내용 설정 HTML 적용됨
-        String content = mailContentFront + baseUrl + verification + mailContentEnd;
+        String content = MAIL_CONTENT_FRONT + baseUrl + verification + MAIL_PARAM + email + MAIL_CONTENT_END;
         messageHelper.setText(content, true);
 
         // 4. 메일 전송
         javaMailSender.send(message);
-
     }
 
-    public void acceptEmail(String verificationCode) {
-        User user = userRepository.findByVerification(verificationCode);
-        if (user != null) {
+    public void acceptEmail(String verificationCode, String email) {
+        User user = userRepository.findByEmail(email).get();
+        if (user.getVerification().equals(verificationCode)) {
             user.activated();
+        } else {
+            throw new RuntimeException();
         }
     }
 

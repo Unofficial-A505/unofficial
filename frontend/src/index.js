@@ -8,13 +8,22 @@ import store from './store/store.js';
 import { RouterProvider } from "react-router-dom";
 import router from './Router';
 
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+
+const queryClient = new QueryClient();
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
+  // <React.StrictMode>
+  <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-    </Provider>
-  </React.StrictMode>
+    </QueryClientProvider>
+  </Provider>
+  // </React.StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change

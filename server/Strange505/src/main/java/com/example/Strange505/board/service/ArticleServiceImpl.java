@@ -5,9 +5,13 @@ import com.example.Strange505.board.domain.Board;
 import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.BoardRepository;
+import com.example.Strange505.file.service.ImageService;
+import com.example.Strange505.file.service.S3UploaderService;
 import com.example.Strange505.user.domain.User;
+import com.example.Strange505.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,15 +25,16 @@ public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
     private final BoardRepository boardRepository;
+    private final UserRepository userRepository;
+    private final ImageService imageService;
 
     @Override
     @Transactional
-    public Article createArticle(ArticleRequestDto dto, String jwt) {
-        User user = null;
-        List<Board> list = boardRepository.searchBoardByName(dto.getBoardName());
-        Board board = list.get(0);
-//        System.out.println("보드 아이디: " + board.getId());
+    public Article createArticle(ArticleRequestDto dto, Long userId){
+        User user = userRepository.findById(userId).orElseThrow();
+        Board board = boardRepository.findByName(dto.getBoardName()).orElseThrow();
         Article article = Article.createArticle(dto, user, board);
+        imageService.imageCheck(dto);
         Article savedArticle = articleRepository.save(article);
         return savedArticle;
     }
@@ -45,13 +50,18 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> getArticlesByTitle(String title) {
-        return articleRepository.searchByTitle(title);
+    public List<Article> getArticlesByBoard(Long boardId) {
+        return articleRepository.searchByBoard(boardId);
     }
 
     @Override
-    public List<Article> getArticlesByContent(String content) {
-        return articleRepository.searchByContent(content);
+    public List<Article> getArticlesByTitle(String title, Long boardId) {
+        return articleRepository.searchByTitle(title, boardId);
+    }
+
+    @Override
+    public List<Article> getArticlesByContent(String content, Long boardId) {
+        return articleRepository.searchByContent(content, boardId);
     }
 
     @Override
@@ -61,9 +71,11 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional
-    public void updateArticle(Long id, ArticleRequestDto articleDTO) { // 게시판 종류 수정은 어떻게?
+    public void updateArticle(Long id, ArticleRequestDto dto) {
+        List<Board> list = boardRepository.searchBoardByName(dto.getBoardName());
+        Board board = list.get(0);
         Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException("Article not found"));
-        article.updateArticle(articleDTO);
+        article.updateArticle(dto, board);
     }
 
     @Override
@@ -71,4 +83,11 @@ public class ArticleServiceImpl implements ArticleService {
     public void deleteArticle(Long id) {
         articleRepository.deleteById(id);
     }
+
+    @Override
+    public void addViewCount(Long id) {
+        Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        article.addView();
+    }
+
 }

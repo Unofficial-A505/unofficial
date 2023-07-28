@@ -1,5 +1,6 @@
 package com.example.Strange505.user.exception;
 
+import com.example.Strange505.vo.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +11,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice(basePackages = "com.example.Strange505.user") // 외에 여러 지정 방법이 있다.
 public class ExControllerAdvice {
     @ExceptionHandler
-    public ResponseEntity<String> userExHandler(NotActivatedException e) {
+    public ResponseEntity<Result> userExHandler(NotActivatedException e) {
         log.error("[exceptionHandler] ex", e);
-        return new ResponseEntity<>("아직 인증 안됨", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(Result.fail(e.getMessage()), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Result> passwordExHandler(NoMatchPasswordException e) {
+        log.error("[exceptionHandler] ex", e);
+        return new ResponseEntity<>(Result.fail(e.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 }

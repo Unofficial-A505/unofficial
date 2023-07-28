@@ -1,0 +1,62 @@
+.topcontainer {
+  width: 1280px;
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: space-between;
+
+  /* border: 1px dotted aqua; */
+}
+.topleftContainer {
+  margin: 0 auto;
+  /* border: 1px dotted aqua; */
+}
+.toprightContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content:first baseline;
+  width: 276px;
+  margin-bottom: 10px;
+  /* border: 1px dotted aqua; */
+}
+
+.usermainContainer {
+  margin-bottom: 0.5rem;
+}
+
+.bannerContainer {
+  width: 276px;
+
+  /* border: 1px dotted plum; */
+}
+
+.horiadcontainer {
+  width: 1280px;
+  margin: 0 auto;
+  /* border: 1px dotted aquamarine; */
+}
+
+.middlecontainer {
+  width: 1280px;
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 베스트 게시글 */
+.bestboard {
+  width: 700px;
+}
+
+.bestTitle {
+  text-align: start;
+
+  font-size: 25px;
+  font-weight: 600;
+  margin: 0 0 10px 15px;
+}
+
+.bestIcons {
+  margin: 0 0 6px 6px;
+}

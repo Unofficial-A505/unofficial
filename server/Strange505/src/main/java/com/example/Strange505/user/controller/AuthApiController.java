@@ -20,7 +20,7 @@ public class AuthApiController {
     private final AuthService authService;
     private final UserService userService;
     private final BCryptPasswordEncoder encoder;
-    private final EmailVerifyService emailVerifyService;
+
 
     private final long COOKIE_EXPIRATION = 7776000; // 90일
 
@@ -31,8 +31,7 @@ public class AuthApiController {
         AuthDto.SignupDto newSignupDto = AuthDto.SignupDto.encodePassword(signupDto, encodedPassword);
         newSignupDto.setVerification(UUIDProvider.getUuid(signupDto.getEmail()));
         userService.registerUser(newSignupDto);
-        // 인증 이메일 발송
-        emailVerifyService.sendEmail(newSignupDto.getEmail(), newSignupDto.getVerification());
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

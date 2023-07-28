@@ -1,5 +1,8 @@
+@import url(https://fonts.googleapis.com/earlyaccess/notosanskr.css);
+
 .App {
   text-align: center;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 .App-logo {
@@ -36,3 +39,4 @@
     transform: rotate(360deg);
   }
 }
+

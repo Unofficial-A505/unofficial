@@ -1,0 +1,35 @@
+.edugrantsContainer {
+  width: 276px;
+  height: 3rem;
+  border-radius: 5px;
+  text-align: center;
+  border: 0.307px solid rgba(255, 26, 26, 0.5);
+  background: #282C34;
+  margin: 0.4rem 0 0 0 ;
+}
+
+.educenterbox {
+  width: 220px;
+  display: flex;
+  margin: 0 auto;
+}
+
+.reactIcon {
+  margin: 2px 5px 0 5px;
+}
+
+.edubuttonTitle {
+  color: #FFF;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Inter;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%; /* 15px */
+
+  margin: 5px 0 0 0;
+}
+
+.boxarrowIcon {
+  margin: 5px 0 0 5px;
+}

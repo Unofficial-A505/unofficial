@@ -1,9 +1,9 @@
 package com.example.Strange505.board.controller;
 
-import com.example.Strange505.board.domain.Comment;
 import com.example.Strange505.board.dto.CommentRequestDto;
 import com.example.Strange505.board.dto.CommentResponseDto;
 import com.example.Strange505.board.service.CommentService;
+import com.example.Strange505.user.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +17,15 @@ import java.util.List;
 public class CommentController {
 
     private final CommentService commentService;
+    private final AuthService authService;
     
     @PostMapping("/api/articles/{articleId}/comments")
-    public ResponseEntity<?> registerComment(@RequestBody CommentRequestDto dto) {
-        commentService.createComment(dto);
+    public ResponseEntity<?> registerComment(@RequestHeader("Authorization") String accessToken, @RequestBody CommentRequestDto dto) {
+        Long userId = authService.extractID(accessToken);
+        if (userId == null) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+        commentService.createComment(userId, dto);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -49,7 +54,11 @@ public class CommentController {
     }
 
     @GetMapping("/api/commentsByUser/{userId}")
-    public ResponseEntity<List<CommentResponseDto>> getCommentByUser(@PathVariable Long userId) {
+    public ResponseEntity<List<CommentResponseDto>> getCommentByUser(@RequestHeader("Authorization") String accessToken) {
+        Long userId = authService.extractID(accessToken);
+        if (userId == null) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
         List<CommentResponseDto> list = commentService.getCommentByUser(userId);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }

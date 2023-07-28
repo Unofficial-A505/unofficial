@@ -1,47 +1,212 @@
 import styles from './CreatePostPage.module.css'
+import axios from 'axios';
 
-import React, { useEffect, useRef } from 'react';
-import useDidMountEffect from '../../components/DidMountEffect';
+import React, { useEffect, useRef, useCallback , useState} from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+
 import styled from 'styled-components';
 import Quill from 'quill';
+import 'react-quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
-import 'quill/dist/quill.snow.css';
+import ImageResize from '@looop/quill-image-resize-module-react'
 
+import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
+
+import TopSpace from '../../components/TopSpace/TopSpace';
+import UnderSpace from '../../components/UnderSpace/UnderSpace';
+
+Quill.register('modules/ImageResize', ImageResize)
 export default function CreatePostPage(){
+  const navigate = useNavigate();
+  const { boardTitle } = useParams();
+  const imageURL = 'https://plus.unsplash.com/premium_photo-1682855669043-fd359f155d3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=505&q=80'
+
+  // styled components
+  const Title = styled.h3`
+  margin: 0 0 0 10px;
+  text-align: start;
+  color: #000;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700px;
+  line-height: normal;
+  display: flex;
+  `
   const TitleInput = styled.input`
   font-size: 3rem;
   outline: none;
   padding-button: 0.5rem;
-  border: none;S
+  border: none;
   margin-bottom: 2rem;
-  width: 100%;S
+  width: 100%;
   `
 
-  useDidMountEffect(() => {
-    var quill = null
+  // quill 라이브러리 활용해서 에디터 띄우기
+  const titleInstance = useRef(null);
+  const quillElement = useRef(null);
+  const quillInstance = useRef(null);
+
+  const ReactQuillEX = () => {
+    const [quillText, setQuillText] = useState("");
+
+  useEffect(() => {
     console.log('mounted')
-    quill = new Quill('#editor-container', {
+    quillInstance.current = new Quill(quillElement.current, {
       modules: {
         toolbar: [
-          [{ header: '1' }, { header: '2' }],
-          [ 'bold', 'italic', 'underline', 'strike' ],
+          [{ header: [1, 2, 3, false] }],
+          ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+          [{ color: [] }, { background: [] }],
           [{ list: 'ordered' }, { list: 'bullet' }],
-          ['blockquote', 'code-block', 'link', 'image']
+          [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
+          ['link', 'image'],
         ]
       },
+      ImageResize : { modules : ['Resize'] },
       placeholder: '내용을 작성하세요',
       theme: 'snow'  // or 'bubble'
     });
+
+    // quillInstance.current.getModule('toolbar').addHandler('image', function () {
+    //   selectLocalImage();
+    // });
+    
+    
     return () => {
       console.log('unmount')
     }
   }, []);
 
+  // 이미지 url 추출 함수
+  // function selectLocalImage() {
+  //   const fileInput = document.createElement('input');
+  //   fileInput.setAttribute('type', 'file');
+  //   console.log("input.type " + fileInput.type);
+
+  //   fileInput.click();
+
+  //   fileInput.addEventListener("change", function (e) {  // change 이벤트로 input 값이 바뀌면 실행
+  //     e.preventDefault();
+  //     const formData = new FormData();
+  //     const file = fileInput.files[0];
+  //     formData.append('uploadFile', file);
+  //     console.log('file', file)
+  //     console.log(formData)
+
+  //     axios({
+  //       method: "post",
+  //       url: `http://70.12.247.35:8080/api/ads/uploadForArticle`,
+  //       data: formData,
+  //       headers: { "Content-Type": "multipart/form-data" }
+  //     // headers: {
+  //     //   Authorization: `Token ${this.$store.state.token}`,
+  //     // }
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       console.log('success')
+  //       console.log(typeof res.data)
+  //       const range = quillInstance.current.getSelection(); // 사용자가 선택한 에디터 범위
+  //       // // uploadPath에 역슬래시(\) 때문에 경로가 제대로 인식되지 않는 것을 슬래시(/)로 변환
+  //       // res.data = res.data.replace(/\\/g, '/');
+  //       const uploadPath = res.data
+  //       // quillInstance.current.insertEmbed(range.index, 'image', "/board/display?fileName=" + res.uploadPath +"/"+ res.uuid +"_"+ res.fileName);
+  //       quillInstance.current.insertEmbed(quillInstance.current.root, 'image', `${uploadPath}`);
+  //     })
+  //     .catch((err) => console.log(err))
+  //   })};
+
+
+  // quill.value('text-change', (delta, oldDelta, source) => {
+  //   console.log(quill.root.innerHTML)
+  // }, [])
+
+  // useEffect(() => {
+  //   var quillBubble = new Quill('#editor-container', {
+  //     modules: {
+  //       toolbar: [
+  //         [{ header: '1' }, { header: '2' }],
+  //         [ 'bold', 'italic', 'underline', 'strike' ],
+  //         [{ list: 'ordered' }, { list: 'bullet' }],
+  //         ['blockquote', 'code-block', 'link', 'image']
+  //       ]
+  //     },
+  //     placeholder: '내용을 작성하세요',
+  //     theme: 'bubble'
+  //   });
+  //   return () => {
+  //     console.log('unmount')
+  //   }
+  // }, []);
+
+  // post CRUD
+  const createPost = () => {
+    const title = titleInstance.current.value
+    const content = quillInstance.current.root.innerHTML
+    console.log(title, content, boardTitle)
+
+    axios({
+      method: "post",
+      url: `http://127.0.0.1:8000/api/v1/articles/`,
+      data: {
+        title,
+        content,
+      },
+    // headers: {
+    //   Authorization: `Token ${this.$store.state.token}`,
+    // }
+    })
+    .then((res) => {
+      navigate(`/boards/${boardTitle}/${res.data.id}`, { replace: true });
+      console.log(res.data);
+    })
+    .catch((err) => console.log(err))
+  }
+
+  // 이외 함수들
+  const handleCancel = () => {
+    navigate(-1);
+  }
+
+  const checkChange = () => {
+    console.log(quillInstance.current.root.innerHTML)
+  }
+
   return(
     <div>
-      <h1>새 글 작성</h1>
-      <TitleInput placeholder="제목을 입력하세요" />
-      <div id="editor-container"></div>
+      <TopSpace />
+
+      <div className={styles.craetecontainer}>
+      <div className={styles.upmenu}>
+        <Title><p>`{boardTitle}`</p><p>새 글 작성</p></Title>
+        <button className='btn' id={styles.createsubmitbutton}>게시하기</button>
+      </div>
+      
+        <div>
+          <TitleInput placeholder="제목을 입력하세요" ref={titleInstance}/>
+        </div>
+
+        <div className={styles.editorcontainer} id="editor-container" ref={quillElement}></div>
+        <input type="hidden" id="quill_html" name="content"/>
+
+        <button onClick={() => console.log(quillInstance.current.root.innerHTML)}>html까지 뽑고싶어</button>
+        <button onClick={() => console.log(titleInstance.current.value)}>제목 input value</button>
+        <button onClick={() => {
+          console.log(quillInstance.current.root)
+          quillInstance.current.insertEmbed(quillInstance.current.root, 'image', `${imageURL}`);
+          }}>이미지 태그로 삽입하기 테스트</button>
+
+        <div className={styles.undermenu}>
+          <button className={styles.grayoutbutton} onClick={handleCancel}><IoIosArrowBack />목록으로 돌아가기</button>
+          <button className='btn' id={styles.createsubmitbutton} onClick={createPost}>게시하기</button>
+        </div>
+
+      <UnderSpace />
+      
+      </div>
+
     </div>
   );
-}
+}}

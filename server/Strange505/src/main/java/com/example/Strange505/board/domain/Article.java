@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -25,7 +26,7 @@ public class Article {
     private Long id;
     private String title;
 
-    @Column(length = 5000)
+    @Column(length = 10000)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,6 +38,13 @@ public class Article {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
+
+    @OneToOne(mappedBy = "article")
+    private BestArticle bestArticle;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
+
     private Integer likes;
     private Integer views;
     private LocalDateTime createTime;
@@ -48,7 +56,6 @@ public class Article {
         article.title = dto.getTitle();
         article.content = dto.getContent();
         article.board = board;
-        article.addToBoard(board);
         article.createTime = LocalDateTime.now();
         article.modifyTime = LocalDateTime.now();
         article.user = user;
@@ -59,16 +66,25 @@ public class Article {
         return article;
     }
 
-    // 게시판에 게시글 추가
-    public void addToBoard(Board board) {
+    public void updateArticle(ArticleRequestDto dto, Board board) {
+        this.title = dto.getTitle();
+        this.content = dto.getContent();
+        this.nickName = dto.getNickName();
         this.board = board;
-        this.board.getArticles().add(this);
     }
 
-    public void updateArticle(ArticleRequestDto articleRequestDTO) {
-        this.title = articleRequestDTO.getTitle();
-        this.content = articleRequestDTO.getContent();
-        this.nickName = articleRequestDTO.getNickName();
+    public void addView() {
+        this.views++;
+    }
+
+    public void addLike() {
+        this.likes++;
+    }
+
+    public void subLike() {
+        if(this.likes > 0) {
+            this.likes--;
+        }
     }
 
     @Override

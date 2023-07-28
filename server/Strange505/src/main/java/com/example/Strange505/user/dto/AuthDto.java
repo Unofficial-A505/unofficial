@@ -26,6 +26,8 @@ public class AuthDto {
     @Setter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @ToString
+    @Builder
+    @AllArgsConstructor
     public static class SignupDto {
         private String email;
         private String password;

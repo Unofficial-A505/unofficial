@@ -1,0 +1,46 @@
+.titleContainer {
+  display: flex;
+  justify-content: left;
+  align-items: flex-end;
+  width: 75%;
+  height: 4rem;
+  padding: 0 3rem;
+  border-bottom: 2px solid #dedede;
+  /* border: 1px dotted red */
+}
+
+.titleContainer p {
+  margin-bottom: 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 0 0.5rem;
+  color: #034BB9;
+  border-bottom : 1px solid #034BB9;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  width: 90%;
+  height: 450px;
+  padding: 0 5rem;
+
+  /* border: 1px dotted red; */
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: right;
+  margin-top: 2rem;
+  /* border: 1px dotted red; */
+}
+
+.buttonContainer button {
+  margin: 1rem 0.5rem;
+}
+
+.btn-primary {
+  color: #034BB9;
+}
