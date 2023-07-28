@@ -18,12 +18,12 @@ spring:
 #    password: 1234
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://i9a505.p.ssafy.io:3306/ssafy_web_db?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://unofficial.kr/ssafy_web_db?serverTimezone=Asia/Seoul
     username: root
     password: strange505
   data:
     redis:
-      host: i9a505.p.ssafy.io
+      host: unofficial.kr
       port: 6379
 
   jpa:
@@ -72,4 +72,4 @@ file:
   dir: C:\Users\SSAFY\Desktop/file/
 
 mail:
-  base-url : "http://i9a505.p.ssafy.io:8080/api/verify?verificationCode="
+  base-url : "https://unofficial.kr/api/verify?verificationCode="
