@@ -18,7 +18,7 @@ import { FaCrown } from '@react-icons/all-files/fa/FaCrown';
 export default function MainPage(){
   return (
     <section>
-      <TopSpace />
+      {/* <TopSpace /> */}
       <div className={styles.topcontainer}>
         <div className={styles.topleftContainer}> 
           <LunchCarousel />
