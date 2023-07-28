@@ -56,6 +56,15 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
     }
 
     @Override
+    public List<Article> searchByBoard(Long boardId) {
+        QArticle article = QArticle.article;
+        return queryFactory.select(article)
+                .from(article)
+                .where(article.board.id.eq(boardId))
+                .fetch();
+    }
+
+    @Override
     public void addLikeCount(Article article) {
         article.addLike();
     }

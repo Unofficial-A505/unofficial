@@ -77,7 +77,10 @@ public class SecurityConfig {
 
                 .and()
                 .headers()
-                .frameOptions().sameOrigin();
+                .frameOptions().sameOrigin()
+                .xssProtection()
+                .and()
+                .contentSecurityPolicy("script-src 'self'");
 
         return http.build();
     }

@@ -29,10 +29,10 @@ public class CommentServiceImpl implements CommentService {
     private final UserRepository userRepository;
 
     @Override
-    public void createComment(CommentRequestDto dto) {
+    public void createComment(Long userId, CommentRequestDto dto) {
         Article article = articleRepository.getReferenceById(dto.getArticleId());
         Comment parent = commentRepository.findById(dto.getParentId()).orElse(null);
-        User user = userRepository.findById(dto.getUserId()).orElse(null);
+        User user = userRepository.findById(userId).orElse(null);
         Comment comment = Comment.builder()
                 .article(article)
                 .content(dto.getContent())
@@ -86,7 +86,10 @@ public class CommentServiceImpl implements CommentService {
     public void deleteComment(Long id) {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new RuntimeException());
         comment.remove();
+
         List<Comment> removableCommentList = comment.findRemovableList();
+        log.info("removeList = {}", removableCommentList);
         commentRepository.deleteAll(removableCommentList);
+        System.out.println("서비스단");
     }
 }
