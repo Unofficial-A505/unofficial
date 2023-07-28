@@ -30,7 +30,7 @@ public class LunchServiceImpl implements LunchService {
 
     @Override
     public boolean forceCron() throws Exception {
-        lunchScrapCron.cronJobNextWeek();
+        lunchScrapCron.forceCron();
         return true;
     }
 

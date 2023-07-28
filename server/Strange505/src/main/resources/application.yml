@@ -20,18 +20,22 @@ spring:
 
 #  datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://i9a505.p.ssafy.io:3306/ssafy_web_db?serverTimezone=Asia/Seoul
+#    url: jdbc:mysql://localhost:3308/ssafy_web_db?serverTimezone=Asia/Seoul
 #    username: root
-#    password: strange505
+#    password: 1234
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://i9a505.p.ssafy.io:3306/ssafy_web_db?serverTimezone=Asia/Seoul
+    username: root
+    password: strange505
   data:
     redis:
-#      host:
-      host: localhost
+      host: i9a505.p.ssafy.io
       port: 6379
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         default_batch_fetch_size: 10

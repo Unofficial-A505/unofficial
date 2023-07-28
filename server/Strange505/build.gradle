@@ -1,16 +1,7 @@
-
-//추가
-buildscript {
-	ext {
-		queryDslVersion = "5.0.0"
-	}
-}
-
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.1.1'
 	id 'io.spring.dependency-management' version '1.1.0'
-	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'com.example'
@@ -18,12 +9,6 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	sourceCompatibility = "17"
-}
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
 }
 
 repositories {
@@ -76,32 +61,4 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
-}
-
-apply plugin: "com.ewerk.gradle.plugins.querydsl"
-
-def queryDslDir = "src/main/generated"
-querydsl {
-	library = "com.querydsl:querydsl-apt:4.2.2" // 사용할 AnnotationProcesoor 정의
-	jpa = true
-	querydslSourcesDir = queryDslDir
-}
-sourceSets {
-	main {
-		java {
-			srcDir queryDslDir
-		}
-	}
-}
-
-compileQuerydsl {
-	options.annotationProcessorPath = configurations.querydsl
-}
-
-configurations {
-	/**
-	 * 손권남님이 공유해주신 팁
-	 * 아래를 지정하지 않으면, compile 로 걸린 JPA 의존성에 접근하지 못한다.
-	 */
-	querydsl.extendsFrom compileClasspath
 }

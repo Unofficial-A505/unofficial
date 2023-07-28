@@ -1,0 +1,80 @@
+stages:          # List of stages for jobs, and their order of execution
+  - test
+  - build
+  - libs
+  - deploy
+
+test:       # This job runs in the build stage, which runs first.
+  image: openjdk:17.0.1-oraclelinux8
+  stage: test
+  script: 
+    - chmod -R 775 server/
+    - cd ./server/Strange505
+    - ./gradlew test
+
+build:   # This job runs in the test stage.
+  image: openjdk:17.0.1-oraclelinux8
+  stage: build    # It only starts when the job in the build stage completes successfully.
+  variables:
+    IMAGE_NAME: strangedev505/springboot-app
+  script:
+    - chmod -R 775 server/
+    - cd ./server/Strange505
+    - ./gradlew clean
+    - ./gradlew build
+    - docker build -t $IMAGE_NAME .
+  only:
+    - master
+
+npm: 
+  stage: libs
+  only:
+    - develop
+  cache:
+    paths:
+      - frontend/node_modules
+  script:
+    - chmod -R 775 frontend/
+    - cd frontend
+    - node -v
+    - npm install
+
+deploy-was1:      # This job runs in the deploy stage.
+  stage: deploy 
+  tags:
+    - deployer
+  script:
+    - docker stop springboot-app || true
+    - docker rm springboot-app || true
+    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.50 --name springboot-app strangedev505/springboot-app
+    - docker rmi $(docker images -f "dangling=true" -q)
+  when: on_success
+  only: 
+    - master
+
+deploy-was2:      # This job runs in the deploy stage.
+  stage: deploy 
+  tags:
+    - deployer
+  script:
+    - docker stop springboot-app2 || true
+    - docker rm springboot-app2 || true
+    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.51 --name springboot-app2 strangedev505/springboot-app
+    - docker rmi $(docker images -f "dangling=true" -q)
+  when: on_success
+  only: 
+    - master
+
+deploy-react:      # This job runs in the deploy stage.
+  stage: deploy 
+  tags:
+    - deployer
+  script:
+    - chmod -R 775 frontend/
+    - cd frontend
+    - npm run build
+    - sudo rm -rf /home/ubuntu/react-build-files
+    - sudo cp -r dist /home/ubuntu/react-build-files
+    - docker exec nginx-container service nginx reload
+  only: 
+    - develop

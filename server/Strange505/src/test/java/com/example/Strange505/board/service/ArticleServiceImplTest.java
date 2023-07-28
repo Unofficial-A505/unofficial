@@ -17,6 +17,7 @@
 //
 //@SpringBootTest
 //@Transactional
+//@Commit
 //class ArticleServiceImplTest {
 //
 //    @Autowired
