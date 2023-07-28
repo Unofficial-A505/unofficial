@@ -58,18 +58,14 @@ public class Comment {
     public List<Comment> findRemovableList() {
         List<Comment> result = new ArrayList<>();
         Optional.ofNullable(this.parent).ifPresentOrElse(
-                parentComment ->{//대댓글인 경우 (부모가 존재하는 경우)
-                    if( parentComment.isRemoved() && parentComment.isAllChildRemoved()){
-                        result.addAll(parentComment.getChildren());
-                        result.add(parentComment);
-                    }
+                parentComment -> {//대댓글인 경우 (부모가 존재하는 경우)
+                    result.add(this);
                 },
-
                 () -> {//댓글인 경우
-                    if (isAllChildRemoved()) {
-                        System.out.println(isAllChildRemoved());
+                    if (isAllChildRemoved()) { // 자식 댓글이 다 지워진 경우
                         result.add(this);
-                        result.addAll(this.getChildren());
+                    } else {
+                        this.content = "삭제된 댓글입니다.";
                     }
                 }
         );
@@ -80,12 +76,12 @@ public class Comment {
 
     //모든 자식 댓글이 삭제되었는지 판단
     private boolean isAllChildRemoved() {
-        return getChildren().stream()//https://kim-jong-hyun.tistory.com/110 킹종현님 사랑합니다.
+        return getChildren().stream()
                 .map(Comment::isRemoved)//지워졌는지 여부로 바꾼다
-                .filter(isRemove -> !isRemoved)//지워졌으면 true, 안지워졌으면 false이다. 따라서 filter에 걸러지는 것은 false인 녀석들이고, 있다면 false를 없다면 orElse를 통해 true를 반환한다.
-                .findAny()//지워지지 않은게 하나라도 있다면 false를 반환
+                .filter(isDelete -> !isDelete)//지워졌으면 true, 안지워졌으면 false이다. 따라서 filter에 걸러지는 것은 false인 녀석들이고, 있다면 false를 없다면 orElse를 통해 true를 반환한다.
+                .findAny()
+                //지워지지 않은게 하나라도 있다면 false를 반환
                 .orElse(true);//모두 지워졌다면 true를 반환
-
     }
 
 

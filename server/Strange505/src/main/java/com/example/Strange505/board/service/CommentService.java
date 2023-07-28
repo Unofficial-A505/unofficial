@@ -8,7 +8,7 @@ import com.example.Strange505.user.domain.User;
 import java.util.List;
 
 public interface CommentService {
-    void createComment(CommentRequestDto requestDto);
+    void createComment(Long userId, CommentRequestDto requestDto);
     CommentResponseDto getCommentById(Long id);
     List<CommentResponseDto> getCommentByArticle(Long articleId);
     List<CommentResponseDto> getCommentByUser(Long userId);

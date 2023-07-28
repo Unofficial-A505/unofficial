@@ -21,8 +21,12 @@ public class CommentController {
     private final AuthService authService;
     
     @PostMapping("/api/articles/{articleId}/comments")
-    public ResponseEntity<?> registerComment(@RequestBody CommentRequestDto dto) {
-        commentService.createComment(dto);
+    public ResponseEntity<?> registerComment(@RequestHeader("Authorization") String accessToken, @RequestBody CommentRequestDto dto) {
+        Long userId = authService.extractionID(accessToken);
+        if (userId == null) {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+        commentService.createComment(userId, dto);
         return new ResponseEntity(HttpStatus.OK);
     }
 

@@ -27,13 +27,13 @@
 //    private BoardRepository boardRepository;
 //
 //    @Test
-//    public void 게시글_생성_및_검색() {
+//    public void 게시글_생성() {
 //
 //        Board board = Board.builder().name("게시판")
 //                .createTime(LocalDateTime.now())
 //                .modifyTime(LocalDateTime.now())
 //                .build();
-//        boardRepository.save(board);
+////        boardRepository.save(board);
 //        ArticleRequestDto articleDTO = ArticleRequestDto.builder()
 //                .title("제목")
 //                .content("내용")
@@ -41,24 +41,53 @@
 //                .build();
 //
 //        Article savedArticle = articleService.createArticle(articleDTO, 1L);
-//        List<Article> articles = articleService.getArticlesByTitle("제목", 0L);
-//        Article searchedArticle = articles.get(0);
-////        assertThat("제목").isEqualTo(searchedArticle.getTitle());
+//        Long id = savedArticle.getId();
+//        Article searchedArticle = articleService.getArticleById(id);
 //        assertThat(savedArticle).isEqualTo(searchedArticle);
-////        System.out.println("생성시간 : " + searchedArticle.getCreateTime());
+//        System.out.println("생성시간 : " + searchedArticle.getCreateTime());
+//    }
+//
+//    @Test
+//    public void 게시글_제목_검색() {
+//        ArticleRequestDto articleDTO = ArticleRequestDto.builder()
+//                .title("제목")
+//                .content("내용")
+//                .boardName("게시판")
+//                .build();
+//        Article savedArticle = articleService.createArticle(articleDTO, 1L);
+//
+//        List<Article> searchedList = articleService.getArticlesByTitle("제", 0L);
+//        Article searchedArticle = searchedList.get(0);
+//        assertThat(searchedArticle.getTitle()).contains("제");
 //    }
 //
 //    @Test
 //    public void 게시글_내용_검색() {
-//        List<Article> articles = articleService.getArticlesByContent("내", 0L);
-//        Article searchedArticle = articles.get(0);
-//        System.out.println(searchedArticle.getContent());
+//        ArticleRequestDto articleDTO = ArticleRequestDto.builder()
+//                .title("제목")
+//                .content("내용")
+//                .boardName("게시판")
+//                .build();
+//        Article savedArticle = articleService.createArticle(articleDTO, 1L);
+//
+//        List<Article> searchedList = articleService.getArticlesByContent("용", 0L);
+//        Article searchedArticle = searchedList.get(0);
+//        assertThat(searchedArticle.getContent()).contains("용");
 //    }
 //
-////    @Test
-////    public void 게시글_사용자_검색() {
-////
-////    }
+//    @Test
+//    public void 게시글_사용자_검색() {
+//        ArticleRequestDto articleDTO = ArticleRequestDto.builder()
+//                .title("제목")
+//                .content("내용")
+//                .boardName("게시판")
+//                .build();
+//        Article savedArticle = articleService.createArticle(articleDTO, 1L);
+//
+//        List<Article> searchedList = articleService.getArticlesByUser(1L);
+//        Article searchedArticle = searchedList.get(0);
+//        assertThat(searchedArticle.getUser().getId()).isEqualTo(1L);
+//    }
 //
 //    @Test
 //    public void 게시글_수정() {
@@ -86,6 +115,19 @@
 //        List<Article> articles = articleService.getAllArticles();
 //        assertThat(articles.size()).isEqualTo(1);
 //
+//    }
+//
+//    @Test
+//    public void 조회수_증가() {
+//        ArticleRequestDto articleDTO = ArticleRequestDto.builder()
+//                .title("제목")
+//                .content("내용")
+//                .boardName("게시판")
+//                .build();
+//        Article savedArticle = articleService.createArticle(articleDTO, 1L);
+//
+//        articleService.addViewCount(1L);
+//        assertThat(savedArticle.getViews()).isEqualTo(1);
 //    }
 //
 //}
