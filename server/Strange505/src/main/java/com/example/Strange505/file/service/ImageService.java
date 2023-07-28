@@ -10,4 +10,6 @@ public interface ImageService {
     Image saveImage(UploadFile file, Long articleId);
 
     List<String> getPathsByArticle(Long articleId);
+
+    List<String> parsingArticle(String data);
 }

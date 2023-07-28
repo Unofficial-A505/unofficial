@@ -8,6 +8,7 @@ import com.example.Strange505.file.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,5 +35,31 @@ public class ImageServiceImpl implements ImageService {
     public List<String> getPathsByArticle(Long articleId) {
         List<Image> images = imageRepository.searchByArticle(articleId);
         return images.stream().map(image -> image.getStoreFileName()).toList();
+    }
+
+    @Override
+    public List<String> parsingArticle(String data) {
+        List<String> urls = new ArrayList<>();
+        int flag = 0;
+        do {
+            data = urlExtract(data, urls);
+            flag = data.indexOf("src=\"");
+        } while (flag != -1);
+
+        return urls;
+    }
+
+    private String urlExtract(String data, List<String> urls) {
+        int idx = data.indexOf("src=\"");
+        String now = data.substring(idx + 5);
+        idx = now.indexOf("\"");
+
+        String URL = now.substring(0, idx);
+        String leftover = now.substring(idx + 1);
+
+        System.out.println(URL);
+        urls.add(URL.substring(URL.indexOf("/static/")));
+        System.out.println(leftover);
+        return leftover;
     }
 }
