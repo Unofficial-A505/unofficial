@@ -40,7 +40,7 @@ public class S3UploaderServiceImpl implements S3UploaderService {
     public String upload(MultipartFile multipartFile, String dirName) throws IOException {
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
-        return upload(uploadFile, dirName);
+        return s3upload(uploadFile, dirName);
     }
 
     private Optional<File> convert(MultipartFile file) throws IOException {
@@ -55,7 +55,7 @@ public class S3UploaderServiceImpl implements S3UploaderService {
         return Optional.of(convertFile);
     }
 
-    private String upload(File uploadFile, String dirName) {
+    private String s3upload(File uploadFile, String dirName) {
         String originalFileName = uploadFile.getName();
         String extension = "";
         int dotIndex = originalFileName.lastIndexOf('.');

@@ -1,6 +1,7 @@
 package com.example.Strange505.file.service;
 
 import com.example.Strange505.board.domain.Article;
+import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.file.entity.Image;
 import com.example.Strange505.file.dto.UploadFile;
 import com.example.Strange505.board.repository.ArticleRepository;
@@ -17,6 +18,7 @@ public class ImageServiceImpl implements ImageService {
 
     private final ImageRepository imageRepository;
     private final ArticleRepository articleRepository;
+    private final S3UploaderService s3UploaderService;
 
     @Override
     public Image saveImage(UploadFile file, Long articleId) {
@@ -38,7 +40,15 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public List<String> parsingArticle(String data) {
+    public void imageCheck(ArticleRequestDto dto) {
+        List<String> preList = dto.getImageList();
+        List<String> nowList = parsingArticle(dto.getContent());
+
+        preList.stream().filter(target -> !nowList.contains(target))
+                .forEach(deleteTarget -> s3UploaderService.deleteFile(deleteTarget));
+    }
+
+    private List<String> parsingArticle(String data) {
         List<String> urls = new ArrayList<>();
         int flag = 0;
         do {
@@ -48,6 +58,7 @@ public class ImageServiceImpl implements ImageService {
 
         return urls;
     }
+
 
     private String urlExtract(String data, List<String> urls) {
         int idx = data.indexOf("src=\"");

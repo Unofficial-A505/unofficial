@@ -16,7 +16,7 @@ public class Board {
     @Id @GeneratedValue
     @Column(name = "board_id")
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;

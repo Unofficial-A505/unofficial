@@ -1,6 +1,5 @@
 package com.example.Strange505.board.controller;
 
-import com.example.Strange505.board.domain.Comment;
 import com.example.Strange505.board.dto.CommentRequestDto;
 import com.example.Strange505.board.dto.CommentResponseDto;
 import com.example.Strange505.board.service.CommentService;
@@ -22,7 +21,7 @@ public class CommentController {
     
     @PostMapping("/api/articles/{articleId}/comments")
     public ResponseEntity<?> registerComment(@RequestHeader("Authorization") String accessToken, @RequestBody CommentRequestDto dto) {
-        Long userId = authService.extractionID(accessToken);
+        Long userId = authService.extractID(accessToken);
         if (userId == null) {
             return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
         }
@@ -56,7 +55,7 @@ public class CommentController {
 
     @GetMapping("/api/commentsByUser/{userId}")
     public ResponseEntity<List<CommentResponseDto>> getCommentByUser(@RequestHeader("Authorization") String accessToken) {
-        Long userId = authService.extractionID(accessToken);
+        Long userId = authService.extractID(accessToken);
         if (userId == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }

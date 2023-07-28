@@ -6,7 +6,6 @@ import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.board.dto.ArticleResponseDto;
 import com.example.Strange505.board.dto.ImageForm;
 import com.example.Strange505.board.service.ArticleService;
-import com.example.Strange505.board.service.BoardService;
 import com.example.Strange505.user.service.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,10 +33,7 @@ public class ArticleController {
     @PostMapping
     public ResponseEntity<?> registerArticle(@RequestHeader("Authorization") String accessToken,
                                              @RequestBody ArticleRequestDto dto) {
-        Long userId = authService.extractionID(accessToken);
-        if (userId == null) {
-            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
-        }
+        Long userId = authService.extractID(accessToken);
         articleService.createArticle(dto, userId);
         return new ResponseEntity<>("Article created successfully", HttpStatus.OK);
 
@@ -112,7 +108,7 @@ public class ArticleController {
 
     @GetMapping("/user")
     public ResponseEntity<List<ArticleResponseDto>> getArticlesByUser(@RequestHeader("Authorization") String accessToken) {
-        Long userId = authService.extractionID(accessToken);
+        Long userId = authService.extractID(accessToken);
         if (userId == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }

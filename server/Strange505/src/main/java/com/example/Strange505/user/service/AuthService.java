@@ -127,7 +127,7 @@ public class AuthService {
         return null;
     }
 
-    public Long extractionID(String accessToken) {
+    public Long extractID(String accessToken) {
         String token = resolveToken(accessToken);
         return Long.parseLong(jwtTokenProvider.getClaims(token).get("user_id").toString());
     }
