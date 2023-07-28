@@ -11,25 +11,24 @@ spring:
       max-file-size: 5MB
       max-request-size: 5MB
 
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3308/ssafy_web_db?serverTimezone=Asia/Seoul
-    username: root
-    password: 1234
 #  datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://i9a505.p.ssafy.io:3306/ssafy_web_db?serverTimezone=Asia/Seoul
+#    url: jdbc:mysql://localhost:3308/ssafy_web_db?serverTimezone=Asia/Seoul
 #    username: root
-#    password: strange505
+#    password: 1234
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://i9a505.p.ssafy.io:3306/ssafy_web_db?serverTimezone=Asia/Seoul
+    username: root
+    password: strange505
   data:
     redis:
-#      host:
-      host: localhost
+      host: i9a505.p.ssafy.io
       port: 6379
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         format_sql: true
@@ -73,4 +72,4 @@ file:
   dir: C:\Users\SSAFY\Desktop/file/
 
 mail:
-  base-url : "http://localhost:8080/api/verify?verificationCode="
+  base-url : "https://unofficial.kr/api/verify?verificationCode="
