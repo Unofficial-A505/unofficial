@@ -23,6 +23,8 @@ build:   # This job runs in the test stage.
     - ./gradlew clean
     - ./gradlew build
     - docker build -t $IMAGE_NAME .
+  only:
+    - master
 
 npm: 
   stage: libs
@@ -45,9 +47,10 @@ deploy-was1:      # This job runs in the deploy stage.
     - docker stop springboot-app || true
     - docker rm springboot-app || true
     - docker run -d --restart always --network ubuntu_default --ip 172.18.0.50 --name springboot-app strangedev505/springboot-app
+    - docker rmi $(docker images -f "dangling=true" -q)
   when: on_success
   only: 
-    - develop
+    - master
 
 deploy-was2:      # This job runs in the deploy stage.
   stage: deploy 
@@ -57,9 +60,10 @@ deploy-was2:      # This job runs in the deploy stage.
     - docker stop springboot-app2 || true
     - docker rm springboot-app2 || true
     - docker run -d --restart always --network ubuntu_default --ip 172.18.0.51 --name springboot-app2 strangedev505/springboot-app
+    - docker rmi $(docker images -f "dangling=true" -q)
   when: on_success
   only: 
-    - develop
+    - master
 
 deploy-react:      # This job runs in the deploy stage.
   stage: deploy 
