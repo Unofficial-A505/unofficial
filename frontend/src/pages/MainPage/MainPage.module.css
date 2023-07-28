@@ -14,22 +14,17 @@
 .toprightContainer {
   display: flex;
   flex-direction: column;
-  justify-content:first baseline;
+  justify-content: space-between;
   width: 276px;
-  margin-bottom: 10px;
   /* border: 1px dotted aqua; */
 }
-
-.usermainContainer {
-  margin-bottom: 0.5rem;
+/* .usermainContainer {
+  margin-bottom: 0.3rem;
 }
-
 .bannerContainer {
-  width: 276px;
+  width: 100%;
 
   /* border: 1px dotted plum; */
-}
-
 .horiadcontainer {
   width: 1280px;
   margin: 0 auto;
