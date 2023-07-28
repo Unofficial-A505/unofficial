@@ -1,18 +1,59 @@
 import styles from "./Card.module.css";
-import { animated } from "react-spring";
 
 export default function Card({ lunchZip }) {
+  // 메뉴 3개씩 슬라이드에 담아주는 함수
+  const chunkSize = 3;
+  const chunkArray = (arr, size) => {
+    const chunkedArray = [];
+    for (let i = 0; i < arr.length; i += size) {
+      chunkedArray.push(arr.slice(i, i + size));
+    }
+    return chunkedArray;
+  };
+
+  const slides = chunkArray(lunchZip, chunkSize);
+  console.log("slides", slides);
+
   return (
-    <animated.div className={styles.card}>
+    <div className={styles.card}>
       <div className={styles.title}>
         <p>{lunchZip[0].local} 캠퍼스</p>
       </div>
-      <div className={styles.menus}>
-        {lunchZip.map((menu) => {
-          return <Menu menu={menu} />;
-        })}
+      <div id="carouselExampleIndicators" class="carousel slide">
+        <div class="carousel-inner">
+          {slides.map((slide, index) => (
+            <div
+              className={"carousel-item " + (index === 0 && "active")}
+              key={index}
+            >
+              <div className={styles.menus}>
+                {slide.map((menu, menuIndex) => (
+                  <Menu key={menuIndex} menu={menu} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
       </div>
-    </animated.div>
+    </div>
   );
 }
 
@@ -21,7 +62,7 @@ function Menu({ menu }) {
 
   return (
     <div className={styles.menu}>
-      <img className={styles.cover} src={menu.imageUrl} alt={name} />
+      <img style={{ objectFit: "cover" }} src={menu.imageUrl} alt={name} />
       <div className="d-flex justify-content-between mb-1">
         <p>{menu.courseName}</p>
         <p>{cal}kcal</p>

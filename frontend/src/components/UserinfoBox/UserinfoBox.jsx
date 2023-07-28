@@ -18,6 +18,20 @@ export default function UserinfoBox(){
 
   const navigate = useNavigate();
   // user정보 없는 상황
+  return(
+    <div className={styles.usercontainer}>
+      <div className={styles.logincenterbox}>
+        <p className={styles.unloginmessage}>언오피셜에서 자유롭게 소통해보세요</p>
+        <div className={styles.loginContainer}>
+          <button className={styles.userButton} onClick={()=>{setModalOpen(true)}}>로그인</button>
+          <button className={styles.userButton} onClick={()=>{navigate('/signup')}}>회원가입</button>
+          {modalOpen && <Login setModalOpen={setModalOpen} />}
+        </div>
+      </div>
+    </div>
+  );
+
+  // // user정보 있는 상황
   // return(
   //   <div className={styles.usercontainer}>
   //     <div className={styles.logincenterbox}>

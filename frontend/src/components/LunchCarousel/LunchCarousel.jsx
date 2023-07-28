@@ -9,8 +9,19 @@ export default function LunchCarousel() {
   const [cards, setCards] = useState([]);
   const [lunchData, setLunchData] = useState([]);
 
+  useEffect(() => {
+    fetchLunchData();
+  }, []);
+
+  useEffect(() => {
+    if (lunchData.length) {
+      const localLunchData = groupByLocal(lunchData);
+      createCards(localLunchData);
+    }
+  }, [lunchData]);
+
   // 오늘 날짜 가져오기
-  const getTodayDate = () => {
+  const getToday = () => {
     const newDate = new Date();
     const year = newDate.getFullYear().toString();
     let month = (newDate.getMonth() + 1).toString().padStart(2, "0");
@@ -21,9 +32,9 @@ export default function LunchCarousel() {
   // API 호출로 점심메뉴 데이터 가져오기
   const fetchLunchData = async () => {
     try {
-      const today = getTodayDate();
+      const today = getToday();
       let response = await axios.get(
-        "https://unofficial.kr/api/lunch?date=20230731"
+        "https://unofficial.kr/api/lunch?date=20230727"
         // `https://unofficial.kr/api/lunch?date=${today}`
       );
       console.log("API호출", response.data);
@@ -60,30 +71,19 @@ export default function LunchCarousel() {
     const newCards = localLunchData.map((data) => {
       return {
         key: uuidv4(),
-        content: <Card lunchZip={data} />,
+        content: <Card lunchZip={data} key={data[0].local} />,
       };
     });
     console.log("newCards", newCards);
     setCards(newCards);
   };
 
-  useEffect(() => {
-    fetchLunchData();
-  }, []);
-
-  useEffect(() => {
-    if (lunchData.length) {
-      const localLunchData = groupByLocal(lunchData);
-      createCards(localLunchData);
-    }
-  }, [lunchData]);
-
   return (
     <div className={styles.LunchCarousel}>
       <Carousel
         cards={cards}
         height="500px"
-        width="70%"
+        width="90%"
         margin="0 auto"
         offset={1}
         showArrows={false}

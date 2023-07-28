@@ -1,5 +1,5 @@
 .topcontainer {
-  width: 1150px;
+  width: 1280px;
   margin: 0 auto;
 
   display: flex;
@@ -7,30 +7,37 @@
 
   /* border: 1px dotted aqua; */
 }
-
+.topleftContainer {
+  margin: 0 auto;
+}
 .toprightContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content:first baseline;
+  width: 276px;
+  border: 1px dotted aqua;
   margin: 0 0 0 10px;
 }
 
 .usermainContainer {
-  margin: 10px auto;
+  margin: 1.5rem 0 0.5rem 0;
 }
 
 .bannerContainer {
   width: 276px;
-  margin: 10px auto;
+  margin: 0.5rem auto;
 
   /* border: 1px dotted plum; */
 }
 
 .horiadcontainer {
-  width: 1300px;
+  width: 1280px;
   margin: 0 auto;
   /* border: 1px dotted aquamarine; */
 }
 
 .middlecontainer {
-  width: 1200px;
+  width: 1280px;
   margin: 0 auto;
 
   display: flex;
