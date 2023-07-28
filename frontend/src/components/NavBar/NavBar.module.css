@@ -1,5 +1,5 @@
 .container {
-  margin: 10px autogit;
+  margin: 10px 0;
   width: 1280px;
 }
 .navtabs {
@@ -26,7 +26,7 @@
 }
 .tab:hover {
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   color: #034BB9;
 }
 .darkmode {
