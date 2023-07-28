@@ -23,9 +23,18 @@ export default function LunchCarousel() {
   // 오늘 날짜 가져오기
   const getToday = () => {
     const newDate = new Date();
+    const day = newDate.getDay();
+    
+    // 주말이면 월요일로 날짜를 조정
+    if (day === 0 || day === 6) {
+      const adjust = day === 6 ? 2 : 1;
+      newDate.setDate(newDate.getDate() + adjust);
+    }
+  
     const year = newDate.getFullYear().toString();
     let month = (newDate.getMonth() + 1).toString().padStart(2, "0");
     let date = newDate.getDate().toString().padStart(2, "0");
+
     return `${year}${month}${date}`;
   };
 
@@ -34,17 +43,17 @@ export default function LunchCarousel() {
     try {
       const today = getToday();
       let response = await axios.get(
-        "https://unofficial.kr/api/lunch?date=20230727"
+        "https://unofficial.kr/api/lunch?date=20230728"
         // `https://unofficial.kr/api/lunch?date=${today}`
       );
-      console.log("API호출", response.data);
+      console.log("점심API", response.data);
       if (response.data) {
         setLunchData(response.data);
       } else {
         alert("아직 밥 정보 없음");
       }
     } catch (error) {
-      console.log("API 호출 요류", error);
+      console.log("점심API", error);
     }
   };
 
@@ -74,7 +83,7 @@ export default function LunchCarousel() {
         content: <Card lunchZip={data} key={data[0].local} />,
       };
     });
-    console.log("newCards", newCards);
+
     setCards(newCards);
   };
 
