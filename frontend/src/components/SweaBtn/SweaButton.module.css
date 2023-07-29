@@ -9,6 +9,9 @@
   border: 1px solid #eeeeee;
   box-shadow: 0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04);
 }
+.swaebuttonContainer:hover {
+  box-shadow: 2px 2px 3px rgba(167, 167, 167, 0.5);
+}
 .swaeLogo {
   width: 22px;
   height: 22px;
@@ -22,11 +25,11 @@
 .sweabuttonTitle {
   color: #000;
   font-feature-settings: 'clig' off, 'liga' off;
-  /* font-family: Mako; */
+  font-family: Mako;
   font-size: 15px;
   font-style: normal;
   font-weight: 450;
-  /* line-height: 100%; */
+  line-height: 100%;
   margin-left: 5px;
   margin-bottom: 0;
 }
