@@ -4,6 +4,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import Card from "./Card";
 import Carousel from "./Carousel";
+import NewCarousel from "./NewCarousel";
 
 export default function LunchCarousel() {
   const [cards, setCards] = useState([]);
@@ -43,8 +44,8 @@ export default function LunchCarousel() {
     try {
       const today = getToday();
       let response = await axios.get(
-        // "https://unofficial.kr/api/lunch?date=20230728"
-        `https://unofficial.kr/api/lunch?date=${today}`
+        "https://unofficial.kr/api/lunch?date=20230728"
+        // `https://unofficial.kr/api/lunch?date=${today}`
       );
       console.log("점심API", response.data);
       if (response.data) {
@@ -89,14 +90,15 @@ export default function LunchCarousel() {
 
   return (
     <div className={styles.LunchCarousel}>
-      <Carousel
+      {/* <Carousel
         cards={cards}
         height="100%"
         width="100%"
         margin="0 auto"
         offset={1}
         showArrows={false}
-      />
+      /> */}
+      <NewCarousel cards={cards} />
     </div>
   );
 }
