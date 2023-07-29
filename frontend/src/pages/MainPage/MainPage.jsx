@@ -38,6 +38,9 @@ export default function MainPage() {
         <AdHorizontal />
       </div>
       <div className={styles.middleContainer}>
+        {/* <div className={styles.middleLeftContainer}>
+          <AdVertical />
+        </div> */}
         <div className={styles.bestBoard}>
           <div className={styles.bestTitle}>
             Best 게시글

@@ -29,10 +29,10 @@ export default function NavBar() {
 
   return (
     <div>
-      <nav className="navbar navbar-expand-sm d-flex justify-content-center">
+      <nav className="navbar navbar-expand-sm">
         <div className={`container-fluid ${styles.container}`}>
           <a className="navbar-brand" style={{ padding: "10px" }} href="/">
-            <img src={main_logo} alt="main_logo" width={150} />
+            <img src={main_logo} alt="main_logo" width={150} style={{marginBottom:'5px'}} />
           </a>
           <div className="collapse navbar-collapse">
             <MenuItems />
@@ -48,7 +48,7 @@ export default function NavBar() {
           </button>
         </div>
       </nav>
-      
+
       <div
         className="offcanvas offcanvas-end"
         tabIndex="-1"
@@ -56,7 +56,9 @@ export default function NavBar() {
         aria-labelledby="offcanvasNavbarLabel"
       >
         <div className="offcanvas-header">
-          <h5 className="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+          <h5 className="offcanvas-title" id="offcanvasNavbarLabel">
+            Menu
+          </h5>
           <button
             type="button"
             className="btn-close text-reset"
