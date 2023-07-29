@@ -1,7 +1,8 @@
 .usercontainer {
   height: 9rem;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
+  box-shadow: 0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04);
 }
 .logincenterbox {
   height: 100%;

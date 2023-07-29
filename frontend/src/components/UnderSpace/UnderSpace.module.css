@@ -1,4 +1,6 @@
 .undercontainer {
   height: 12rem;
-  border: 1px dotted rgb(255, 177, 177);
+  margin-top: 1rem;
+  background-color: #f5f6f7;
+  /* border: 1px dotted rgb(255, 177, 177); */
 }

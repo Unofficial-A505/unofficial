@@ -92,7 +92,7 @@ export default function LunchCarousel() {
       <Carousel
         cards={cards}
         height="100%"
-        width="90%"
+        width="100%"
         margin="0 auto"
         offset={1}
         showArrows={false}
