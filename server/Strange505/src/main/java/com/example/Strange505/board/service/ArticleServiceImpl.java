@@ -6,12 +6,10 @@ import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.BoardRepository;
 import com.example.Strange505.file.service.ImageService;
-import com.example.Strange505.file.service.S3UploaderService;
 import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +32,7 @@ public class ArticleServiceImpl implements ArticleService {
         User user = userRepository.findById(userId).orElseThrow();
         Board board = boardRepository.findByName(dto.getBoardName()).orElseThrow();
         Article article = Article.createArticle(dto, user, board);
-        imageService.imageCheck(dto);
+        imageService.notUsingImageDelete(dto);
         Article savedArticle = articleRepository.save(article);
         return savedArticle;
     }
@@ -81,6 +79,9 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional
     public void deleteArticle(Long id) {
+        Article article = articleRepository.findById(id).orElseThrow();
+        List<String> images = imageService.parsingArticle(article.getContent());
+        imageService.deleteImages(images);
         articleRepository.deleteById(id);
     }
 

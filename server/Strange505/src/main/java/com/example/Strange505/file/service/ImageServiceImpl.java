@@ -40,7 +40,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public void imageCheck(ArticleRequestDto dto) {
+    public void notUsingImageDelete(ArticleRequestDto dto) {
         List<String> preList = dto.getImageList();
         List<String> nowList = parsingArticle(dto.getContent());
 
@@ -48,7 +48,13 @@ public class ImageServiceImpl implements ImageService {
                 .forEach(deleteTarget -> s3UploaderService.deleteFile(deleteTarget));
     }
 
-    private List<String> parsingArticle(String data) {
+    @Override
+    public void deleteImages(List<String> images) {
+        images.stream().forEach(image -> s3UploaderService.deleteFile(image));
+    }
+
+    @Override
+    public List<String> parsingArticle(String data) {
         List<String> urls = new ArrayList<>();
         int flag = 0;
         do {

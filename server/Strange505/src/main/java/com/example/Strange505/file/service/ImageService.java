@@ -12,5 +12,10 @@ public interface ImageService {
 
     List<String> getPathsByArticle(Long articleId);
 
-    void imageCheck(ArticleRequestDto dto);
+    void notUsingImageDelete(ArticleRequestDto dto);
+
+    List<String> parsingArticle(String data);
+
+    void deleteImages(List<String> images);
+
 }
