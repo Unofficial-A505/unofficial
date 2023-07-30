@@ -40,10 +40,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public void notUsingImageDelete(ArticleRequestDto dto) {
-        List<String> preList = dto.getImageList();
-        List<String> nowList = parsingArticle(dto.getContent());
-
+    public void notUsingImageDelete(List<String> preList, List<String> nowList) {
         preList.stream().filter(target -> !nowList.contains(target))
                 .forEach(deleteTarget -> s3UploaderService.deleteFile(deleteTarget));
     }
@@ -51,6 +48,16 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public void deleteImages(List<String> images) {
         images.stream().forEach(image -> s3UploaderService.deleteFile(image));
+    }
+
+    @Override
+    public void deleteImageForUpdate(String content, ArticleRequestDto dto) {
+        List<String> nowImages = parsingArticle(dto.getContent());
+        List<String> preImages = parsingArticle(content);
+        List<String> addImages = dto.getImageList();
+
+        notUsingImageDelete(preImages, nowImages);
+        notUsingImageDelete(addImages, nowImages);
     }
 
     @Override
@@ -64,7 +71,6 @@ public class ImageServiceImpl implements ImageService {
 
         return urls;
     }
-
 
     private String urlExtract(String data, List<String> urls) {
         int idx = data.indexOf("src=\"");

@@ -32,7 +32,7 @@ public class ArticleServiceImpl implements ArticleService {
         User user = userRepository.findById(userId).orElseThrow();
         Board board = boardRepository.findByName(dto.getBoardName()).orElseThrow();
         Article article = Article.createArticle(dto, user, board);
-        imageService.notUsingImageDelete(dto);
+        imageService.notUsingImageDelete(dto.getImageList(), imageService.parsingArticle(dto.getContent()));
         Article savedArticle = articleRepository.save(article);
         return savedArticle;
     }
@@ -70,9 +70,9 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional
     public void updateArticle(Long id, ArticleRequestDto dto) {
-        List<Board> list = boardRepository.searchBoardByName(dto.getBoardName());
-        Board board = list.get(0);
-        Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException("Article not found"));
+        Board board = boardRepository.findByName(dto.getBoardName()).orElseThrow();
+        Article article = articleRepository.findById(id).orElseThrow();
+        imageService.deleteImageForUpdate(article.getContent(), dto);
         article.updateArticle(dto, board);
     }
 

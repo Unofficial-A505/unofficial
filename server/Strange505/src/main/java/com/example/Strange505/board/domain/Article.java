@@ -67,6 +67,7 @@ public class Article {
     }
 
     public void updateArticle(ArticleRequestDto dto, Board board) {
+
         this.title = dto.getTitle();
         this.content = dto.getContent();
         this.nickName = dto.getNickName();
