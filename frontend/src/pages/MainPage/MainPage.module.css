@@ -5,7 +5,7 @@
 }
 .topContainer {
   display: flex;
-  height: 20rem;
+  height: 21rem;
   justify-content: space-between;
   /* border: 1px dotted aqua; */
 }
