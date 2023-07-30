@@ -23,20 +23,16 @@ export default function LunchCarousel() {
 
   // 오늘 날짜 가져오기
   const getToday = () => {
-    const newDate = new Date();
-    const day = newDate.getDay();
-    
-    // 주말이면 월요일로 날짜를 조정
-    if (day === 0 || day === 6) {
-      const adjust = day === 6 ? 2 : 1;
-      newDate.setDate(newDate.getDate() + adjust);
+    let today = new Date();
+    // 주말이면 월요일로 조정
+    if (today.getDay() === 6 || today.getDay() === 0) {
+      const adjust = today.getDay() === 6 ? 2 : 1;
+      today.setDate(today.getDate() + adjust);
     }
-  
-    const year = newDate.getFullYear().toString();
-    let month = (newDate.getMonth() + 1).toString().padStart(2, "0");
-    let date = newDate.getDate().toString().padStart(2, "0");
-    console.log(`${year}${month}${date}`)
-    return `${year}${month}${date}`;
+
+    let todayStr = today.toISOString().split("T")[0].replace(/-/g, "");
+
+    return todayStr;
   };
 
   // API 호출로 점심메뉴 데이터 가져오기
@@ -44,14 +40,11 @@ export default function LunchCarousel() {
     try {
       const today = getToday();
       let response = await axios.get(
-        "https://unofficial.kr/api/lunch?date=20230728"
-        // `https://unofficial.kr/api/lunch?date=${today}`
+        `https://unofficial.kr/api/lunch?date=${today}`
       );
-      console.log("점심API", response.data);
       if (response.data) {
         setLunchData(response.data);
-      } else {
-        alert("아직 밥 정보 없음");
+        console.log("점심API", response.data);
       }
     } catch (error) {
       console.log("점심API", error);
@@ -64,13 +57,11 @@ export default function LunchCarousel() {
 
     lunchData.forEach((lunch) => {
       if (!localData[lunch.local]) {
-        localData[lunch.local] = [lunch];
-      } else {
-        localData[lunch.local].push(lunch);
+        localData[lunch.local] = [];
       }
+      localData[lunch.local].push(lunch);
     });
 
-    // localData의 value 값들을 localLunchData에 담기
     let localLunchData = [].concat(Object.values(localData));
 
     return localLunchData;
@@ -90,15 +81,15 @@ export default function LunchCarousel() {
 
   return (
     <div className={styles.LunchCarousel}>
-      {/* <Carousel
+      <Carousel
         cards={cards}
         height="100%"
-        width="100%"
+        width="90%"
         margin="0 auto"
         offset={1}
         showArrows={false}
-      /> */}
-      <NewCarousel cards={cards} />
+      />
+      {/* <NewCarousel cards={cards} /> */}
     </div>
   );
 }
