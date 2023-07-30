@@ -1,10 +1,10 @@
 spring:
 
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ssafy?serverTimezone=UTC
+    username: ssafy
+    password: ssafy
 
   h2:
     console:
@@ -84,3 +84,6 @@ decorator:
   datasource:
     p6spy:
       enable-logging: true
+
+tempToken:
+  accessToken: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTA1NzE4NjcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjIsInJvbGUiOiJST0xFX1VTRVIifQ.YOofxvS5cyC4WHNgQo1CqA77wwUd2fSLJTw01ubAlU8i2M7XSWoSSPcDWy7kLadmAFt2ZzcbqmX2h904Y4USYA"
