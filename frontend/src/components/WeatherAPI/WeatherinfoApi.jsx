@@ -1,48 +1,33 @@
 import styles from "./WeatherinfoApi.module.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
+const cities = ["Seoul", "Daejeon", "Gumi", "Gwangju", "Busan"];
 const api_key = "be3211008c87f453651f5f04faa61375";
-const city_name = "Seoul,KR"; // 역삼역의 위치를 나타내는 도시 이름으로 변경해주세요.
 
-export default function WeatherinfoApi() {
+export default function WeatherWidget() {
   const [weatherData, setWeatherData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchWeatherForecast();
+    const fetchWeatherData = async () => {
+      const data = await Promise.all(cities.map(getWeather));
+      setWeatherData(data);
+    };
+
+    fetchWeatherData();
   }, []);
 
-  const fetchWeatherForecast = async () => {
+  const getWeather = async (city) => {
     try {
       const response = await axios.get(
-        "https://api.openweathermap.org/data/2.5/forecast",
-        {
-          params: {
-            appid: api_key,
-            q: city_name,
-            units: "metric", // Celsius
-            lang: "kr",
-          },
-        }
+        `https://api.openweathermap.org/data/2.5/forecast?appid=${api_key}&q=${city}&units=metric&lang=kr`
       );
-      const forecast = response.data.list;
-      console.log(forecast);
-
-      // 현재 시간 구하기 (UTC 기준)
-      const now = new Date();
-
-      // 10~12시간 후까지의 날씨 정보 필터링
-      const filteredForecast = forecast.filter((entry) => {
-        const dt = new Date(entry.dt * 1000); // API에서 제공하는 시간 단위 변환
-        return (
-          now.getTime() + 10 * 60 * 60 * 1000 <= dt.getTime() &&
-          dt.getTime() <= now.getTime() + 12 * 60 * 60 * 1000
-        );
-      });
-
-      setWeatherData(filteredForecast);
+      console.log(response.data);
       setLoading(false);
+      return response.data;
     } catch (error) {
       console.error("날씨 정보를 가져오는데 실패했습니다.", error);
       setLoading(false);
@@ -51,23 +36,68 @@ export default function WeatherinfoApi() {
 
   return (
     <div className={styles.WeatherapiContainer}>
-      <h2>역삼역 날씨</h2>
-      {loading ? (
-        <p>Loading...</p>
-      ) : weatherData.length > 0 ? (
-        <div>
-          <h2>향후 10~12시간 날씨 예보</h2>
-          {weatherData.map((entry) => (
-            <p key={entry.dt}>{`${new Date(
-              entry.dt * 1000
-            ).toLocaleTimeString()} - 기온: ${entry.main.temp}°C, 날씨: ${
-              entry.weather[0].description
-            }`}</p>
+      <div className={styles.temp}>
+        <Carousel>
+          {weatherData.map((data, index) => (
+            <WeatherCard key={index} data={data} />
           ))}
-        </div>
-      ) : (
-        <p>날씨 정보를 가져오는데 실패했습니다.</p>
-      )}
+        </Carousel>
+      </div>
     </div>
   );
 }
+
+const WeatherCard = ({ data }) => {
+  return (
+    <div className={styles.weatherCardContainer}>
+      <div className={styles.upperContainer}>
+        <div className={styles.title}>
+          {data.city.name === "Seoul" && <p>서울</p>}
+          {data.city.name === "Busan" && <p>부산</p>}
+          {data.city.name === "Gwangju" && <p>광주</p>}
+          {data.city.name === "Gumi" && <p>구미</p>}
+          {data.city.name === "Daejeon" && <p>대전</p>}
+        </div>
+        <div className="d-flex">
+          <img
+            src={`https://openweathermap.org/img/wn/${data.list[0].weather[0].icon}@2x.png`}
+            alt="날씨이모티콘"
+          />
+          <div className="d-flex flex-column justify-content-center text-start">
+            <p className="m-0 fs-2">{data.list[0].main.temp}°C</p>
+            <p className="m-0 fs-6">{data.list[0].weather[0].description}</p>
+          </div>
+        </div>
+      </div>
+      <div className={styles.downContainer}>
+        <div className={styles.forecastWather}>
+          <p>{data.list[1].dt_txt}</p>
+          <img 
+            src={`https://openweathermap.org/img/wn/${data.list[1].weather[0].icon}@2x.png`} 
+            alt="날씨이모티콘"
+            width="4"
+          />
+          <p>{data.list[1].main.temp}°C</p>
+        </div>
+        <div className={styles.forecastWather}>
+        <p>{data.list[2].dt_txt}</p>
+          <img 
+            src={`https://openweathermap.org/img/wn/${data.list[2].weather[0].icon}@2x.png`} 
+            alt="날씨이모티콘"
+            width="4"
+          />
+          <p>{data.list[2].main.temp}°C</p>
+        </div>
+        <div className={styles.forecastWather}>
+        <p>{data.list[3].dt_txt}</p>
+          <img 
+            src={`https://openweathermap.org/img/wn/${data.list[3].weather[0].icon}@2x.png`} 
+            alt="날씨이모티콘"
+            width="4"
+          />
+          <p>{data.list[3].main.temp}°C</p>
+        </div>
+      </div>
+    </div>
+  );
+};
