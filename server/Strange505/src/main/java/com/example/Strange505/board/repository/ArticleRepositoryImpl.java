@@ -14,20 +14,23 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<Article> searchByTitle(String title, Long boardId) {
-        QArticle article = QArticle.article;
-        if (boardId == 0) {
-            return queryFactory.select(article)
-                    .from(article)
-                    .where(article.title.contains(title))
-                    .fetch();
-        } else {
-            return queryFactory.select(article)
-                    .from(article)
-                    .where(article.title.contains(title), article.board.id.eq(boardId))
-                    .fetch();
+    public List<Article> searchByTitleAndContent(String keyword, Long boardId) {
+        return queryFactory
+                .selectFrom(article)
+                .where(eqBoard(boardId).and(titleCheck(keyword).or(contentCheck(keyword))))
+                .fetch();
+    }
+
+    private BooleanExpression titleCheck(String title) {
+        if(StringUtils.isEmpty(title)){
+            return null;
         }
 
+    private BooleanExpression contentCheck(String content) {
+        if (StringUtils.isEmpty(content)) {
+            return null;
+        }
+        return article.content.contains(content);
     }
 
     @Override

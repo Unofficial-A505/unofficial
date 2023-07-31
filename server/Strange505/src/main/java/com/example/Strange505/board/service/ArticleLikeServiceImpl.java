@@ -33,14 +33,17 @@ public class ArticleLikeServiceImpl implements ArticleLikeService {
         User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException());
 
+
         if (articleLikeRepository.findByArticleAndUser(article, user).isPresent()) {
             throw new RuntimeException();
         }
+
 
         ArticleLike articleLike = ArticleLike.builder()
                 .article(article)
                 .user(user)
                 .build();
+
 
         articleLikeRepository.save(articleLike);
         articleRepository.addLikeCount(article);
