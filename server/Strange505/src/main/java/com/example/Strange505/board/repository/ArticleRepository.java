@@ -10,7 +10,4 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ArticleRepository extends JpaRepository<Article, Long>, ArticleRepositoryCustom {
-    Optional<Article> findByTitle(String name);
-
-    List<Article> findByBoard(Board board);
 }
