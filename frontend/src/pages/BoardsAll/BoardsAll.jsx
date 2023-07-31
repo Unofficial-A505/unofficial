@@ -55,7 +55,7 @@ export default function BoardsAll(){
     <div className={styles.hotcontainer}>
       <span className={styles.hottitle}>Hot 게시판</span>
       <span className={styles.hotboard}>자유 게시판</span>
-      <span className={styles.hotboard}>비밀 게시판</span>
+      <span className={styles.hotboard}>비밀 게시판</span> 
     </div>
     <AdHorizontal />
     

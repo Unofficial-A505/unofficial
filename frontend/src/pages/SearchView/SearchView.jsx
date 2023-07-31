@@ -1,23 +1,47 @@
 import React from 'react';
 import styles from './SearchView.module.css'
 
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import { FiSearch } from '@react-icons/all-files/fi/FiSearch';
 
 import TopSpace from '../../components/TopSpace/TopSpace';
 import UnderSpace from '../../components/UnderSpace/UnderSpace';
+import SearchContent from '../../components/SearchContent/SearchContent'
+import AdHorizontal from '../../components/AdHorizontal/AdHorizontal'
 
 export default function SearchView() {
   const { keyword } = useParams();
+  const { boardTitle } = useParams(); 
+  const [ keywordAll, setKeywordAll ] = useState('') 
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+             
+  // }, [ keyword ])
 
   return (
     <div>
       <TopSpace />
 
       <div className={styles.searchboxall}>
-        <input className={styles.search} id={styles.all} type="text" placeholder="찾고싶은 게시글의 제목 또는 내용의 키워드를 검색" />
-        <button className={styles.searchbutton}><FiSearch /></button>
+        <input className={styles.search} id={styles.all} type="text" placeholder="찾고싶은 게시글의 제목 또는 내용의 키워드를 검색" onChange={(e) => {setKeywordAll(e.target.value)}}/>
+        <button className={styles.searchbutton} onClick={() => navigate(`/boards/search/${keywordAll}`)}><FiSearch /></button>
+      </div>
+
+      <div className={styles.searchcontentContainer}>
+
+        <AdHorizontal />
+
+        <div className={styles.searchUpheader}>
+          <span className={styles.boardTitle}>전체게시판</span>의 <span className={styles.searchKeyword}>'{keyword}'</span> 검색 결과
+        </div>
+
+        <div>
+          <SearchContent />
+        </div>
+       
       </div>
 
       <UnderSpace />

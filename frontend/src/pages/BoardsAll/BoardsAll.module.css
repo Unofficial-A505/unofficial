@@ -70,6 +70,13 @@
   font-size: 13px;
 }
 
+/* board 전체 컨테이너*/
+.boardcontainer{
+  width: 1200px;
+  margin: 0 auto;
+  /* border: 1px dotted green; */
+}
+
 /* 게시판 탭 (자유게시판, 비밀게시판, 9기게시판 etc...) */
 
 .boardtabContainer {
@@ -112,12 +119,6 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-}
-
-.boardcontainer{
-  width: 1200px;
-  margin: 0 auto;
-  /* border: 1px dotted green; */
 }
 
 .createpageIcon {

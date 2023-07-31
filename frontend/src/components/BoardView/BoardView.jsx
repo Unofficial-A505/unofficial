@@ -23,7 +23,7 @@ export default function BoardView( ){
       })
       .then((res) => {
         console.log(res.data);
-        setPosts(res.data);
+        setPosts(res.data.slice(0, 10));
       })
       .catch((err) => console.log(err))
     return () => {  
