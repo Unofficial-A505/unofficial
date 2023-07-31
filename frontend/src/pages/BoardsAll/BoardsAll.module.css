@@ -46,6 +46,16 @@
   background-color: rgba(208, 208, 208, 0.264);        
 }
 
+.searchbuttonIcon {
+  position: absolute;
+  right: 20px;
+  top: 30%;
+  
+  border: 0;
+  border-radius: 1rem;
+  background-color: transparent;
+}
+
 .hotcontainer {
   height: 25px;
 
@@ -96,9 +106,23 @@
   line-height: normal;
 }
 
+.boardtabSelected {
+  margin: 6px;
+  color: #000;
+
+  border: 0;
+  background-color: transparent;
+
+  color: #034BB9;
+  font-size: 18px;
+  font-weight: 700;
+  /* text-decoration: underline;
+  text-underline-position: under; */
+}
+
 .boardtab:hover {
   color: #034BB9;
-  /* font-size: 21.044px; */
+  font-size: 18px;
   font-weight: 700;
   text-decoration: underline;
   text-underline-position: under;

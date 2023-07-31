@@ -26,10 +26,10 @@ export default function SearchView() {
     <div>
       <TopSpace />
 
-      <div className={styles.searchboxall}>
+      <form className={styles.searchboxall}>
         <input className={styles.search} id={styles.all} type="text" placeholder="찾고싶은 게시글의 제목 또는 내용의 키워드를 검색" onChange={(e) => {setKeywordAll(e.target.value)}}/>
         <button className={styles.searchbutton} onClick={() => navigate(`/boards/search/${keywordAll}`)}><FiSearch /></button>
-      </div>
+      </form>
 
       <div className={styles.searchcontentContainer}>
 
