@@ -20,6 +20,7 @@ import SearchView from './pages/SearchView/SearchView'
 import MypageUser from './pages/MyPage/MypageUser/MypageUser'
 import MypageActivity from './pages/MyPage/MypageActivity/MypageActivity'
 import MypageAdver from './pages/MyPage/MypageAdver/MypageAdver'
+import Management from './pages/MyPage/Management/Management'
 import AddAdvPage from './pages/MyPage/MypageAdver/AddAdvPage'
 
 import CreatePostPage from './pages/CreatePostPage/QuillContainer'
@@ -57,6 +58,7 @@ const router = createBrowserRouter([
           { index: true, element: <MypageUser />},
           { path: 'activity', element: <MypageActivity />},
           { path: 'advertisement', element: <MypageAdver />},
+          { path: 'management', element: <Management />},
         ]
       },
       { 

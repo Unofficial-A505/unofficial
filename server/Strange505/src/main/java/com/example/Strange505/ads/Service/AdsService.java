@@ -9,4 +9,5 @@ public interface AdsService {
     AdsDto updateAds(Long adsId, AdsDto adsDto);
     void confirmAds(Long adsId);
     List<AdsDto> findActiveAds();
+    List<AdsDto> findWaitAds();
 }

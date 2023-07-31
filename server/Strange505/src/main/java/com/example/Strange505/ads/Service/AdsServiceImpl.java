@@ -73,6 +73,16 @@ public class AdsServiceImpl implements AdsService {
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AdsDto> findWaitAds() {
+        LocalDate currentDate = LocalDate.now();
+        List<AdsEntity> waitAds = adsRepository.findByEndDateAfter(currentDate);
+        return waitAds.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
     private AdsDto convertToDto(AdsEntity ads) {
         AdsDto adsDto = new AdsDto();
         adsDto.setAdsId(ads.getAdsId());
