@@ -58,7 +58,6 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> getArticlesByTitleAndContent(String keyword, Long boardId) {
         return articleRepository.searchByTitleAndContent(keyword, boardId);
     }
-
     @Override
     public List<Article> getArticlesByUser(Long userId) {
         return articleRepository.searchByUser(userId);

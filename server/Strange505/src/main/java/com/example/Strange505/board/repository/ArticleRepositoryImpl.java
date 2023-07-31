@@ -19,18 +19,18 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
     public List<Article> searchByTitleAndContent(String keyword, Long boardId) {
         return queryFactory
                 .selectFrom(article)
-                .where(eqBoard(boardId).and(titleLike(keyword).or(contentLike(keyword))))
+                .where(eqBoard(boardId).and(titleCheck(keyword).or(contentCheck(keyword))))
                 .fetch();
     }
 
-    private BooleanExpression titleLike(String title) {
+    private BooleanExpression titleCheck(String title) {
         if(StringUtils.isEmpty(title)){
             return null;
         }
         return article.title.contains(title);
     }
 
-    private BooleanExpression contentLike(String content) {
+    private BooleanExpression contentCheck(String content) {
         if (StringUtils.isEmpty(content)) {
             return null;
         }
