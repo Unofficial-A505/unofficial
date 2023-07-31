@@ -49,13 +49,13 @@
 //
 //    @Test
 //    public void 게시판_모두_조회() {
-////        BoardRequestDto dto = BoardRequestDto.builder().name("1").build();
-////        boardService.createBoard(dto);
-////        BoardRequestDto dto2 = BoardRequestDto.builder().name("2").build();
-////        boardService.createBoard(dto2);
+//        BoardRequestDto dto = BoardRequestDto.builder().name("1").build();
+//        boardService.createBoard(dto);
+//        BoardRequestDto dto2 = BoardRequestDto.builder().name("2").build();
+//        boardService.createBoard(dto2);
 //
 //        List<BoardResponseDto> result = boardService.getAllBoards();
-//        org.assertj.core.api.Assertions.assertThat(result.size()).isEqualTo(5);
+//        org.assertj.core.api.Assertions.assertThat(result.size()).isEqualTo(2);
 //        for (BoardResponseDto boardResponseDto:
 //             result) {
 //            System.out.println(boardResponseDto.getName());

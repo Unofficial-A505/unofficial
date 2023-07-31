@@ -140,7 +140,7 @@ public class ArticleController {
     @ResponseBody
     public ResponseEntity<String> upload(@ModelAttribute ImageForm form) throws IOException {
         MultipartFile file = form.getUploadFile().get(0);
-        return ResponseEntity.ok(s3Uploader.upload(file, "static"));
+        return ResponseEntity.ok(s3Uploader.upload(file, "article"));
     }
 
 //    @PostMapping("/images")

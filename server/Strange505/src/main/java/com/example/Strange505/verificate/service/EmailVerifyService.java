@@ -7,6 +7,7 @@ import com.example.Strange505.verificate.Emails;
 import com.example.Strange505.verificate.repository.EmailRepository;
 import com.example.Strange505.vo.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
@@ -55,6 +56,22 @@ public class EmailVerifyService {
             "    </div>";
     private final String MAIL_PARAM = "&email=";
 
+
+    private final String MAIL_SUBJECT_PASS = "언오피셜 비밀번호 확인 메일입니다.";
+    private final String MAIL_CONTENT_FRONT_PASS = "<div style=\"width: 80vw;border-top: solid 1vh #034bb9; padding: 30px 10px; border-bottom: solid 1px lightgrey; max-width: 600px;\">\n" +
+            "        <div style=\"padding: 10px 0px;\">\n" +
+            "            언오피셜\n" +
+            "        </div>\n" +
+            "        <div style=\"font-size: x-large;margin-bottom: 100px;\">\n" +
+            "            <span style=\"color: #0969fb;\">비밀번호</span> 안내입니다.\n" +
+            "        </div>\n" +
+            "        <div>\n" +
+            "            안녕하세요.<br/>\n" +
+            "            언오피셜을 이용해 주셔서 진심으로 감사드립니다. <br/>\n" +
+            "            아래의 비밀번호로 로그인을 하신 후 비밀번호 변경을 해주세요 <br/>\n";
+    private final String MAIL_CONTENT_END_PASS =
+            "        </div>\n" +
+            "    </div>";
     private final UserRepository userRepository;
     private final EmailRepository emailRepository;
     private final JavaMailSender javaMailSender;
@@ -123,4 +140,22 @@ public class EmailVerifyService {
         }
     }
 
+    public void sendPasswordEmail(String email, String password) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+
+        // 1. 메일 수신자 설정
+        String[] receiveList = {email};
+        messageHelper.setTo(receiveList);
+
+        // 2. 메일 제목 설정
+        messageHelper.setSubject(MAIL_SUBJECT_PASS);
+
+        // 3. 메일 내용 설정 HTML 적용됨
+        String content = MAIL_CONTENT_FRONT_PASS + password + MAIL_CONTENT_END_PASS;
+        messageHelper.setText(content, true);
+
+        // 4. 메일 전송
+        javaMailSender.send(message);
+    }
 }
