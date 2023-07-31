@@ -70,6 +70,24 @@ class ArticleServiceImplTest {
     }
 
     @Test
+    public void 게시판_게시물_조회() {
+        User findUser = userRepository.findByEmail(EMAIL).orElseThrow(() -> new NoSuchElementException("user not found"));
+        for (int i = 0; i < 10; i++) {
+            ArticleRequestDto articleDTO = ArticleRequestDto.builder()
+                    .title("제목" + i)
+                    .content("내용" + i)
+                    .boardName(BOARD_NAME)
+                    .build();
+            articleService.createArticle(articleDTO, findUser.getId());
+        }
+
+        Board findBoard = boardRepository.findByName(BOARD_NAME).orElseThrow();
+
+        List<Article> boards = articleService.getArticlesByBoard(findBoard.getId());
+        assertThat(boards.size()).isEqualTo(11);
+    }
+
+    @Test
     public void 게시물_생성() {
 
         ArticleRequestDto articleDTO = ArticleRequestDto.builder()
