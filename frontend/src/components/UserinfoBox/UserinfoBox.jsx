@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import styles from './UserinfoBox.module.css'
 import Login from './../../components/Login/Login'
+import main_logo from './../../assets/images/main_logo.png'
 
 import { IoIosArrowForward } from '@react-icons/all-files/io/IoIosArrowForward';
 import { RiDatabase2Line } from '@react-icons/all-files/ri/RiDatabase2Line';
@@ -18,10 +19,28 @@ export default function UserinfoBox(){
 
   const navigate = useNavigate();
   // user정보 없는 상황
+  return(
+    <div className={styles.usercontainer}>
+      <div className={styles.logincenterbox}>
+        <p className={styles.unloginmessage}>
+          언오피셜을 더 편리하게 이용하세요
+        </p>
+        <button className={styles.loginButton} onClick={()=>{setModalOpen(true)}}>로그인</button>
+        {modalOpen && <Login setModalOpen={setModalOpen} />}
+        <div className={styles.signupBox}>
+          <p onClick={()=>{navigate('/')}}>비밀번호 찾기</p>
+          <p>&nbsp;&nbsp;|&nbsp;&nbsp;</p>
+          <p onClick={()=>{navigate('/signup')}}>회원가입</p>
+        </div>
+      </div>
+    </div>
+  );
+
+  // // user정보 있는 상황
   // return(
   //   <div className={styles.usercontainer}>
   //     <div className={styles.logincenterbox}>
-  //       <p className={styles.unloginmessage}>언오피셜에서 자유롭게 소통해보세요</p>
+  //       <p className={styles.unloginmessage}>SSABRY Time에서 자유롭게 소통해보세요</p>
   //       <div className={styles.loginContainer}>
   //         <button className={styles.userButton} onClick={()=>{setModalOpen(true)}}>로그인</button>
   //         <button className={styles.userButton} onClick={()=>{navigate('/signup')}}>회원가입</button>
@@ -34,12 +53,10 @@ export default function UserinfoBox(){
   // // user정보 있는 상황
   // return(
   //   <div className={styles.usercontainer}>
-  //     <div className={styles.logincenterbox}>
-  //       <p className={styles.unloginmessage}>SSABRY Time에서 자유롭게 소통해보세요</p>
-  //       <div className={styles.loginContainer}>
-  //         <button className={styles.userButton} onClick={()=>{setModalOpen(true)}}>로그인</button>
-  //         <button className={styles.userButton} onClick={()=>{navigate('/signup')}}>회원가입</button>
-  //         {modalOpen && <Login setModalOpen={setModalOpen} />}
+  //     <div className={styles.usercenterbox}>
+  //       <div className={styles.usertopContainer}>
+  //         <p className={styles.hellomessage}>안녕하세요!</p>
+  //         <button className={styles.mypageButton} onClick={() => navigate('/user')}>마이페이지<IoIosArrowForward size="15"/></button>
   //       </div>
   //     </div>
   //   </div>

@@ -30,6 +30,7 @@ import MypageAdver from './pages/MyPage/MypageAdver/MypageAdver'
 import MyMileage from './pages/MyPage/MypageAdver/MyMileage/MyMileage'
 import MyAdvertisement from './pages/MyPage/MypageAdver/MyAdvertisement/MyAdvertisement'
 
+import Management from './pages/MyPage/Management/Management'
 import AddAdvPage from './pages/MyPage/MypageAdver/AddAdvPage'
 
 import CreatePostPage from './pages/CreatePostPage/QuillContainer'
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
               { path: 'mymile', element: <MyMileage />},
               { path: 'myadv', element: <MyAdvertisement />}
             ]},
+          { index: true, element: <MypageUser />},
+          { path: 'activity', element: <MypageActivity />},
+          { path: 'advertisement', element: <MypageAdver />},
+          { path: 'management', element: <Management />},
         ]
       },
       { 

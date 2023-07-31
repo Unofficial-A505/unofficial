@@ -22,11 +22,16 @@ export default function LunchCarousel() {
 
   // 오늘 날짜 가져오기
   const getToday = () => {
-    const newDate = new Date();
-    const year = newDate.getFullYear().toString();
-    let month = (newDate.getMonth() + 1).toString().padStart(2, "0");
-    let date = newDate.getDate().toString().padStart(2, "0");
-    return `${year}${month}${date}`;
+    let today = new Date();
+    // 주말이면 월요일로 조정
+    if (today.getDay() === 6 || today.getDay() === 0) {
+      const adjust = today.getDay() === 6 ? 2 : 1;
+      today.setDate(today.getDate() + adjust);
+    }
+
+    let todayStr = today.toISOString().split("T")[0].replace(/-/g, "");
+
+    return todayStr;
   };
 
   // API 호출로 점심메뉴 데이터 가져오기
@@ -34,17 +39,22 @@ export default function LunchCarousel() {
     try {
       const today = getToday();
       let response = await axios.get(
-        "https://unofficial.kr/api/lunch?date=20230727"
-        // `https://unofficial.kr/api/lunch?date=${today}`
+        `https://unofficial.kr/api/lunch?date=${today}`
       );
-      console.log("API호출", response.data);
+      // 중복 데이터 제거
       if (response.data) {
-        setLunchData(response.data);
-      } else {
-        alert("아직 밥 정보 없음");
+        let seen = {};
+        let uniqueData = response.data.filter(el => {
+          let duplicate = seen.hasOwnProperty(JSON.stringify({ ...el, id: undefined }));
+          seen[JSON.stringify({ ...el, id: undefined })] = 0;
+          return !duplicate;
+        });
+
+        setLunchData(uniqueData);
+        console.log("점심API", uniqueData);
       }
     } catch (error) {
-      console.log("API 호출 요류", error);
+      console.log("점심API", error);
     }
   };
 
@@ -54,13 +64,11 @@ export default function LunchCarousel() {
 
     lunchData.forEach((lunch) => {
       if (!localData[lunch.local]) {
-        localData[lunch.local] = [lunch];
-      } else {
-        localData[lunch.local].push(lunch);
+        localData[lunch.local] = [];
       }
+      localData[lunch.local].push(lunch);
     });
 
-    // localData의 value 값들을 localLunchData에 담기
     let localLunchData = [].concat(Object.values(localData));
 
     return localLunchData;
@@ -74,7 +82,7 @@ export default function LunchCarousel() {
         content: <Card lunchZip={data} key={data[0].local} />,
       };
     });
-    console.log("newCards", newCards);
+
     setCards(newCards);
   };
 

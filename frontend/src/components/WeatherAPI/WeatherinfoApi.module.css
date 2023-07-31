@@ -1,10 +1,35 @@
-/* WeatherApi 최상단 Container - 사이즈 버튼 & UserinfoBox에 맞춰둠 */
-.WeatherapiContainer {
-  width: 276px;
-  height: 200px;
-
-  /* border: 1px solid rgb(169, 169, 169); */
-  border-radius: 10px;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.06);
+.weatherCardContainer {
+  /* height: 17rem; */
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px dotted red;
+  border-radius: 1rem;
+  box-shadow: 0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04);
 }
-
+.weatherCardContainer p {
+  margin-bottom: 0;
+}
+.title p {
+  font-size: 1.6rem;
+  font-weight: 550;
+}
+/* .temp {
+  height: 15rem;
+  border: 1px dotted blue;
+  margin-bottom: 5rem;
+} */
+.upperContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  border-bottom: 1px solid #acacac;
+  border: 1px dotted red;
+}
+.downContainer {
+  display: flex;
+  border: 1px dotted red;
+}
+.forecastWather {
+  width: 33.3%;
+  padding: 0 0.5rem;
+}

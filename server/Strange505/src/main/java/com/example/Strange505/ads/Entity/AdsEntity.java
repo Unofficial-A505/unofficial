@@ -40,6 +40,6 @@ public class AdsEntity {
     }
 
     public void confirm() {
-        this.adminConfirmed = true;
+        this.adminConfirmed = !this.adminConfirmed;
     }
 }

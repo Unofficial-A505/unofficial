@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/ads")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class AdsController {
     private final AdsService adsService;
     private final S3UploaderService s3Uploader;
@@ -62,5 +63,11 @@ public class AdsController {
     public ResponseEntity<List<AdsDto>> findActiveAds() {
         List<AdsDto> activeAds = adsService.findActiveAds();
         return ResponseEntity.ok(activeAds);
+    }
+
+    @GetMapping("/wait")
+    public ResponseEntity<List<AdsDto>> findWaitAds() {
+        List<AdsDto> waitAds = adsService.findWaitAds();
+        return ResponseEntity.ok(waitAds);
     }
 }
