@@ -2,6 +2,7 @@ import styles from "./Card.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import lunch_loading from "./../../assets/images/lunch_loading.jpg";
 
 export default function Card({ lunchZip }) {
   const settings = {
@@ -36,7 +37,15 @@ function Menu({ menu }) {
 
   return (
     <div className={styles.menu}>
-      <img style={{ objectFit: "cover" }} src={menu.imageUrl} alt={name} />
+      <img
+        style={{ objectFit: "cover" }}
+        src={menu.imageUrl}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = lunch_loading;
+        }}
+        alt={name}
+      />
       <div className="d-flex justify-content-between mb-1">
         <p>{menu.courseName}</p>
         <p>{cal}kcal</p>
