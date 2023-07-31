@@ -9,12 +9,10 @@ import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.dto.AuthDto;
 import com.example.Strange505.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -96,8 +94,7 @@ class ArticleServiceImplTest {
                 .build();
         User findUser = userRepository.findByEmail(EMAIL).orElseThrow(() -> new RuntimeException("user not found"));
         articleService.createArticle(articleDTO, findUser.getId());
-        List<Article> searchedList = articleService.getArticlesByTitle("제", 0L);
-        Article searchedArticle = searchedList.get(0);
+        Article searchedArticle = articleRepository.findById(article_id).orElseThrow();
         assertThat(searchedArticle.getTitle()).contains("제");
     }
 
@@ -109,8 +106,7 @@ class ArticleServiceImplTest {
                 .boardName(BOARD_NAME)
                 .build();
         articleService.updateArticle(article_id, articleDTO);
-        List<Article> articles = articleService.getArticlesByContent("내", 0L);
-        Article searchedArticle = articles.get(0);
+        Article searchedArticle = articleRepository.findById(article_id).orElseThrow();
         assertThat("수정_제목").isEqualTo(searchedArticle.getTitle());
     }
 
