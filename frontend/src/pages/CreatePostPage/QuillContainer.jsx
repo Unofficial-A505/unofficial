@@ -169,14 +169,14 @@ const QuillContainer = () => {
 
       <div className={styles.craetecontainer}>
       <div className={styles.upmenu}>
-        <Title><p>`{boardTitle}`</p><p>새 글 작성</p></Title>
+        <Title><p className={styles.boardTitle}>{boardTitle}</p><p>새 글 작성</p></Title>
         <button className='btn' id={styles.createsubmitbutton}>게시하기</button>
       </div>
       
         <div>
           <input className={styles.inputTitle} type="text" placeholder="제목을 입력하세요" ref={TitleElement}/>
           {/* <TitleInput placeholder="제목을 입력하세요" ref={TitleElement}/> */}
-        </div>
+        </div>      
 
         <ReactQuill 
           id="react-quill"

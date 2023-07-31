@@ -133,7 +133,7 @@ const commentCreate = () => {
         <span className={styles.postviewContainer}>
           <div className={styles.postTopbar}>
             <span className={styles.boardTitle}>{boardTitle}</span>
-            <button className={styles.grayoutbutton} onClick={() => navigate(-1)}><IoIosArrowBack />목록으로 돌아가기</button>
+            <button className={styles.grayoutbutton} onClick={() => navigate(`/boards/${boardTitle}`)}><IoIosArrowBack />목록으로 돌아가기</button>
           </div>
           <div className={styles.postContainer}>
 
