@@ -1,13 +1,13 @@
 .card {
   width: 600px;
-  height: 19rem;
+  height: 92%;
   display: flex;
   flex-direction: column;
   padding: 0.7rem 0.3rem 0 0.3rem;
-  border-radius: 5px;
-  border: 0.5px solid #a1c7b0;
-  box-shadow: 0 0 1px rgba(180, 180, 180, 0.5);
-  background-color: #b5dfc5;
+  border-radius: 0.5rem;
+  border: 0.5px solid rgba(0,0,0,.04);
+  box-shadow: 0 0 0 1px #e3e5e8, 5px 5px 10px 0 rgba(0,0,0,.04);
+  background-color: #f6f7f8;
 }
 .title p {
   text-align: center;

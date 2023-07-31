@@ -4,7 +4,6 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import Card from "./Card";
 import Carousel from "./Carousel";
-import NewCarousel from "./NewCarousel";
 
 export default function LunchCarousel() {
   const [cards, setCards] = useState([]);
@@ -42,9 +41,17 @@ export default function LunchCarousel() {
       let response = await axios.get(
         `https://unofficial.kr/api/lunch?date=${today}`
       );
+      // 중복 데이터 제거
       if (response.data) {
-        setLunchData(response.data);
-        console.log("점심API", response.data);
+        let seen = {};
+        let uniqueData = response.data.filter(el => {
+          let duplicate = seen.hasOwnProperty(JSON.stringify({ ...el, id: undefined }));
+          seen[JSON.stringify({ ...el, id: undefined })] = 0;
+          return !duplicate;
+        });
+
+        setLunchData(uniqueData);
+        console.log("점심API", uniqueData);
       }
     } catch (error) {
       console.log("점심API", error);
@@ -89,7 +96,6 @@ export default function LunchCarousel() {
         offset={1}
         showArrows={false}
       />
-      {/* <NewCarousel cards={cards} /> */}
     </div>
   );
 }
