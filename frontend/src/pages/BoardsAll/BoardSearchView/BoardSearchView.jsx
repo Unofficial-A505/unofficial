@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './BoardSearchView.module.css';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import SearchContent from '../../../components/SearchContent/SearchContent'

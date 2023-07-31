@@ -1,20 +1,17 @@
-
+/* 전체 검색 박스 */
 .searchboxall {
   position: relative;
 
   width:706px;
   margin: 0 auto;
-
-  border: 1px red dotted;
 }
 
+/* 게시판 내 검색 박스 */
 .searchboxhere {
   position: relative;
 
   width: 450px;
   margin: 0 auto;
-
-  border: 1px red dotted;
 }
 
 #all {

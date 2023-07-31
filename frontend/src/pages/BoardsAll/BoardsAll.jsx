@@ -39,7 +39,6 @@ export default function BoardsAll(){
       setboardTitles(res.data)
       console.log('res.data', res.data)})
     .catch((err) => console.log(err))
-
     return () => {  
       console.log('unmounted')
      }}, []);
@@ -77,7 +76,10 @@ export default function BoardsAll(){
 
     <div className={styles.searchboxhere}>
       <input className={styles.search} id={styles.here}type="text" placeholder={curr} onChange={(e) => {setKeywordBoard(e.target.value)}}/>
-      <button className={styles.searchbutton} onClick={() => navigate(`/boards/${boardTitle}/search/${keywordBoard}`)}><FiSearch /></button>
+      <button className={styles.searchbutton} onClick={() => {
+        navigate(`/boards/${boardTitle}/search/${keywordBoard}`);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        }}><FiSearch /></button>
     </div>
 
     <nav className={styles.pagination} aria-label="...">
