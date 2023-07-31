@@ -16,10 +16,10 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<Article> searchByTitleAndContent(String title, String content, Long boardId) {
+    public List<Article> searchByTitleAndContent(String keyword, Long boardId) {
         return queryFactory
                 .selectFrom(article)
-                .where(eqBoard(boardId).and(titleLike(title).or(contentLike(content))))
+                .where(eqBoard(boardId).and(titleLike(keyword).or(contentLike(keyword))))
                 .fetch();
     }
 
