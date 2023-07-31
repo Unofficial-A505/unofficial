@@ -29,7 +29,7 @@ public class CommentServiceImpl implements CommentService {
     private final UserRepository userRepository;
 
     @Override
-    public void createComment(Long userId, CommentRequestDto dto) {
+    public CommentResponseDto createComment(Long userId, CommentRequestDto dto) {
         Article article = articleRepository.getReferenceById(dto.getArticleId());
         Comment parent = commentRepository.findById(dto.getParentId()).orElse(null);
         User user = userRepository.findById(userId).orElse(null);
@@ -40,18 +40,28 @@ public class CommentServiceImpl implements CommentService {
                 .parent(parent)
                 .user(user)
                 .build();
-        commentRepository.save(comment);
+        Comment savedComment = commentRepository.save(comment);
+        return new CommentResponseDto(savedComment);
     }
 
     @Override
     public CommentResponseDto getCommentById(Long id) {
         Comment comment = commentRepository.findById(id).orElseThrow(()->new RuntimeException("Comment not found"));
-        return CommentResponseDto.builder()
-                .userId(comment.getUser().getId())
-                .articleId(comment.getArticle().getId())
-                .content(comment.getContent())
-                .parentId(comment.getParent().getId())
-                .build();
+        Comment parent = comment.getParent();
+        if(parent == null) {
+            return CommentResponseDto.builder()
+                    .userId(comment.getUser().getId())
+                    .articleId(comment.getArticle().getId())
+                    .content(comment.getContent())
+                    .build();
+        } else {
+            return CommentResponseDto.builder()
+                    .userId(comment.getUser().getId())
+                    .articleId(comment.getArticle().getId())
+                    .content(comment.getContent())
+                    .parent(comment.getParent())
+                    .build();
+        }
     }
 
     @Override
@@ -60,7 +70,7 @@ public class CommentServiceImpl implements CommentService {
         List<CommentResponseDto> dtoList = new ArrayList<>();
         list.stream().forEach(findByArticle -> dtoList.add(new CommentResponseDto(
                 findByArticle.getUser().getId(), findByArticle.getArticle().getId(),
-                findByArticle.getContent(), findByArticle.getParent().getId())));
+                findByArticle.getContent(), findByArticle.getParent())));
         return dtoList;
     }
 
@@ -70,7 +80,7 @@ public class CommentServiceImpl implements CommentService {
         List<CommentResponseDto> dtoList = new ArrayList<>();
         list.stream().forEach(findByArticle -> dtoList.add(new CommentResponseDto(
                 findByArticle.getUser().getId(), findByArticle.getArticle().getId(),
-                findByArticle.getContent(), findByArticle.getParent().getId())));
+                findByArticle.getContent(), findByArticle.getParent())));
         return dtoList;
     }
 
