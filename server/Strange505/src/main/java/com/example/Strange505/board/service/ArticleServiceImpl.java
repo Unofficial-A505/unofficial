@@ -29,6 +29,11 @@ public class ArticleServiceImpl implements ArticleService {
     private final ImageService imageService;
 
     @Override
+    public List<Article> getArticlesByTitleAndContent(String keyword, Long boardId) {
+        return articleRepository.searchByTitleAndContent(keyword, boardId);
+    }
+
+    @Override
     @Transactional
     public Article createArticle(ArticleRequestDto dto, Long userId){
         User user = userRepository.findById(userId).orElseThrow();
@@ -52,16 +57,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Article> getArticlesByBoard(Long boardId) {
         return articleRepository.searchByBoard(boardId);
-    }
-
-    @Override
-    public List<Article> getArticlesByTitle(String title, Long boardId) {
-        return articleRepository.searchByTitle(title, boardId);
-    }
-
-    @Override
-    public List<Article> getArticlesByContent(String content, Long boardId) {
-        return articleRepository.searchByContent(content, boardId);
     }
 
     @Override

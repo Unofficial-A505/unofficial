@@ -69,39 +69,24 @@ public class ArticleController {
     @GetMapping
     public ResponseEntity<List<ArticleResponseDto>> getAllArticles() {
         List<Article> articles = articleService.getAllArticles();
-        List<ArticleResponseDto> articleResponseDtoList = new ArrayList<>();
-
-        articles.stream().forEach(findArticle -> articleResponseDtoList.add(
+        List<ArticleResponseDto> articleResponseDtoList = articles.stream().map(findArticle ->
                 new ArticleResponseDto(findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getNickName(),
-                        findArticle.getCreateTime(), findArticle.getModifyTime())));
+                        findArticle.getCreateTime(), findArticle.getModifyTime()))
+                .toList();
 
         return new ResponseEntity<>(articleResponseDtoList, HttpStatus.OK);
     }
 
-    @GetMapping("/title")
-    public ResponseEntity<List<ArticleResponseDto>> getArticlesByTitle(@RequestParam String title, @RequestParam Long boardId) {
-        List<Article> articles = articleService.getArticlesByTitle(title, boardId);
-        List<ArticleResponseDto> articleResponseDtoList = new ArrayList<>();
+    @GetMapping("/search")
+    public ResponseEntity<List<ArticleResponseDto>> getArticlesByTitleAndContent(@RequestParam String keyword, @RequestParam Long boardId) {
+        List<Article> articles = articleService.getArticlesByTitleAndContent(keyword, boardId);
 
-        articles.stream().forEach(findArticle -> articleResponseDtoList.add(
+        List<ArticleResponseDto> articleResponseDtoList = articles.stream().map(findArticle ->
                 new ArticleResponseDto(findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getNickName(),
-                        findArticle.getCreateTime(), findArticle.getModifyTime())));
-
-        return new ResponseEntity<>(articleResponseDtoList, HttpStatus.OK);
-    }
-
-
-    @GetMapping("/content")
-    public ResponseEntity<List<ArticleResponseDto>> getArticlesByContent(@RequestParam String content, @RequestParam Long boardId) {
-        List<Article> articles = articleService.getArticlesByContent(content, boardId);
-        List<ArticleResponseDto> articleResponseDtoList = new ArrayList<>();
-
-        articles.stream().forEach(findArticle -> articleResponseDtoList.add(
-                new ArticleResponseDto(findArticle.getTitle(), findArticle.getContent(),
-                        findArticle.getBoard().getName(), findArticle.getNickName(),
-                        findArticle.getCreateTime(), findArticle.getModifyTime())));
+                        findArticle.getCreateTime(), findArticle.getModifyTime()))
+                .toList();
 
         return new ResponseEntity<>(articleResponseDtoList, HttpStatus.OK);
     }
@@ -155,7 +140,7 @@ public class ArticleController {
     @ResponseBody
     public ResponseEntity<String> upload(@ModelAttribute ImageForm form) throws IOException {
         MultipartFile file = form.getUploadFile().get(0);
-        return ResponseEntity.ok(s3Uploader.upload(file, "static"));
+        return ResponseEntity.ok(s3Uploader.upload(file, "article"));
     }
 
 //    @PostMapping("/images")
