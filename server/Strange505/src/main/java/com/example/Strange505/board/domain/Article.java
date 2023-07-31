@@ -3,7 +3,10 @@ package com.example.Strange505.board.domain;
 import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.user.domain.User;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,7 +18,6 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Article {
 
     @Id
@@ -65,7 +67,6 @@ public class Article {
     }
 
     public void updateArticle(ArticleRequestDto dto, Board board) {
-
         this.title = dto.getTitle();
         this.content = dto.getContent();
         this.nickName = dto.getNickName();

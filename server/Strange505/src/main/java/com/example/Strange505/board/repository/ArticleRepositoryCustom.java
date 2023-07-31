@@ -7,7 +7,8 @@ import com.example.Strange505.user.domain.User;
 import java.util.List;
 
 public interface ArticleRepositoryCustom {
-    List<Article> searchByTitleAndContent(String keyword, Long boardId);
+    List<Article> searchByTitle(String title, Long boardId);
+    List<Article> searchByContent(String content, Long boardId);
     List<Article> searchByUser(Long userId);
     List<Article> searchByBoard(Long boardId);
     void addLikeCount(Article article);

@@ -12,14 +12,12 @@ public class CommentResponseDto {
     private Long userId;
     private Long articleId;
     private String content;
-    private Comment parent;
+    private Long parentId;
 
     public CommentResponseDto(Comment comment) {
         this.content = comment.getContent();
         this.articleId = comment.getArticle().getId();
         this.userId = comment.getUser().getId();
-        if (comment.getParent() != null) {
-            this.parent = comment.getParent();
-        }
+        this.parentId = comment.getParent().getId();
     }
 }

@@ -1,14 +1,10 @@
 package com.example.Strange505.user.domain;
 
-import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.user.dto.AuthDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Entity(name = "users")
@@ -28,9 +24,6 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role; // 사용자 권한
-
-    @OneToMany(mappedBy = "user")
-    private List<Article> articles = new ArrayList<>();
 
     @Column(nullable = false)
     private String local;
