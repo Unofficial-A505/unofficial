@@ -15,7 +15,6 @@ public interface ArticleService {
 
     List<Article> getArticlesByBoard(Long boardId);
 
-
     List<Article> getArticlesByTitleAndContent(String keyword, Long boardId);
 
     List<Article> getArticlesByUser(Long userId);
