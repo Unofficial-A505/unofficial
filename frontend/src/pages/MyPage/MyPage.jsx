@@ -17,13 +17,17 @@ export default function MyPage() {
   // 현재 경로에서 'activity'나 'advertisement' 문자열이 있는지 확인
   const isActiveActivity = path.includes("activity");
   const isActiveAdvertisement = path.includes("advertisement");
-
-  let activeTab = isActiveActivity
-    ? "활동"
-    : isActiveAdvertisement
-    ? "광고"
-    : "정보"; // 기본 탭 설정
-  
+  const isManagement = path.includes("management");//관리자
+  let activeTab;
+  if (isActiveActivity) {
+    activeTab = "활동";
+  } else if (isActiveAdvertisement) {
+    activeTab = "광고";
+  } else if (isManagement) {
+    activeTab = "관리자"; // This is added for management
+  } else {
+    activeTab = "정보";
+  }
   return (
     <>
       <TopSpace />
@@ -72,6 +76,19 @@ export default function MyPage() {
                     style={activeTab === "광고" ? { color: "#034BB9" } : null}
                   >
                     광고 및 마일리지 관리
+                  </Link>
+                </div>
+                <div className={styles.navnameContainer}>
+                  <RiAdvertisementLine
+                    className={styles.mypagenavIcon}
+                    style={activeTab === "관리자" ? { color: "#034BB9" } : null}
+                  />
+                  <Link
+                    to="management"
+                    className={styles.mypagenavtab}
+                    style={activeTab === "관리자" ? { color: "#034BB9" } : null}
+                  >
+                    광고 승인 및 취소(관리자)
                   </Link>
                 </div>
               </div>

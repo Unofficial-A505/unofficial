@@ -7,4 +7,5 @@ import java.time.LocalDate;
 import java.util.List;
 public interface AdsRepository extends JpaRepository<AdsEntity, Long>{
     List<AdsEntity> findByEndDateAfterAndAdminConfirmedTrue(LocalDate date);
+    List<AdsEntity> findByEndDateAfter(LocalDate date);
 }
