@@ -1,0 +1,46 @@
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  width: 100%;
+  height: 520px;
+  padding: 0 1rem;
+
+  /* border: 1px dotted red; */
+}
+
+.welcomeContainer {
+  height: 4%;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  /* border-bottom: 1px solid #dedede; */
+  /* border: 1px dotted red; */
+}
+
+.welcomeContainer p {
+  margin-bottom: 0.2rem;
+  color: #747474;
+}
+
+.myMileageContainer {
+  height: 30%;
+  padding: 0.6rem 2rem;
+  text-align: left;
+  border-bottom: 2px solid #d3d9ef;
+  /* border: 1px dotted red; */
+}
+
+.myMileageContainer h3 {
+  font-size: 1.2rem;
+  color: #585858;
+}
+
+.temp {
+  background-color: #d9e0f8;
+  width: 100%;
+  height: 80%;
+  border-radius: 6px;
+}
