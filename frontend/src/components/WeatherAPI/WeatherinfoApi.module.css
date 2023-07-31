@@ -1,35 +1,42 @@
-.weatherCardContainer {
-  /* height: 17rem; */
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border: 1px dotted red;
+.weatherApiContainer { 
+  height: 70%;
+  padding: 0.6rem;
+  padding-bottom: 2rem;
+  background-color: #f4f6fa;
+  /* border: 1px solid #d6d6d6; */
   border-radius: 1rem;
   box-shadow: 0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04);
+  margin-bottom: 1rem;
+}
+.weatherCardContainer {
+  height: 14.5rem;
+  padding: 1rem;
+  background-color: #fff;
+  border: 1px solid #d6d6d6;
+  border-radius: 1rem;
 }
 .weatherCardContainer p {
   margin-bottom: 0;
 }
-.title p {
-  font-size: 1.6rem;
-  font-weight: 550;
-}
-/* .temp {
-  height: 15rem;
-  border: 1px dotted blue;
-  margin-bottom: 5rem;
-} */
 .upperContainer{
   display: flex;
-  flex-direction: column;
-  align-items: start;
-  border-bottom: 1px solid #acacac;
-  border: 1px dotted red;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  padding: 0 1rem;
+  border-bottom: 0.5px solid #acacac;
+}
+.title p {
+  width: 100%;
+  font-size: 1.3rem;
+  font-weight: 500;
 }
 .downContainer {
   display: flex;
-  border: 1px dotted red;
 }
 .forecastWather {
   width: 33.3%;
   padding: 0 0.5rem;
+}
+.forecastWather p {
+  font-size: 0.8rem;
 }
