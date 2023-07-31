@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { FiSearch } from '@react-icons/all-files/fi/FiSearch';
+import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
 
 import TopSpace from '../../components/TopSpace/TopSpace';
 import UnderSpace from '../../components/UnderSpace/UnderSpace';
@@ -35,7 +36,8 @@ export default function SearchView() {
         <AdHorizontal />
 
         <div className={styles.searchUpheader}>
-          <span className={styles.boardTitle}>전체게시판</span>의 <span className={styles.searchKeyword}>'{keyword}'</span> 검색 결과
+          <div><span className={styles.boardTitle}>전체게시판</span>의 <span className={styles.searchKeyword}>'{keyword}'</span> 검색 결과</div>
+          <button className={styles.grayoutbutton} onClick={() => navigate('/boards/자유게시판')}><IoIosArrowBack />목록으로 돌아가기</button>
         </div>
 
         <div>

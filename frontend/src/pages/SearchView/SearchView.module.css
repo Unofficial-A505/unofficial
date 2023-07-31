@@ -1,5 +1,4 @@
 /* 검색 버튼 */
-
 .searchboxall {
   position: relative;
 
@@ -38,8 +37,10 @@
 
 /* 검색 범위와 검색 키워드 */
 .searchUpheader {
-  width: 1000px;
-  margin: 15px 30px;
+  margin: 20px 30px;
+
+  display: flex;
+  justify-content: space-between;
 }
 
 .boardTitle {
@@ -53,6 +54,17 @@
   margin: 0 5px 0 10px;
   font-size: 23px;
   font-weight: 700;
+}
+
+.grayoutbutton {
+  border: 0;
+  background-color: transparent;
+
+  color: rgba(117, 117, 117, 0.80);
+  font-family: Inter;
+  font-size: 17.537px;
+  font-style: normal;
+  font-weight: 400;
 }
 
 /* 제목별, 내용별 검색결과창 스타일링 */
