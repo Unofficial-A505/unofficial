@@ -31,10 +31,7 @@ export default function BoardsAll(){
 
   useEffect(() => {
 
-    axios({
-      method: "get",
-      url: 'http://127.0.0.1:8000/api/v1/boards/'
-    })
+    axios.get('/posts/boards.json')
     .then((res) => {
       setboardTitles(res.data)
       console.log('res.data', res.data)})
