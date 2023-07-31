@@ -37,11 +37,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         // ACL(Access Control List, 접근 제어 목록)의 예외 URL 설정

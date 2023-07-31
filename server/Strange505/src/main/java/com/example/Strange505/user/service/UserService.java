@@ -6,13 +6,17 @@ import com.example.Strange505.user.dto.RequestUserDto;
 import com.example.Strange505.user.exception.NoMatchPasswordException;
 import com.example.Strange505.user.exception.SendEmailFailException;
 import com.example.Strange505.user.repository.UserRepository;
+import com.example.Strange505.verificate.UUIDProvider;
 import com.example.Strange505.verificate.service.EmailVerifyService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -57,5 +61,22 @@ public class UserService {
 
     public List<User> getUsers() {
         return userRepository.findAll();
+    }
+
+    @Transactional
+    public void passwordInit(String email) throws MessagingException {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("존재하지 않는 유저입니다."));
+        String password = makePassword();
+        user.update(encoder.encode(password));
+        emailVerifyService.sendPasswordEmail(email, password);
+    }
+
+    private String makePassword() {
+        String uuid = "";
+        for (int i = 0; i < 5; i++) {
+            uuid = UUID.randomUUID().toString().replaceAll("-", ""); // -를 제거해 주었다.
+            uuid = uuid.substring(0, 10); //uuid를 앞에서부터 10자리 잘라줌.
+        }
+        return uuid;
     }
 }
