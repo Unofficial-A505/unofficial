@@ -25,7 +25,7 @@
 .sweabuttonTitle {
   color: #000;
   font-feature-settings: 'clig' off, 'liga' off;
-  font-family: Mako;
+  /* font-family: Mako; */
   font-size: 15px;
   font-style: normal;
   font-weight: 450;
