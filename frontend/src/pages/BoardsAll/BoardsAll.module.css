@@ -1,20 +1,17 @@
-
+/* 전체 검색 박스 */
 .searchboxall {
   position: relative;
 
   width:706px;
   margin: 0 auto;
-
-  border: 1px red dotted;
 }
 
+/* 게시판 내 검색 박스 */
 .searchboxhere {
   position: relative;
 
   width: 450px;
   margin: 0 auto;
-
-  border: 1px red dotted;
 }
 
 #all {
@@ -49,6 +46,16 @@
   background-color: rgba(208, 208, 208, 0.264);        
 }
 
+.searchbuttonIcon {
+  position: absolute;
+  right: 20px;
+  top: 30%;
+  
+  border: 0;
+  border-radius: 1rem;
+  background-color: transparent;
+}
+
 .hotcontainer {
   height: 25px;
 
@@ -68,6 +75,13 @@
 
   margin: 0 10px 0 0;
   font-size: 13px;
+}
+
+/* board 전체 컨테이너*/
+.boardcontainer{
+  width: 1200px;
+  margin: 0 auto;
+  /* border: 1px dotted green; */
 }
 
 /* 게시판 탭 (자유게시판, 비밀게시판, 9기게시판 etc...) */
@@ -92,9 +106,23 @@
   line-height: normal;
 }
 
+.boardtabSelected {
+  margin: 6px;
+  color: #000;
+
+  border: 0;
+  background-color: transparent;
+
+  color: #034BB9;
+  font-size: 18px;
+  font-weight: 700;
+  /* text-decoration: underline;
+  text-underline-position: under; */
+}
+
 .boardtab:hover {
   color: #034BB9;
-  /* font-size: 21.044px; */
+  font-size: 18px;
   font-weight: 700;
   text-decoration: underline;
   text-underline-position: under;
@@ -112,12 +140,6 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-}
-
-.boardcontainer{
-  width: 1200px;
-  margin: 0 auto;
-  /* border: 1px dotted green; */
 }
 
 .createpageIcon {

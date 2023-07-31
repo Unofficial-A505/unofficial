@@ -20,7 +20,6 @@ export default function BoardsAll(){
   const [ keywordAll, setKeywordAll ] = useState('')
   const [ keywordBoard, setKeywordBoard ] = useState('')
 
-
   const navigate = useNavigate();
 
   // const { isLoading, error, data: boards } = useQuery(
@@ -31,15 +30,12 @@ export default function BoardsAll(){
 
   useEffect(() => {
 
-    axios({
-      method: "get",
-      url: 'http://127.0.0.1:8000/api/v1/boards/'
-    })
+    axios.get('/posts/boards.json')
     .then((res) => {
       setboardTitles(res.data)
       console.log('res.data', res.data)})
     .catch((err) => console.log(err))
-
+    window.scrollTo({ top: 0, behavior: "smooth" })
     return () => {  
       console.log('unmounted')
      }}, []);
@@ -48,14 +44,14 @@ export default function BoardsAll(){
     <div>
     <TopSpace />
 
-    <div className={styles.searchboxall}>
+    <form className={styles.searchboxall}>
       <input className={styles.search} id={styles.all} type="text" placeholder="찾고싶은 게시글의 제목 또는 내용의 키워드를 검색" onChange={(e) => {setKeywordAll(e.target.value)}}/>
-      <button className={styles.searchbutton} onClick={() => navigate(`search/${keywordAll}`)}><FiSearch /></button>
-    </div>
+      <button className={styles.searchbutton} onClick={() => navigate(`/boards/search/${keywordAll}`)}><FiSearch className={styles.searchbuttonIcon} size='24'/></button>
+    </form>
     <div className={styles.hotcontainer}>
       <span className={styles.hottitle}>Hot 게시판</span>
       <span className={styles.hotboard}>자유 게시판</span>
-      <span className={styles.hotboard}>비밀 게시판</span>
+      <span className={styles.hotboard}>비밀 게시판</span> 
     </div>
     <AdHorizontal />
     
@@ -63,7 +59,7 @@ export default function BoardsAll(){
       <div className={styles.boardtabContainer}>
         <div>
           {boardTitles.map((board, index) => 
-            <button key={index} className={styles.boardtab} onClick={() => navigate(`/boards/${board.title}`)}>{board.title}</button>)}
+            <button key={index} className={board.title == boardTitle ? styles.boardtabSelected : styles.boardtab} onClick={() => navigate(`/boards/${board.title}`)}>{board.title}</button>)}
         </div>
         <div>
           <button className={styles.createpageButton} onClick={() => navigate(`/boards/${boardTitle}/create`)}><CgAddR className={styles.createpageIcon} size='15'/>새 글 작성</button>
@@ -75,10 +71,13 @@ export default function BoardsAll(){
     </div>
     
 
-    <div className={styles.searchboxhere}>
+    <form className={styles.searchboxhere}>
       <input className={styles.search} id={styles.here}type="text" placeholder={curr} onChange={(e) => {setKeywordBoard(e.target.value)}}/>
-      <button className={styles.searchbutton} onClick={() => navigate(`/boards/${boardTitle}/search/${keywordBoard}`)}><FiSearch /></button>
-    </div>
+      <button className={styles.searchbutton} onClick={() => {
+        navigate(`/boards/${boardTitle}/search/${keywordBoard}`);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        }}><FiSearch /></button>
+    </form>
 
     <nav className={styles.pagination} aria-label="...">
       <ul className="pagination pagination-sm">

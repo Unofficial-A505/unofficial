@@ -1,11 +1,10 @@
-import styles from './CreatePostPage.module.css'
+import styles from './PostUpdate.module.css'
 import axios from 'axios';
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import QuillPresneter from './QuillPresenter';
 import Quill from 'quill';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -29,7 +28,7 @@ const Title = styled.h3`
     line-height: normal;
     display: flex;
     `
-const QuillContainer = () => {
+const PostUpdate = () => {
     const navigate = useNavigate();
     const { boardTitle } = useParams();
     const [value, setValue] = useState('');
@@ -209,4 +208,4 @@ const QuillContainer = () => {
     );
 };
 
-export default QuillContainer;
+export default PostUpdate;

@@ -133,7 +133,7 @@ const commentCreate = () => {
         <span className={styles.postviewContainer}>
           <div className={styles.postTopbar}>
             <span className={styles.boardTitle}>{boardTitle}</span>
-            <button className={styles.grayoutbutton} onClick={() => navigate(-1)}><IoIosArrowBack />목록으로 돌아가기</button>
+            <button className={styles.grayoutbutton} onClick={() => navigate(`/boards/${boardTitle}`)}><IoIosArrowBack />목록으로 돌아가기</button>
           </div>
           <div className={styles.postContainer}>
 
@@ -198,14 +198,14 @@ const commentCreate = () => {
           </div>
 
           <div className={styles.pageBottomtab}>
-            <button className={styles.grayoutbutton} onClick={() => navigate(-1)}><IoIosArrowBack />이전글 보기</button>
+            <button className={styles.grayoutbutton} onClick={() => navigate(`/boards/${boardTitle}`)}><IoIosArrowBack />이전글 보기</button>
             <button className={styles.grayoutbutton} onClick={() => navigate(+1)}>다음글 보기<IoIosArrowForward /></button>
           </div>
 
           <hr /> 
 
           <div className={styles.moreTopbar}>
-            <button className={styles.buttonlayoutDel} onClick={() => navigate(-1)}><span className={styles.boardmoreTitleA}>{boardTitle}</span><span className={styles.boardmoreTitleB}>글 더 보기</span></button>
+            <button className={styles.buttonlayoutDel} onClick={() => navigate(`/boards/${boardTitle}`)}><span className={styles.boardmoreTitleA}>{boardTitle}</span><span className={styles.boardmoreTitleB}>글 더 보기</span></button>
             <button className={styles.grayoutbutton} onClick={() => navigate(`/boards/${boardTitle}`)}>목록 보기<IoIosArrowForward /></button>
           </div>
           <BoardView />

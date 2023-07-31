@@ -45,11 +45,11 @@ export default function MyPage() {
                     style={activeTab === "정보" ? { color: "#034BB9 " } : null}
                   />
                   <Link
-                    to="/user"
+                    to="/user/password"
                     className={styles.mypagenavtab}
                     style={activeTab === "정보" ? { color: "#034BB9 " } : null}
                   >
-                    비밀번호 변경
+                    내 정보 수정
                   </Link>
                 </div>
                 <div className={styles.navnameContainer}>
@@ -58,7 +58,7 @@ export default function MyPage() {
                     style={activeTab === "활동" ? { color: "#034BB9" } : null}
                   />
                   <Link
-                    to="activity"
+                    to="activity/myposts"
                     className={styles.mypagenavtab}
                     style={activeTab === "활동" ? { color: "#034BB9" } : null}
                   >
@@ -71,7 +71,7 @@ export default function MyPage() {
                     style={activeTab === "광고" ? { color: "#034BB9" } : null}
                   />
                   <Link
-                    to="advertisement"
+                    to="advertisement/mymile"
                     className={styles.mypagenavtab}
                     style={activeTab === "광고" ? { color: "#034BB9" } : null}
                   >
