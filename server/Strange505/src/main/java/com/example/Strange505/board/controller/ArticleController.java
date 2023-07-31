@@ -79,9 +79,23 @@ public class ArticleController {
         return new ResponseEntity<>(articleResponseDtoList, HttpStatus.OK);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<ArticleResponseDto>> getArticlesByTitleAndContent(@RequestParam String keyword, @RequestParam Long boardId) {
-        List<Article> articles = articleService.getArticlesByTitleAndContent(keyword, boardId);
+    @GetMapping("/title")
+    public ResponseEntity<List<ArticleResponseDto>> getArticlesByTitle(@RequestParam String title, @RequestParam Long boardId) {
+        List<Article> articles = articleService.getArticlesByTitle(title, boardId);
+        List<ArticleResponseDto> articleResponseDtoList = new ArrayList<>();
+
+        articles.stream().forEach(findArticle -> articleResponseDtoList.add(
+                new ArticleResponseDto(findArticle.getTitle(), findArticle.getContent(),
+                        findArticle.getBoard().getName(), findArticle.getNickName(),
+                        findArticle.getCreateTime(), findArticle.getModifyTime())));
+
+        return new ResponseEntity<>(articleResponseDtoList, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/content")
+    public ResponseEntity<List<ArticleResponseDto>> getArticlesByContent(@RequestParam String content, @RequestParam Long boardId) {
+        List<Article> articles = articleService.getArticlesByContent(content, boardId);
         List<ArticleResponseDto> articleResponseDtoList = new ArrayList<>();
 
         articles.stream().forEach(findArticle -> articleResponseDtoList.add(
