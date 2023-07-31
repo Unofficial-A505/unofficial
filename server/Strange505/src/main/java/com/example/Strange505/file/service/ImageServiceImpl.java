@@ -56,24 +56,24 @@ public class ImageServiceImpl implements ImageService {
         List<String> preImages = parsingArticle(content);
         List<String> addImages = dto.getImageList();
 
-        notUsingImageDelete(preImages, nowImages);
-        notUsingImageDelete(addImages, nowImages);
+        if (preImages != null) notUsingImageDelete(preImages, nowImages);
+        if (addImages != null) notUsingImageDelete(addImages, nowImages);
     }
 
     @Override
     public List<String> parsingArticle(String data) {
         List<String> urls = new ArrayList<>();
-        int flag = 0;
-        do {
+        int flag = data.indexOf("src=\"");
+        while (flag != -1) {
             data = urlExtract(data, urls);
             flag = data.indexOf("src=\"");
-        } while (flag != -1);
-
+        }
         return urls;
     }
 
     private String urlExtract(String data, List<String> urls) {
         int idx = data.indexOf("src=\"");
+
         String now = data.substring(idx + 5);
         idx = now.indexOf("\"");
 

@@ -32,7 +32,9 @@ public class ArticleServiceImpl implements ArticleService {
         User user = userRepository.findById(userId).orElseThrow();
         Board board = boardRepository.findByName(dto.getBoardName()).orElseThrow();
         Article article = Article.createArticle(dto, user, board);
-        imageService.notUsingImageDelete(dto.getImageList(), imageService.parsingArticle(dto.getContent()));
+        if (dto.getImageList() != null) {
+            imageService.notUsingImageDelete(dto.getImageList(), imageService.parsingArticle(dto.getContent()));
+        }
         Article savedArticle = articleRepository.save(article);
         return savedArticle;
     }
