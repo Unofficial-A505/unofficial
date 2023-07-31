@@ -69,12 +69,11 @@ public class ArticleController {
     @GetMapping
     public ResponseEntity<List<ArticleResponseDto>> getAllArticles() {
         List<Article> articles = articleService.getAllArticles();
-        List<ArticleResponseDto> articleResponseDtoList = new ArrayList<>();
-
-        articles.stream().forEach(findArticle -> articleResponseDtoList.add(
+        List<ArticleResponseDto> articleResponseDtoList = articles.stream().map(findArticle ->
                 new ArticleResponseDto(findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getNickName(),
-                        findArticle.getCreateTime(), findArticle.getModifyTime())));
+                        findArticle.getCreateTime(), findArticle.getModifyTime()))
+                .toList();
 
         return new ResponseEntity<>(articleResponseDtoList, HttpStatus.OK);
     }
@@ -82,12 +81,12 @@ public class ArticleController {
     @GetMapping("/search")
     public ResponseEntity<List<ArticleResponseDto>> getArticlesByTitleAndContent(@RequestParam String keyword, @RequestParam Long boardId) {
         List<Article> articles = articleService.getArticlesByTitleAndContent(keyword, boardId);
-        List<ArticleResponseDto> articleResponseDtoList = new ArrayList<>();
 
-        articles.stream().forEach(findArticle -> articleResponseDtoList.add(
+        List<ArticleResponseDto> articleResponseDtoList = articles.stream().map(findArticle ->
                 new ArticleResponseDto(findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getNickName(),
-                        findArticle.getCreateTime(), findArticle.getModifyTime())));
+                        findArticle.getCreateTime(), findArticle.getModifyTime()))
+                .toList();
 
         return new ResponseEntity<>(articleResponseDtoList, HttpStatus.OK);
     }
