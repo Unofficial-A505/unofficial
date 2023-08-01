@@ -6,6 +6,7 @@ import logo from './../../assets/images/mobile_logo.png'
 import { setEmail } from './../../store/signupSlice'
 import { setAccessToken } from './../../store/loginSlice'
 import axios from 'axios'
+import customAxios from '../../util/customAxios'
 
 
 export default function Login({ setModalOpen }) {
@@ -41,15 +42,16 @@ export default function Login({ setModalOpen }) {
     }
   }
 
-  // 로그인 유저 인증
-  const serverURL = 'https://unofficial.kr';
-
   const requestLogin = async () => {
     try {
-      const response = await axios.post(`${serverURL}/api/auth/login`, {
+      const response = await customAxios.post('/api/auth/login', {
         email: userEmail,
         password: userPassword,
       });
+      // const response = await axios.post(`${serverURL}/api/auth/login`, {
+      //   email: userEmail,
+      //   password: userPassword,
+      // });
       // 성공 ? 토큰 저장 && 모달 off
       dispatch(setEmail(userEmail))
       dispatch(setAccessToken(response.headers.authorization));
@@ -57,6 +59,7 @@ export default function Login({ setModalOpen }) {
       setModalOpen(false)
     }
     catch (err) {
+      console.log(err)
       // 실패(이메일 인증 X) ? 이메일 인증화면으로 이동
       if (err.response && err.response.data.success === false) {
         alert(err.response.data.message)  // '이메일 인증이 이루어 지지 않았습니다.'

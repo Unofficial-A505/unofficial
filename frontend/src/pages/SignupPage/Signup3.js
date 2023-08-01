@@ -3,14 +3,12 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styles from './Signup.module.css'
 import emailImg from './../../assets/images/emailImg.png'
-import axios from 'axios'
-
+import customAxios from '../../util/customAxios'
 
 export default function Signup3() {
 
   let user = useSelector((state) => state.user)
   const navigate = useNavigate()
-  const serverURL = 'https://unofficial.kr'
 
   useEffect(() => {
     console.log(user)
@@ -18,8 +16,8 @@ export default function Signup3() {
       navigate('/signup')
     }
     // server에 유저정보 송출
-    axios
-      .post(`${serverURL}/api/auth/signup`,
+    customAxios
+      .post(`/api/auth/signup`,
         {
           email: user.email,
           password: user.password,
@@ -32,7 +30,7 @@ export default function Signup3() {
 
   // 이메일 다시 보내기
   const resendEmail = () => {
-    axios.post(`${serverURL}/api/verify/resend`, {
+    customAxios.post(`/api/verify/resend`, {
       email: user.email
     })
       .then((res) => console.log(res))

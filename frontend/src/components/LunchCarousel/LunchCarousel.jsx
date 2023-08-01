@@ -4,6 +4,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import Card from "./Card";
 import Carousel from "./Carousel";
+import customAxios from "../../util/customAxios";
 
 export default function LunchCarousel() {
   const [cards, setCards] = useState([]);
@@ -24,7 +25,7 @@ export default function LunchCarousel() {
   const getToday = () => {
     let today = new Date();
     today.setHours(today.getHours() + 9);
-    
+
     // 주말이면 월요일로 조정
     if (today.getDay() === 6 || today.getDay() === 0) {
       const adjust = today.getDay() === 6 ? 2 : 1;
@@ -32,7 +33,7 @@ export default function LunchCarousel() {
     }
 
     let todayStr = today.toISOString().split("T")[0].replace(/-/g, "");
-    console.log(todayStr)
+    // console.log(todayStr)
     return todayStr;
   };
 
@@ -40,20 +41,22 @@ export default function LunchCarousel() {
   const fetchLunchData = async () => {
     try {
       const today = getToday();
-      let response = await axios.get(
-        `https://unofficial.kr/api/lunch?date=${today}`
+      let response = await customAxios.get(
+        `/api/lunch?date=${today}`
       );
       // 중복 데이터 제거
       if (response.data) {
         let seen = {};
-        let uniqueData = response.data.filter(el => {
-          let duplicate = seen.hasOwnProperty(JSON.stringify({ ...el, id: undefined }));
+        let uniqueData = response.data.filter((el) => {
+          let duplicate = seen.hasOwnProperty(
+            JSON.stringify({ ...el, id: undefined })
+          );
           seen[JSON.stringify({ ...el, id: undefined })] = 0;
           return !duplicate;
         });
 
+        // console.log("점심API", uniqueData);
         setLunchData(uniqueData);
-        console.log("점심API", uniqueData);
       }
     } catch (error) {
       console.log("점심API", error);
@@ -84,7 +87,7 @@ export default function LunchCarousel() {
         content: <Card lunchZip={data} key={data[0].local} />,
       };
     });
-    console.log(newCards)
+
     setCards(newCards);
   };
 

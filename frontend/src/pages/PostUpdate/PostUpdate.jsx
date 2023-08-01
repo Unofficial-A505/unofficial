@@ -13,6 +13,7 @@ import ImageResize from "@looop/quill-image-resize-module-react";
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 
 import TopSpace from "../../components/TopSpace/TopSpace";
+import customAxios from "../../util/customAxios";
 
 Quill.register("modules/ImageResize", ImageResize);
 
@@ -117,9 +118,9 @@ const PostUpdate = () => {
       console.log("file", file);
       console.log(formData);
 
-      axios({
+      customAxios({
         method: "post",
-        url: `http://unofficial.kr:8080/api/ads/uploadForArticle`,
+        url: `/api/ads/uploadForArticle`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
         // headers: {

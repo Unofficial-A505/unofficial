@@ -1,9 +1,9 @@
 import styles from './Signup.module.css'
-import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { setEmail, setPassword } from './../../store/signupSlice'
+import customAxios from '../../util/customAxios'
 
 
 export default function Signup2(){
@@ -64,10 +64,9 @@ export default function Signup2(){
     }
     setDuplicationMent(<p style={{color: 'green'}}>확인 중입니다.</p>)
     
-    const serverURL = 'https://unofficial.kr'
 
-    axios
-      .post(`${serverURL}/api/verify`, { email: userEmail })
+    customAxios
+      .post(`/api/verify`, { email: userEmail })
       .then((res)=>{
         console.log(res)
         if (res.status === 200) {
