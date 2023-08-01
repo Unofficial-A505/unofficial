@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './AddAdvPage.module.css';
 
-function AddAdvPage() {
+export default function AddAdvPage() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [preview, setPreview] = useState(null);
     const [redirectUrl, setRedirectUrl] = useState("");
