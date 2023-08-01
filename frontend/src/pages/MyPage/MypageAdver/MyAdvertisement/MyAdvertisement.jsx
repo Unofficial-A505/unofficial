@@ -28,7 +28,7 @@ export default function MyAdvertisement() {
   }, [accessToken]);
 
   const handleAddadv = () => {
-    window.open("http://localhost:3000/user/advertisement/form", "hello", "top=200,left=300,width=1080,height=600")
+    window.open("http://localhost:3000/user/advertisement/form", "hello", "top=200,left=300,width=1300,height=700")
   }
 
   return (

@@ -8,7 +8,6 @@ import EduGrantsButton from "../../components/EduGrantButton/EduGrantsButton";
 import BoardView from "../../components/BoardView/BoardView";
 import WeatherinfoApi from "../../components/WeatherAPI/WeatherinfoApi";
 import LunchCarousel from "../../components/LunchCarousel/LunchCarousel";
-
 import TopSpace from "../../components/TopSpace/TopSpace";
 
 // best 게시물 아이콘

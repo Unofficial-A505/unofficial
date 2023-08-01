@@ -64,7 +64,11 @@ public class AdsController {
         adsService.confirmAds(id);
         return ResponseEntity.noContent().build();
     }
-
+    @PutMapping("/reject/{id}")
+    public ResponseEntity<Void> rejectAds(@PathVariable Long id) {
+        adsService.rejectAds(id);
+        return ResponseEntity.noContent().build();
+    }
     @GetMapping("/active")
     public ResponseEntity<List<AdsDto>> findActiveAds() {
         List<AdsDto> activeAds = adsService.findActiveAds();

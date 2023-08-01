@@ -11,4 +11,6 @@ public interface AdsService {
     List<AdsDto> findActiveAds();
     List<AdsDto> findWaitAds();
     List<AdsDto> getAdsByUserId(Long userId);
+
+    void rejectAds(Long id);
 }

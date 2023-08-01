@@ -2,7 +2,7 @@ import styles from './SweaButton.module.css'
 
 export default function SweaButton(){
   const handleClick = () => {
-    window.location.href = "https://swexpertacademy.com/main/main.do"
+    window.open('https://swexpertacademy.com/main/main.do','_blank')
   }
 
   return(
