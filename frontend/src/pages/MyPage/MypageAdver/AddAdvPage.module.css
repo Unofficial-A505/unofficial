@@ -23,14 +23,14 @@
 }
 .Advurl{
   display: flex;
-width: 600px;
-height: 70px;
-flex-direction: column;
-justify-content: center;
-flex-shrink: 0;
-color: #000;
-font-size: 16px;
-line-height: 100%; /* 16px */
+  width: 600px;
+  height: 70px;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #000;
+  font-size: 16px;
+  line-height: 100%; /* 16px */
 }
 .image_preview_container {
   display: flex;
@@ -42,4 +42,52 @@ line-height: 100%; /* 16px */
   margin: auto;
   margin-bottom: 20px;
   background-color: #94cdf2;
+}
+
+/* 제목 */
+.mycontentTitle {
+  display: flex;
+  margin: 0 0 0 15px;
+
+  /* border: 1px dotted aqua; */
+}
+
+.mypostsTitle {
+  color: #585858;
+  font-weight: 700;
+
+  margin: 0 10px 20px 0;
+}
+
+.smallTitle {
+  height: 28px;
+  margin: 17px 0 0 0;
+  color: #757575;
+  font-size: 14px;
+} 
+
+/* 광고 신청 form Container*/
+.AdvformBox {
+  border: 1px dotted red; 
+}
+
+.AdvSelect {
+  display: flex;
+
+  border: 1px dotted red;
+}
+
+.AdvSelectTitle {
+  color: rgba(0, 0, 0, 0.70);
+  font-size: 20px;
+  line-height: normal;
+  width: 260px;
+
+  border: 1px dotted red;
+}
+
+.image_preview_container {
+  border: 1px solid #757575;
+  border-radius: 10px;
+  background-color: #75757550;
 }
