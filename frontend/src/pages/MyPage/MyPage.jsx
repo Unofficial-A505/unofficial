@@ -1,7 +1,6 @@
 import styles from "./MyPage.module.css";
 
 import TopSpace from "../../components/TopSpace/TopSpace";
-import UnderSpace from "../../components/UnderSpace/UnderSpace";
 
 import { FiHome } from "@react-icons/all-files/fi/FiHome";
 import { FiActivity } from "@react-icons/all-files/fi/FiActivity";
@@ -103,7 +102,6 @@ export default function MyPage() {
           <Outlet />
         </div>
       </div>
-      <UnderSpace />
     </>
   );
 }

@@ -10,7 +10,6 @@ import WeatherinfoApi from "../../components/WeatherAPI/WeatherinfoApi";
 import LunchCarousel from "../../components/LunchCarousel/LunchCarousel";
 
 import TopSpace from "../../components/TopSpace/TopSpace";
-import UnderSpace from "../../components/UnderSpace/UnderSpace";
 
 // best 게시물 아이콘
 import { FaCrown } from "@react-icons/all-files/fa/FaCrown";
@@ -53,7 +52,6 @@ export default function MainPage() {
           <AdVertical />
         </div>
       </div>
-      <UnderSpace />
     </section>
   );
 }

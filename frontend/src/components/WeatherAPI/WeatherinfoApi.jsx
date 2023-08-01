@@ -1,13 +1,13 @@
 import styles from "./WeatherinfoApi.module.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-
-const cities = ["Seoul", "Daejeon", "Gumi", "Gwangju", "Busan"];
-const api_key = "be3211008c87f453651f5f04faa61375";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 export default function WeatherWidget() {
+  const cities = ["Seoul", "Daejeon", "Gumi", "Gwangju", "Busan"];
+  const api_key = "be3211008c87f453651f5f04faa61375";
   const [weatherData, setWeatherData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,7 +25,6 @@ export default function WeatherWidget() {
       const response = await axios.get(
         `https://api.openweathermap.org/data/2.5/forecast?appid=${api_key}&q=${city}&units=metric&lang=kr`
       );
-      console.log(response.data);
       setLoading(false);
       return response.data;
     } catch (error) {
@@ -34,15 +33,28 @@ export default function WeatherWidget() {
     }
   };
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    arrows: false,
+  };
+
   return (
-    <div className={styles.WeatherapiContainer}>
-      <div className={styles.temp}>
-        <Carousel>
+    <div className={styles.weatherApiContainer}>
+      {loading ? (
+        <div>날씨 정보를 가져오는 중입니다.</div>
+      ) : (
+        <Slider {...settings}>
           {weatherData.map((data, index) => (
             <WeatherCard key={index} data={data} />
           ))}
-        </Carousel>
-      </div>
+        </Slider>
+      )}
     </div>
   );
 }
@@ -62,42 +74,67 @@ const WeatherCard = ({ data }) => {
           <img
             src={`https://openweathermap.org/img/wn/${data.list[0].weather[0].icon}@2x.png`}
             alt="날씨이모티콘"
+            width={100}
           />
           <div className="d-flex flex-column justify-content-center text-start">
-            <p className="m-0 fs-2">{data.list[0].main.temp}°C</p>
+            <p className="m-0 fs-2">
+              {Math.round(data.list[0].main.temp * 10) / 10}°C
+            </p>
             <p className="m-0 fs-6">{data.list[0].weather[0].description}</p>
           </div>
         </div>
       </div>
       <div className={styles.downContainer}>
         <div className={styles.forecastWather}>
-          <p>{data.list[1].dt_txt}</p>
-          <img 
-            src={`https://openweathermap.org/img/wn/${data.list[1].weather[0].icon}@2x.png`} 
+          <p>
+            {new Date(
+              new Date(data.list[1].dt_txt).setHours(
+                new Date(data.list[1].dt_txt).getHours() + 6
+              )
+            ).getHours()}
+            시
+          </p>
+          <img
+            src={`https://openweathermap.org/img/wn/${data.list[1].weather[0].icon}@2x.png`}
             alt="날씨이모티콘"
-            width="4"
+            width="60"
           />
-          <p>{data.list[1].main.temp}°C</p>
+          <p>{Math.round(data.list[1].main.temp * 10) / 10}°C</p>
         </div>
         <div className={styles.forecastWather}>
-        <p>{data.list[2].dt_txt}</p>
-          <img 
-            src={`https://openweathermap.org/img/wn/${data.list[2].weather[0].icon}@2x.png`} 
+          <p>
+            {new Date(
+              new Date(data.list[2].dt_txt).setHours(
+                new Date(data.list[2].dt_txt).getHours() + 6
+              )
+            ).getHours()}
+            시
+          </p>
+          <img
+            src={`https://openweathermap.org/img/wn/${data.list[2].weather[0].icon}@2x.png`}
             alt="날씨이모티콘"
-            width="4"
+            width="60"
           />
-          <p>{data.list[2].main.temp}°C</p>
+          <p>{Math.round(data.list[2].main.temp * 10) / 10}°C</p>
         </div>
         <div className={styles.forecastWather}>
-        <p>{data.list[3].dt_txt}</p>
-          <img 
-            src={`https://openweathermap.org/img/wn/${data.list[3].weather[0].icon}@2x.png`} 
+          <p>
+            {new Date(
+              new Date(data.list[3].dt_txt).setHours(
+                new Date(data.list[3].dt_txt).getHours() + 6
+              )
+            ).getHours()}
+            시
+          </p>
+          <img
+            src={`https://openweathermap.org/img/wn/${data.list[3].weather[0].icon}@2x.png`}
             alt="날씨이모티콘"
-            width="4"
+            width="60"
           />
-          <p>{data.list[3].main.temp}°C</p>
+          <p>{Math.round(data.list[3].main.temp * 10) / 10}°C</p>
         </div>
       </div>
+      <div style={{ height: "100" }}></div>
     </div>
   );
 };
