@@ -51,7 +51,7 @@ public class ArticleController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/detail/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ArticleResponseDto> getArticle(@PathVariable Long id, HttpServletRequest req, HttpServletResponse res) {
         addViewCount(id, req, res);
         Article article = articleService.getArticleById(id);
@@ -70,7 +70,7 @@ public class ArticleController {
     public ResponseEntity<List<ArticleResponseDto>> getAllArticles() {
         List<Article> articles = articleService.getAllArticles();
         List<ArticleResponseDto> articleResponseDtoList = articles.stream().map(findArticle ->
-                new ArticleResponseDto(findArticle.getTitle(), findArticle.getContent(),
+                new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getNickName(),
                         findArticle.getCreateTime(), findArticle.getModifyTime()))
                 .toList();
@@ -83,7 +83,7 @@ public class ArticleController {
         List<Article> articles = articleService.getArticlesByTitleAndContent(keyword, boardId);
 
         List<ArticleResponseDto> articleResponseDtoList = articles.stream().map(findArticle ->
-                new ArticleResponseDto(findArticle.getTitle(), findArticle.getContent(),
+                new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getNickName(),
                         findArticle.getCreateTime(), findArticle.getModifyTime()))
                 .toList();
@@ -99,7 +99,7 @@ public class ArticleController {
         }
         List<Article> articles = articleService.getArticlesByUser(userId);
         List<ArticleResponseDto> result = articles.stream().map(findArticle ->
-                        new ArticleResponseDto(findArticle.getTitle(), findArticle.getContent(),
+                        new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                                 findArticle.getBoard().getName(), findArticle.getNickName(),
                                 findArticle.getCreateTime(), findArticle.getModifyTime()))
                 .toList();

@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class BoardRequestDto {
+    private Long id;
     private String name;
 
     public Board dtoToEntity(BoardRequestDto dto) {
