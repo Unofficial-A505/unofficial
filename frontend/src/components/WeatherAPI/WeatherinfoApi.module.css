@@ -10,7 +10,7 @@
 }
 .weatherCardContainer {
   height: 14.5rem;
-  padding: 1rem;
+  padding: 0.8rem;
   background-color: #fff;
   border: 1px solid #d6d6d6;
   border-radius: 1rem;
@@ -24,6 +24,10 @@
   margin-bottom: 0.5rem;
   padding: 0 1rem;
   border-bottom: 0.5px solid #acacac;
+}
+.title {
+  width: 20%;
+  padding-top: 0.5rem; 
 }
 .title p {
   width: 100%;

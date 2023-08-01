@@ -5,10 +5,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
-const cities = ["Seoul", "Daejeon", "Gumi", "Gwangju", "Busan"];
-const api_key = "be3211008c87f453651f5f04faa61375";
-
 export default function WeatherWidget() {
+  const cities = ["Seoul", "Daejeon", "Gumi", "Gwangju", "Busan"];
+  const api_key = "be3211008c87f453651f5f04faa61375";
   const [weatherData, setWeatherData] = useState([]);
   const [loading, setLoading] = useState(true);
 
