@@ -28,10 +28,10 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
-        default_batch_fetch_size: 10
+        default_batch_fetch_size: 1000
         format_sql: true
 
   mail:
