@@ -33,7 +33,7 @@ export default function BoardsAll(){
 
     axios({
       method: "get",
-      url: 'http://127.0.0.1:8000/api/v1/boards/'
+      url: 'https://unofficial.kr/api/boards'
     })
     .then((res) => {
       setboardTitles(res.data)

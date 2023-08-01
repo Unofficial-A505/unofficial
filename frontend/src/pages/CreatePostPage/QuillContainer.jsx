@@ -115,7 +115,7 @@ const QuillContainer = () => {
 
       axios({
         method: "post",
-        url: `http://unofficial.kr:8080/api/ads/uploadForArticle`,
+        url: `https://unofficial.kr/api/ads/uploadForArticle`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
         // headers: {
@@ -150,7 +150,7 @@ const QuillContainer = () => {
 
     axios({
       method: "post",
-      url: `http://localhost:8080/api/articles`,
+      url: `https://unofficial.kr/api/articles`,
       // url: `http://70.12.247.35:8080/files/articleTest`,
       data: {
         title,

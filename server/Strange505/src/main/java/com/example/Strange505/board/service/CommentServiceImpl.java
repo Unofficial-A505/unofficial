@@ -32,14 +32,24 @@ public class CommentServiceImpl implements CommentService {
     public void createComment(Long userId, CommentRequestDto dto) {
         Article article = articleRepository.getReferenceById(dto.getArticleId());
         Comment parent = commentRepository.findById(dto.getParentId()).orElse(null);
-        User user = userRepository.findById(userId).orElse(null);
-        Comment comment = Comment.builder()
-                .article(article)
-                .content(dto.getContent())
-                .createTime(LocalDateTime.now())
-                .parent(parent)
-                .user(user)
-                .build();
+        User user = userRepository.findById(userId).orElseThrow(()->new RuntimeException("댓글 생성 중: 사용자 아이디 없음"));
+        Comment comment = null;
+        if (parent == null) {
+            comment = Comment.builder()
+                    .article(article)
+                    .content(dto.getContent())
+                    .createTime(LocalDateTime.now())
+                    .user(user)
+                    .build();
+        } else {
+            comment = Comment.builder()
+                    .article(article)
+                    .content(dto.getContent())
+                    .createTime(LocalDateTime.now())
+                    .parent(parent)
+                    .user(user)
+                    .build();
+        }
         commentRepository.save(comment);
     }
 
@@ -50,7 +60,7 @@ public class CommentServiceImpl implements CommentService {
                 .userId(comment.getUser().getId())
                 .articleId(comment.getArticle().getId())
                 .content(comment.getContent())
-                .parentId(comment.getParent().getId())
+                .parent(comment.getParent())
                 .build();
     }
 
@@ -59,8 +69,9 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> list = commentRepository.searchByArticle(articleId);
         List<CommentResponseDto> dtoList = new ArrayList<>();
         list.stream().forEach(findByArticle -> dtoList.add(new CommentResponseDto(
-                findByArticle.getUser().getId(), findByArticle.getArticle().getId(),
-                findByArticle.getContent(), findByArticle.getParent().getId())));
+                findByArticle.getId(), findByArticle.getUser().getId(),
+                findByArticle.getArticle().getId(),
+                findByArticle.getContent(), findByArticle.getParent())));
         return dtoList;
     }
 
@@ -69,8 +80,9 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> list = commentRepository.searchByUser(userId);
         List<CommentResponseDto> dtoList = new ArrayList<>();
         list.stream().forEach(findByArticle -> dtoList.add(new CommentResponseDto(
+                findByArticle.getId(),
                 findByArticle.getUser().getId(), findByArticle.getArticle().getId(),
-                findByArticle.getContent(), findByArticle.getParent().getId())));
+                findByArticle.getContent(), findByArticle.getParent())));
         return dtoList;
     }
 

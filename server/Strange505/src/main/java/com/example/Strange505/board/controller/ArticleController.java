@@ -14,6 +14,7 @@ import com.example.Strange505.file.service.S3UploaderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,23 +32,24 @@ public class ArticleController {
     private final AuthService authService;
 
     @PostMapping
-    public ResponseEntity<?> registerArticle(@RequestHeader("Authorization") String accessToken,
-                                             @RequestBody ArticleRequestDto dto) {
-        Long userId = authService.extractID(accessToken);
-        articleService.createArticle(dto, userId);
+    public ResponseEntity<?> registerArticle(@RequestBody ArticleRequestDto dto) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        articleService.createArticle(dto, email);
         return new ResponseEntity<>("Article created successfully", HttpStatus.OK);
 
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> modifyArticle(@PathVariable Long id, @RequestBody ArticleRequestDto dto) {
-        articleService.updateArticle(id, dto);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        articleService.updateArticle(id, dto, email);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> removeArticle(@PathVariable Long id) {
-        articleService.deleteArticle(id);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        articleService.deleteArticle(id, email);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -92,12 +94,9 @@ public class ArticleController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<ArticleResponseDto>> getArticlesByUser(@RequestHeader("Authorization") String accessToken) {
-        Long userId = authService.extractID(accessToken);
-        if (userId == null) {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        }
-        List<Article> articles = articleService.getArticlesByUser(userId);
+    public ResponseEntity<List<ArticleResponseDto>> getArticlesByUser() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<Article> articles = articleService.getArticlesByUser(email);
         List<ArticleResponseDto> result = articles.stream().map(findArticle ->
                         new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                                 findArticle.getBoard().getName(), findArticle.getNickName(),

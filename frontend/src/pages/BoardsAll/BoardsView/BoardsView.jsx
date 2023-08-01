@@ -16,7 +16,7 @@ export default function BoardsView() {
   useEffect(() => {
     axios({
       method: "get",
-      url: `http://localhost:8080/api/articles`,
+      url: `https://unofficial.kr/api/articles`,
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
