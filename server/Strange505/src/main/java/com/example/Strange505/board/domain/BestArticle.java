@@ -20,7 +20,7 @@ public class BestArticle {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "article_id")
+    @JoinColumn(name = "article_id", unique = true)
     private Article article;
 
 }
