@@ -5,6 +5,7 @@ import { useState, useRef } from 'react';
 import { FaRegThumbsUp } from '@react-icons/all-files/fa/FaRegThumbsUp';
 import { IoChatboxOutline } from '@react-icons/all-files/io5/IoChatboxOutline';
 import { IoRocketOutline } from '@react-icons/all-files/io5/IoRocketOutline';
+import { BsArrowReturnRight } from '@react-icons/all-files/bs/BsArrowReturnRight';
 
 // 삭제 아이콘
 import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
@@ -18,7 +19,6 @@ export default function CommentView({ comment, CommentDelete, commentUpdate}){
   const updateContent = useRef('')
   // const [ updateComment, setUpdateComment ] = useState('');
   const { id, content } = comment
-  console.log('rendering')
 
   if (!updateState) {
     return(
@@ -28,15 +28,12 @@ export default function CommentView({ comment, CommentDelete, commentUpdate}){
             <span className={styles.commentTitle}>9기 구미</span>
             <span className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} />15분 전</span>
           </div>
-          <div>
-          </div>
         </div>
   
         <div className={styles.commentContent}>{comment.content}</div>
   
         <div className={styles.commentBottombar}>
-          <div><IoChatboxOutline className={styles.commentIcons}/><span>대댓글</span></div>
-          {/* <div><FaRegThumbsUp className={styles.commentIcons}/><span>{commentRecommended}</span></div> */}
+          <div className={styles.recommentButton} onClick={() => setrecommentBox((prev) => !prev)}><IoChatboxOutline className={styles.commentIcons}/><span>대댓글</span></div>
           <div>
             <span className={styles.commentIcons} onClick={() => {
               setupdateState((prev) => !prev);
@@ -46,6 +43,23 @@ export default function CommentView({ comment, CommentDelete, commentUpdate}){
             <span className={styles.commentIcons} onClick={() => {CommentDelete(id)}}><span className={styles.updatetextPosition}><IoTrashOutline />삭제하기</span></span>
           </div>
         </div>
+
+        {recommentBox &&
+        <div className={styles.reCommentContainer}>
+          <div className={styles.recommentEnter}><BsArrowReturnRight /></div>
+          <div className={styles.commentbox}>
+            <textarea
+              className={styles.commentInput}
+              type="text"
+              onChange={(e) => setComments(e.target.value)}
+              placeholder="대댓글을 작성해보세요"
+            />
+            <button className={styles.commentButton} onClick={commentCreate}>
+              <IoChatboxOutline size="23" />
+            </button>
+          </div>
+        </div>}
+
         <hr />
   
       </div>

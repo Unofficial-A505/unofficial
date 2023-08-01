@@ -12,6 +12,7 @@ export default function BoardsView() {
     boardTitle = "자유게시판";
   }
   const navigate = useNavigate();
+  const URL = useSelector(state => state.URL.API_URL)
 
   useEffect(() => {
     axios({

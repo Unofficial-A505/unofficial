@@ -1,11 +1,11 @@
 import axios from 'axios'
+import customAxios from '../../util/customAxios';
 
-const serverURL = 'https://unofficial.kr'
 
 // access_token 요청
 export const requestAccessToken = async (refresh_token) => {
-  return await axios
-    .post(`${serverURL}/token/refresh/`, {
+  return await customAxios
+    .post(`/token/refresh/`, {
       refresh: refresh_token,
     })
     .then((response) => {

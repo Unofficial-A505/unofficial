@@ -9,13 +9,36 @@
   /* border: 1px dotted red */
 }
 
-.titleContainer p {
+.title {
+  cursor: pointer;
+  margin: 0 0 0 15px;
+
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 0 0.5rem;
+  color: #757575;
+  border-bottom : 1px solid #757575;
+}
+
+.titleChecked {
+  cursor: pointer;
+  margin: 0 0 0 15px;
+  
   margin-bottom: 0;
   font-size: 1.2rem;
   font-weight: 500;
   padding: 0 0.5rem;
   color: #034BB9;
   border-bottom : 1px solid #034BB9;
+}
+
+.titleContainer p {
+  /* margin-bottom: 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 0 0.5rem;
+  color: #034BB9;
+  border-bottom : 1px solid #034BB9; */
 }
 
 .contentContainer {

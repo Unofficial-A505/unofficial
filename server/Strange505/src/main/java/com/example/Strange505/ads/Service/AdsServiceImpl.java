@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import com.example.Strange505.ads.Jpa.AdsRepository;
 import com.example.Strange505.ads.Dto.AdsDto;
+import com.example.Strange505.ads.Entity.AdStatus;
 import java.time.LocalDate;
 @Service
 public class AdsServiceImpl implements AdsService {
@@ -54,7 +55,22 @@ public class AdsServiceImpl implements AdsService {
         AdsEntity updatedAds = adsRepository.save(ads);
         return convertToDto(updatedAds);
     }
-
+    @Override
+    @Transactional(readOnly = true)
+    public List<AdsDto> getAdsByUserId(Long userId) {
+        List<AdsEntity> userAds = adsRepository.findByUserId(userId);
+        return userAds.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+//    @Override
+//    @Transactional
+//    public void confirmAdStatus(Long id, AdStatus status) {
+//        AdsEntity ads = adsRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Ads not found"));
+//        ads.confirm(status);
+//        adsRepository.save(ads);
+//    }
     @Override
     @Transactional
     public void confirmAds(Long id) {
@@ -63,16 +79,34 @@ public class AdsServiceImpl implements AdsService {
         ads.confirm();
         adsRepository.save(ads);
     }
-
+    @Override
+    @Transactional
+    public void rejectAds(Long id) {
+        AdsEntity ads = adsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ads not found"));
+        ads.reject();
+        adsRepository.save(ads);
+    }
     @Override
     @Transactional(readOnly = true)
     public List<AdsDto> findActiveAds() {
         LocalDate currentDate = LocalDate.now();
-        List<AdsEntity> activeAds = adsRepository.findByEndDateAfterAndAdminConfirmedTrue(currentDate);
+        List<AdsEntity> activeAds = adsRepository.findByEndDateAfterAndAdminConfirmed(currentDate, AdStatus.APPROVED);
         return activeAds.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AdsDto> findWaitAds() {
+        LocalDate currentDate = LocalDate.now();
+        List<AdsEntity> waitAds = adsRepository.findByEndDateAfter(currentDate);
+        return waitAds.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
     private AdsDto convertToDto(AdsEntity ads) {
         AdsDto adsDto = new AdsDto();
         adsDto.setAdsId(ads.getAdsId());

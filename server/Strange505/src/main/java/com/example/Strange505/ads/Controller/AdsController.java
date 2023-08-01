@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/ads")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class AdsController {
     private final AdsService adsService;
     private final S3UploaderService s3Uploader;
@@ -32,6 +33,12 @@ public class AdsController {
     @GetMapping("/list")
     public ResponseEntity<List<AdsDto>> getAllAds() {
         List<AdsDto> adsDto = adsService.getAllAds();
+        return ResponseEntity.ok(adsDto);
+    }
+
+    @GetMapping("/list/{userId}")
+    public ResponseEntity<List<AdsDto>> getUserAds(@PathVariable Long userId) {
+        List<AdsDto> adsDto = adsService.getAdsByUserId(userId);
         return ResponseEntity.ok(adsDto);
     }
     @GetMapping("/{id}")
@@ -57,10 +64,20 @@ public class AdsController {
         adsService.confirmAds(id);
         return ResponseEntity.noContent().build();
     }
-
+    @PutMapping("/reject/{id}")
+    public ResponseEntity<Void> rejectAds(@PathVariable Long id) {
+        adsService.rejectAds(id);
+        return ResponseEntity.noContent().build();
+    }
     @GetMapping("/active")
     public ResponseEntity<List<AdsDto>> findActiveAds() {
         List<AdsDto> activeAds = adsService.findActiveAds();
         return ResponseEntity.ok(activeAds);
+    }
+
+    @GetMapping("/wait")
+    public ResponseEntity<List<AdsDto>> findWaitAds() {
+        List<AdsDto> waitAds = adsService.findWaitAds();
+        return ResponseEntity.ok(waitAds);
     }
 }

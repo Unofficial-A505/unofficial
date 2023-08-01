@@ -1,0 +1,77 @@
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  width: 100%;
+  height: 520px;
+  padding: 0 1rem;
+
+  /* border: 1px dotted red; */
+}
+
+.welcomeContainer {
+  /* height: 4%; */
+  /* padding: 0 2rem; */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  /* border-bottom: 1px solid #dedede; */
+  /* border: 1px dotted red; */
+}
+
+.welcomeContainer p {
+  margin-bottom: 0.2rem;
+  color: #747474;
+}
+
+.myContentContainer {
+  height: 87%;
+  padding: 0.6rem 2rem;
+  text-align: left;
+  /* border-bottom: 2px solid #d3d9ef; */
+
+  /* border: 1px dotted red; */
+}
+
+.myContentContainer h3 {
+  font-size: 1.2rem;
+  color: #585858;
+}
+
+/* 컨테이너 내부 */
+
+/* 제목 */
+.mycontentTop {
+  width: 94%;
+  /* border: 1px dotted red; */
+  margin: 0 0 15px 20px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.mycontentTitle {
+  display: flex;
+}
+
+.mypostsTitle {
+  color: #585858;
+  font-weight: 700;
+
+  margin: 0 10px 20px 0;
+}
+
+.smallTitle {
+  height: 28px;
+  margin: 17px 0 0 0;
+  color: #757575;
+  font-size: 14px;
+}
+
+.temp {
+  background-color: #d9e0f871;
+  width: 100%;
+  height: 80%;
+  border-radius: 6px;
+}

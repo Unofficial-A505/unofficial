@@ -1,175 +1,113 @@
 .usercontainer {
-  width: 17.25rem;
-  height: 8rem;
-
+  height: 9.4rem;
   border-radius: 5px;
-  border: 1px solid rgba(117, 117, 117, 0.50);
-}
-
-.logincenterbox {
-  width: 200px;
-  margin: 20px auto;
-}
-
-.unloginmessage {
-  color: #757575;
-  font-feature-settings: 'clig' off, 'liga' off;
-  font-family: Inter;
-  font-size: 10px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 100%;
-}
-
-.loginContainer {
-  width: 188px;
+  box-shadow: 0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04);
+  padding: 1rem;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-
-  margin: 0 auto;
 }
-
-.userButton {
+.usercontainer p {
+  color: #5c5c5c;
+  font-size: 0.8rem;
+  margin-bottom: 0;
+}
+.unloginmessage p{
+  margin: 0;
+}
+.loginButton {
+  height: 3.2rem;
+  border: 0;
+  border-radius: 5px;
+  background-color: #0969FB;
+  color: #fff;
+  font-size: 1.08rem;
+  margin: 0.5rem 0;
+}
+.loginButton:hover {
+  background-color: #034BB9;
+}
+.signupBox {
   display: flex;
-  width: 94px;
-  height: 56.436px;
-  padding: 1.114px;
   justify-content: center;
-  align-items: center;
-  gap: 4.458px;
-
-  border-radius: 6.686px;
 }
-
-
-
-
-/* login status */
-
-.usercenterbox {
-  width: 240px;
-  margin: 13px auto;
-
-  /* border: 1px dotted red; */
+.signupBox p{
+  font-size: 0.8rem;
+}
+.signupBox p:hover{
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .usertopContainer {
-  width: 260px;
-  margin: 0 auto;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 0.3rem;
 }
-
 .hellomessage {
   color: #757575;
-  text-align: center;
-  font-family: Source Sans Pro;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-
-  margin: 5px 0 0 0;
 }
-
-.mypageButton {
-  color: #034BB9;
-  font-feature-settings: 'clig' off, 'liga' off;
-  font-family: Source Sans Pro;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 100%; /* 10.013px */
-
-  border: 0;
-  background-color: transparent;
-
-  margin: 5px 0 0 0;
+.mypage {
+  font-weight: 600;
 }
-
-
+.mypage:hover{
+  cursor: pointer;
+}
 
 .usermidContainer {
   text-align: start;
-
-  /* border: 1px dotted aquamarine; */
+  margin-bottom: 0.3rem;
 }
-
-.secondmypageButton {
-  text-decoration: none;
+.secondmypage {
   border: 0;
-  background-color: transparent;
-
   color: #000;
-  font-feature-settings: 'clig' off, 'liga' off;
-  font-family: Source Sans Pro;
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 680;
-  line-height: 100%; /* 14px */
+  font-size: 1rem;
+  font-weight: 600;
 }
-
+.secondmypage:hover {
+  cursor: pointer;
+}
 .secondhelloMessage {
-  color: #000;
+  color: #5c5c5c;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Source Sans Pro;
-  font-size: 7px;
+  font-size: 0.8rem;
   font-style: normal;
   font-weight: 400;
   line-height: 100%; /* 7px */
 }
-
 .adverMessage {
-  margin: 15px 0 0 0;
-
+  margin: 1rem 0 0 0;
   color: #000;
-  font-family: Inter;
-  font-size: 9px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  font-size: 0.8rem;
 }
-
 .adverButton {
-  border: 0;
-  background-color: transparent;
-  text-decoration: underline;
-  margin: 0 0;
-
   color: #034BB9;
-  font-family: Inter;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
+  font-weight: 500;
 }
-
+.adverButton:hover {
+  cursor: pointer;
+}
 .mypageContent {
   display: flex;
   justify-content: space-between;
 }
-
 .mymileButton {
   display: flex;
   background-color: transparent;
   border: 0;
 }
-
 .mymileIcon {
   margin: 4px 2px 0 0;
 }
-
-
 .mypostsAndcomments {
   display: flex;
 }
-
 .myButton {
   display: flex;
   border: 0;
   background-color: transparent;
 }
-
 .myIcon {
   margin: 4px 2px 0 0;
 }

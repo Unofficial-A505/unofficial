@@ -1,0 +1,13 @@
+.emailVerifyPage {
+  margin: 12rem auto;
+  text-align: center;
+}
+.emailVerifyPage h3 {
+  margin-bottom: 2rem;
+}
+.emailVerifyPage a {
+  text-decoration: none;
+}
+.emailVerifyPage a:hover {
+  text-decoration: underline;
+}

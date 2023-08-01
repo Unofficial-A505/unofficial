@@ -9,10 +9,8 @@ export default function PostsView({ post, boardTitle }) {
     <>
       <div className={styles.boardpostContainer}>
         <div className={styles.postContainer}>
-          <div className={styles.postContent}>{boardTitle}</div>
-          <div className={styles.postTitle} onClick={() => navigate(`${post.id}`)}>
-            {post.title}
-          </div>
+          <div className={styles.postContent} onClick={() => navigate(`/boards/${boardTitle}`)}>{boardTitle}</div>
+          <div className={styles.postTitle} onClick={() => navigate(`${post.id}`)}>{post.title}</div>
         </div>
         <div className={styles.postContainer}>
           <div className={styles.postContent}>추천수</div>

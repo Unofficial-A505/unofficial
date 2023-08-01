@@ -1,0 +1,25 @@
+.titleContainer {
+    display: flex;
+    justify-content: left;
+    align-items: flex-end;
+    width: 75%;
+    height: 4rem;
+    padding: 0 4rem;
+    border-bottom: 2px solid #dedede;
+    /* border: 1px dotted red */
+  }
+
+  .titleContainer p {
+    margin-bottom: 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #034BB9;
+    border-bottom : 1px solid #034BB9;
+  }
+  .mypostsTitle {
+    color: #585858;
+    font-weight: 700;
+  
+    margin: 0 10px 20px 0;
+  }
+  
