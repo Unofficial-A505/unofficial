@@ -29,79 +29,69 @@ const Title = styled.h3`
     display: flex;
     `;
 const QuillContainer = () => {
-  const navigate = useNavigate();
-  const { boardTitle } = useParams();
-  const [value, setValue] = useState("");
-  const [title, setTitle] = useState("");
-  const TitleElement = useRef(null);
-  const quillElement = useRef(null);
-  const imageURL =
-    "https://plus.unsplash.com/premium_photo-1682855669043-fd359f155d3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=505&q=80";
+    const navigate = useNavigate();
+    const { boardTitle } = useParams();
+    const [value, setValue] = useState('');
+    const [title, setTitle] = useState('');
+    const TitleElement = useRef(null);
+    const quillElement = useRef(null); 
+ 
+    // // styled components
+    // const TitleInput = styled.input`
+    // font-size: 3rem;
+    // outline: none;
+    // padding-button: 0.5rem;
+    // border: none;
+    // margin-bottom: 2rem;
+    // width: 100%;
+    // `
+    
+    const modules = {
+        toolbar: {
+            container: [
+              ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+              [{ header: [1, 2, 3, false] }],
+              [{ color: [] }],
+              [{ list: 'ordered' }, { list: 'bullet' }],
+              [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
+              ['link', 'image'],
+            ],
+          },
+        ImageResize: { modules: ['Resize'] },
+    };
+    const formats = [
+        'header',
+        'bold',
+        'italic',
+        'underline',
+        'strike',
+        'blockquote',
+        'size',
+        'color',
+        'list',
+        'bullet',
+        'indent',
+        'link',
+        'image',
+        'align',
+    ];
 
-  // // styled components
-  // const TitleInput = styled.input`
-  // font-size: 3rem;
-  // outline: none;
-  // padding-button: 0.5rem;
-  // border: none;
-  // margin-bottom: 2rem;
-  // width: 100%;
-  // `
+    useEffect (() => {
+      quillElement.current.editor.getModule('toolbar').addHandler('image', function () {
+      selectLocalImage();
+    })}, [])
 
-  const modules = {
-    toolbar: {
-      container: [
-        ["bold", "italic", "underline", "strike", "blockquote"],
-        [{ header: [1, 2, 3, false] }],
-        [{ color: [] }],
-        [{ list: "ordered" }, { list: "bullet" }],
-        [
-          { align: "" },
-          { align: "center" },
-          { align: "right" },
-          { align: "justify" },
-        ],
-        ["link", "image"],
-      ],
-    },
-    ImageResize: { modules: ["Resize"] },
-  };
-  const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "size",
-    "color",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "align",
-  ];
+    const onChangeValue = (e) => {
+        setValue(e);
+        console.log(e)
+    }
 
-  useEffect(() => {
-    quillElement.current.editor
-      .getModule("toolbar")
-      .addHandler("image", function () {
-        selectLocalImage();
-      });
-  }, []);
+    const changetitleValue = (e) => {
+      setTitle(e);
+      console.log('title', e)
+    }
 
-  const onChangeValue = (e) => {
-    setValue(e);
-    console.log(e);
-  };
-
-  const changetitleValue = (e) => {
-    setTitle(e);
-    console.log("title", e);
-  };
-
-  // 이미지 url 추출 함수
+    // 이미지 url 추출 함수
   function selectLocalImage() {
     const fileInput = document.createElement("input");
     fileInput.setAttribute("type", "file");
@@ -120,7 +110,7 @@ const QuillContainer = () => {
 
       axios({
         method: "post",
-        url: `http://unofficial.kr:8080/api/ads/uploadForArticle`,
+        url: `https://unofficial.kr/api/articles/image`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
         // headers: {

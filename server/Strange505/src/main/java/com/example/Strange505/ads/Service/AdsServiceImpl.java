@@ -54,7 +54,14 @@ public class AdsServiceImpl implements AdsService {
         AdsEntity updatedAds = adsRepository.save(ads);
         return convertToDto(updatedAds);
     }
-
+    @Override
+    @Transactional(readOnly = true)
+    public List<AdsDto> getAdsByUserId(Long userId) {
+        List<AdsEntity> userAds = adsRepository.findByUserId(userId);
+        return userAds.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
     @Override
     @Transactional
     public void confirmAds(Long id) {
@@ -83,6 +90,7 @@ public class AdsServiceImpl implements AdsService {
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
+
     private AdsDto convertToDto(AdsEntity ads) {
         AdsDto adsDto = new AdsDto();
         adsDto.setAdsId(ads.getAdsId());

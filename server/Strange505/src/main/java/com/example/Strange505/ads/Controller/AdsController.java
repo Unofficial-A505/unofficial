@@ -35,6 +35,12 @@ public class AdsController {
         List<AdsDto> adsDto = adsService.getAllAds();
         return ResponseEntity.ok(adsDto);
     }
+
+    @GetMapping("/list/{userId}")
+    public ResponseEntity<List<AdsDto>> getUserAds(@PathVariable Long userId) {
+        List<AdsDto> adsDto = adsService.getAdsByUserId(userId);
+        return ResponseEntity.ok(adsDto);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<AdsDto> getAdsById(@PathVariable Long id) {
         AdsDto adsDto = adsService.getAdsById(id);

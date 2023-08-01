@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import styles from './AddAdvPage.modules.css';
+import styles from './AddAdvPage.module.css';
 
 function AddAdvPage() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -139,32 +139,30 @@ function AddAdvPage() {
             <div className={styles.AdvformBox}>
                 <h1>광고 신청</h1>
 
-                <div>
+                <div className={styles.AdvSelect}>
                     <div>광고 파일 선택</div>
                     <input type="file" key={inputKey} onChange={onFileChange} />
-                    {preview && <img src={preview} alt="Preview" />}
+                </div>
+                
+                <div className={styles.image_preview_container}>
+                  {preview && <img src={preview} alt="Preview" />}
+                </div>
+                <div className={styles.Advurl}>
+                    <div>연결할 주소 &nbsp;&nbsp; <input style={{width:'300px'}} type="text" placeholder="연결할 주소를 입력해주세요" onChange={onRedirectUrlChange} /></div>
+                </div>
+
+                <div className={styles.Advurl}>
+                    <div>광고진행 기간&nbsp;&nbsp; <input style={{width:'300px'}} type="number" placeholder="여기 date selector 넣기" onChange={onDurationChange} /></div>
+                    
+                </div>
+
+                <div className={styles.Advurl}>
+                    <div>광고진행 마일리지&nbsp;&nbsp;  <input type="number" value={adsCost} readOnly /></div>
                 </div>
 
                 <div>
-                    <div>연결할 주소</div>
-                    <input type="text" placeholder="연결할 주소를 입력해주세요" onChange={onRedirectUrlChange} />
-                </div>
-
-                <div>
-                    <div>광고진행 기간</div>
-                    <input type="number" placeholder="여기 date selector 넣기" onChange={onDurationChange} />
-                </div>
-
-                <div>
-                    <div>광고진행 마일리지</div>
-                    <div>
-                        <input type="number" value={adsCost} readOnly />
-                    </div>
-                </div>
-
-                <div>
-                    <button onClick={submitForm}>광고 신청</button>
-                    <button onClick={closeWindow}>취소</button>
+                    <button style={{backgroundColor: 'skyblue', color:"#ffffff"}} onClick={submitForm}>광고 신청</button> &nbsp;
+                    <button style={{backgroundColor: '#ffffff'}} onClick={closeWindow}>취소</button>
                 </div>
             </div>
         </div>
