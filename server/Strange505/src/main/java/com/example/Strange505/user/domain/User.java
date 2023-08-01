@@ -60,6 +60,11 @@ public class User {
         this.password = password;
     }
 
+    // point add 로직
+    public void pointAdd(int point) {
+        this.point += point;
+    }
+
     // 이메일 인증 로직
     public void activated() {
         this.is_activated = true;

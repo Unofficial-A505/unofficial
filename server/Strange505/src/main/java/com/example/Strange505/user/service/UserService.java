@@ -10,6 +10,7 @@ import com.example.Strange505.verificate.UUIDProvider;
 import com.example.Strange505.verificate.service.EmailVerifyService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,5 +79,12 @@ public class UserService {
             uuid = uuid.substring(0, 10); //uuid를 앞에서부터 10자리 잘라줌.
         }
         return uuid;
+    }
+
+    @Transactional
+    public void pointAdd(int point) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("유저 정보가 없습니다."));
+        user.pointAdd(point);
     }
 }
