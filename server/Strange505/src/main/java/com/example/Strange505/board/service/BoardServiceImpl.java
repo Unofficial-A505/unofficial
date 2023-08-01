@@ -41,8 +41,8 @@ public class BoardServiceImpl implements BoardService {
     public List<BoardResponseDto> getAllBoards() {
         List<Board> list = boardRepository.findAll();
         List<BoardResponseDto> dtoList = new ArrayList<>();
-        list.stream().forEach(findAll -> dtoList.add(new BoardResponseDto(
-                findAll.getName())));
+        list.stream().forEach(findAll -> dtoList.add
+                (new BoardResponseDto(findAll)));
         return dtoList;
     }
 

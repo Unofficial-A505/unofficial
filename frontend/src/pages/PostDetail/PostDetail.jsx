@@ -34,13 +34,14 @@ export default function PostDetail() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const [comments, setComments] = useState([]);
-  // const commentElement = useRef(null);
+  const [ comments, setComments ] = useState([])
+  console.log('지금 코멘트', comments)
+  const commentElement = useRef(null);
 
   const getComment = () => {
     axios({
       method: "get",
-      url: `http://127.0.0.1:8000/api/v1/comments/`,
+      url: `https://unofficial.kr/api/comments/article/${postId}`,
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
@@ -55,7 +56,7 @@ export default function PostDetail() {
   useEffect(() => {
     axios({
       method: "get",
-      url: `http://127.0.0.1:8000/api/v1/articles/${postId}/`,
+      url: `https://unofficial.kr/api/articles/${postId}`,
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
@@ -64,15 +65,15 @@ export default function PostDetail() {
         console.log(res.data);
         setTitle(res.data.title);
         setContent(res.data.content);
-        setComments(res.data.comment_set);
       })
       .catch((err) => console.log(err));
 
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    return () => {
-      console.log("unmounted");
-    };
-  }, [postId]);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      getComment(); 
+      return () => {  
+        console.log('unmounted')}
+      }, [postId]);
 
   // const { isLoading, error, data: hello } = useQuery(
   //   ['hello', postId ], () =>
@@ -87,16 +88,24 @@ export default function PostDetail() {
   //     .catch((err) => console.log(err))
   //   );
 
-  const commentCreate = () => {
-    const content = comments;
-    console.log(content);
-    axios({
-      method: "post",
-      url: `http://127.0.0.1:8000/api/v1/articles/${postId}/comments/`,
-      data: { content },
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+const commentCreate = () => {
+  const content = commentElement.current.value
+  const parentId = 0;
+  const articleId = postId;
+  console.log(content)
+  axios({
+    method: "post",
+    url: `https://unofficial.kr/api/comments`,
+    data: { articleId, content, parentId },
+    headers: {
+      Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTA1NzE4NjcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjIsInJvbGUiOiJST0xFX1VTRVIifQ.YOofxvS5cyC4WHNgQo1CqA77wwUd2fSLJTw01ubAlU8i2M7XSWoSSPcDWy7kLadmAFt2ZzcbqmX2h904Y4USYA`,
+    }
+    })
+    .then((res) => {
+      console.log("댓글 불러오기!!!")
+      console.log(res);
+      commentElement.current.value = ''
+      getComment();
     })
       .then((res) => {
         console.log(res);
@@ -106,14 +115,35 @@ export default function PostDetail() {
       .catch((err) => console.log(err));
   };
 
+  const commentUpdate = (updateComment, id) => {
+    const content = updateComment
+    const parentId = 0;
+    const articleId = postId;
+    console.log(content)
+    axios({
+      method: "put",
+      url: `https://unofficial.kr/api/comments/${id}`,
+      data: { id, articleId, content, parentId },
+      headers: {
+        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTA1NzE4NjcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjIsInJvbGUiOiJST0xFX1VTRVIifQ.YOofxvS5cyC4WHNgQo1CqA77wwUd2fSLJTw01ubAlU8i2M7XSWoSSPcDWy7kLadmAFt2ZzcbqmX2h904Y4USYA`,
+      }
+      })
+      .then((res) => {
+        console.log("댓글 불러오기!!!")
+        console.log(res);
+        getComment();
+      })
+      .catch((err) => console.log(err))
+    }
+
   const CommentDelete = (id) => {
     axios({
       method: "delete",
-      url: `http://127.0.0.1:8000/api/v1/comments/${id}/`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
-    })
+      url: `https://unofficial.kr/api/comments/${id}`,
+      headers: {
+        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTA1NzE4NjcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjIsInJvbGUiOiJST0xFX1VTRVIifQ.YOofxvS5cyC4WHNgQo1CqA77wwUd2fSLJTw01ubAlU8i2M7XSWoSSPcDWy7kLadmAFt2ZzcbqmX2h904Y4USYA`,
+      }
+      })
       .then((res) => {
         console.log(res);
         getComment();
@@ -196,18 +226,9 @@ export default function PostDetail() {
 
           <div className={styles.postContainer}>
             <hr />
-            {comments.map((comment, index) => (
-              <div key={index}>
-                <CommentView comment={comment} CommentDelete={CommentDelete} commentCreate={commentCreate} />
-
-                {/* <div className={styles.commentBottombar}>
-                  <div><IoChatboxOutline className={styles.commentIcons}/><span>대댓글</span></div>
-                  <div>
-                    <span className={styles.commentIcons}><HiOutlinePencilAlt size='20'/></span>
-                    <span className={styles.commentIcons} onClick={CommentDelete(comment.id)}><IoTrashOutline size='20' /></span>
-                  </div>
-                </div>
-                <hr /> */}
+            {comments.map((comment, index) =>
+              <div key={index}> 
+                <CommentView comment={comment} CommentDelete={CommentDelete} commentUpdate={commentUpdate}/>
               </div>
             ))}
           </div>

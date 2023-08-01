@@ -1,18 +1,13 @@
 import styles from "./CreatePostPage.module.css";
-import axios from "axios";
 
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-
-import QuillPresneter from "./QuillPresenter";
 import Quill from "quill";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImageResize from "@looop/quill-image-resize-module-react";
-
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
-
 import TopSpace from "../../components/TopSpace/TopSpace";
 import customAxios from "../../util/customAxios";
 
@@ -80,19 +75,20 @@ const QuillContainer = () => {
     useEffect (() => {
       quillElement.current.editor.getModule('toolbar').addHandler('image', function () {
       selectLocalImage();
-    })}, [])
+    });
+  }, []);
 
-    const onChangeValue = (e) => {
-        setValue(e);
-        console.log(e)
-    }
+  const onChangeValue = (e) => {
+    setValue(e);
+    console.log(e);
+  };
 
-    const changetitleValue = (e) => {
-      setTitle(e);
-      console.log('title', e)
-    }
+  const changetitleValue = (e) => {
+    setTitle(e);
+    console.log("title", e);
+  };
 
-    // 이미지 url 추출 함수
+  // 이미지 url 추출 함수
   function selectLocalImage() {
     const fileInput = document.createElement("input");
     fileInput.setAttribute("type", "file");
@@ -140,19 +136,21 @@ const QuillContainer = () => {
   const createPost = () => {
     const title = TitleElement.current.value;
     const content = quillElement.current.editor.root.innerHTML;
+    const boardName = boardTitle;
+    const nickName = "다솜";
     console.log(title, content, boardTitle);
 
-    axios({
+    customAxios({
       method: "post",
-      url: `http://127.0.0.1:8000/api/v1/articles/`,
+      url: `/api/articles`,
       // url: `http://70.12.247.35:8080/files/articleTest`,
       data: {
         title,
         content,
-      },
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+        boardName,
+        nickName,
+        // imageList
+      }
     })
       .then((res) => {
         navigate(`/boards/${boardTitle}/${res.data.id}`, { replace: true });
@@ -217,11 +215,7 @@ const QuillContainer = () => {
             <IoIosArrowBack />
             목록으로 돌아가기
           </button>
-          <button
-            className="btn"
-            id={styles.createsubmitbutton}
-            onClick={createPost}
-          >
+          <button className="btn" id={styles.createsubmitbutton} onClick={createPost}>
             게시하기
           </button>
         </div>

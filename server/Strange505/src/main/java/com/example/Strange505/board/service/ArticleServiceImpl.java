@@ -6,12 +6,10 @@ import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.BoardRepository;
 import com.example.Strange505.file.service.ImageService;
-import com.example.Strange505.file.service.S3UploaderService;
 import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,11 +28,13 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional
-    public Article createArticle(ArticleRequestDto dto, Long userId){
-        User user = userRepository.findById(userId).orElseThrow();
+    public Article createArticle(ArticleRequestDto dto, String email){
+        User user = userRepository.findByEmail(email).orElseThrow();
         Board board = boardRepository.findByName(dto.getBoardName()).orElseThrow();
         Article article = Article.createArticle(dto, user, board);
-        imageService.imageCheck(dto);
+        if (dto.getImageList() != null) {
+            imageService.notUsingImageDelete(dto.getImageList(), imageService.parsingArticle(dto.getContent()));
+        }
         Article savedArticle = articleRepository.save(article);
         return savedArticle;
     }
@@ -55,33 +55,43 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> getArticlesByTitle(String title, Long boardId) {
-        return articleRepository.searchByTitle(title, boardId);
+    public List<Article> getArticlesByTitleAndContent(String keyword, Long boardId) {
+        return articleRepository.searchByTitleAndContent(keyword, boardId);
     }
-
     @Override
-    public List<Article> getArticlesByContent(String content, Long boardId) {
-        return articleRepository.searchByContent(content, boardId);
-    }
-
-    @Override
-    public List<Article> getArticlesByUser(Long userId) {
+    public List<Article> getArticlesByUser(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
+        Long userId = user.getId();
         return articleRepository.searchByUser(userId);
     }
 
     @Override
     @Transactional
-    public void updateArticle(Long id, ArticleRequestDto dto) {
-        List<Board> list = boardRepository.searchBoardByName(dto.getBoardName());
-        Board board = list.get(0);
-        Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException("Article not found"));
-        article.updateArticle(dto, board);
+    public void updateArticle(Long id, ArticleRequestDto dto, String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
+        Board board = boardRepository.findByName(dto.getBoardName()).orElseThrow();
+        Article article = articleRepository.findById(id).orElseThrow();
+        if (user.getId() == article.getUser().getId()) {
+            imageService.deleteImageForUpdate(article.getContent(), dto);
+            article.updateArticle(dto, board);
+        } else {
+            throw new RuntimeException("작성자만 수정 가능합니다.");
+        }
     }
 
     @Override
     @Transactional
-    public void deleteArticle(Long id) {
-        articleRepository.deleteById(id);
+    public void deleteArticle(Long id, String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
+        Article article = articleRepository.findById(id).orElseThrow();
+        if (user.getId() == article.getUser().getId()) {
+            List<String> images = imageService.parsingArticle(article.getContent());
+            imageService.deleteImages(images);
+            articleRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("작성자만 삭제 가능합니다.");
+        }
+
     }
 
     @Override
@@ -91,3 +101,4 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
 }
+

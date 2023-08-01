@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/comments")
 @RequiredArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
     private final AuthService authService;
     
-    @PostMapping("/api/articles/{articleId}/comments")
+    @PostMapping
     public ResponseEntity<?> registerComment(@RequestHeader("Authorization") String accessToken, @RequestBody CommentRequestDto dto) {
         Long userId = authService.extractID(accessToken);
         if (userId == null) {
@@ -29,31 +29,31 @@ public class CommentController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PutMapping("/api/articles/{articleId}/comments/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<CommentResponseDto> modifyComment(@PathVariable Long id, @RequestBody CommentRequestDto dto) {
         CommentResponseDto commentResponseDto = commentService.updateComment(id, dto);
         return new ResponseEntity(commentResponseDto, HttpStatus.OK);
     }
 
-    @DeleteMapping("/api/articles/{articleId}/comments/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeComment(@PathVariable Long id) {
         commentService.deleteComment(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/api/commentsById/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<CommentResponseDto> getCommentById(@PathVariable Long id) {
         CommentResponseDto dto = commentService.getCommentById(id);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @GetMapping("/api/articles/{articleId}/comments")
+    @GetMapping("/article/{articleId}")
     public ResponseEntity<List<CommentResponseDto>> getCommentByArticle(@PathVariable Long articleId) {
         List<CommentResponseDto> list = commentService.getCommentByArticle(articleId);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @GetMapping("/api/commentsByUser/{userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<List<CommentResponseDto>> getCommentByUser(@RequestHeader("Authorization") String accessToken) {
         Long userId = authService.extractID(accessToken);
         if (userId == null) {

@@ -22,6 +22,11 @@ public class AuthDto {
         }
     }
 
+    @Data
+    public static class EmailDto {
+        private String email;
+    }
+
     @Getter
     @Setter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)

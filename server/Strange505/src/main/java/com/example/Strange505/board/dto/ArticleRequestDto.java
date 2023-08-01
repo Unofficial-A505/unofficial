@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ArticleRequestDto {
+    private Long id;
     private String title;
     private String content;
     private String boardName;

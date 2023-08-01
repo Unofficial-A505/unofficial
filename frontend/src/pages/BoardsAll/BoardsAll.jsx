@@ -42,7 +42,20 @@ export default function BoardsAll() {
     };
   }, []);
 
-  return (
+    axios({
+      method: "get",
+      url: 'https://unofficial.kr/api/boards'
+    })
+    .then((res) => {
+      setboardTitles(res.data)
+      console.log('res.data', res.data)})
+    .catch((err) => console.log(err))
+
+    return () => {  
+      console.log('unmounted')
+     }}, []);
+
+  return(
     <div>
       <TopSpace />
 

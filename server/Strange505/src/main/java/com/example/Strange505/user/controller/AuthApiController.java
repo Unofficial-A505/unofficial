@@ -5,6 +5,7 @@ import com.example.Strange505.user.service.AuthService;
 import com.example.Strange505.user.service.UserService;
 import com.example.Strange505.verificate.UUIDProvider;
 import com.example.Strange505.verificate.service.EmailVerifyService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,6 +35,13 @@ public class AuthApiController {
         userService.registerUser(newSignupDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    //비밀번호 초기화 메일
+    @PostMapping("/pwdInit")
+    public ResponseEntity<?> passwordInit(@RequestBody AuthDto.EmailDto dto) throws MessagingException {
+        userService.passwordInit(dto.getEmail());
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     // 로그인 -> 토큰 발급

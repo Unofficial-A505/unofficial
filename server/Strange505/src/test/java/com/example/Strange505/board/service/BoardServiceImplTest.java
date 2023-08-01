@@ -1,40 +1,47 @@
 //package com.example.Strange505.board.service;
 //
+//import com.example.Strange505.board.domain.Article;
 //import com.example.Strange505.board.domain.Board;
+//import com.example.Strange505.board.dto.ArticleRequestDto;
 //import com.example.Strange505.board.dto.BoardRequestDto;
 //import com.example.Strange505.board.dto.BoardResponseDto;
 //import com.example.Strange505.board.repository.BoardRepository;
+//import com.example.Strange505.user.domain.User;
+//import com.example.Strange505.user.dto.AuthDto;
+//import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.test.annotation.Commit;
 //
+//import java.time.LocalDateTime;
 //import java.util.List;
+//import java.util.NoSuchElementException;
 //
 //@SpringBootTest
-//@Commit
 //class BoardServiceImplTest {
 //    @Autowired
 //    private BoardService boardService;
 //    @Autowired
 //    private BoardRepository boardRepository;
 //
+//    @BeforeEach
+//    public void init() throws Exception {
+//        BoardRequestDto dto = BoardRequestDto.builder().name("자유게시판").build();
+//        BoardResponseDto savedBoard = boardService.createBoard(dto);
+//    }
+//
 //    @Test
 //    public void 게시판_생성() {
-//        String name = "게시판";
-//        BoardRequestDto dto = BoardRequestDto.builder().name(name).build();
-//        BoardResponseDto savedBoard = boardService.createBoard(dto);
-//
+//        String name = "자유게시판";
 //        org.assertj.core.api.Assertions.assertThat(name).isEqualTo(savedBoard.getName());
 //    }
 //
 //    @Test
 //    public void 게시판_수정() {
-//        String modifiedName = "변경";
+//        String modifiedName = "변경3";
 //        BoardRequestDto dto = BoardRequestDto.builder().name(modifiedName).build();
-//        boardService.createBoard(dto);
-//        Board board = boardRepository.findById(1L).orElseThrow(() -> new RuntimeException("Board not found"));
-//        BoardResponseDto updatedBoard = boardService.updateBoard(board.getId(), dto);
+//        BoardResponseDto updatedBoard = boardService.updateBoard(1L, dto);
 //
 //        org.assertj.core.api.Assertions.assertThat(modifiedName).isEqualTo(updatedBoard.getName());
 //
