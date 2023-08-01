@@ -56,7 +56,7 @@ export default function PostDetail(){
   useEffect(() => {
     axios({
       method: "get",
-      url: `http://127.0.0.1:8000/api/v1/articles/${postId}/`,
+      url: `http://localhost:8080/api/articles/${postId}`,
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
@@ -170,9 +170,9 @@ const commentCreate = () => {
 
           <div className={styles.postContainer}>
             <hr />
-            {comments.map((comment, index) =>
+            {/* {comments.map((comment, index) =>
               <div key={index}> 
-                <CommentView comment={comment} CommentDelete={CommentDelete}/>
+                <CommentView comment={comment} CommentDelete={CommentDelete}/> */}
 
                 {/* <div className={styles.commentBottombar}>
                   <div><IoChatboxOutline className={styles.commentIcons}/><span>대댓글</span></div>
@@ -182,8 +182,8 @@ const commentCreate = () => {
                   </div>
                 </div>
                 <hr /> */}
-              </div>
-            )}
+              {/* </div>
+            )} */}
           </div>
           <div>
             <nav className={styles.commentPagination} aria-label="...">

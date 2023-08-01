@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class ArticleResponseDto {
+    private Long id;
     private String title;
     private String content;
     private String boardName;
