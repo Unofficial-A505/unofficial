@@ -135,37 +135,42 @@ function AddAdvPage() {
     };
 
     return (
-        <div className={styles.AdvformContainer}>
-            <div className={styles.AdvformBox}>
-                <h1>광고 신청</h1>
+    <div className={styles.AdvformContainer}>
+        <div className={styles.mycontentTitle}>
+        <h2 className={styles.mypostsTitle}>광고 신청</h2> 
+        <p className={styles.smallTitle}>직접 만든 광고를 게시 신청 할 수 있습니다.</p>
+        </div> 
 
-                <div className={styles.AdvSelect}>
-                    <div>광고 파일 선택</div>
-                    <input type="file" key={inputKey} onChange={onFileChange} />
-                </div>
-                
-                <div className={styles.image_preview_container}>
-                  {preview && <img src={preview} alt="Preview" />}
-                </div>
-                <div className={styles.Advurl}>
-                    <div>연결할 주소 &nbsp;&nbsp; <input style={{width:'300px'}} type="text" placeholder="연결할 주소를 입력해주세요" onChange={onRedirectUrlChange} /></div>
-                </div>
+        <div className={styles.AdvformBox}>
 
-                <div className={styles.Advurl}>
-                    <div>광고진행 기간&nbsp;&nbsp; <input style={{width:'300px'}} type="number" placeholder="여기 date selector 넣기" onChange={onDurationChange} /></div>
-                    
-                </div>
-
-                <div className={styles.Advurl}>
-                    <div>광고진행 마일리지&nbsp;&nbsp;  <input type="number" value={adsCost} readOnly /></div>
-                </div>
-
-                <div>
-                    <button style={{backgroundColor: 'skyblue', color:"#ffffff"}} onClick={submitForm}>광고 신청</button> &nbsp;
-                    <button style={{backgroundColor: '#ffffff'}} onClick={closeWindow}>취소</button>
-                </div>
+            <div className={styles.AdvSelect}>
+                <div className={styles.AdvSelectTitle}>광고 파일 선택</div>
+                <div className={styles.AdvSelectTitle}><input type="file" key={inputKey} onChange={onFileChange} /></div>
             </div>
-        </div>
+
+            <div className={styles.image_preview_container}>
+                {preview && <img src={preview} alt="Preview" />}
+            </div>
+            <div className={styles.Advurl}>
+                <div>연결할 주소 &nbsp;&nbsp; <input style={{width:'300px'}} type="text" placeholder="연결할 주소를 입력해주세요" onChange={onRedirectUrlChange} /></div>
+            </div>
+
+            <div className={styles.Advurl}>
+                <div>광고진행 기간&nbsp;&nbsp; <input style={{width:'300px'}} type="number" placeholder="여기 date selector 넣기" onChange={onDurationChange} /></div>
+                
+            </div>
+
+            <div className={styles.Advurl}>
+                <div>광고진행 마일리지&nbsp;&nbsp;  <input type="number" value={adsCost} readOnly /></div>
+            </div>
+
+            <div>
+                <button style={{backgroundColor: 'skyblue', color:"#ffffff"}} onClick={submitForm}>광고 신청</button> &nbsp;
+                <button style={{backgroundColor: '#ffffff'}} onClick={closeWindow}>취소</button>
+            </div>
+
+            </div>
+    </div>
     );
 }
 

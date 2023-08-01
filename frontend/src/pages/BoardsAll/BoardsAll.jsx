@@ -68,34 +68,8 @@ export default function BoardsAll() {
         <span className={styles.hotboard}>자유 게시판</span>
         <span className={styles.hotboard}>비밀 게시판</span>
       </div>
-      <AdHorizontal />
 
       <div className={styles.boardcontainer}>
-        <div className={styles.boardtabContainer}>
-          <div>
-            {boardTitles.map((board, index) => (
-              <button
-                key={index}
-                className={
-                  board.title == boardTitle
-                    ? styles.boardtabSelected
-                    : styles.boardtab
-                }
-                onClick={() => navigate(`/boards/${board.title}`)}
-              >
-                {board.title}
-              </button>
-            ))}
-          </div>
-          <div>
-            <button
-              className={styles.createpageButton}
-              onClick={() => navigate(`/boards/${boardTitle}/create`)}
-            >
-              <CgAddR className={styles.createpageIcon} size="15" />새 글 작성
-            </button>
-          </div>
-        </div>
         <AdHorizontal />
 
         <div className={styles.boardcontainer}>

@@ -33,10 +33,14 @@ export default function MyAdvertisement() {
 
   return (
     <div className={styles.myAdvContainer}>
-      <h3>광고 관리</h3>
+      <div className={styles.myContentContainer}>
+        <div className={styles.mycontentTitle}>
+          <h2 className={styles.mypostsTitle}>광고 관리</h2>
+          <p className={styles.smallTitle}>현재 게시 광고를 확인하고, 새로운 광고를 게시 신청 할 수 있습니다.</p>
+        </div>
       <div className={styles.buttonContainer}>
         <button onClick={handleAddadv}>광고 추가하기</button>
-        <button>광고 게시종료</button>
+        {/* <button>광고 게시종료</button> */}
       </div>
       <div className={styles.temp}>
         {ads.map(ad => (
@@ -46,5 +50,6 @@ export default function MyAdvertisement() {
         ))}
       </div>
     </div>
+  </div>
   );
 }
