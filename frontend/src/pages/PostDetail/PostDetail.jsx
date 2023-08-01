@@ -35,7 +35,7 @@ export default function PostDetail() {
   const [content, setContent] = useState("");
 
   const [comments, setComments] = useState([]);
-  const commentElement = useRef(null);
+  // const commentElement = useRef(null);
 
   const getComment = () => {
     axios({
@@ -88,7 +88,7 @@ export default function PostDetail() {
   //   );
 
   const commentCreate = () => {
-    const content = commentElement.current.value;
+    const content = comments;
     console.log(content);
     axios({
       method: "post",
@@ -100,7 +100,7 @@ export default function PostDetail() {
     })
       .then((res) => {
         console.log(res);
-        commentElement.current.value = "";
+        setComments("");
         getComment();
       })
       .catch((err) => console.log(err));
@@ -185,7 +185,7 @@ export default function PostDetail() {
               <textarea
                 className={styles.commentInput}
                 type="text"
-                ref={commentElement}
+                onChange={(e) => setComments(e.target.value)}
                 placeholder="댓글을 작성해보세요"
               />
               <button className={styles.commentButton} onClick={commentCreate}>
@@ -198,7 +198,7 @@ export default function PostDetail() {
             <hr />
             {comments.map((comment, index) => (
               <div key={index}>
-                <CommentView comment={comment} CommentDelete={CommentDelete} />
+                <CommentView comment={comment} CommentDelete={CommentDelete} commentCreate={commentCreate} />
 
                 {/* <div className={styles.commentBottombar}>
                   <div><IoChatboxOutline className={styles.commentIcons}/><span>대댓글</span></div>
