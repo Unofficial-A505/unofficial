@@ -1,0 +1,35 @@
+/* 검색 범위와 검색 키워드 */
+.searchUpheader {
+  margin: 20px 30px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.boardTitle {
+  color: #034BB9;
+  margin: 0 10px 0 0;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.searchKeyword {
+  margin: 0 5px 0 10px;
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.grayoutbutton {
+  border: 0;
+  background-color: transparent;
+
+  color: rgba(117, 117, 117, 0.80);
+  font-family: Inter;
+  font-size: 17.537px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.boardscontentTitles {
+  text-align: start;
+}

@@ -27,6 +27,7 @@
 }
 
 .postContent {
+  cursor: pointer;
   margin: 0 12px 0 0;
 
   color: #757575;

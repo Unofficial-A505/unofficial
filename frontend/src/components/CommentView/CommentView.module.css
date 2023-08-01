@@ -29,8 +29,6 @@
 
 /* 수정하기 삭제하기 텍스트 위치 조정*/
 .updatetextPosition {
-  border: 1px dotted aqua;
-
   margin: 30px 0 0 0;
 }
 
@@ -38,13 +36,15 @@
   margin: 0 20px;
 }
 
+.recommentButton {
+  cursor: pointer;
+}
+
 .commentBottombar {
   margin: 10px 20px;
 
   display: flex;
   justify-content: space-between;
-
-  border: 1px dotted red;
 }
 
 /* comment update 상태 스타일링 */
@@ -70,7 +70,7 @@
 .updateButtons {
   border: 0;
   background-color: transparent;
-  pointer: cursor;
+  cursor: pointer;
   margin: 10px 15px 0 0;
 }
 
@@ -91,4 +91,60 @@ textarea::-webkit-scrollbar-thumb {
 
 textarea::-webkit-scrollbar-track {
   background: rgba(232, 232, 232, 0.1);  /*스크롤바 뒷 배경 색상*/
+}
+
+/* 대댓글 */
+.reCommentContainer {
+  width: 90%;
+  /* padding: 0 0 0 30px; */
+  margin: 0 auto;
+
+  display: flex;
+  /* border: 1px dotted aqua; */
+}
+
+.recommentEnter {
+  width: 20px;
+  height: 20px;
+  margin: 10px;
+  /* border: 1px red dotted; */
+
+  font-size: 1.5rem;
+  color: #9b9b9b;
+
+}
+
+.commentbox {
+  position: relative;
+  width: 100%;
+
+  display: flex;
+  border: 2px solid #D9D9D9;
+  border-radius: 0.3rem;
+  margin: 7px 0 13px 0;
+
+  /* border: 1px dotted red; */
+}
+
+.commentInput {
+  width: 90%;
+  margin: 10px 0 10px 10px;
+  height: 50px;
+  font-size: 1rem;
+
+  border: 0;
+}
+
+textarea:focus {
+  outline: none;
+}
+
+.commentButton {
+  position: absolute;
+  right: 20px;
+  top: 40%;
+  
+  border: 0;
+  border-radius: 1rem;
+  background-color: transparent;
 }

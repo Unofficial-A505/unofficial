@@ -1,58 +1,33 @@
 import styles from "./Card.module.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import lunch_loading from "./../../assets/images/lunch_loading.jpg";
 
 export default function Card({ lunchZip }) {
-  // 메뉴 3개씩 슬라이드에 담아주는 함수
-  const chunkSize = 3;
-  const chunkArray = (arr, size) => {
-    const chunkedArray = [];
-    for (let i = 0; i < arr.length; i += size) {
-      chunkedArray.push(arr.slice(i, i + size));
-    }
-    return chunkedArray;
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    arrows: false,
   };
-
-  const slides = chunkArray(lunchZip, chunkSize);
-  console.log("slides", slides);
 
   return (
     <div className={styles.card}>
       <div className={styles.title}>
         <p>{lunchZip[0].local} 캠퍼스</p>
       </div>
-      <div id="carouselExampleIndicators" class="carousel slide">
-        <div class="carousel-inner">
-          {slides.map((slide, index) => (
-            <div
-              className={"carousel-item " + (index === 0 && "active")}
-              key={index}
-            >
-              <div className={styles.menus}>
-                {slide.map((menu, menuIndex) => (
-                  <Menu key={menuIndex} menu={menu} />
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-        <button
-          class="carousel-control-prev"
-          type="button"
-          data-bs-target="#carouselExampleIndicators"
-          data-bs-slide="prev"
-        >
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button
-          class="carousel-control-next"
-          type="button"
-          data-bs-target="#carouselExampleIndicators"
-          data-bs-slide="next"
-        >
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
+      <Slider {...settings}>
+        {lunchZip.map((menu, menuIndex) => (
+          <div key={menuIndex}>
+            <Menu menu={menu} />
+          </div>
+        ))}
+      </Slider>
     </div>
   );
 }
@@ -62,7 +37,15 @@ function Menu({ menu }) {
 
   return (
     <div className={styles.menu}>
-      <img style={{ objectFit: "cover" }} src={menu.imageUrl} alt={name} />
+      <img
+        style={{ objectFit: "cover" }}
+        src={menu.imageUrl}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = lunch_loading;
+        }}
+        alt={name}
+      />
       <div className="d-flex justify-content-between mb-1">
         <p>{menu.courseName}</p>
         <p>{cal}kcal</p>
@@ -73,7 +56,6 @@ function Menu({ menu }) {
   );
 }
 
-// '만둣국 (1367)' => name:'만둣국', cal:'1367'로 parsing
 function extractNameCal(string) {
   const regex = /(.+) \(([\d,]+)\)/;
   const match = string.match(regex);

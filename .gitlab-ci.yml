@@ -44,7 +44,7 @@ deploy-was1:      # This job runs in the deploy stage.
   script:
     - docker stop springboot-app || true
     - docker rm springboot-app || true
-    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.50 --name springboot-app strangedev505/springboot-app
+    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.50 -e TZ=Asia/Seoul --name springboot-app strangedev505/springboot-app
   when: on_success
   only: 
     - master
@@ -56,7 +56,7 @@ deploy-was2:      # This job runs in the deploy stage.
   script:
     - docker stop springboot-app2 || true
     - docker rm springboot-app2 || true
-    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.51 --name springboot-app2 strangedev505/springboot-app
+    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.51 -e TZ=Asia/Seoul --name springboot-app2 strangedev505/springboot-app
   when: on_success
   only: 
     - master
@@ -85,3 +85,5 @@ finish:
   script:
     - docker rmi $(docker images -f "dangling=true" -q)
     - docker restart ubuntu_nginx_1
+  only: 
+    - master

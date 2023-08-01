@@ -1,3 +1,4 @@
+/* 검색 버튼 */
 .searchboxall {
   position: relative;
 
@@ -25,4 +26,49 @@
   border: 0;
   border-radius: 1rem;
   background-color: transparent;
+}
+
+/* 검색 결과창 전체 컨테이너 */
+.searchcontentContainer {
+  width: 1200px;
+  margin: 0 auto;
+  text-align: start;
+}
+
+/* 검색 범위와 검색 키워드 */
+.searchUpheader {
+  margin: 20px 30px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.boardTitle {
+  color: #034BB9;
+  margin: 0 10px 0 0;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.searchKeyword {
+  margin: 0 5px 0 10px;
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.grayoutbutton {
+  border: 0;
+  background-color: transparent;
+
+  color: rgba(117, 117, 117, 0.80);
+  font-family: Inter;
+  font-size: 17.537px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* 제목별, 내용별 검색결과창 스타일링 */
+
+.searchcontentTabs {
+  margin: 0 5px 15px 30px;
 }

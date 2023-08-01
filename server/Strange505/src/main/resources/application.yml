@@ -28,10 +28,10 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
-        default_batch_fetch_size: 10
+        default_batch_fetch_size: 1000
         format_sql: true
 
   mail:
@@ -74,7 +74,7 @@ file:
   dir: C:\Users\SSAFY\Desktop/file/
 
 mail:
-  base-url : "https://unofficial.kr/api/verify?verificationCode="
+  base-url : "https://unofficial.kr/verify?verificationCode="
 
 decorator:
   datasource:

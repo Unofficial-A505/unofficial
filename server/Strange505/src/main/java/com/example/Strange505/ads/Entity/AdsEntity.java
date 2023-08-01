@@ -1,7 +1,7 @@
 package com.example.Strange505.ads.Entity;
 import jakarta.persistence.*;
 import lombok.*;
-
+import com.example.Strange505.ads.Entity.AdStatus;
 import java.time.LocalDate;
 @Entity
 @Getter
@@ -20,8 +20,9 @@ public class AdsEntity {
     @Column(nullable = false)
     private LocalDate endDate;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Boolean adminConfirmed;
+    private AdStatus adminConfirmed;
 
     @Column
     private Long userId;
@@ -29,7 +30,7 @@ public class AdsEntity {
     @Column
     private int adsCost;
 
-    public void update(Long adsId, String imagePath, String redirectUrl, LocalDate endDate, Boolean adminConfirmed, Long userId, int adsCost) {
+    public void update(Long adsId, String imagePath, String redirectUrl, LocalDate endDate, AdStatus adminConfirmed, Long userId, int adsCost) {
         this.adsId = adsId;
         this.imagePath = imagePath;
         this.redirectUrl = redirectUrl;
@@ -40,6 +41,12 @@ public class AdsEntity {
     }
 
     public void confirm() {
-        this.adminConfirmed = true;
+        this.adminConfirmed = AdStatus.APPROVED;
     }
+
+    public void reject() {
+        this.adminConfirmed = AdStatus.REJECTED;
+    }
+
+
 }

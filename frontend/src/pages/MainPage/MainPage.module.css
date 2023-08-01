@@ -1,62 +1,69 @@
-.topcontainer {
+.mainPage {
+  /* width: 1008px; */
   width: 1280px;
   margin: 0 auto;
-
+}
+.topContainer {
   display: flex;
+  height: 21rem;
   justify-content: space-between;
-
+  margin-bottom: 1rem;
   /* border: 1px dotted aqua; */
 }
-.topleftContainer {
-  margin: 0 auto;
-  /* border: 1px dotted aqua; */
+.topLeftContainer {
+  /* width: 720px; */
+  /* margin-right: 0.5rem; */
+  width: 920px;
+  margin-right: 30px;
 }
-.toprightContainer {
+.topRightContainer {
   display: flex;
   flex-direction: column;
-  justify-content:first baseline;
-  width: 276px;
-  margin-bottom: 10px;
-  /* border: 1px dotted aqua; */
-}
-
-.usermainContainer {
-  margin-bottom: 0.5rem;
-}
-
-.bannerContainer {
-  width: 276px;
-
-  /* border: 1px dotted plum; */
-}
-
-.horiadcontainer {
-  width: 1280px;
-  margin: 0 auto;
-  /* border: 1px dotted aquamarine; */
-}
-
-.middlecontainer {
-  width: 1280px;
-  margin: 0 auto;
-
-  display: flex;
   justify-content: space-between;
+  /* width: 280px; */
+  width: 330px;
 }
-
-/* 베스트 게시글 */
-.bestboard {
-  width: 700px;
+.AdTimeContainer {
+  display: flex;
+  margin-bottom: 1rem;
 }
-
+.horiAdContainer {
+  width: 920px;
+  margin-right: 30px;
+}
+.serverTimeContainer {
+  width: 330px;
+}
+.middleContainer {
+  display: flex;
+  height: 40rem;
+}
+.middleLeftContainer {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 30px;
+}
+.bestBoard {
+  /* width: 720px;
+  margin-right: 0.5rem; */
+  /* width: 660px; */
+  width: 920px;
+  margin-right: 30px;
+  border: 1px dotted pink;
+}
 .bestTitle {
   text-align: start;
-
   font-size: 25px;
   font-weight: 600;
   margin: 0 0 10px 15px;
 }
-
 .bestIcons {
   margin: 0 0 6px 6px;
+}
+.middleRightContainer {
+  width: 330px;
+  display: flex;
+  flex-direction: column;
+  /* border: 1px dotted pink; */
 }

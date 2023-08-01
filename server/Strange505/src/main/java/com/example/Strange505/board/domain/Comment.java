@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Parent;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -83,7 +84,6 @@ public class Comment {
                 //지워지지 않은게 하나라도 있다면 false를 반환
                 .orElse(true);//모두 지워졌다면 true를 반환
     }
-
 
     public void update(String content, LocalDateTime modifyTime) {
         this.content = content;

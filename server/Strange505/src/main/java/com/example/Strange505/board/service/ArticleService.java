@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ArticleService {
 
-    Article createArticle(ArticleRequestDto articleDTO, Long userId);
+    Article createArticle(ArticleRequestDto articleDTO, String email);
 
     Article getArticleById(Long id);
 
@@ -17,11 +17,11 @@ public interface ArticleService {
 
     List<Article> getArticlesByTitleAndContent(String keyword, Long boardId);
 
-    List<Article> getArticlesByUser(Long userId);
+    List<Article> getArticlesByUser(String email);
 
-    void updateArticle(Long id, ArticleRequestDto articleDTO);
+    void updateArticle(Long id, ArticleRequestDto dto, String email);
 
-    void deleteArticle(Long id);
+    void deleteArticle(Long id, String email);
 
     void addViewCount(Long id);
 }

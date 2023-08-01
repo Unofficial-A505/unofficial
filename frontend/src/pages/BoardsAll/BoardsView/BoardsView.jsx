@@ -12,11 +12,12 @@ export default function BoardsView() {
     boardTitle = "자유게시판";
   }
   const navigate = useNavigate();
+  const URL = useSelector(state => state.URL.API_URL)
 
   useEffect(() => {
     axios({
       method: "get",
-      url: `http://localhost:8080/api/articles`,
+      url: `https://unofficial.kr/api/articles`,
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }

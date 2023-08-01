@@ -1,21 +1,20 @@
 import styles from './MypageAdver.module.css'
-
-import { RiDatabase2Line } from '@react-icons/all-files/ri/RiDatabase2Line';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 export default function MypageAdver(){
   const mileage = 5100
-
-  const handleAddadv = () => {
-    window.open("http://localhost:3000/user/advertisement/form", "hello", "top=200,left=300,width=600,height=600")
-  }
+  const navigate = useNavigate();
+  const location = useLocation();
  
   return(
     <div>
       <div className={styles.titleContainer}>
-        <p>마일리지 및 광고</p>
-        
+        <p className={ location.pathname == '/user/advertisement/mymile' ? styles.titleChecked : styles.title} onClick={() => navigate('/user/advertisement/mymile')}>마일리지 관리</p>
+        <p className={ location.pathname == '/user/advertisement/myadv' ? styles.titleChecked : styles.title } onClick={() => navigate('/user/advertisement/myadv')}>광고 관리</p>
       </div>
-      <div className={styles.contentContainer}>
+
+      <Outlet />
+      {/* <div className={styles.contentContainer}>
         <div className={styles.welcomeContainer}>
           <div/>
           <p style={{color:'#282828'}}>
@@ -36,7 +35,7 @@ export default function MypageAdver(){
           </div>
           <div className={styles.temp} />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

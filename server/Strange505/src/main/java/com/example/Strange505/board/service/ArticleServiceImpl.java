@@ -28,8 +28,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @Transactional
-    public Article createArticle(ArticleRequestDto dto, Long userId){
-        User user = userRepository.findById(userId).orElseThrow();
+    public Article createArticle(ArticleRequestDto dto, String email){
+        User user = userRepository.findByEmail(email).orElseThrow();
         Board board = boardRepository.findByName(dto.getBoardName()).orElseThrow();
         Article article = Article.createArticle(dto, user, board);
         if (dto.getImageList() != null) {
@@ -59,26 +59,39 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.searchByTitleAndContent(keyword, boardId);
     }
     @Override
-    public List<Article> getArticlesByUser(Long userId) {
+    public List<Article> getArticlesByUser(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
+        Long userId = user.getId();
         return articleRepository.searchByUser(userId);
     }
 
     @Override
     @Transactional
-    public void updateArticle(Long id, ArticleRequestDto dto) {
+    public void updateArticle(Long id, ArticleRequestDto dto, String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
         Board board = boardRepository.findByName(dto.getBoardName()).orElseThrow();
         Article article = articleRepository.findById(id).orElseThrow();
-        imageService.deleteImageForUpdate(article.getContent(), dto);
-        article.updateArticle(dto, board);
+        if (user.getId() == article.getUser().getId()) {
+            imageService.deleteImageForUpdate(article.getContent(), dto);
+            article.updateArticle(dto, board);
+        } else {
+            throw new RuntimeException("작성자만 수정 가능합니다.");
+        }
     }
 
     @Override
     @Transactional
-    public void deleteArticle(Long id) {
+    public void deleteArticle(Long id, String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
         Article article = articleRepository.findById(id).orElseThrow();
-        List<String> images = imageService.parsingArticle(article.getContent());
-        imageService.deleteImages(images);
-        articleRepository.deleteById(id);
+        if (user.getId() == article.getUser().getId()) {
+            List<String> images = imageService.parsingArticle(article.getContent());
+            imageService.deleteImages(images);
+            articleRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("작성자만 삭제 가능합니다.");
+        }
+
     }
 
     @Override

@@ -1,20 +1,15 @@
 import styles from "./CreatePostPage.module.css";
-import axios from "axios";
 
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-
-import QuillPresneter from "./QuillPresenter";
 import Quill from "quill";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImageResize from "@looop/quill-image-resize-module-react";
-
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
-
 import TopSpace from "../../components/TopSpace/TopSpace";
-import UnderSpace from "../../components/UnderSpace/UnderSpace";
+import customAxios from "../../util/customAxios";
 
 Quill.register("modules/ImageResize", ImageResize);
 
@@ -30,58 +25,55 @@ const Title = styled.h3`
     display: flex;
     `;
 const QuillContainer = () => {
-  const navigate = useNavigate();
-  const { boardTitle } = useParams();
-  const [value, setValue] = useState("");
-  const [title, setTitle] = useState("");
-  const [imageList, setimageList] = useState([]);
-  const TitleElement = useRef(null);
-  const quillElement = useRef(null);
-  const imageURL =
-    "https://plus.unsplash.com/premium_photo-1682855669043-fd359f155d3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=505&q=80";
+    const navigate = useNavigate();
+    const { boardTitle } = useParams();
+    const [value, setValue] = useState('');
+    const [title, setTitle] = useState('');
+    const TitleElement = useRef(null);
+    const quillElement = useRef(null); 
+ 
+    // // styled components
+    // const TitleInput = styled.input`
+    // font-size: 3rem;
+    // outline: none;
+    // padding-button: 0.5rem;
+    // border: none;
+    // margin-bottom: 2rem;
+    // width: 100%;
+    // `
+    
+    const modules = {
+        toolbar: {
+            container: [
+              ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+              [{ header: [1, 2, 3, false] }],
+              [{ color: [] }],
+              [{ list: 'ordered' }, { list: 'bullet' }],
+              [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
+              ['link', 'image'],
+            ],
+          },
+        ImageResize: { modules: ['Resize'] },
+    };
+    const formats = [
+        'header',
+        'bold',
+        'italic',
+        'underline',
+        'strike',
+        'blockquote',
+        'size',
+        'color',
+        'list',
+        'bullet',
+        'indent',
+        'link',
+        'image',
+        'align',
+    ];
 
-  // // styled components
-  // const TitleInput = styled.input`
-  // font-size: 3rem;
-  // outline: none;
-  // padding-button: 0.5rem;
-  // border: none;
-  // margin-bottom: 2rem;
-  // width: 100%;
-  // `
-
-  const modules = {
-    toolbar: {
-      container: [
-        ["bold", "italic", "underline", "strike", "blockquote"],
-        [{ header: [1, 2, 3, false] }],
-        [{ color: [] }],
-        [{ list: "ordered" }, { list: "bullet" }],
-        [{ align: "" }, { align: "center" }, { align: "right" }, { align: "justify" }],
-        ["link", "image"],
-      ],
-    },
-    ImageResize: { modules: ["Resize"] },
-  };
-  const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "size",
-    "color",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "align",
-  ];
-
-  useEffect(() => {
-    quillElement.current.editor.getModule("toolbar").addHandler("image", function () {
+    useEffect (() => {
+      quillElement.current.editor.getModule('toolbar').addHandler('image', function () {
       selectLocalImage();
     });
   }, []);
@@ -113,9 +105,9 @@ const QuillContainer = () => {
       console.log("file", file);
       console.log(formData);
 
-      axios({
+      customAxios({
         method: "post",
-        url: `http://unofficial.kr:8080/api/ads/uploadForArticle`,
+        url: `/api/articles/image`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
         // headers: {
@@ -148,9 +140,9 @@ const QuillContainer = () => {
     const nickName = "다솜";
     console.log(title, content, boardTitle);
 
-    axios({
+    customAxios({
       method: "post",
-      url: `http://localhost:8080/api/articles`,
+      url: `/api/articles`,
       // url: `http://70.12.247.35:8080/files/articleTest`,
       data: {
         title,
@@ -158,10 +150,7 @@ const QuillContainer = () => {
         boardName,
         nickName,
         // imageList
-      },
-      headers: {
-        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTA4MjMyNDEsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjEsInJvbGUiOiJST0xFX1VTRVIifQ.rtfCzfX6B_fKTmnqKVvkby9xWDvHAM4k5HyspZcBaNGQskj5jteLVB-fwKvoa7e5cy6n8KT6q-BkAYh_fvmMXA`,
-      },
+      }
     })
       .then((res) => {
         navigate(`/boards/${boardTitle}/${res.data.id}`, { replace: true });
@@ -184,7 +173,7 @@ const QuillContainer = () => {
       <div className={styles.craetecontainer}>
         <div className={styles.upmenu}>
           <Title>
-            <p>`{boardTitle}`</p>
+            <p className={styles.boardTitle}>{boardTitle}</p>
             <p>새 글 작성</p>
           </Title>
           <button className="btn" id={styles.createsubmitbutton}>
@@ -230,8 +219,6 @@ const QuillContainer = () => {
             게시하기
           </button>
         </div>
-
-        <UnderSpace />
       </div>
     </div>
   );

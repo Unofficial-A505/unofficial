@@ -1,35 +1,26 @@
 .ssafybuttonContainer {
-  width: 276px;
-  height: 50px;
-
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3.4rem;
   border-radius: 5px;
   border: 1px solid #C8C8C8;
-  background: #FFF; 
-  margin: 0.3rem 0 0 0 ;
+  background: #f6f7f8; 
+  margin-bottom: 0.3rem;
+  box-shadow: 0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04)
 }
-
-.edussafyAlink {
-  text-decoration: none;
+.ssafybuttonContainer:hover {
+  box-shadow: 2px 2px 3px rgba(167, 167, 167, 0.5);
 }
-
-.ssafycenterbox {
-  display: flex;
-  margin: 0 auto;
-
-  width: 200px;
-  margin: 13px auto;
-}
-
 .ssafybuttonTitle {
-  width: 180px;
-  margin: 0 0 0 3px;
-
   color: #000;
-  text-align: center;
   font-feature-settings: 'clig' off, 'liga' off;
-  font-family: Mako;
+  /* font-family: Mako; */
   font-size: 15px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 450;
   line-height: 100%; /* 15px */
+  margin-left: 5px;
+  margin-bottom: 0;
 }
