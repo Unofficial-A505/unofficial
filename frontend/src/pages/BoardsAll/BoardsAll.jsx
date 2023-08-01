@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate, useParams, Outlet } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { useSelector } from 'react-redux';
 
 import AdHorizontal from '../../components/AdHorizontal/AdHorizontal'
 import BoardsView from './BoardsView/BoardsView';
@@ -11,7 +12,6 @@ import UnderSpace from '../../components/UnderSpace/UnderSpace';
 
 import { FiSearch } from '@react-icons/all-files/fi/FiSearch';
 import { CgAddR } from '@react-icons/all-files/cg/CgAddR';
-import Posts  from '../../api/posts';
 
 export default function BoardsAll(){
   const curr = '지금 게시판에서 검색하기'
@@ -21,6 +21,7 @@ export default function BoardsAll(){
   const [ keywordBoard, setKeywordBoard ] = useState('')
 
   const navigate = useNavigate();
+  const URL = useSelector(state => state.URL.API_URL)
 
   // const { isLoading, error, data: boards } = useQuery(
   //   ['boards'], () => {
@@ -29,7 +30,6 @@ export default function BoardsAll(){
   //   });
 
   useEffect(() => {
-
     axios.get('/posts/boards.json')
     .then((res) => {
       setboardTitles(res.data)
@@ -46,7 +46,7 @@ export default function BoardsAll(){
 
     <form className={styles.searchboxall}>
       <input className={styles.search} id={styles.all} type="text" placeholder="찾고싶은 게시글의 제목 또는 내용의 키워드를 검색" onChange={(e) => {setKeywordAll(e.target.value)}}/>
-      <button className={styles.searchbutton} onClick={() => navigate(`/boards/search/${keywordAll}`)}><FiSearch className={styles.searchbuttonIcon} size='24'/></button>
+      <button className={styles.searchbutton} onClick={() => navigate(`/boards/search/${keywordAll}`)}><FiSearch/></button>
     </form>
     <div className={styles.hotcontainer}>
       <span className={styles.hottitle}>Hot 게시판</span>

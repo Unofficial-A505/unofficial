@@ -4,6 +4,15 @@
   justify-content: center;
   align-items: center;
   border-radius: 5px;
+
+  position: relative;
   /* background-color: #f4f6fa; */
   /* box-shadow: 0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04); */
+}
+
+.CarouselTopbox {
+  position: absolute;
+  width: 100%;
+
+  border: 1px red dotted;
 }

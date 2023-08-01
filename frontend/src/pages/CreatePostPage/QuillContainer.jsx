@@ -36,8 +36,7 @@ const QuillContainer = () => {
     const [title, setTitle] = useState('');
     const TitleElement = useRef(null);
     const quillElement = useRef(null); 
-    const imageURL = 'https://plus.unsplash.com/premium_photo-1682855669043-fd359f155d3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=505&q=80'
-    
+ 
     // // styled components
     // const TitleInput = styled.input`
     // font-size: 3rem;
@@ -111,7 +110,7 @@ const QuillContainer = () => {
 
       axios({
         method: "post",
-        url: `http://unofficial.kr:8080/api/ads/uploadForArticle`,
+        url: `https://unofficial.kr/api/articles/image`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" }
       // headers: {
