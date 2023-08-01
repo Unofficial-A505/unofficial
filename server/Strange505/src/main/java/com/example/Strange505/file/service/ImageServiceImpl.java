@@ -40,28 +40,40 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public void imageCheck(ArticleRequestDto dto) {
-        List<String> preList = dto.getImageList();
-        List<String> nowList = parsingArticle(dto.getContent());
-
+    public void notUsingImageDelete(List<String> preList, List<String> nowList) {
         preList.stream().filter(target -> !nowList.contains(target))
                 .forEach(deleteTarget -> s3UploaderService.deleteFile(deleteTarget));
     }
 
-    private List<String> parsingArticle(String data) {
+    @Override
+    public void deleteImages(List<String> images) {
+        images.stream().forEach(image -> s3UploaderService.deleteFile(image));
+    }
+
+    @Override
+    public void deleteImageForUpdate(String content, ArticleRequestDto dto) {
+        List<String> nowImages = parsingArticle(dto.getContent());
+        List<String> preImages = parsingArticle(content);
+        List<String> addImages = dto.getImageList();
+
+        if (preImages != null) notUsingImageDelete(preImages, nowImages);
+        if (addImages != null) notUsingImageDelete(addImages, nowImages);
+    }
+
+    @Override
+    public List<String> parsingArticle(String data) {
         List<String> urls = new ArrayList<>();
-        int flag = 0;
-        do {
+        int flag = data.indexOf("src=\"");
+        while (flag != -1) {
             data = urlExtract(data, urls);
             flag = data.indexOf("src=\"");
-        } while (flag != -1);
-
+        }
         return urls;
     }
 
-
     private String urlExtract(String data, List<String> urls) {
         int idx = data.indexOf("src=\"");
+
         String now = data.substring(idx + 5);
         idx = now.indexOf("\"");
 
