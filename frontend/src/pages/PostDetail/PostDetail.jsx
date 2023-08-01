@@ -230,7 +230,7 @@ const commentCreate = () => {
               <div key={index}> 
                 <CommentView comment={comment} CommentDelete={CommentDelete} commentUpdate={commentUpdate}/>
               </div>
-            ))}
+            )}
           </div>
           <div>
             <nav className={styles.commentPagination} aria-label="...">
