@@ -185,4 +185,3 @@ function AddAdvPage() {
     );
 }
 
-export default AddAdvPage;

@@ -1,0 +1,27 @@
+/* 마일리지 사용내역 Container */
+.myMiletitleContainer {
+  height: 25px;
+  display: flex;
+  margin: 8px 0 0 0;
+
+  color: #757575;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.myMiledescription {
+  width: 45%;
+}
+
+.myMiledetails {
+  width: 55%;
+  display: flex;
+  justify-content: space-around;
+
+  /* border: 1px dotted red; */
+}
+
+
+/* 폰트 디테일 수정 */
