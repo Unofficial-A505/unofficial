@@ -81,7 +81,7 @@ public class ImageServiceImpl implements ImageService {
         String leftover = now.substring(idx + 1);
 
         System.out.println(URL);
-        urls.add(URL.substring(URL.indexOf("/static/")));
+        urls.add(URL.substring(URL.indexOf("/article/")));
         System.out.println(leftover);
         return leftover;
     }

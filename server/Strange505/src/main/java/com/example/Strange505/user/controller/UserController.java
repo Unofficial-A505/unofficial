@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -36,5 +37,13 @@ public class UserController {
     public ResponseEntity updateUser(@RequestBody RequestUserDto dto) {
         userService.updateUser(dto);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/point")
+    public ResponseEntity updatePoint(@RequestBody Object data) {
+
+        int point = ((HashMap<String,Integer>)data).get("point");
+        userService.pointAdd(point);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
