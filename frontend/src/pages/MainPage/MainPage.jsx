@@ -8,7 +8,7 @@ import EduGrantsButton from "../../components/EduGrantButton/EduGrantsButton";
 import BoardView from "../../components/BoardView/BoardView";
 import WeatherinfoApi from "../../components/WeatherAPI/WeatherinfoApi";
 import LunchCarousel from "../../components/LunchCarousel/LunchCarousel";
-
+import ServerTime from "../../components/ServerTime/ServerTime"
 import TopSpace from "../../components/TopSpace/TopSpace";
 
 // best 게시물 아이콘
@@ -33,13 +33,15 @@ export default function MainPage() {
           </div>
         </div>
       </div>
-      <div className={styles.horiAdContainer}>
-        <AdHorizontal />
+      <div className={styles.AdTimeContainer}>
+        <div className={styles.horiAdContainer}>
+          <AdHorizontal />
+        </div>
+        <div className={styles.serverTimeContainer}>
+          <ServerTime />
+        </div>
       </div>
       <div className={styles.middleContainer}>
-        {/* <div className={styles.middleLeftContainer}>
-          <AdVertical />
-        </div> */}
         <div className={styles.bestBoard}>
           <div className={styles.bestTitle}>
             Best 게시글
