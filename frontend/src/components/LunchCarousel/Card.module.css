@@ -31,10 +31,10 @@
   border-radius: 0.3rem;
   transition: transform 0.2s ease-in-out;
 }
-.menu img:hover {
+/* .menu img:hover {
   cursor: pointer;
   transform: scale(1.02);
-}
+} */
 .menu h2 {
   text-align: left;
   font-size: 0.9rem;
