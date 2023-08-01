@@ -16,8 +16,9 @@ export default function CommentView({ comment, CommentDelete, commentUpdate}){
   const commentRecommended = 0
   const comentContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce venenatis velit id justo vulputate eleifend. Integer maximus sapien enim, vel faucibus risus auctor vel. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus hendrerit tincidunt diam sed accumsan. Aenean rhoncus erat et nisi lobortis, nec tincidunt elit finibus. Cras ipsum nulla, egestas non nisl vel, pharetra mollis tellus. Nullam dignissim metus lectus, at faucibus ex lacinia a. Proin tristique augue ut turpis tincidunt lacinia.'
   const [ updateState, setupdateState ] = useState(false)
+  const [ recommentBox, setrecommentBox ] = useState(false)
+  const [ comments, setComments ] = useState('')
   const updateContent = useRef('')
-  // const [ updateComment, setUpdateComment ] = useState('');
   const { id, content } = comment
 
   if (!updateState) {
@@ -54,7 +55,7 @@ export default function CommentView({ comment, CommentDelete, commentUpdate}){
               onChange={(e) => setComments(e.target.value)}
               placeholder="대댓글을 작성해보세요"
             />
-            <button className={styles.commentButton} onClick={commentCreate}>
+            <button className={styles.commentButton}>
               <IoChatboxOutline size="23" />
             </button>
           </div>

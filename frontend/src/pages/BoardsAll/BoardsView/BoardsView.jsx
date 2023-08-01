@@ -1,8 +1,7 @@
 import styles from "./BoardsView.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
-
+import { useNavigate, useParams } from "react-router-dom";
 import PostsView from "../../../components/PostView/PostView";
 
 export default function BoardsView() {
@@ -12,7 +11,6 @@ export default function BoardsView() {
     boardTitle = "자유게시판";
   }
   const navigate = useNavigate();
-  const URL = useSelector(state => state.URL.API_URL)
 
   useEffect(() => {
     axios({

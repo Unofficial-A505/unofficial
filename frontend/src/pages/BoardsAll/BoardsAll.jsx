@@ -29,18 +29,6 @@ export default function BoardsAll() {
   //   });
 
   useEffect(() => {
-    axios
-      .get("/posts/boards.json")
-      .then((res) => {
-        setboardTitles(res.data);
-        console.log("res.data", res.data);
-      })
-      .catch((err) => console.log(err));
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    return () => {
-      console.log("unmounted");
-    };
-  }, []);
 
     axios({
       method: "get",
