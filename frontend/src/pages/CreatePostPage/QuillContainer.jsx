@@ -34,6 +34,7 @@ const QuillContainer = () => {
   const { boardTitle } = useParams();
   const [value, setValue] = useState("");
   const [title, setTitle] = useState("");
+  const [imageList, setimageList] = useState([]);
   const TitleElement = useRef(null);
   const quillElement = useRef(null);
   const imageURL =
@@ -149,16 +150,17 @@ const QuillContainer = () => {
 
     axios({
       method: "post",
-      url: `https://unofficial.kr/api/articles/`,
+      url: `http://localhost:8080/api/articles`,
       // url: `http://70.12.247.35:8080/files/articleTest`,
       data: {
         title,
         content,
         boardName,
         nickName,
+        // imageList
       },
       headers: {
-        Authorization: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTA4MjMyNDEsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjEsInJvbGUiOiJST0xFX1VTRVIifQ.rtfCzfX6B_fKTmnqKVvkby9xWDvHAM4k5HyspZcBaNGQskj5jteLVB-fwKvoa7e5cy6n8KT6q-BkAYh_fvmMXA`,
+        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTA4MjMyNDEsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjEsInJvbGUiOiJST0xFX1VTRVIifQ.rtfCzfX6B_fKTmnqKVvkby9xWDvHAM4k5HyspZcBaNGQskj5jteLVB-fwKvoa7e5cy6n8KT6q-BkAYh_fvmMXA`,
       },
     })
       .then((res) => {
