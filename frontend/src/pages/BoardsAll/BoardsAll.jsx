@@ -13,9 +13,9 @@ import { FiSearch } from "@react-icons/all-files/fi/FiSearch";
 import { CgAddR } from "@react-icons/all-files/cg/CgAddR";
 
 export default function BoardsAll() {
-  const curr = "지금 게시판에서 검색하기";
   const [boardTitles, setboardTitles] = useState([]);
   const { boardTitle } = useParams();
+  const boardsearchMessage = `${boardTitle}에서 찾고싶은 게시글의 제목 또는 내용의 키워드를 검색해보세요`;
   const [keywordAll, setKeywordAll] = useState("");
   const [keywordBoard, setKeywordBoard] = useState("");
 
@@ -63,11 +63,11 @@ export default function BoardsAll() {
           <FiSearch />
         </button>
       </form>
-      <div className={styles.hotcontainer}>
+      {/* <div className={styles.hotcontainer}>
         <span className={styles.hottitle}>Hot 게시판</span>
         <span className={styles.hotboard}>자유 게시판</span>
         <span className={styles.hotboard}>비밀 게시판</span>
-      </div>
+      </div> */}
 
       <div className={styles.boardcontainer}>
         <AdHorizontal />
@@ -108,7 +108,7 @@ export default function BoardsAll() {
             className={styles.search}
             id={styles.here}
             type="text"
-            placeholder={curr}
+            placeholder={boardsearchMessage}
             onChange={(e) => {
               setKeywordBoard(e.target.value);
             }}
