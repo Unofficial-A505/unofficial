@@ -4,7 +4,7 @@ import { GrSchedulePlay } from '@react-icons/all-files/gr/GrSchedulePlay';
 
 export default function EdussafyButton(){
   const handleClick = () => {
-    window.location.href = "https://edu.ssafy.com/";
+    window.open('https://edu.ssafy.com/','_blank');
   }
 
   return(

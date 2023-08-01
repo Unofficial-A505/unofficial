@@ -5,7 +5,7 @@ import { FaReact } from "@react-icons/all-files/fa/FaReact";
 
 export default function EduGrantsButton() {
   const handleClick = () => {
-    window.location.href = 'https://dydwkd486.github.io/ssafy-sign/';
+    window.open('https://dydwkd486.github.io/ssafy-sign/', '_blank');
   }
 
   return (

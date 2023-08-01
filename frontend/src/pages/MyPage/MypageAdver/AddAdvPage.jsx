@@ -2,18 +2,19 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './AddAdvPage.module.css';
 
-function AddAdvPage() {
+export default function AddAdvPage() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [preview, setPreview] = useState(null);
     const [redirectUrl, setRedirectUrl] = useState("");
     const [duration, setDuration] = useState("");
     const [adsCost, setAdsCost] = useState("");
     const userId = 1;
+    const userPoint = 300;
     const [inputKey, setInputKey] = useState(Date.now());
 
     const onFileChange = event => {
         if (event.target.files.length === 0) {
-            console.log("No file selected");
+            console.log("광고 이미지가 없습니다.");
             return;
         }
 
@@ -26,7 +27,7 @@ function AddAdvPage() {
                 const img = new Image();
                 img.onload = function() {
                     if (this.width !== 970 || this.height !== 120) {
-                        alert("GIF image size must be 970x120.");
+                        alert("GIF이미지는 반드시 970x120의 크기여야 합니다.");
                         setInputKey(Date.now());
                         return;
                     } else {
@@ -89,7 +90,7 @@ function AddAdvPage() {
     const onDurationChange = event => {
       const value = event.target.value;
       if (value < 0) {
-          alert('Duration cannot be negative.');
+          alert('음수는 불가능 합니다.');
           event.target.value = 0;
           return;
       }
@@ -103,7 +104,14 @@ function AddAdvPage() {
 
     const submitForm = async (event) => {
         event.preventDefault();
-
+        if (!selectedFile) {
+            alert("이미지를 먼저 업로드해주세요.");
+            return; // Return early to stop the rest of the function
+        }
+        if (adsCost > userPoint) {
+            alert("광고 비용이 현재 사용 가능한 포인트보다 높습니다. 광고 비용을 조정해주세요.");
+            return; // Return early to stop the rest of the function
+        }
         try {
             const uploadedImagePath = await uploadToServer();
             let endDate = new Date();
@@ -113,7 +121,7 @@ function AddAdvPage() {
                 imagePath: uploadedImagePath,
                 redirectUrl: redirectUrl,
                 endDate: endDate.toISOString(),
-                adminConfirmed: false,
+                adminConfirmed: "PENDING",
                 adsCost: adsCost,
                 userId: userId
             };
@@ -130,17 +138,18 @@ function AddAdvPage() {
                 });
 
         } catch (err) {
-            alert("Image upload failed. Please try again.");
+            alert("오류가 발생했습니다.");
         }
     };
 
     return (
-        <div className={styles.AdvformContainer}>
+    <div className={styles.AdvformContainer}>
+        <div className={styles.mypageNavContainer}>
             <div className={styles.AdvformBox}>
                 <h1>광고 신청</h1>
 
                 <div className={styles.AdvSelect}>
-                    <div>광고 파일 선택</div>
+                    <div>광고 파일 선택(JPG,GIF,PNG,JPEG)</div>
                     <input type="file" key={inputKey} onChange={onFileChange} />
                 </div>
                 
@@ -148,25 +157,31 @@ function AddAdvPage() {
                   {preview && <img src={preview} alt="Preview" />}
                 </div>
                 <div className={styles.Advurl}>
-                    <div>연결할 주소 &nbsp;&nbsp; <input style={{width:'300px'}} type="text" placeholder="연결할 주소를 입력해주세요" onChange={onRedirectUrlChange} /></div>
+                    <div>연결할 주소 &nbsp;&nbsp; <input style={{width:'300px'}} type="text" placeholder="ex) https://www.naver.com" onChange={onRedirectUrlChange} /></div>
                 </div>
 
                 <div className={styles.Advurl}>
-                    <div>광고진행 기간&nbsp;&nbsp; <input style={{width:'300px'}} type="number" placeholder="여기 date selector 넣기" onChange={onDurationChange} /></div>
+                    <div>광고진행 기간(일)&nbsp;&nbsp; <input style={{width:'300px'}} type="number" placeholder="ex) 3" onChange={onDurationChange} /></div>
                     
                 </div>
 
                 <div className={styles.Advurl}>
-                    <div>광고진행 마일리지&nbsp;&nbsp;  <input type="number" value={adsCost} readOnly /></div>
+                    <div>필요 마일리지&nbsp;&nbsp;  <input type="number" value={adsCost} readOnly /></div>
                 </div>
-
+                <div>
+                    <p></p>
+                    <p>언오피셜 마일리지를 소모하여 유저광고를 집행합니다.</p>
+                    <p>부적절한 유저광고는 광고 집행 임의 중단이나 계정 차단 등 언오피셜 이용에 불이익을 받을 수 있습니다.</p>
+                    <p>광고는 관리자의 승인 후 게시가 진행됩니다.</p>
+                    <p></p>
+                </div>
                 <div>
                     <button style={{backgroundColor: 'skyblue', color:"#ffffff"}} onClick={submitForm}>광고 신청</button> &nbsp;
                     <button style={{backgroundColor: '#ffffff'}} onClick={closeWindow}>취소</button>
                 </div>
             </div>
         </div>
+    </div>
     );
 }
 
-export default AddAdvPage;

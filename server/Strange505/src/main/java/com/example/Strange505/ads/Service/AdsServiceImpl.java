@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import com.example.Strange505.ads.Jpa.AdsRepository;
 import com.example.Strange505.ads.Dto.AdsDto;
+import com.example.Strange505.ads.Entity.AdStatus;
 import java.time.LocalDate;
 @Service
 public class AdsServiceImpl implements AdsService {
@@ -62,6 +63,14 @@ public class AdsServiceImpl implements AdsService {
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
+//    @Override
+//    @Transactional
+//    public void confirmAdStatus(Long id, AdStatus status) {
+//        AdsEntity ads = adsRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Ads not found"));
+//        ads.confirm(status);
+//        adsRepository.save(ads);
+//    }
     @Override
     @Transactional
     public void confirmAds(Long id) {
@@ -70,12 +79,19 @@ public class AdsServiceImpl implements AdsService {
         ads.confirm();
         adsRepository.save(ads);
     }
-
+    @Override
+    @Transactional
+    public void rejectAds(Long id) {
+        AdsEntity ads = adsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ads not found"));
+        ads.reject();
+        adsRepository.save(ads);
+    }
     @Override
     @Transactional(readOnly = true)
     public List<AdsDto> findActiveAds() {
         LocalDate currentDate = LocalDate.now();
-        List<AdsEntity> activeAds = adsRepository.findByEndDateAfterAndAdminConfirmedTrue(currentDate);
+        List<AdsEntity> activeAds = adsRepository.findByEndDateAfterAndAdminConfirmed(currentDate, AdStatus.APPROVED);
         return activeAds.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
