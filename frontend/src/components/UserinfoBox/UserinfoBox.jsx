@@ -27,7 +27,7 @@ export default function UserinfoBox(){
       <button className={styles.loginButton} onClick={()=>{setModalOpen(true)}}>로그인</button>
       {modalOpen && <Login setModalOpen={setModalOpen} />}
       <div className={styles.signupBox}>
-        <p onClick={()=>{navigate('/')}}>비밀번호 찾기</p>
+        <p onClick={()=>{navigate('/forgot-password')}}>비밀번호 찾기</p>
         <p>&nbsp;&nbsp;|&nbsp;&nbsp;</p>
         <p onClick={()=>{navigate('/signup')}}>회원가입</p>
       </div>
