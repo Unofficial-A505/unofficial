@@ -85,3 +85,5 @@ finish:
   script:
     - docker rmi $(docker images -f "dangling=true" -q)
     - docker restart ubuntu_nginx_1
+  only: 
+    - master
