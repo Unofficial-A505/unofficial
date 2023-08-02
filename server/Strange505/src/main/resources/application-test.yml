@@ -1,35 +1,23 @@
 spring:
-  profiles:
-    active: serve
-  h2:
-    console:
-      enabled: true
-  server:
-    tomcat:
-      max-http-post-size: 100MB
-      max-swallow-size: 100MB
-  servlet:
-    multipart:
-      max-file-size: 5MB
-      max-request-size: 5MB
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: strangedev505
-    password: nnmoxsmunzocukuh
-    properties:
-      mail:
-        smtp:
-          starttls:
-            enable: true
-            required: true
-          auth: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://unofficial.kr/ssafy_web_db?serverTimezone=Asia/Seoul
+    username: root
+    password: strange505
+  data:
+    redis:
+      host: unofficial.kr
+      port: 6379
 
-logging:
-  level:
-    org.hibernate.SQL: debug
-    org.hibernate.type: debug
-    p6spy: info
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+        format_sql: true
+
+
 
 jwt:
   secret: VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4=VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4= # 임의의 문자열을 Base64로 인코딩한 값
@@ -51,6 +39,9 @@ cloud:
 file:
   dir: C:\Users\SSAFY\Desktop/file/
 
+mail:
+  base-url : "https://dev.unofficial.kr/verify?verificationCode="
+
 decorator:
   datasource:
     p6spy:
@@ -59,4 +50,4 @@ decorator:
 OPENVIDU_URL: https://vidu.unofficial.kr
 OPENVIDU_SECRET: STRANGE505
 
-main: main
+test: test
