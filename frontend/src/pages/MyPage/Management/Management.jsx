@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './Management.module.css'
+import customAxios from '../../../util/customAxios';
 const containerStyle = {
     maxHeight: '75vh', // Adjust this value as needed
     overflow: 'auto',
@@ -8,7 +9,7 @@ const containerStyle = {
 export default function Management() {
     const [ads, setAds] = useState([]);
     useEffect(() => {
-        axios.get('http://localhost:8080/api/ads/wait')
+        customAxios.get('/api/ads/wait')
             .then(response => {
                 setAds(response.data);
             })
@@ -18,7 +19,7 @@ export default function Management() {
     }, []);
 
     const approveAd = (id) => {
-        axios.put(`http://localhost:8080/api/ads/confirm/${id}`)
+        customAxios.put(`/api/ads/confirm/${id}`)
             .then(response => {
                 setAds(ads.map(ad =>
                     ad.adsId === id ? { ...ad, adminConfirmed: "APPROVED" } : ad
@@ -30,7 +31,7 @@ export default function Management() {
     };
 
     const rejectAd = (id) => {
-        axios.put(`http://localhost:8080/api/ads/reject/${id}`)
+        customAxios.put(`/api/ads/reject/${id}`)
             .then(response => {
                 setAds(ads.map(ad =>
                     ad.adsId === id ? { ...ad, adminConfirmed: "REJECTED" } : ad
