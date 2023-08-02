@@ -8,10 +8,10 @@ import com.example.Strange505.user.domain.User;
 import java.util.List;
 
 public interface CommentService {
-    void createComment(Long userId, CommentRequestDto requestDto);
+    void createComment(CommentRequestDto requestDto, String email);
     CommentResponseDto getCommentById(Long id);
     List<CommentResponseDto> getCommentByArticle(Long articleId);
-    List<CommentResponseDto> getCommentByUser(Long userId);
-    CommentResponseDto updateComment(Long id, CommentRequestDto requestDto);
-    void deleteComment(Long id);
+    List<CommentResponseDto> getCommentByUser(String email);
+    CommentResponseDto updateComment(Long id, CommentRequestDto requestDto, String email);
+    void deleteComment(Long id, String email);
 }

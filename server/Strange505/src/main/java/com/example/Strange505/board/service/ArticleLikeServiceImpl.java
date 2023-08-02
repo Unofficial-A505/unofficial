@@ -4,6 +4,7 @@ import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.domain.ArticleLike;
 import com.example.Strange505.board.domain.BestArticle;
 import com.example.Strange505.board.dto.ArticleLikeRequestDto;
+import com.example.Strange505.board.exception.NoResultException;
 import com.example.Strange505.board.repository.ArticleLikeRepository;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.BestArticleRepository;
@@ -11,7 +12,6 @@ import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,13 +29,13 @@ public class ArticleLikeServiceImpl implements ArticleLikeService {
     @Override
     public void like(ArticleLikeRequestDto dto) {
         Article article = articleRepository.findById(dto.getArticleId())
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(() -> new NoResultException("게시글이 존재하지 않습니다."));
         User user = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(() -> new NoResultException("사용자가 존재하지 않습니다."));
 
 
         if (articleLikeRepository.findByArticleAndUser(article, user).isPresent()) {
-            throw new RuntimeException();
+            throw new NoResultException();
         }
 
 
@@ -56,11 +56,11 @@ public class ArticleLikeServiceImpl implements ArticleLikeService {
     @Override
     public void cancel(ArticleLikeRequestDto dto) {
         Article article = articleRepository.findById(dto.getArticleId())
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(() -> new NoResultException("게시글이 존재하지 않습니다."));
         User user = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(() -> new NoResultException("사용자가 존재하지 않습니다."));
         ArticleLike articleLike = articleLikeRepository.findByArticleAndUser(article, user)
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(() -> new NoResultException());
 
         articleLikeRepository.delete(articleLike);
         articleRepository.subLikeCount(article);
