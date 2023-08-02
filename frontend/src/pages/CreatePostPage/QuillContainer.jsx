@@ -9,6 +9,8 @@ import "react-quill/dist/quill.snow.css";
 import ImageResize from "@looop/quill-image-resize-module-react";
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 import TopSpace from "../../components/TopSpace/TopSpace";
+import Footer from "../../components/Footer/Footer";
+import NavBar from "../../components/NavBar/NavBar";
 import customAxios from "../../util/customAxios";
 
 Quill.register("modules/ImageResize", ImageResize);
@@ -29,6 +31,7 @@ const QuillContainer = () => {
     const { boardTitle } = useParams();
     const [value, setValue] = useState('');
     const [title, setTitle] = useState('');
+    const [ imageURL, setimageURL ] = useState();
     const TitleElement = useRef(null);
     const quillElement = useRef(null); 
  
@@ -49,7 +52,7 @@ const QuillContainer = () => {
               [{ header: [1, 2, 3, false] }],
               [{ color: [] }],
               [{ list: 'ordered' }, { list: 'bullet' }],
-              [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
+              // [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
               ['link', 'image'],
             ],
           },
@@ -97,39 +100,57 @@ const QuillContainer = () => {
     fileInput.click();
 
     fileInput.addEventListener("change", function (e) {
-      // change 이벤트로 input 값이 바뀌면 실행
-      e.preventDefault();
-      const formData = new FormData();
+      console.log(fileInput)
       const file = fileInput.files[0];
-      formData.append("uploadFile", file);
-      console.log("file", file);
-      console.log(formData);
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      console.log('file', file)
+      console.log('reader', reader)
 
-      customAxios({
-        method: "post",
-        url: `/api/articles/image`,
-        data: formData,
-        headers: { "Content-Type": "multipart/form-data",
-                    // Authorization: `Token ${this.$store.state.token}`
-                  },
-      })
-        .then((res) => {
-          console.log(res.data);
-          console.log("success");
-          console.log(typeof res.data);
-          // const range = this.quill.getSelection(); // 사용자가 선택한 에디터 범위
-          // // uploadPath에 역슬래시(\) 때문에 경로가 제대로 인식되지 않는 것을 슬래시(/)로 변환
-          // res.data = res.data.replace(/\\/g, '/');
-          const uploadPath = res.data;
-          // quillInstance.current.insertEmbed(range.index, 'image', "/board/display?fileName=" + res.uploadPath +"/"+ res.uuid +"_"+ res.fileName);
-          quillElement.current.editor.insertEmbed(
-            quillElement.current.editor.root,
-            "image",
-            `${uploadPath}`
-          );
-        })
-        .catch((err) => console.log(err));
-    });
+      reader.onloadend = () => {
+        const src = reader.result
+        setimageURL(src)
+        console.log('reader.result', imageURL)
+      }
+
+      quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${imageURL}`);
+    })
+
+    // fileInput.addEventListener("change", function (e) {
+    //   // change 이벤트로 input 값이 바뀌면 실행
+    //   e.preventDefault();
+    //   const formData = new FormData();
+    //   const file = fileInput.files[0];
+    //   formData.append("uploadFile", file);
+    //   console.log("file", file);
+    //   console.log(formData);
+
+    //   customAxios({
+    //     method: "post",
+    //     url: `/api/articles/image`,
+    //     data: formData,
+    //     headers: { "Content-Type": "multipart/form-data" },
+    //     // headers: {
+    //     //   Authorization: `Token ${this.$store.state.token}`,
+    //     // }
+    //   })
+    //     .then((res) => {
+    //       console.log(res.data);
+    //       console.log("success");
+    //       console.log(typeof res.data);
+    //       // const range = this.quill.getSelection(); // 사용자가 선택한 에디터 범위
+    //       // // uploadPath에 역슬래시(\) 때문에 경로가 제대로 인식되지 않는 것을 슬래시(/)로 변환
+    //       // res.data = res.data.replace(/\\/g, '/');
+    //       const uploadPath = res.data;
+    //       // quillInstance.current.insertEmbed(range.index, 'image', "/board/display?fileName=" + res.uploadPath +"/"+ res.uuid +"_"+ res.fileName);
+    //       quillElement.current.editor.insertEmbed(
+    //         quillElement.current.editor.root,
+    //         "image",
+    //         `${uploadPath}`
+    //       );
+    //     })
+    //     .catch((err) => console.log(err));
+    // });
   }
 
   const createPost = () => {
@@ -171,6 +192,7 @@ const QuillContainer = () => {
   return (
     <div>
       <TopSpace />
+      <NavBar />
 
       <div className={styles.craetecontainer}>
         <div className={styles.upmenu}>
@@ -222,6 +244,7 @@ const QuillContainer = () => {
           </button>
         </div>
       </div>
+      <div className={styles.footerContainer}><Footer /></div>
     </div>
   );
 };

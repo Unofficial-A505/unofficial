@@ -11,6 +11,7 @@ import BestpostsWidget from "../../components/BestpostsWidget/BestpostsWidget";
 import EduGrantButton from "../../components/EduGrantButton/EduGrantsButton";
 
 import TopSpace from "../../components/TopSpace/TopSpace";
+import customAxios from "../../util/customAxios";
 
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
@@ -36,6 +37,7 @@ export default function PostDetail() {
   const [content, setContent] = useState("");
   const [ createcomment, setcreateComment] = useState("");
   const [ comments, setComments ] = useState([])
+  const [ recommendedState, setrecommendedState ] = useState(false)
   console.log('지금 코멘트', comments)
   const commentElement = useRef(null);
 
@@ -147,6 +149,54 @@ const commentCreate = () => {
       .catch((err) => console.log(err));
   };
 
+  const postDelete = () => {
+    console.log('post delete request')
+    axios({
+      method: "delete",
+      url: `https://unofficial.kr/api/articles/${postId}`,
+      headers: {
+        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTA1NzE4NjcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjIsInJvbGUiOiJST0xFX1VTRVIifQ.YOofxvS5cyC4WHNgQo1CqA77wwUd2fSLJTw01ubAlU8i2M7XSWoSSPcDWy7kLadmAFt2ZzcbqmX2h904Y4USYA`,
+      }
+      })
+      .then((res) => {
+        console.log(res);
+        navigate(`/boards/${boardTitle}`)
+      })
+      .catch((err) => console.log(err));
+    };
+
+  const postRecommendedInput = () => {
+    console.log('postRecommendedInput')
+    customAxios({
+      method: "post",
+      url: `/api/ads/uploadForArticle`,
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
+    })
+    .then((res) => {
+      console.log(res)
+      setrecommendedState((prev) => !prev)
+    })
+    .catch((res) => console.log(res))
+  }
+
+  const postRecommendedDelete = () => {
+    console.log('postRecommendedDelete')
+    customAxios({
+      method: "delete",
+      url: `/api/ads/uploadForArticle`,
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
+    })
+    .then((res) => {
+      console.log(res)
+      setrecommendedState((prev) => !prev)
+    })
+    .catch((res) => console.log(res))
+  }
+
   const username = "9기 서울";
   const timeago = "21분 전";
   const recommended = 37;
@@ -183,16 +233,23 @@ const commentCreate = () => {
             </div>
 
             <div className={styles.postBottombar}>
-              <div>
-                <FaRegThumbsUp class={styles.tabIcon} size="18" />
-                {recommended}
-              </div>
+              {!recommendedState ? 
+                <div onClick={postRecommendedInput}>
+                  <FaRegThumbsUp class={styles.tabIcon} size="18" />
+                  {recommended}
+                </div>
+                :
+                <div onClick={postRecommendedDelete}>
+                  <FaRegThumbsUp class={styles.tabIcon} size="18" />
+                  {recommended}
+                </div>
+              }
               <div className={styles.postupdateBottom}>
-                <div className={styles.postupdateBottomtab}>
+                <div onClick={() => navigate(`/boards/${boardTitle}/${postId}/update`, { state : { title, content }})} className={styles.postupdateBottomtab}>
                   <HiOutlinePencilAlt size="15" />
                   update
                 </div>
-                <div className={styles.postupdateBottomtab}>
+                <div onClick={postDelete} className={styles.postupdateBottomtab}>
                   <IoTrashOutline size="15" />
                   delete
                 </div>
