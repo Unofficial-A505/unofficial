@@ -107,6 +107,9 @@ deploy-react:      # This job runs in the deploy stage.
 
 deploy-react-dev:      # This job runs in the deploy stage.
   stage: deploy 
+  variables:
+    IMAGE_NAME: strangedev505/react-dev
+    NAME: react-dev
   tags:
     - deployer
   cache:
@@ -118,8 +121,10 @@ deploy-react-dev:      # This job runs in the deploy stage.
     - npm install
     - npm install --save-dev @babel/plugin-proposal-private-property-in-object
     - npm run build
-    - rm -rf /home/gitlab-runner/qareact
-    - cp -r build /home/gitlab-runner/qareact
+    - docker build -t $IMAGE_NAME
+    - docker stop $NAME || true
+    - docker rm $NAME || true
+    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.101 -e TZ=Asia/Seoul --name $NAME $IMAGE_NAME
   only: 
     - develop
 
