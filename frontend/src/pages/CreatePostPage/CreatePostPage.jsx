@@ -153,7 +153,7 @@ export default function CreatePostPage() {
 
       customAxios({
         method: "post",
-        url: `api/articles/`,
+        url: `/api/articles/`,
         data: {
           title,
           content,
