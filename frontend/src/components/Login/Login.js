@@ -4,18 +4,17 @@ import { useNavigate } from 'react-router-dom'
 import styles from './Login.module.css'
 import logo from './../../assets/images/mobile_logo.png'
 import { setEmail } from './../../store/signupSlice'
-import { setAccessToken } from './../../store/loginSlice'
-import axios from 'axios'
+import { setAccessToken, setAuthUserEmail } from './../../store/loginSlice'
 import customAxios from '../../util/customAxios'
 
 
 export default function Login({ setModalOpen }) {
 
-  // let user = useSelector((state)=>state.user)
-  // let authUser = useSelector((state)=>state.authUser)
-  // useEffect(()=>{
-  //   console.log(authUser)
-  // }, [authUser])
+  const authUser = useSelector((state) => state.authUser)
+
+  useEffect(() => {
+    console.log(authUser)
+  }, [authUser])
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -48,14 +47,10 @@ export default function Login({ setModalOpen }) {
         email: userEmail,
         password: userPassword,
       });
-      // const response = await axios.post(`${serverURL}/api/auth/login`, {
-      //   email: userEmail,
-      //   password: userPassword,
-      // });
       // 성공 ? 토큰 저장 && 모달 off
-      dispatch(setEmail(userEmail))
+      dispatch(setAuthUserEmail(userEmail))
       dispatch(setAccessToken(response.headers.authorization));
-      localStorage.setItem('REFRESH_TOKEN', response.headers.REFRESH_TOKEN);
+      localStorage.setItem('REFRESH_TOKEN', response.headers.Refresh_token);
       setModalOpen(false)
     }
     catch (err) {
