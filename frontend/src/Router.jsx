@@ -38,8 +38,13 @@ import CreatePostPage from "./pages/CreatePostPage/QuillContainer";
 
 import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage"
+import WebRTC from "./pages/WebRtcPage/WebRtcPage"
 
 const router = createBrowserRouter([
+  {
+    path: "/web-rtc",
+    element: <WebRTC />,
+  },
   {
     path: "/verify",
     element: <EmailVerifyPage />,
