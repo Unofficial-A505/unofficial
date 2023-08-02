@@ -29,9 +29,8 @@ const Title = styled.h3`
 const QuillContainer = () => {
     const navigate = useNavigate();
     const { boardTitle } = useParams();
-    const [value, setValue] = useState('');
+    const [ value, setValue ] = useState('');
     const [title, setTitle] = useState('');
-    const [ imageURL, setimageURL ] = useState();
     const TitleElement = useRef(null);
     const quillElement = useRef(null); 
  
@@ -92,6 +91,7 @@ const QuillContainer = () => {
   };
 
   // 이미지 url 추출 함수
+  const formData = new FormData();
   function selectLocalImage() {
     const fileInput = document.createElement("input");
     fileInput.setAttribute("type", "file");
@@ -100,20 +100,20 @@ const QuillContainer = () => {
     fileInput.click();
 
     fileInput.addEventListener("change", function (e) {
-      console.log(fileInput)
+      e.preventDefault();
+      // formData에 해당 이미지 싣기 
       const file = fileInput.files[0];
+      formData.append("uploadFile", file);
+      
+      // ql-editor에 이미지 띄움
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      console.log('file', file)
-      console.log('reader', reader)
-
+      let src = null
       reader.onloadend = () => {
-        const src = reader.result
-        setimageURL(src)
-        console.log('reader.result', imageURL)
+        src = reader.result
+        quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${src}`)
+        console.log('src', src)
       }
-
-      quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${imageURL}`);
     })
 
     // fileInput.addEventListener("change", function (e) {
