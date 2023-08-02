@@ -2,7 +2,7 @@ import styles from "./PostUpdate.module.css";
 import axios from "axios";
 
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import Quill from "quill";
@@ -13,6 +13,8 @@ import ImageResize from "@looop/quill-image-resize-module-react";
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 
 import TopSpace from "../../components/TopSpace/TopSpace";
+import Footer from "../../components/Footer/Footer";
+import NavBar from "../../components/NavBar/NavBar";
 import customAxios from "../../util/customAxios";
 
 Quill.register("modules/ImageResize", ImageResize);
@@ -32,21 +34,11 @@ const PostUpdate = () => {
   const navigate = useNavigate();
   const { boardTitle } = useParams();
   const [value, setValue] = useState("");
-  const [title, setTitle] = useState("");
+  // const [ updatetitle, setupdateTitle ] = useState("");
   const TitleElement = useRef(null);
   const quillElement = useRef(null);
-  const imageURL =
-    "https://plus.unsplash.com/premium_photo-1682855669043-fd359f155d3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=505&q=80";
 
-  // // styled components
-  // const TitleInput = styled.input`
-  // font-size: 3rem;
-  // outline: none;
-  // padding-button: 0.5rem;
-  // border: none;
-  // margin-bottom: 2rem;
-  // width: 100%;
-  // `
+  const { state : { title, content }} = useLocation(); 
 
   const modules = {
     toolbar: {
@@ -55,12 +47,12 @@ const PostUpdate = () => {
         [{ header: [1, 2, 3, false] }],
         [{ color: [] }],
         [{ list: "ordered" }, { list: "bullet" }],
-        [
-          { align: "" },
-          { align: "center" },
-          { align: "right" },
-          { align: "justify" },
-        ],
+        // [
+        //   { align: "" },
+        //   { align: "center" },
+        //   { align: "right" },
+        //   { align: "justify" },
+        // ],
         ["link", "image"],
       ],
     },
@@ -89,6 +81,10 @@ const PostUpdate = () => {
       .addHandler("image", function () {
         selectLocalImage();
       });
+
+      const delta = quillElement.current.editor.clipboard.convert(content)
+      quillElement.current.editor.setContents(delta, 'silent')
+
   }, []);
 
   const onChangeValue = (e) => {
@@ -96,10 +92,10 @@ const PostUpdate = () => {
     console.log(e);
   };
 
-  const changetitleValue = (e) => {
-    setTitle(e);
-    console.log("title", e);
-  };
+  // const changetitleValue = (e) => {
+  //   setupdateTitle(e);
+  //   console.log("title", e);
+  // };
 
   // 이미지 url 추출 함수
   function selectLocalImage() {
@@ -146,7 +142,7 @@ const PostUpdate = () => {
     });
   }
 
-  const createPost = () => {
+  const updatePost = () => {
     const title = TitleElement.current.value;
     const content = quillElement.current.editor.root.innerHTML;
     console.log(title, content, boardTitle);
@@ -180,15 +176,15 @@ const PostUpdate = () => {
   return (
     <div>
       <TopSpace />
-
+      <NavBar />
       <div className={styles.craetecontainer}>
         <div className={styles.upmenu}>
           <Title>
             <p className={styles.boardTitle}>{boardTitle}</p>
-            <p>새 글 작성</p>
+            <p>글 수정</p>
           </Title>
-          <button className="btn" id={styles.createsubmitbutton}>
-            게시하기
+          <button onClick={updatePost} className="btn" id={styles.createsubmitbutton}>
+            등록하기
           </button>
         </div>
 
@@ -196,7 +192,7 @@ const PostUpdate = () => {
           <input
             className={styles.inputTitle}
             type="text"
-            placeholder="제목을 입력하세요"
+            defaultValue={title}
             ref={TitleElement}
           />
           {/* <TitleInput placeholder="제목을 입력하세요" ref={TitleElement}/> */}
@@ -212,15 +208,9 @@ const PostUpdate = () => {
           theme="snow"
           style={{ height: "100%" }}
           ref={quillElement}
+          // dangerouslySetInnerHTML={{ __html: content }}
         />
 
-        {/* <button onClick={() => console.log(quillElement.current.editor.root.innerHTML)}>html까지 뽑고싶어</button>
-          <button onClick={() => console.log(quillElement.current.editor)}>제목 input value</button>
-          <button onClick={() => {
-            console.log(quillElement.current)
-            // const range = quillElement.current.getSelection();
-            quillElement.current.editor.insertEmbed(quillElement.current.editor.root, 'image', `${imageURL}`);
-            }}>이미지 태그로 삽입하기 테스트</button>  */}
         <div className={styles.undermenu}>
           <button className={styles.grayoutbutton} onClick={handleCancel}>
             <IoIosArrowBack />
@@ -229,12 +219,13 @@ const PostUpdate = () => {
           <button
             className="btn"
             id={styles.createsubmitbutton}
-            onClick={createPost}
+            onClick={updatePost}
           >
-            게시하기
+            등록하기
           </button>
         </div>
       </div>
+      <div className={styles.footerContainer}><Footer /></div>
     </div>
   );
 };
