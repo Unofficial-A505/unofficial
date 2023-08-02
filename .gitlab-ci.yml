@@ -1,21 +1,21 @@
-stages:          # List of stages for jobs, and their order of execution
+stages: # List of stages for jobs, and their order of execution
   - test
   - build
   - libs
   - deploy
   - finish
 
-test:       # This job runs in the build stage, which runs first.
+test: # This job runs in the build stage, which runs first.
   image: openjdk:17.0.1-oraclelinux8
   stage: test
-  script: 
+  script:
     - chmod -R 775 server/
     - cd ./server/Strange505
     - ./gradlew test
 
-build:   # This job runs in the test stage.
+build: # This job runs in the test stage.
   image: openjdk:17.0.1-oraclelinux8
-  stage: build    # It only starts when the job in the build stage completes successfully.
+  stage: build # It only starts when the job in the build stage completes successfully.
   variables:
     IMAGE_NAME: strangedev505/springboot-app
   script:
@@ -27,9 +27,74 @@ build:   # This job runs in the test stage.
   only:
     - master
 
-build-dev:   # This job runs in the test stage.
+npm:
+  stage: libs
+  cache:
+    paths:
+      - frontend/node_modules
+  script:
+    - chmod -R 775 frontend/
+    - cd frontend
+    - npm install
+
+deploy-was1: # This job runs in the deploy stage.
+  stage: deploy
+  tags:
+    - deployer
+  script:
+    - docker stop springboot-app || true
+    - docker rm springboot-app || true
+    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.50 -e TZ=Asia/Seoul --name springboot-app strangedev505/springboot-app
+  when: on_success
+  only:
+    - master
+
+deploy-was2: # This job runs in the deploy stage.
+  stage: deploy
+  tags:
+    - deployer
+  script:
+    - docker stop springboot-app2 || true
+    - docker rm springboot-app2 || true
+    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.51 -e TZ=Asia/Seoul --name springboot-app2 strangedev505/springboot-app
+  when: on_success
+  only:
+    - master
+
+deploy-react: # This job runs in the deploy stage.
+  stage: deploy
+  variables:
+    IMAGE_NAME: strangedev505/react
+    NAME: react
+  tags:
+    - deployer
+  cache:
+    paths:
+      - dist
+  script:
+    - chmod -R 775 frontend/
+    - cd frontend
+    - npm install
+    - npm install --save-dev @babel/plugin-proposal-private-property-in-object
+    - npm run build
+    - docker build -t $IMAGE_NAME .
+    - docker stop $NAME || true
+    - docker rm $NAME || true
+    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.52 -e TZ=Asia/Seoul --name $NAME $IMAGE_NAME
+  only:
+    - master
+
+finish:
+  stage: finish
+  script:
+    - docker rmi $(docker images -f "dangling=true" -q)
+    - docker restart ubuntu_nginx_1
+  only:
+    - master
+
+build-dev: # This job runs in the test stage.
   image: openjdk:17.0.1-oraclelinux8
-  stage: build    # It only starts when the job in the build stage completes successfully.
+  stage: build # It only starts when the job in the build stage completes successfully.
   variables:
     IMAGE_NAME: strangedev505/springboot-dev
   script:
@@ -41,42 +106,8 @@ build-dev:   # This job runs in the test stage.
   only:
     - develop
 
-npm: 
-  stage: libs
-  cache:
-    paths:
-      - frontend/node_modules
-  script:
-    - chmod -R 775 frontend/
-    - cd frontend
-    - npm install
-
-deploy-was1:      # This job runs in the deploy stage.
-  stage: deploy 
-  tags:
-    - deployer
-  script:
-    - docker stop springboot-app || true
-    - docker rm springboot-app || true
-    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.50 -e TZ=Asia/Seoul --name springboot-app strangedev505/springboot-app
-  when: on_success
-  only: 
-    - master
-
-deploy-was2:      # This job runs in the deploy stage.
-  stage: deploy 
-  tags:
-    - deployer
-  script:
-    - docker stop springboot-app2 || true
-    - docker rm springboot-app2 || true
-    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.51 -e TZ=Asia/Seoul --name springboot-app2 strangedev505/springboot-app
-  when: on_success
-  only: 
-    - master
-
-deploy-was1-dev:      # This job runs in the deploy stage.
-  stage: deploy 
+deploy-was1-dev: # This job runs in the deploy stage.
+  stage: deploy
   tags:
     - deployer
   script:
@@ -84,11 +115,14 @@ deploy-was1-dev:      # This job runs in the deploy stage.
     - docker rm springboot-dev || true
     - docker run -d --restart always --network ubuntu_default --ip 172.18.0.100 -e TZ=Asia/Seoul --name springboot-dev strangedev505/springboot-dev
   when: on_success
-  only: 
+  only:
     - develop
 
-deploy-react:      # This job runs in the deploy stage.
-  stage: deploy 
+deploy-react-dev: # This job runs in the deploy stage.
+  stage: deploy
+  variables:
+    IMAGE_NAME: strangedev505/react-dev
+    NAME: react-dev
   tags:
     - deployer
   cache:
@@ -100,40 +134,16 @@ deploy-react:      # This job runs in the deploy stage.
     - npm install
     - npm install --save-dev @babel/plugin-proposal-private-property-in-object
     - npm run build
-    - rm -rf /home/gitlab-runner/react
-    - cp -r build /home/gitlab-runner/react
-  only: 
-    - master
-
-deploy-react-dev:      # This job runs in the deploy stage.
-  stage: deploy 
-  tags:
-    - deployer
-  cache:
-    paths:
-      - dist
-  script:
-    - chmod -R 775 frontend/
-    - cd frontend
-    - npm install
-    - npm install --save-dev @babel/plugin-proposal-private-property-in-object
-    - npm run build
-    - rm -rf /home/gitlab-runner/qareact
-    - cp -r build /home/gitlab-runner/qareact
-  only: 
+    - docker build -t $IMAGE_NAME .
+    - docker stop $NAME || true
+    - docker rm $NAME || true
+    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.101 -e TZ=Asia/Seoul --name $NAME $IMAGE_NAME
+  only:
     - develop
-
-finish:
-  stage: finish
-  script:
-    - docker rmi $(docker images -f "dangling=true" -q)
-    - docker restart ubuntu_nginx_1
-  only: 
-    - master
 
 finish-dev:
   stage: finish
   script:
     - docker restart ubuntu_nginx_1
-  only: 
+  only:
     - develop

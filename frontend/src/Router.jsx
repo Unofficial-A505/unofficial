@@ -50,10 +50,6 @@ const router = createBrowserRouter([
     element: <EmailVerifyPage />,
   },
   {
-    path: "/forgot-password",
-    element: <ForgotPasswordPage />,
-  },
-  {
     path: "/signup",
     element: <Signup />,
     children: [
@@ -119,13 +115,17 @@ const router = createBrowserRouter([
           { path: ":boardTitle/search/:keyword", element: <BoardSearchView /> },
         ],
       },
-      { path: "boards/:boardTitle/create", element: <CreatePostPage /> },
       { path: "boards/:boardTitle/:postId", element: <PostDetail /> },
-      { path: "boards/:boardTitle/:postId/update", element: <PostUpdate /> },
       { path: "boards/search/:keyword", element: <SearchView /> },
+      {
+        path: "forgot-password",
+        element: <ForgotPasswordPage />
+      },
     ],
   },
   { path: "/user/advertisement/form", element: <AddAdvPage /> },
+  { path: "boards/:boardTitle/create", element: <CreatePostPage /> },
+  { path: "boards/:boardTitle/:postId/update", element: <PostUpdate /> },
 ]);
 
 export default router;

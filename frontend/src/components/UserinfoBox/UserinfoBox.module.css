@@ -8,7 +8,7 @@
   justify-content: space-between;
 }
 .usercontainer p {
-  color: #5c5c5c;
+  color: #606060;
   font-size: 0.8rem;
   margin-bottom: 0;
 }
@@ -45,15 +45,19 @@
   margin-bottom: 0.3rem;
 }
 .hellomessage {
-  color: #757575;
+  color: #606060;
 }
-.mypage {
-  font-weight: 600;
+.usertopContainer button{
+  padding: 5px;
+  border: 0;
+  border-radius: 10px;
+  background-color: #fff;
+  border: 1px solid #ebebeb;
+  font-size: 0.9rem;
 }
-.mypage:hover{
-  cursor: pointer;
+.usertopContainer button:hover {
+  background-color: #fdfdfd;
 }
-
 .usermidContainer {
   text-align: start;
   margin-bottom: 0.3rem;
@@ -68,7 +72,7 @@
   cursor: pointer;
 }
 .secondhelloMessage {
-  color: #5c5c5c;
+  color: #606060;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Source Sans Pro;
   font-size: 0.8rem;

@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.example.Strange505.file.service.S3UploaderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,8 +36,17 @@ public class ArticleController {
     @PostMapping
     public ResponseEntity<?> registerArticle(@RequestBody ArticleRequestDto dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        articleService.createArticle(dto, email);
-        return new ResponseEntity<>("Article created successfully", HttpStatus.OK);
+        Article article = articleService.createArticle(dto, email);
+        ArticleResponseDto responseDto = ArticleResponseDto.builder()
+                .id(article.getId())
+                .title(article.getTitle())
+                .content(article.getContent())
+                .boardName(article.getBoard().getName())
+                .nickName(article.getNickName())
+                .createTime(article.getCreateTime())
+                .modifyTime(article.getModifyTime())
+                .build();
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
 
     }
 
@@ -69,41 +80,54 @@ public class ArticleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ArticleResponseDto>> getAllArticles() {
-        List<Article> articles = articleService.getAllArticles();
-        List<ArticleResponseDto> articleResponseDtoList = articles.stream().map(findArticle ->
+    public ResponseEntity<Page<ArticleResponseDto>> getAllArticles(Pageable pageable) {
+        Page<Article> articles = articleService.getAllArticles(pageable);
+        Page<ArticleResponseDto> articleResponseDtoList = articles.map(findArticle ->
                 new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getNickName(),
-                        findArticle.getCreateTime(), findArticle.getModifyTime()))
-                .toList();
+                        findArticle.getLikes(), findArticle.getViews(),
+                        findArticle.getCreateTime(), findArticle.getModifyTime()));
 
         return new ResponseEntity<>(articleResponseDtoList, HttpStatus.OK);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<ArticleResponseDto>> getArticlesByTitleAndContent(@RequestParam String keyword, @RequestParam Long boardId) {
-        List<Article> articles = articleService.getArticlesByTitleAndContent(keyword, boardId);
+    public ResponseEntity<Page<ArticleResponseDto>> getArticlesByTitleAndContent(@RequestParam String keyword, @RequestParam Long boardId, Pageable pageable) {
+        Page<Article> articles = articleService.getArticlesByTitleAndContent(keyword, boardId, pageable);
 
-        List<ArticleResponseDto> articleResponseDtoList = articles.stream().map(findArticle ->
+        Page<ArticleResponseDto> articleResponseDtoList = articles.map(findArticle ->
                 new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getNickName(),
-                        findArticle.getCreateTime(), findArticle.getModifyTime()))
-                .toList();
+                        findArticle.getLikes(), findArticle.getViews(),
+                        findArticle.getCreateTime(), findArticle.getModifyTime()));
 
         return new ResponseEntity<>(articleResponseDtoList, HttpStatus.OK);
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<ArticleResponseDto>> getArticlesByUser() {
+    public ResponseEntity<Page<ArticleResponseDto>> getArticlesByUser(Pageable pageable) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<Article> articles = articleService.getArticlesByUser(email);
-        List<ArticleResponseDto> result = articles.stream().map(findArticle ->
+        Page<Article> articles = articleService.getArticlesByUser(email, pageable);
+        Page<ArticleResponseDto> result = articles.map(findArticle ->
                         new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                                 findArticle.getBoard().getName(), findArticle.getNickName(),
-                                findArticle.getCreateTime(), findArticle.getModifyTime()))
-                .toList();
+                                findArticle.getLikes(), findArticle.getViews(),
+                                findArticle.getCreateTime(), findArticle.getModifyTime()));
 
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/board")
+    public ResponseEntity<Page<ArticleResponseDto>> getArticlesByBoard(Long boardId, Pageable pageable) {
+        Page<Article> articles = articleService.getArticlesByBoard(boardId, pageable);
+
+        Page<ArticleResponseDto> articleResponseDtoList = articles.map(findArticle ->
+                        new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
+                                findArticle.getBoard().getName(), findArticle.getNickName(),
+                                findArticle.getLikes(), findArticle.getViews(),
+                                findArticle.getCreateTime(), findArticle.getModifyTime()));
+
+        return new ResponseEntity<>(articleResponseDtoList, HttpStatus.OK);
     }
 
     private void addViewCount(Long id, HttpServletRequest req, HttpServletResponse res) {
