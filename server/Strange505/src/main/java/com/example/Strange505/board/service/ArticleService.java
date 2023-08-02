@@ -2,6 +2,8 @@ package com.example.Strange505.board.service;
 
 import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.dto.ArticleRequestDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -11,13 +13,13 @@ public interface ArticleService {
 
     Article getArticleById(Long id);
 
-    List<Article> getAllArticles();
+    Page<Article> getAllArticles(Pageable pageable);
 
-    List<Article> getArticlesByBoard(Long boardId);
+    Page<Article> getArticlesByBoard(Long boardId, Pageable pageable);
 
-    List<Article> getArticlesByTitleAndContent(String keyword, Long boardId);
+    Page<Article> getArticlesByTitleAndContent(String keyword, Long boardId, Pageable pageable);
 
-    List<Article> getArticlesByUser(String email);
+    Page<Article> getArticlesByUser(String email, Pageable pageable);
 
     void updateArticle(Long id, ArticleRequestDto dto, String email);
 
