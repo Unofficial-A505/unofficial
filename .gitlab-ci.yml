@@ -100,9 +100,8 @@ deploy-react:      # This job runs in the deploy stage.
     - npm install
     - npm install --save-dev @babel/plugin-proposal-private-property-in-object
     - npm run build
-    - whoami
-    - rm -rf /home/ubuntu/react-build-files
-    - cp -r build /home/ubuntu/react-build-files
+    - rm -rf /home/gitlab-runner/react
+    - cp -r build /home/gitlab-runner/react
   only: 
     - master
 
