@@ -31,6 +31,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public void createComment(CommentRequestDto dto, String email) {
+        System.out.println("email = " + email);
         Article article = articleRepository.getReferenceById(dto.getArticleId());
         Comment parent = commentRepository.findById(dto.getParentId()).orElse(null);
         User user = userRepository.findByEmail(email).orElseThrow();
