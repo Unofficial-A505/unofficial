@@ -4,6 +4,7 @@ import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.domain.Comment;
 import com.example.Strange505.board.dto.CommentRequestDto;
 import com.example.Strange505.board.dto.CommentResponseDto;
+import com.example.Strange505.board.exception.NotAuthorException;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.CommentRepository;
 import com.example.Strange505.user.domain.User;
@@ -97,7 +98,7 @@ public class CommentServiceImpl implements CommentService {
             Comment save = commentRepository.save(comment);
             return new CommentResponseDto(save);
         } else {
-            return null;
+            throw new NotAuthorException("작성자만 삭제 가능합니다.");
         }
 
     }
@@ -112,7 +113,7 @@ public class CommentServiceImpl implements CommentService {
             log.info("removeList = {}", removableCommentList);
             commentRepository.deleteAll(removableCommentList);
         } else {
-            throw new RuntimeException("작성자만 삭제 가능합니다.");
+            throw new NotAuthorException("작성자만 삭제 가능합니다.");
         }
     }
 }
