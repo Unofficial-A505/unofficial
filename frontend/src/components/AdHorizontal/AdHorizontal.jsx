@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './AdHorizontal.module.css'
+import customAxios from '../../util/customAxios';
 
 export default function AdHorizontal() {
   const [ads, setAds] = useState([]);
   const [selectedAd, setSelectedAd] = useState(null);
-  const handleClickAd = (redirectUrl) => {
-    // 클릭한 광고의 redirectUrl로 이동
-    window.location.href = redirectUrl;
-  }
   useEffect(() => {
     // 광고 데이터 로드
-    axios.get('http://localhost:8080/api/ads/active')
+    customAxios.get('/api/ads/active')
+    //axios.get('http://localhost:8080/api/ads/active')
       .then(response => {
         const activeAds = response.data;
         setAds(activeAds);

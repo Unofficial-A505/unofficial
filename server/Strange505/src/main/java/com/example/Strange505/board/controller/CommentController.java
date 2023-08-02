@@ -7,6 +7,7 @@ import com.example.Strange505.user.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,24 +21,23 @@ public class CommentController {
     private final AuthService authService;
     
     @PostMapping
-    public ResponseEntity<?> registerComment(@RequestHeader("Authorization") String accessToken, @RequestBody CommentRequestDto dto) {
-        Long userId = authService.extractID(accessToken);
-        if (userId == null) {
-            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
-        }
-        commentService.createComment(userId, dto);
+    public ResponseEntity<?> registerComment(@RequestBody CommentRequestDto dto) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        commentService.createComment(dto, email);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CommentResponseDto> modifyComment(@PathVariable Long id, @RequestBody CommentRequestDto dto) {
-        CommentResponseDto commentResponseDto = commentService.updateComment(id, dto);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        CommentResponseDto commentResponseDto = commentService.updateComment(id, dto, email);
         return new ResponseEntity(commentResponseDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> removeComment(@PathVariable Long id) {
-        commentService.deleteComment(id);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        commentService.deleteComment(id, email);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -54,12 +54,9 @@ public class CommentController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<CommentResponseDto>> getCommentByUser(@RequestHeader("Authorization") String accessToken) {
-        Long userId = authService.extractID(accessToken);
-        if (userId == null) {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        }
-        List<CommentResponseDto> list = commentService.getCommentByUser(userId);
+    public ResponseEntity<List<CommentResponseDto>> getCommentByUser() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<CommentResponseDto> list = commentService.getCommentByUser(email);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }
