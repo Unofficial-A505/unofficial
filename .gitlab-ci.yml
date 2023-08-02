@@ -131,3 +131,10 @@ finish:
     - docker restart ubuntu_nginx_1
   only: 
     - master
+
+finish-dev:
+  stage: finish
+  script:
+    - docker restart ubuntu_nginx_1
+  only: 
+    - develop
