@@ -44,3 +44,7 @@
 .forecastWather p {
   font-size: 0.8rem;
 }
+.forecastWather img {
+  margin: 0 auto;
+  width: 60px;
+}

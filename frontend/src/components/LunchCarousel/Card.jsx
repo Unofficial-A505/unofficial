@@ -50,7 +50,17 @@ function Menu({ menu }) {
         <p>{menu.courseName}</p>
         <p>{cal}kcal</p>
       </div>
-      <h2 className="mb-1">{name}</h2>
+      <h2
+        className="mb-1"
+        style={{
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+      >
+        {name}
+      </h2>
+
       <p className={styles.detail}>{menu.detail}</p>
     </div>
   );
