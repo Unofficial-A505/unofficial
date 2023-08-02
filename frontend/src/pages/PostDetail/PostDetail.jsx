@@ -26,7 +26,6 @@ import { HiOutlinePencilAlt } from "@react-icons/all-files/hi/HiOutlinePencilAlt
 import { HiOutlineSpeakerphone } from "@react-icons/all-files/hi/HiOutlineSpeakerphone";
 // 말풍선 아이콘
 import { IoChatboxOutline } from "@react-icons/all-files/io5/IoChatboxOutline";
-import customAxios from "../../util/customAxios";
 
 // API import
 export default function PostDetail() {
