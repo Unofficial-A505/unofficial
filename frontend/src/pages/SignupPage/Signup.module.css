@@ -122,6 +122,9 @@
     font-size: 15px;
     color: #0969FB;
 }
+.complete a:hover {
+    text-decoration: underline;
+}
 .complete button {
     display: block;
     margin-top: 18px;
@@ -135,10 +138,6 @@
 }
 .complete button:hover {
     background-color: #034BB9;
-}
-.complete a:hover {
-    color: #034BB9;
-    text-decoration: underline;
 }
 /* 반응형 스타일 */
 @media (max-width: 768px) {
