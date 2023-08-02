@@ -33,14 +33,9 @@ const ForgotPasswordPage = () => {
           gen: selectedGen,
         }
       );
-
       console.log(response);
     } catch (err) {
-      if (err) {
-        alert("입력하신 정보를 확인해주세요.");
-      } else {
-        alert("입력하신 정보를 확인해주세요.");
-      }
+      alert("입력하신 정보를 확인해주세요.");
     }
   };
 
@@ -54,7 +49,7 @@ const ForgotPasswordPage = () => {
           </p>
         </div>
         <div className="mb-4">
-          <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between mb-2">
             <div className={styles.selectContainer}>
               <label className="form-label mb-0">지역</label>
               <select name="enter_local" onChange={handleLocalChange}>
@@ -87,9 +82,7 @@ const ForgotPasswordPage = () => {
               </select>
             </div>
           </div>
-          <label for="inputEmail" className="form-label">
-            이메일
-          </label>
+          <label for="inputEmail" className="form-label">이메일</label>
           <input
             type="email"
             class="form-control"
