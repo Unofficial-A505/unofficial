@@ -7,6 +7,9 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -18,11 +21,15 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<Article> searchByTitleAndContent(String keyword, Long boardId) {
-        return queryFactory
+    public Page<Article> searchByTitleAndContent(String keyword, Long boardId, Pageable pageable) {
+        List<Article> result = queryFactory
                 .selectFrom(article)
                 .where(eqBoard(boardId).and(titleCheck(keyword).or(contentCheck(keyword))))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
+
+        return new PageImpl<>(result, pageable, result.size());
     }
 
     private BooleanExpression titleCheck(String title) {
@@ -51,21 +58,37 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
     }
 
     @Override
-    public List<Article> searchByUser(Long userId) {
+    public Page<Article> searchByUser(Long userId, Pageable pageable) {
 
-        return queryFactory.select(article)
-                .from(article)
+        List<Article> result = queryFactory
+                .selectFrom(article)
                 .where(article.user.id.eq(userId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
+
+        return new PageImpl<>(result, pageable, result.size());
     }
 
     @Override
-    public List<Article> searchByBoard(Long boardId) {
+    public Page<Article> searchByBoard(Long boardId, Pageable pageable) {
 
-        return queryFactory.select(article)
+        List<Article> result = queryFactory
+                .selectFrom(article)
                 .from(article)
                 .where(article.board.id.eq(boardId))
                 .fetch();
+
+        return new PageImpl<>(result, pageable, result.size());
+    }
+
+    @Override
+    public Page<Article> searchAllArticles(Pageable pageable) {
+        List<Article> result = queryFactory
+                .selectFrom(article)
+                .fetch();
+
+        return new PageImpl<>(result, pageable, result.size());
     }
 
     @Override

@@ -13,6 +13,7 @@ import styled from "styled-components";
 import Quill from "quill";
 import "react-quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
+import customAxios from "../../util/customAxios";
 
 export default function CreatePost() {
   const navigate = useNavigate();
@@ -80,9 +81,9 @@ export default function CreatePost() {
     const content = quillInstance.current.root.innerHTML;
     console.log(title, content, boardTitle);
 
-    axios({
+    customAxios({
       method: "post",
-      url: `http://127.0.0.1:8000/api/v1/articles/`,
+      url: `/api/articles/`,
       data: {
         title,
         content,
