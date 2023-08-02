@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './AddAdvPage.module.css';
+import customAxios from '../../../util/customAxios';
 
 export default function AddAdvPage() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -27,7 +28,7 @@ export default function AddAdvPage() {
                 const img = new Image();
                 img.onload = function() {
                     if (this.width !== 970 || this.height !== 120) {
-                        alert("GIF이미지는 반드시 970x120의 크기여야 합니다.");
+                        alert("GIF이미지는 반드시 920x120의 크기여야 합니다.");
                         setInputKey(Date.now());
                         return;
                     } else {
@@ -44,7 +45,7 @@ export default function AddAdvPage() {
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
 
-                    canvas.width = 970;
+                    canvas.width = 920;
                     canvas.height = 120;
 
                     const x = this.width > canvas.width ? (this.width - canvas.width) / 2 : 0;
@@ -71,7 +72,7 @@ export default function AddAdvPage() {
                 const fileType = blob.type.split('/')[1]; // Get the file type from the MIME type
                 const file = new File([blob], `FileName.${fileType}`, { type: blob.type });
                 formData.append('file', file);
-                return axios.post('http://localhost:8080/api/ads/upload', formData);
+                return customAxios.post('/api/ads/upload', formData);
             })
             .then(res => {
                 console.log(res.data);
@@ -126,7 +127,7 @@ export default function AddAdvPage() {
                 userId: userId
             };
 
-            await axios.post('http://localhost:8080/api/ads', adData)
+            await customAxios.post('/api/ads', adData)
                 .then(res => {
                     console.log(res.data);
                     alert("광고 등록이 성공적으로 완료되었습니다.");
