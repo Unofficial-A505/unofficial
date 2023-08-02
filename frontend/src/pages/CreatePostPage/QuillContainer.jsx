@@ -170,7 +170,10 @@ const QuillContainer = () => {
         boardName,
         nickName,
         // imageList
-      }
+      },
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
     })
       .then((res) => {
         navigate(`/boards/${boardTitle}/${res.data.id}`, { replace: true });

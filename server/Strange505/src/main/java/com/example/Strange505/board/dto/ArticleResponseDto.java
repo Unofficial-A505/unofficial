@@ -14,6 +14,8 @@ public class ArticleResponseDto {
     private String content;
     private String boardName;
     private String nickName;
+    private Integer likes;
+    private Integer views;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
 }

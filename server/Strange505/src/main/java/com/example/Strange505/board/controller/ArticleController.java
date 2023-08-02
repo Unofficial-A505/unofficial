@@ -34,8 +34,17 @@ public class ArticleController {
     @PostMapping
     public ResponseEntity<?> registerArticle(@RequestBody ArticleRequestDto dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        articleService.createArticle(dto, email);
-        return new ResponseEntity<>("Article created successfully", HttpStatus.OK);
+        Article article = articleService.createArticle(dto, email);
+        ArticleResponseDto responseDto = ArticleResponseDto.builder()
+                .id(article.getId())
+                .title(article.getTitle())
+                .content(article.getContent())
+                .boardName(article.getBoard().getName())
+                .nickName(article.getNickName())
+                .createTime(article.getCreateTime())
+                .modifyTime(article.getModifyTime())
+                .build();
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
 
     }
 
@@ -74,6 +83,7 @@ public class ArticleController {
         List<ArticleResponseDto> articleResponseDtoList = articles.stream().map(findArticle ->
                 new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getNickName(),
+                        findArticle.getLikes(), findArticle.getViews(),
                         findArticle.getCreateTime(), findArticle.getModifyTime()))
                 .toList();
 
@@ -87,6 +97,7 @@ public class ArticleController {
         List<ArticleResponseDto> articleResponseDtoList = articles.stream().map(findArticle ->
                 new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getNickName(),
+                        findArticle.getLikes(), findArticle.getViews(),
                         findArticle.getCreateTime(), findArticle.getModifyTime()))
                 .toList();
 
@@ -100,6 +111,7 @@ public class ArticleController {
         List<ArticleResponseDto> result = articles.stream().map(findArticle ->
                         new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                                 findArticle.getBoard().getName(), findArticle.getNickName(),
+                                findArticle.getLikes(), findArticle.getViews(),
                                 findArticle.getCreateTime(), findArticle.getModifyTime()))
                 .toList();
 
