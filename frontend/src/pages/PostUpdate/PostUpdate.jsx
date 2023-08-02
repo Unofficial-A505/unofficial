@@ -183,7 +183,7 @@ const PostUpdate = () => {
             <p className={styles.boardTitle}>{boardTitle}</p>
             <p>글 수정</p>
           </Title>
-          <button className="btn" id={styles.createsubmitbutton}>
+          <button onClick={updatePost} className="btn" id={styles.createsubmitbutton}>
             등록하기
           </button>
         </div>

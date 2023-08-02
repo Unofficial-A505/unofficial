@@ -151,6 +151,22 @@ const commentCreate = () => {
       .catch((err) => console.log(err));
   };
 
+  const postDelete = () => {
+    console.log('post delete request')
+    axios({
+      method: "delete",
+      url: `https://unofficial.kr/api/articles/${postId}`,
+      headers: {
+        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTA1NzE4NjcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjIsInJvbGUiOiJST0xFX1VTRVIifQ.YOofxvS5cyC4WHNgQo1CqA77wwUd2fSLJTw01ubAlU8i2M7XSWoSSPcDWy7kLadmAFt2ZzcbqmX2h904Y4USYA`,
+      }
+      })
+      .then((res) => {
+        console.log(res);
+        navigate(`/boards/${boardTitle}`)
+      })
+      .catch((err) => console.log(err));
+    };
+
   const username = "9기 서울";
   const timeago = "21분 전";
   const recommended = 37;
@@ -196,7 +212,7 @@ const commentCreate = () => {
                   <HiOutlinePencilAlt size="15" />
                   update
                 </div>
-                <div className={styles.postupdateBottomtab}>
+                <div onClick={postDelete} className={styles.postupdateBottomtab}>
                   <IoTrashOutline size="15" />
                   delete
                 </div>
