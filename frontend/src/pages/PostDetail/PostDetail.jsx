@@ -192,7 +192,7 @@ const commentCreate = () => {
                 {recommended}
               </div>
               <div className={styles.postupdateBottom}>
-                <div className={styles.postupdateBottomtab}>
+                <div onClick={() => navigate(`/boards/${boardTitle}/${postId}/update`, { state : { title, content }})} className={styles.postupdateBottomtab}>
                   <HiOutlinePencilAlt size="15" />
                   update
                 </div>

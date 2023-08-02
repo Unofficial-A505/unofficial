@@ -75,3 +75,7 @@
   background-color: rgba(208, 208, 208, 0.264);  
   border: 1px solid black;
 }
+
+.footerContainer {
+  margin: 300px 0 0 0;
+}

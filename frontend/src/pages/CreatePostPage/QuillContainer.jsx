@@ -9,6 +9,8 @@ import "react-quill/dist/quill.snow.css";
 import ImageResize from "@looop/quill-image-resize-module-react";
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 import TopSpace from "../../components/TopSpace/TopSpace";
+import Footer from "../../components/Footer/Footer";
+import NavBar from "../../components/NavBar/NavBar";
 import customAxios from "../../util/customAxios";
 
 Quill.register("modules/ImageResize", ImageResize);
@@ -49,7 +51,7 @@ const QuillContainer = () => {
               [{ header: [1, 2, 3, false] }],
               [{ color: [] }],
               [{ list: 'ordered' }, { list: 'bullet' }],
-              [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
+              // [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
               ['link', 'image'],
             ],
           },
@@ -169,6 +171,7 @@ const QuillContainer = () => {
   return (
     <div>
       <TopSpace />
+      <NavBar />
 
       <div className={styles.craetecontainer}>
         <div className={styles.upmenu}>
@@ -220,6 +223,7 @@ const QuillContainer = () => {
           </button>
         </div>
       </div>
+      <div className={styles.footerContainer}><Footer /></div>
     </div>
   );
 };

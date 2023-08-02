@@ -76,6 +76,10 @@
   border: 1px solid black;
 }
 
+.footerContainer {
+  margin: 300px 0 0 0;
+}
+
 /* 곧 삭제할 css */
 
 .bottomMargin {
