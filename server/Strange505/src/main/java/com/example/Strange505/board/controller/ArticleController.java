@@ -34,8 +34,17 @@ public class ArticleController {
     @PostMapping
     public ResponseEntity<?> registerArticle(@RequestBody ArticleRequestDto dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        articleService.createArticle(dto, email);
-        return new ResponseEntity<>("Article created successfully", HttpStatus.OK);
+        Article article = articleService.createArticle(dto, email);
+        ArticleResponseDto responseDto = ArticleResponseDto.builder()
+                .id(article.getId())
+                .title(article.getTitle())
+                .content(article.getContent())
+                .boardName(article.getBoard().getName())
+                .nickName(article.getNickName())
+                .createTime(article.getCreateTime())
+                .modifyTime(article.getModifyTime())
+                .build();
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
 
     }
 
