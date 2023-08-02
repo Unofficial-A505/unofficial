@@ -27,7 +27,7 @@ export default function AddAdvPage() {
             if (file.type === 'image/gif') {
                 const img = new Image();
                 img.onload = function() {
-                    if (this.width !== 970 || this.height !== 120) {
+                    if (this.width !== 920 || this.height !== 120) {
                         alert("GIF이미지는 반드시 920x120의 크기여야 합니다.");
                         setInputKey(Date.now());
                         return;
