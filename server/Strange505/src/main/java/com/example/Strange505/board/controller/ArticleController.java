@@ -74,6 +74,7 @@ public class ArticleController {
         List<ArticleResponseDto> articleResponseDtoList = articles.stream().map(findArticle ->
                 new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getNickName(),
+                        findArticle.getLikes(), findArticle.getViews(),
                         findArticle.getCreateTime(), findArticle.getModifyTime()))
                 .toList();
 
@@ -87,6 +88,7 @@ public class ArticleController {
         List<ArticleResponseDto> articleResponseDtoList = articles.stream().map(findArticle ->
                 new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getNickName(),
+                        findArticle.getLikes(), findArticle.getViews(),
                         findArticle.getCreateTime(), findArticle.getModifyTime()))
                 .toList();
 
@@ -100,6 +102,7 @@ public class ArticleController {
         List<ArticleResponseDto> result = articles.stream().map(findArticle ->
                         new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                                 findArticle.getBoard().getName(), findArticle.getNickName(),
+                                findArticle.getLikes(), findArticle.getViews(),
                                 findArticle.getCreateTime(), findArticle.getModifyTime()))
                 .toList();
 
