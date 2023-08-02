@@ -11,6 +11,7 @@ import TopSpace from "../../components/TopSpace/TopSpace";
 
 import { FiSearch } from "@react-icons/all-files/fi/FiSearch";
 import { CgAddR } from "@react-icons/all-files/cg/CgAddR";
+import customAxios from "../../util/customAxios";
 
 export default function BoardsAll() {
   const [boardTitles, setboardTitles] = useState([]);
@@ -30,9 +31,9 @@ export default function BoardsAll() {
 
   useEffect(() => {
 
-    axios({
+    customAxios({
       method: "get",
-      url: 'https://unofficial.kr/api/boards'
+      url: '/api/boards'
     })
     .then((res) => {
       setboardTitles(res.data)

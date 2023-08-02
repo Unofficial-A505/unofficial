@@ -109,10 +109,9 @@ const QuillContainer = () => {
         method: "post",
         url: `/api/articles/image`,
         data: formData,
-        headers: { "Content-Type": "multipart/form-data" },
-        // headers: {
-        //   Authorization: `Token ${this.$store.state.token}`,
-        // }
+        headers: { "Content-Type": "multipart/form-data",
+                    // Authorization: `Token ${this.$store.state.token}`
+                  },
       })
         .then((res) => {
           console.log(res.data);
@@ -150,7 +149,10 @@ const QuillContainer = () => {
         boardName,
         nickName,
         // imageList
-      }
+      },
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
     })
       .then((res) => {
         navigate(`/boards/${boardTitle}/${res.data.id}`, { replace: true });

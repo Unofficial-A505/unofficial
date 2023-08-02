@@ -14,6 +14,7 @@ import ImageResize from "@looop/quill-image-resize-module-react";
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 
 import TopSpace from "../../components/TopSpace/TopSpace";
+import customAxios from "../../util/customAxios";
 
 Quill.register("modules/ImageResize", ImageResize);
 export default function CreatePostPage() {
@@ -150,9 +151,9 @@ export default function CreatePostPage() {
       const content = quillInstance.current.root.innerHTML;
       console.log(title, content, boardTitle);
 
-      axios({
+      customAxios({
         method: "post",
-        url: `http://127.0.0.1:8000/api/v1/articles/`,
+        url: `api/articles/`,
         data: {
           title,
           content,

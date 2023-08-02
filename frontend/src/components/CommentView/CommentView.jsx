@@ -18,6 +18,7 @@ export default function CommentView({ comment, CommentDelete, commentUpdate}){
   const [ updateState, setupdateState ] = useState(false)
   const [ recommentBox, setrecommentBox ] = useState(false)
   const [ comments, setComments ] = useState('')
+  const [ createComment, setcreateComment ] = useState('')
   const updateContent = useRef('')
   const { id, content } = comment
 
@@ -38,7 +39,7 @@ export default function CommentView({ comment, CommentDelete, commentUpdate}){
           <div>
             <span className={styles.commentIcons} onClick={() => {
               setupdateState((prev) => !prev);
-              // setUpdateComment(comment.content);
+              setcreateComment(createComment.content);
               }}>
               <span className={styles.updatetextPosition} ><HiOutlinePencilAlt />수정하기</span></span>
             <span className={styles.commentIcons} onClick={() => {CommentDelete(id)}}><span className={styles.updatetextPosition}><IoTrashOutline />삭제하기</span></span>
