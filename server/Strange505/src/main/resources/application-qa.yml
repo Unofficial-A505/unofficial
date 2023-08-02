@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://172.18.0.6:3306/ssay_qa_db?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://172.18.0.6:3306/ssafy_qa_db?serverTimezone=Asia/Seoul
     username: root
     password: strange505
   data:
