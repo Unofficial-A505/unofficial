@@ -11,6 +11,7 @@ import BestpostsWidget from "../../components/BestpostsWidget/BestpostsWidget";
 import EduGrantButton from "../../components/EduGrantButton/EduGrantsButton";
 
 import TopSpace from "../../components/TopSpace/TopSpace";
+import customAxios from "../../util/customAxios";
 
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
@@ -35,6 +36,7 @@ export default function PostDetail() {
   const [content, setContent] = useState("");
 
   const [ comments, setComments ] = useState([])
+  const [ recommendedState, setrecommendedState ] = useState(false)
   console.log('지금 코멘트', comments)
   const commentElement = useRef(null);
 
@@ -167,6 +169,38 @@ const commentCreate = () => {
       .catch((err) => console.log(err));
     };
 
+  const postRecommendedInput = () => {
+    console.log('postRecommendedInput')
+    customAxios({
+      method: "post",
+      url: `/api/ads/uploadForArticle`,
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
+    })
+    .then((res) => {
+      console.log(res)
+      setrecommendedState((prev) => !prev)
+    })
+    .catch((res) => console.log(res))
+  }
+
+  const postRecommendedDelete = () => {
+    console.log('postRecommendedDelete')
+    customAxios({
+      method: "delete",
+      url: `/api/ads/uploadForArticle`,
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
+    })
+    .then((res) => {
+      console.log(res)
+      setrecommendedState((prev) => !prev)
+    })
+    .catch((res) => console.log(res))
+  }
+
   const username = "9기 서울";
   const timeago = "21분 전";
   const recommended = 37;
@@ -203,10 +237,17 @@ const commentCreate = () => {
             </div>
 
             <div className={styles.postBottombar}>
-              <div>
-                <FaRegThumbsUp class={styles.tabIcon} size="18" />
-                {recommended}
-              </div>
+              {!recommendedState ? 
+                <div onClick={postRecommendedInput}>
+                  <FaRegThumbsUp class={styles.tabIcon} size="18" />
+                  {recommended}
+                </div>
+                :
+                <div onClick={postRecommendedDelete}>
+                  <FaRegThumbsUp class={styles.tabIcon} size="18" />
+                  {recommended}
+                </div>
+              }
               <div className={styles.postupdateBottom}>
                 <div onClick={() => navigate(`/boards/${boardTitle}/${postId}/update`, { state : { title, content }})} className={styles.postupdateBottomtab}>
                   <HiOutlinePencilAlt size="15" />

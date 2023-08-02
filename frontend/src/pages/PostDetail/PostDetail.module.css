@@ -91,6 +91,7 @@
 
 .tabIcon {
   margin: 0 8px 4px 0;
+  cursor: pointer;
 }
 
 .postcontentContainer {
