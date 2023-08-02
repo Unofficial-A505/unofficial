@@ -9,11 +9,10 @@ import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.CommentRepository;
 import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.repository.UserRepository;
-import com.example.Strange505.user.service.AuthService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
@@ -30,6 +29,7 @@ public class CommentServiceImpl implements CommentService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public void createComment(CommentRequestDto dto, String email) {
         Article article = articleRepository.getReferenceById(dto.getArticleId());
         Comment parent = commentRepository.findById(dto.getParentId()).orElse(null);
@@ -90,6 +90,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public CommentResponseDto updateComment(Long id, CommentRequestDto dto, String email) {
         User user = userRepository.findByEmail(email).orElseThrow();
         Comment comment = commentRepository.findById(id).orElseThrow(()->new RuntimeException("Comment not found"));
@@ -104,6 +105,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public void deleteComment(Long id, String email) {
         User user = userRepository.findByEmail(email).orElseThrow();
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new RuntimeException());

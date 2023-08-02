@@ -96,6 +96,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional
     public void addViewCount(Long id) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException());
         article.addView();
