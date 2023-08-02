@@ -153,9 +153,9 @@ const commentCreate = () => {
     axios({
       method: "delete",
       url: `https://unofficial.kr/api/articles/${postId}`,
-      headers: {
-        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTA1NzE4NjcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjIsInJvbGUiOiJST0xFX1VTRVIifQ.YOofxvS5cyC4WHNgQo1CqA77wwUd2fSLJTw01ubAlU8i2M7XSWoSSPcDWy7kLadmAFt2ZzcbqmX2h904Y4USYA`,
-      }
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
       })
       .then((res) => {
         console.log(res);
@@ -168,7 +168,7 @@ const commentCreate = () => {
     console.log('postRecommendedInput')
     customAxios({
       method: "post",
-      url: `/api/ads/uploadForArticle`,
+      url: `/api/likes`,
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
@@ -184,7 +184,7 @@ const commentCreate = () => {
     console.log('postRecommendedDelete')
     customAxios({
       method: "delete",
-      url: `/api/ads/uploadForArticle`,
+      url: `/api/likes`,
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
