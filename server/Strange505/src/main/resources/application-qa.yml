@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.18.0.6:3306/ssafy_qa_db?serverTimezone=Asia/Seoul
+    username: root
+    password: strange505
+  data:
+    redis:
+      host: 172.18.0.8
+      port: 6379
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+        format_sql: true
+mail:
+  base-url : "https://dev.unofficial.kr/verify?verificationCode="
+
+test: qa

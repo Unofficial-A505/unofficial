@@ -91,6 +91,7 @@
 
 .tabIcon {
   margin: 0 8px 4px 0;
+  cursor: pointer;
 }
 
 .postcontentContainer {
@@ -110,6 +111,7 @@
 
 .postupdateBottomtab {
   margin: 0 15px 0 0;
+  cursor: pointer;
 }
 
 /* comment input css */

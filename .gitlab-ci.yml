@@ -23,9 +23,23 @@ build:   # This job runs in the test stage.
     - cd ./server/Strange505
     - ./gradlew clean
     - ./gradlew build
-    - docker build -t $IMAGE_NAME .
+    - docker build -t $IMAGE_NAME --build-arg env=serve .
   only:
     - master
+
+build-dev:   # This job runs in the test stage.
+  image: openjdk:17.0.1-oraclelinux8
+  stage: build    # It only starts when the job in the build stage completes successfully.
+  variables:
+    IMAGE_NAME: strangedev505/springboot-dev
+  script:
+    - chmod -R 775 server/
+    - cd ./server/Strange505
+    - ./gradlew clean
+    - ./gradlew build
+    - docker build -t $IMAGE_NAME --build-arg env=qa .
+  only:
+    - develop
 
 npm: 
   stage: libs
@@ -61,6 +75,18 @@ deploy-was2:      # This job runs in the deploy stage.
   only: 
     - master
 
+deploy-was1-dev:      # This job runs in the deploy stage.
+  stage: deploy 
+  tags:
+    - deployer
+  script:
+    - docker stop springboot-dev || true
+    - docker rm springboot-dev || true
+    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.100 -e TZ=Asia/Seoul --name springboot-dev strangedev505/springboot-dev
+  when: on_success
+  only: 
+    - develop
+
 deploy-react:      # This job runs in the deploy stage.
   stage: deploy 
   tags:
@@ -74,11 +100,33 @@ deploy-react:      # This job runs in the deploy stage.
     - npm install
     - npm install --save-dev @babel/plugin-proposal-private-property-in-object
     - npm run build
-    - whoami
-    - rm -rf /home/ubuntu/react-build-files
-    - cp -r build /home/ubuntu/react-build-files
+    - rm -rf /home/gitlab-runner/react
+    - cp -r build /home/gitlab-runner/react
   only: 
     - master
+
+deploy-react-dev:      # This job runs in the deploy stage.
+  stage: deploy 
+  variables:
+    IMAGE_NAME: strangedev505/react-dev
+    NAME: react-dev
+  tags:
+    - deployer
+  cache:
+    paths:
+      - dist
+  script:
+    - chmod -R 775 frontend/
+    - cd frontend
+    - npm install
+    - npm install --save-dev @babel/plugin-proposal-private-property-in-object
+    - npm run build
+    - docker build -t $IMAGE_NAME
+    - docker stop $NAME || true
+    - docker rm $NAME || true
+    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.101 -e TZ=Asia/Seoul --name $NAME $IMAGE_NAME
+  only: 
+    - develop
 
 finish:
   stage: finish
@@ -87,3 +135,10 @@ finish:
     - docker restart ubuntu_nginx_1
   only: 
     - master
+
+finish-dev:
+  stage: finish
+  script:
+    - docker restart ubuntu_nginx_1
+  only: 
+    - develop

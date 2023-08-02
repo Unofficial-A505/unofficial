@@ -3,6 +3,7 @@ import store from '../store/store';
 
 const customAxios = axios.create({
     baseURL: 'https://unofficial.kr',
+    //baseURL: 'https://localhost:8080'
 });
 
 // Add a request interceptor

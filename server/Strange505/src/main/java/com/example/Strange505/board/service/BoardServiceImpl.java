@@ -4,7 +4,7 @@ import com.example.Strange505.board.domain.Board;
 import com.example.Strange505.board.dto.BoardRequestDto;
 import com.example.Strange505.board.dto.BoardResponseDto;
 import com.example.Strange505.board.repository.BoardRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
 
@@ -23,6 +23,7 @@ public class BoardServiceImpl implements BoardService {
 //    private final ArticleRepository articleRepository;
 
     @Override
+    @Transactional
     public BoardResponseDto createBoard(BoardRequestDto dto) {
         Board board = dto.dtoToEntity(dto);
         Board save = boardRepository.save(board);
@@ -30,6 +31,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @Transactional
     public BoardResponseDto updateBoard(Long id, BoardRequestDto dto) {
         Board board = boardRepository.findById(id).orElseThrow(() -> new RuntimeException("Board not found"));
         board.update(dto.getName(), LocalDateTime.now());

@@ -37,9 +37,14 @@ import CreatePostPage from "./pages/CreatePostPage/QuillContainer";
 // import CreatePostPage from './pages/CreatePostPage/CreatePost'
 
 import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage"
+import WebRTC from "./pages/WebRtcPage/WebRtcPage"
 
 const router = createBrowserRouter([
+  {
+    path: "/web-rtc",
+    element: <WebRTC />,
+  },
   {
     path: "/verify",
     element: <EmailVerifyPage />,
@@ -110,9 +115,7 @@ const router = createBrowserRouter([
           { path: ":boardTitle/search/:keyword", element: <BoardSearchView /> },
         ],
       },
-      { path: "boards/:boardTitle/create", element: <CreatePostPage /> },
       { path: "boards/:boardTitle/:postId", element: <PostDetail /> },
-      { path: "boards/:boardTitle/:postId/update", element: <PostUpdate /> },
       { path: "boards/search/:keyword", element: <SearchView /> },
       {
         path: "forgot-password",
@@ -121,6 +124,8 @@ const router = createBrowserRouter([
     ],
   },
   { path: "/user/advertisement/form", element: <AddAdvPage /> },
+  { path: "boards/:boardTitle/create", element: <CreatePostPage /> },
+  { path: "boards/:boardTitle/:postId/update", element: <PostUpdate /> },
 ]);
 
 export default router;
