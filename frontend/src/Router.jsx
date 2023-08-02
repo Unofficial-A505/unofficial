@@ -50,10 +50,6 @@ const router = createBrowserRouter([
     element: <EmailVerifyPage />,
   },
   {
-    path: "/forgot-password",
-    element: <ForgotPasswordPage />,
-  },
-  {
     path: "/signup",
     element: <Signup />,
     children: [
@@ -121,6 +117,10 @@ const router = createBrowserRouter([
       },
       { path: "boards/:boardTitle/:postId", element: <PostDetail /> },
       { path: "boards/search/:keyword", element: <SearchView /> },
+      {
+        path: "forgot-password",
+        element: <ForgotPasswordPage />
+      },
     ],
   },
   { path: "/user/advertisement/form", element: <AddAdvPage /> },
