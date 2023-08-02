@@ -29,10 +29,10 @@ public class CommentServiceImpl implements CommentService {
     private final UserRepository userRepository;
 
     @Override
-    public void createComment(Long userId, CommentRequestDto dto) {
+    public void createComment(CommentRequestDto dto, String email) {
         Article article = articleRepository.getReferenceById(dto.getArticleId());
         Comment parent = commentRepository.findById(dto.getParentId()).orElse(null);
-        User user = userRepository.findById(userId).orElseThrow(()->new RuntimeException("댓글 생성 중: 사용자 아이디 없음"));
+        User user = userRepository.findByEmail(email).orElseThrow();
         Comment comment = null;
         if (parent == null) {
             comment = Comment.builder()
@@ -76,7 +76,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentResponseDto> getCommentByUser(Long userId) {
+    public List<CommentResponseDto> getCommentByUser(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
+        Long userId = user.getId();
         List<Comment> list = commentRepository.searchByUser(userId);
         List<CommentResponseDto> dtoList = new ArrayList<>();
         list.stream().forEach(findByArticle -> dtoList.add(new CommentResponseDto(
@@ -87,21 +89,30 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentResponseDto updateComment(Long id, CommentRequestDto dto) {
+    public CommentResponseDto updateComment(Long id, CommentRequestDto dto, String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
         Comment comment = commentRepository.findById(id).orElseThrow(()->new RuntimeException("Comment not found"));
-        comment.update(dto.getContent(), LocalDateTime.now());
-        Comment save = commentRepository.save(comment);
-        return new CommentResponseDto(save);
+        if (user.getId() == comment.getUser().getId()) {
+            comment.update(dto.getContent(), LocalDateTime.now());
+            Comment save = commentRepository.save(comment);
+            return new CommentResponseDto(save);
+        } else {
+            return null;
+        }
+
     }
 
     @Override
-    public void deleteComment(Long id) {
+    public void deleteComment(Long id, String email) {
+        User user = userRepository.findByEmail(email).orElseThrow();
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new RuntimeException());
-        comment.remove();
-
-        List<Comment> removableCommentList = comment.findRemovableList();
-        log.info("removeList = {}", removableCommentList);
-        commentRepository.deleteAll(removableCommentList);
-        System.out.println("서비스단");
+        if (user.getId() == comment.getUser().getId()) {
+            comment.remove();
+            List<Comment> removableCommentList = comment.findRemovableList();
+            log.info("removeList = {}", removableCommentList);
+            commentRepository.deleteAll(removableCommentList);
+        } else {
+            throw new RuntimeException("작성자만 삭제 가능합니다.");
+        }
     }
 }
