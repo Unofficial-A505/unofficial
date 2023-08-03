@@ -15,13 +15,6 @@ import { useSelector } from 'react-redux';
 const queryClient = new QueryClient();
 
 function App() {
-
-  const authUser = useSelector((state) => state.authUser)
-  useEffect(() => {
-    console.log('accessToken', authUser)
-    console.log("REFRESH_TOKEN", localStorage.getItem("REFRESH_TOKEN"))
-  }, [authUser])
-
   return (
     <div className="App">
       <NavBar />
