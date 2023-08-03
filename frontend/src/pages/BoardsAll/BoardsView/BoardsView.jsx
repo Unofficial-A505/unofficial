@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PostsView from "../../../components/PostView/PostView";
+import customAxios from "../../../util/customAxios";
 
 export default function BoardsView() {
   const [posts, setPosts] = useState([]);
@@ -13,9 +14,9 @@ export default function BoardsView() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios({
+    customAxios({
       method: "get",
-      url: `https://unofficial.kr/api/articles`,
+      url: `/api/articles`,
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
