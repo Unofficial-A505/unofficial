@@ -33,6 +33,7 @@ const Title = styled.h3`
 const PostUpdate = () => {
   const navigate = useNavigate();
   const { boardTitle } = useParams();
+  const { postId } = useParams();
   const [value, setValue] = useState("");
   // const [ updatetitle, setupdateTitle ] = useState("");
   const TitleElement = useRef(null);
@@ -145,13 +146,17 @@ const PostUpdate = () => {
   const updatePost = () => {
     const title = TitleElement.current.value;
     const content = quillElement.current.editor.root.innerHTML;
+    const boardName = boardTitle;
+    const id = postId;
     console.log(title, content, boardTitle);
 
-    axios({
-      method: "post",
-      url: `http://127.0.0.1:8000/api/v1/articles/`,
+    customAxios({
+      method: "put",
+      url: `/api/articles/${postId}`,
       // url: `http://70.12.247.35:8080/files/articleTest`,
       data: {
+        id,
+        boardName,
         title,
         content,
       },
@@ -160,7 +165,7 @@ const PostUpdate = () => {
       // }
     })
       .then((res) => {
-        navigate(`/boards/${boardTitle}/${res.data.id}`, { replace: true });
+        navigate(`/boards/${boardTitle}/${postId}`, { replace: true });
         console.log(res.data);
       })
       .catch((err) => {

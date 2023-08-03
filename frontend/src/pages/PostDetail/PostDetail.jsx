@@ -32,8 +32,8 @@ export default function PostDetail() {
   const navigate = useNavigate();
   const { boardTitle } = useParams();
   const { postId } = useParams();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [ title, setTitle] = useState("");
+  const [ content, setContent] = useState("");
   const [ createcomment, setcreateComment] = useState("");
   const [ comments, setComments ] = useState([])
   const [ recommendedState, setrecommendedState ] = useState(false)
@@ -64,7 +64,7 @@ export default function PostDetail() {
       // }
     })
       .then((res) => {
-        console.log(res.data);
+        console.log('detail', res.data);
         setTitle(res.data.title);
         setContent(res.data.content);
       })
@@ -104,7 +104,6 @@ const commentCreate = () => {
       // }
     })
     .then((res) => {
-      console.log("댓글 불러오기!!!")
       console.log(res);
       // commentElement.current.value = ''
       setcreateComment("")
@@ -150,12 +149,12 @@ const commentCreate = () => {
 
   const postDelete = () => {
     console.log('post delete request')
-    axios({
+    customAxios({
       method: "delete",
-      url: `https://unofficial.kr/api/articles/${postId}`,
-      headers: {
-        Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTEwNjc3MzksInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjE0LCJyb2xlIjoiUk9MRV9BRE1JTiJ9.Z_SHpW9_1WQbswqnR4ADZqGNAphQjbEh88uBt2W_BVzKndwCQ4IUkwy7qIp-EuiOhXCWKB2nbR_O71RehedxXw'
-      }
+      url: `/api/articles/${postId}`,
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
       })
       .then((res) => {
         console.log(res);
@@ -165,10 +164,12 @@ const commentCreate = () => {
     };
 
   const postRecommendedInput = () => {
+    const articleId = postId;
     console.log('postRecommendedInput')
     customAxios({
       method: "post",
-      url: `/api/ads/uploadForArticle`,
+      url: `/api/likes`,
+      data: { articleId},
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
@@ -180,21 +181,21 @@ const commentCreate = () => {
     .catch((res) => console.log(res))
   }
 
-  const postRecommendedDelete = () => {
-    console.log('postRecommendedDelete')
-    customAxios({
-      method: "delete",
-      url: `/api/ads/uploadForArticle`,
+  // const postRecommendedDelete = () => {
+  //   console.log('postRecommendedDelete')
+  //   customAxios({
+  //     method: "delete",
+  //     url: `/api/likes`,
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
-    })
-    .then((res) => {
-      console.log(res)
-      setrecommendedState((prev) => !prev)
-    })
-    .catch((res) => console.log(res))
-  }
+  //   })
+  //   .then((res) => {
+  //     console.log(res)
+  //     setrecommendedState((prev) => !prev)
+  //   })
+  //   .catch((res) => console.log(res))
+  // }
 
   const username = "9기 서울";
   const timeago = "21분 전";
@@ -232,7 +233,7 @@ const commentCreate = () => {
             </div>
 
             <div className={styles.postBottombar}>
-              {!recommendedState ? 
+              {/* {!recommendedState ? 
                 <div onClick={postRecommendedInput}>
                   <FaRegThumbsUp class={styles.tabIcon} size="18" />
                   {recommended}
@@ -242,7 +243,11 @@ const commentCreate = () => {
                   <FaRegThumbsUp class={styles.tabIcon} size="18" />
                   {recommended}
                 </div>
-              }
+              } */}
+              <div onClick={postRecommendedInput}>
+                  <FaRegThumbsUp class={styles.tabIcon} size="18" />
+                  {recommended}
+                </div>
               <div className={styles.postupdateBottom}>
                 <div onClick={() => navigate(`/boards/${boardTitle}/${postId}/update`, { state : { title, content }})} className={styles.postupdateBottomtab}>
                   <HiOutlinePencilAlt size="15" />
@@ -284,7 +289,7 @@ const commentCreate = () => {
             <hr />
             {comments.map((comment, index) =>
               <div key={index}> 
-                <CommentView comment={comment} CommentDelete={CommentDelete} commentUpdate={commentUpdate}/>
+                <CommentView comment={comment} CommentDelete={CommentDelete} commentUpdate={commentUpdate} postId={postId}/>
               </div>
             )}
           </div>

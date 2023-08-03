@@ -27,42 +27,44 @@ public class ArticleLikeServiceImpl implements ArticleLikeService {
     public final BestArticleRepository bestArticleRepository;
 
     @Override
-    public void like(ArticleLikeRequestDto dto) {
+    public void like(ArticleLikeRequestDto dto, String email) {
         Article article = articleRepository.findById(dto.getArticleId())
                 .orElseThrow(() -> new NoResultException("게시글이 존재하지 않습니다."));
-        User user = userRepository.findById(dto.getUserId())
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NoResultException("사용자가 존재하지 않습니다."));
 
-
+        // 이미 좋아요 한 경우 다시 누르면 좋아요 취소
         if (articleLikeRepository.findByArticleAndUser(article, user).isPresent()) {
-            throw new NoResultException();
+            ArticleLike articleLike = articleLikeRepository.findByArticleAndUser(article, user)
+                    .orElseThrow(() -> new NoResultException());
+            articleLikeRepository.delete(articleLike);
+            articleRepository.subLikeCount(article);
+        } else {
+            ArticleLike articleLike = ArticleLike.builder()
+                    .article(article)
+                    .user(user)
+                    .build();
+
+            articleLikeRepository.save(articleLike);
+            articleRepository.addLikeCount(article);
+            // 추천수 10 이상이면 베스트 게시글에 저장
+            if (article.getLikes() == 10) {
+                bestArticleRepository.save(BestArticle.builder().article(article).build());
+            }
         }
 
-
-        ArticleLike articleLike = ArticleLike.builder()
-                .article(article)
-                .user(user)
-                .build();
-
-
-        articleLikeRepository.save(articleLike);
-        articleRepository.addLikeCount(article);
-        // 추천수 10 이상이면 베스트 게시글에 저장
-        if (article.getLikes() == 10) {
-            bestArticleRepository.save(BestArticle.builder().article(article).build());
-        }
     }
 
-    @Override
-    public void cancel(ArticleLikeRequestDto dto) {
-        Article article = articleRepository.findById(dto.getArticleId())
-                .orElseThrow(() -> new NoResultException("게시글이 존재하지 않습니다."));
-        User user = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new NoResultException("사용자가 존재하지 않습니다."));
-        ArticleLike articleLike = articleLikeRepository.findByArticleAndUser(article, user)
-                .orElseThrow(() -> new NoResultException());
-
-        articleLikeRepository.delete(articleLike);
-        articleRepository.subLikeCount(article);
-    }
+//    @Override
+//    public void cancel(ArticleLikeRequestDto dto) {
+//        Article article = articleRepository.findById(dto.getArticleId())
+//                .orElseThrow(() -> new NoResultException("게시글이 존재하지 않습니다."));
+//        User user = userRepository.findById(dto.getUserId())
+//                .orElseThrow(() -> new NoResultException("사용자가 존재하지 않습니다."));
+//        ArticleLike articleLike = articleLikeRepository.findByArticleAndUser(article, user)
+//                .orElseThrow(() -> new NoResultException());
+//
+//        articleLikeRepository.delete(articleLike);
+//        articleRepository.subLikeCount(article);
+//    }
 }

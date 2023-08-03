@@ -8,10 +8,11 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class BoardResponseDto {
-    private String id;
+    private Long id;
     private String name;
 
     public BoardResponseDto(Board board) {
+        this.id = board.getId();
         this.name = board.getName();
     }
 }
