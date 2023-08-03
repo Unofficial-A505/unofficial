@@ -5,8 +5,7 @@ import styles from './Login.module.css'
 import logo from './../../assets/images/mobile_logo.png'
 import { setEmail } from './../../store/signupSlice'
 import { setAccessToken, setAuthUserEmail } from './../../store/loginSlice'
-import customAxios from '../../util/customAxios'
-
+import axios from 'axios'
 
 export default function Login({ setModalOpen }) {
 
@@ -37,7 +36,7 @@ export default function Login({ setModalOpen }) {
 
   const requestLogin = async () => {
     try {
-      const response = await customAxios.post('/api/auth/login', {
+      const response = await axios.post(`${process.env.REACT_APP_SERVER}/api/auth/login`, {
         email: userEmail,
         password: userPassword,
       });
@@ -66,7 +65,7 @@ export default function Login({ setModalOpen }) {
 
       <div className={styles.container}>
         <div className='d-flex justify-content-between mb-3'>
-          <img src={logo} width='80' height='80' alt="whale" />
+          <img src={logo} width='80' height='80' alt="mobile_logo" />
           <div className='d-flex flex-column-reverse'>
             <p className='mb-0'>지금 <b className='fs-6 fw-bold text-dark'>언오피셜</b>을 시작하세요!</p>
           </div>
