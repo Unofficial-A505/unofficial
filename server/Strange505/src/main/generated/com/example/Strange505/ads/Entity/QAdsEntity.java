@@ -19,7 +19,7 @@ public class QAdsEntity extends EntityPathBase<AdsEntity> {
 
     public static final QAdsEntity adsEntity = new QAdsEntity("adsEntity");
 
-    public final BooleanPath adminConfirmed = createBoolean("adminConfirmed");
+    public final EnumPath<AdStatus> adminConfirmed = createEnum("adminConfirmed", AdStatus.class);
 
     public final NumberPath<Integer> adsCost = createNumber("adsCost", Integer.class);
 
