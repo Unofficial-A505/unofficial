@@ -18,7 +18,7 @@ export default function NavBar() {
   }
   const DEBUGRTC = () => {
     Swal.fire({
-      title: '작동중',
+      title: '공사중',
       text: '죄송합니다. 아직 업데이트 중입니다.',
       imageUrl: 'https://505bucket.s3.ap-northeast-2.amazonaws.com/static/Starnge505_alert2.png',
       imageWidth: 400,

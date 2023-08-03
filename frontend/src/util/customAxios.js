@@ -9,7 +9,7 @@ const customAxios = axios.create({
 customAxios.interceptors.request.use(
     (config) => {
         const state = store.getState();
-        const accessToken = state.accessToken; // Replace with your access token path in Redux
+        const accessToken = state.authUser.accessToken; // Replace with your access token path in Redux
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }

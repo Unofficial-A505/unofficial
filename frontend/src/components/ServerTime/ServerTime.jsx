@@ -7,7 +7,7 @@ function ServerTime() {
   const location = useLocation();
 
   useEffect(() => {
-    fetch("http://worldtimeapi.org/api/timezone/asia/seoul", {
+    fetch("https://worldtimeapi.org/api/timezone/asia/seoul", {
       cache: "no-store",
     })
       .then((response) => response.json())

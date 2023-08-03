@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './AddAdvPage.module.css';
 import customAxios from '../../../util/customAxios';
+import { useNavigate } from "react-router-dom";
 
 export default function AddAdvPage() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -9,10 +10,10 @@ export default function AddAdvPage() {
     const [redirectUrl, setRedirectUrl] = useState("");
     const [duration, setDuration] = useState("");
     const [adsCost, setAdsCost] = useState("");
-    const userId = 1;
-    const userPoint = 300;
+    const [userId, setUserId] = useState(null);
+    const [userPoint, setUserPoint] = useState(null);
     const [inputKey, setInputKey] = useState(Date.now());
-
+    const navigate = useNavigate();
     const onFileChange = event => {
         if (event.target.files.length === 0) {
             console.log("광고 이미지가 없습니다.");
@@ -27,7 +28,7 @@ export default function AddAdvPage() {
             if (file.type === 'image/gif') {
                 const img = new Image();
                 img.onload = function() {
-                    if (this.width !== 970 || this.height !== 120) {
+                    if (this.width !== 920 || this.height !== 120) {
                         alert("GIF이미지는 반드시 920x120의 크기여야 합니다.");
                         setInputKey(Date.now());
                         return;
@@ -61,7 +62,7 @@ export default function AddAdvPage() {
     };
 
     const closeWindow = () => {
-      window.close();
+        navigate('/user/advertisement/myadv');
     };
 
     const uploadToServer = async () => {
@@ -98,25 +99,48 @@ export default function AddAdvPage() {
       setDuration(value);
       setAdsCost(value * 100);
   };
+    useEffect(() => {
+    setAdsCost(duration * 100);  // update adsCost whenever duration changes
+    }, [duration]);
 
     useEffect(() => {
-        setAdsCost(duration * 100);  // update adsCost whenever duration changes
-    }, [duration]);
+        const fetchUserInfo = async () => {
+            try {
+                const response = await customAxios.get('/api/users/user'); // You need to adjust this endpoint
+                setUserId(response.data.id);
+                setUserPoint(response.data.point);
+                //console.log("User ID:", response.data.id);
+                //console.log("User Point:", response.data.point);
+            } catch (error) {
+                console.error('There was an error!', error);
+            }
+        }
+
+        fetchUserInfo();
+    }, []); // Only fetch user info once
 
     const submitForm = async (event) => {
         event.preventDefault();
-        if (!selectedFile) {
-            alert("이미지를 먼저 업로드해주세요.");
-            return; // Return early to stop the rest of the function
-        }
-        if (adsCost > userPoint) {
-            alert("광고 비용이 현재 사용 가능한 포인트보다 높습니다. 광고 비용을 조정해주세요.");
-            return; // Return early to stop the rest of the function
-        }
         try {
+            // const response = await customAxios.get('/api/users/user'); // You need to adjust this endpoint
+            // setUserId(response.data.id);
+            // setUserPoint(response.data.point);
+            // console.log("User ID:", response.data.id);
+            // console.log("User Point:", response.data.point);
+    
+            if (!selectedFile) {
+                alert("이미지를 먼저 업로드해주세요.");
+                return; // Return early to stop the rest of the function
+            }
+    
+            if (adsCost > userPoint /*response.data.point*/) {
+                alert("광고 비용이 현재 사용 가능한 포인트보다 높습니다. 광고 비용을 조정해주세요.");
+                return; // Return early to stop the rest of the function
+            }
+    
             const uploadedImagePath = await uploadToServer();
             let endDate = new Date();
-            endDate.setDate(endDate.getDate() + parseInt(duration));
+            endDate.setDate(endDate.getDate() + parseInt(duration)+1);
 
             const adData = {
                 imagePath: uploadedImagePath,
@@ -124,12 +148,19 @@ export default function AddAdvPage() {
                 endDate: endDate.toISOString(),
                 adminConfirmed: "PENDING",
                 adsCost: adsCost,
-                userId: userId
+                userId: userId//response.data.id
             };
-
+            const adCostNeg = -Math.abs(adsCost);
+            await customAxios.put('/api/users/point', { point: adCostNeg })
+            .then(response => {
+                //console.log(response.data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
             await customAxios.post('/api/ads', adData)
                 .then(res => {
-                    console.log(res.data);
+                    //console.log(res.data);
                     alert("광고 등록이 성공적으로 완료되었습니다.");
                     closeWindow();
                 })
@@ -137,7 +168,7 @@ export default function AddAdvPage() {
                     console.log(err);
                     alert("광고 등록 중 오류가 발생했습니다.");
                 });
-
+    
         } catch (err) {
             alert("오류가 발생했습니다.");
         }
@@ -165,7 +196,9 @@ export default function AddAdvPage() {
                     <div>광고진행 기간(일)&nbsp;&nbsp; <input style={{width:'300px'}} type="number" placeholder="ex) 3" onChange={onDurationChange} /></div>
                     
                 </div>
-
+                <div className={styles.Advurl}>
+                    <div>나의 마일리지&nbsp;&nbsp;  <input type="number" value={userPoint} readOnly /></div>
+                </div>
                 <div className={styles.Advurl}>
                     <div>필요 마일리지&nbsp;&nbsp;  <input type="number" value={adsCost} readOnly /></div>
                 </div>
@@ -178,7 +211,7 @@ export default function AddAdvPage() {
                 </div>
                 <div>
                     <button style={{backgroundColor: 'skyblue', color:"#ffffff"}} onClick={submitForm}>광고 신청</button> &nbsp;
-                    <button style={{backgroundColor: '#ffffff'}} onClick={closeWindow}>취소</button>
+                    <button onClick={() => { navigate('/user/advertisement/myadv'); }} style={{backgroundColor: '#ffffff'}}>취소</button>
                 </div>
             </div>
         </div>

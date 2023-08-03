@@ -72,6 +72,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: "", element: <MainPage /> },
+      { path: "", element: <AddAdvPage /> },
       {
         // path: ':userId',
         path: "user",
