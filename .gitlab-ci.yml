@@ -133,7 +133,7 @@ deploy-react-dev: # This job runs in the deploy stage.
     - cd frontend
     - npm install
     - npm install --save-dev @babel/plugin-proposal-private-property-in-object
-    - npm run build
+    - npm run build:dev
     - docker build -t $IMAGE_NAME --build-arg env=qa .
     - docker stop $NAME || true
     - docker rm $NAME || true

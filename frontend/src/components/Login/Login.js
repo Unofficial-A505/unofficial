@@ -1,20 +1,13 @@
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styles from './Login.module.css'
 import logo from './../../assets/images/mobile_logo.png'
 import { setEmail } from './../../store/signupSlice'
 import { setAccessToken, setAuthUserEmail } from './../../store/loginSlice'
-import customAxios from '../../util/customAxios'
-
+import axios from 'axios'
 
 export default function Login({ setModalOpen }) {
-
-  const authUser = useSelector((state) => state.authUser)
-
-  useEffect(() => {
-    console.log(authUser)
-  }, [authUser])
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -43,14 +36,14 @@ export default function Login({ setModalOpen }) {
 
   const requestLogin = async () => {
     try {
-      const response = await customAxios.post('/api/auth/login', {
+      const response = await axios.post(`${process.env.REACT_APP_SERVER}/api/auth/login`, {
         email: userEmail,
         password: userPassword,
       });
       // 성공 ? 토큰 저장 && 모달 off
-      dispatch(setAuthUserEmail(userEmail))
-      dispatch(setAccessToken(response.headers.authorization));
-      localStorage.setItem('REFRESH_TOKEN', response.headers.Refresh_token);
+      dispatch(setAuthUserEmail(userEmail));
+      dispatch(setAccessToken(response.headers.authorization.split(" ")[1]));
+      localStorage.setItem('REFRESH_TOKEN', response.headers.refresh_token);
       setModalOpen(false)
     }
     catch (err) {
@@ -72,7 +65,7 @@ export default function Login({ setModalOpen }) {
 
       <div className={styles.container}>
         <div className='d-flex justify-content-between mb-3'>
-          <img src={logo} width='80' height='80' alt="whale" />
+          <img src={logo} width='80' height='80' alt="mobile_logo" />
           <div className='d-flex flex-column-reverse'>
             <p className='mb-0'>지금 <b className='fs-6 fw-bold text-dark'>언오피셜</b>을 시작하세요!</p>
           </div>

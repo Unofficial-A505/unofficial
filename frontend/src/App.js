@@ -9,11 +9,12 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const queryClient = new QueryClient();
 
 function App() {
-
   return (
     <div className="App">
       <NavBar />
