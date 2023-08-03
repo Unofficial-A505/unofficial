@@ -22,7 +22,7 @@ export default function BoardsView() {
     })
       .then((res) => {
         console.log(res.data);
-        setPosts(res.data);
+        setPosts(res.data.content);
       })
       .catch((err) => console.log(err));
     return () => {
