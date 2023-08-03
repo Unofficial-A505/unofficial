@@ -7,18 +7,29 @@ import { FiActivity } from "@react-icons/all-files/fi/FiActivity";
 import { RiAdvertisementLine } from "@react-icons/all-files/ri/RiAdvertisementLine";
 import { BiLogOut } from "@react-icons/all-files/bi/BiLogOut";
 
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import customAxios from "../../util/customAxios";
+import { useSelector } from "react-redux";
 
 export default function MyPage() {
-  const location = useLocation();
-  const path = location.pathname;
+  const navigate = useNavigate();
+  const authUser = useSelector((state) => state.authUser);
+  const userEmail = authUser.authUserEmail;
+
+  useEffect(() => {
+    if (!userEmail) {
+      navigate("/");
+    }
+  });
 
   // 현재 경로에서 'activity'나 'advertisement' 문자열이 있는지 확인
+  const location = useLocation();
+  const path = location.pathname;
   const isActiveActivity = path.includes("activity");
   const isActiveAdvertisement = path.includes("advertisement");
-  const isManagement = path.includes("management");//관리자
+  const isManagement = path.includes("management");  //관리자
   const [role, setRole] = useState(null);
+
   useEffect(() => {
     const getUserRole = async () => {
       try {
@@ -30,13 +41,14 @@ export default function MyPage() {
     };
     getUserRole();
   }, []);
+
   let activeTab;
   if (isActiveActivity) {
     activeTab = "활동";
   } else if (isActiveAdvertisement) {
     activeTab = "광고";
   } else if (isManagement) {
-    activeTab = "관리자"; // This is added for management
+    activeTab = "관리자"; // 관리자
   } else {
     activeTab = "정보";
   }

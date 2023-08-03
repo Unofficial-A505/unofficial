@@ -1,16 +1,27 @@
-.swaebuttonContainer {
-  width: 100%;
+.buttonTitle {
+  font-feature-settings: 'clig' off, 'liga' off;
+  /* font-family: Mako; */
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 450;
+  line-height: 100%;
+  margin-left: 5px;
+  margin-bottom: 0;
+}
+.swaeContainer {
+  width: 30%;
   height: 3.4rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 5px 0 0 5px;
   background: #fff;
   border: 1px solid #eeeeee;
-  box-shadow: 0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04);
+  border: 0;
+  box-shadow: 0 0 0 1.5px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04)
 }
-.swaebuttonContainer:hover {
-  box-shadow: 2px 2px 3px rgba(167, 167, 167, 0.5);
+.swaeContainer:hover {
+  box-shadow: 2px 2px 1px rgba(167, 167, 167, 0.5);
 }
 .swaeLogo {
   width: 22px;
@@ -22,14 +33,51 @@
   background-position: center;
   background-repeat: no-repeat;
 }
-.sweabuttonTitle {
-  color: #000;
-  font-feature-settings: 'clig' off, 'liga' off;
-  /* font-family: Mako; */
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 450;
-  line-height: 100%;
-  margin-left: 5px;
-  margin-bottom: 0;
+.baekjoonContainer {
+  width: 30%;
+  height: 3.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #eeeeee;
+  border: 0;
+  box-shadow: 0 0 0 1.5px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04);
+}
+.baekjoonContainer:hover {
+  box-shadow: 2px 2px 1px rgba(167, 167, 167, 0.5);
+}
+.baekjoonLogo {
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  background-image: url(./../../assets/images/baekjoon_logo.png);
+  background-color: #fff;
+  background-size: 22px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.programmersContainer {
+  width: 40%;
+  height: 3.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 5px 5px 0;
+  background: #fff;
+  border: 1px solid #eeeeee;
+  border: 0;
+  box-shadow: 0 0 0 1.5px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04);
+}
+.programmersContainer:hover {
+  box-shadow: 2px 2px 1px rgba(167, 167, 167, 0.5);
+}
+.programmersLogo {
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  background-image: url(./../../assets/images/programmers_logo.jpeg);
+  background-size: 22px;
+  background-position: center;
+  background-repeat: no-repeat;
 }
