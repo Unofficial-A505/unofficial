@@ -87,6 +87,8 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
     public Page<Article> searchAllArticles(Pageable pageable) {
         List<Article> result = queryFactory
                 .selectFrom(article)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
 
         return new PageImpl<>(result, pageable, result.size());

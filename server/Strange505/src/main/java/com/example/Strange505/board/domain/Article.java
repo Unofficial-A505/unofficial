@@ -24,9 +24,10 @@ public class Article {
     @GeneratedValue
     @Column(name = "article_id")
     private Long id;
+    @Column(length = 100, nullable = false)
     private String title;
 
-    @Column(length = 10000)
+    @Column(length = 10000, nullable = false)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
