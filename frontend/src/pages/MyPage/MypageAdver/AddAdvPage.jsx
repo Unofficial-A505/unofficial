@@ -140,7 +140,7 @@ export default function AddAdvPage() {
     
             const uploadedImagePath = await uploadToServer();
             let endDate = new Date();
-            endDate.setDate(endDate.getDate() + parseInt(duration));
+            endDate.setDate(endDate.getDate() + parseInt(duration)+1);
 
             const adData = {
                 imagePath: uploadedImagePath,

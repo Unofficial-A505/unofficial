@@ -20,7 +20,8 @@ export default function MyAdvertisement() {
         const userId = userResponse.data.id;
         //console.log("aaaaaaaaaaaaa",userId);
         const adsResponse = await customAxios.get(`/api/ads/list/${userId}`);
-        setAds(adsResponse.data);
+        const sortedAds = adsResponse.data.sort((a, b) => b.adsId - a.adsId); // Sort by descending order of adsId
+        setAds(sortedAds);
       } catch (error) {
         console.error('There was an error!', error);
       }
@@ -45,22 +46,31 @@ export default function MyAdvertisement() {
       </div>
       <div className={styles.temp}>
         <div style={containerStyle}>
-          {ads.map(ad => (
-            // 이 부분에 각 광고를 표시하는 코드를 작성합니다.
-            // 예를 들어 광고 제목만 표시하는 경우:
-            <div key={ad.adsId}>
-            <img src={ad.imagePath} alt="Ad" />
-            <p>광고 URL: {ad.redirectUrl} || 광고 날짜: {ad.endDate}까지 &nbsp; &nbsp;
-              {
-                new Date(ad.endDate) <= new Date() ? <span className={styles.rejected}>만료됨</span> :
-                ad.adminConfirmed === 'PENDING' ? <span className={styles.pending}>승인 대기중...</span> :
-                ad.adminConfirmed === 'APPROVED' ? <span className={styles.approved}>승인 완료</span> :
-                ad.adminConfirmed === 'REJECTED' ? <span className={styles.rejected}>거부됨</span> :
-                '상태 알 수 없음'
-              }
-            </p>
-            </div>
-          ))}
+        {ads.map(ad => {
+  // Convert endDate to a Date object
+  let endDate = new Date(ad.endDate);
+
+  // Subtract 1 day
+  endDate.setDate(endDate.getDate() - 1);
+
+  // Format the date as a string
+  const dateString = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`;
+
+  return (
+    <div key={ad.adsId}>
+      <img src={ad.imagePath} alt="Ad" />
+      <p>광고 URL: {ad.redirectUrl} || 광고 날짜: {dateString}까지 &nbsp; &nbsp;
+      {
+        new Date(ad.endDate) <= new Date() ? <span className={styles.rejected}>만료됨</span> :
+        ad.adminConfirmed === 'PENDING' ? <span className={styles.pending}>승인 대기중...</span> :
+        ad.adminConfirmed === 'APPROVED' ? <span className={styles.approved}>승인 완료</span> :
+        ad.adminConfirmed === 'REJECTED' ? <span className={styles.rejected}>거부됨</span> :
+        '상태 알 수 없음'
+      }
+      </p>
+    </div>
+  )
+})}
         </div>
       </div>
     </div>
