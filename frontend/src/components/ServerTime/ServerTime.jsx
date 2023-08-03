@@ -18,7 +18,6 @@ function ServerTime() {
       setTime((prevTime) => new Date(prevTime.getTime() + 1000));
     }, 1000);
 
-    // 컴포넌트 unmount시에 interval 정리
     return () => clearInterval(intervalId);
   }, [location]);
 
@@ -28,12 +27,28 @@ function ServerTime() {
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const seconds = date.getSeconds().toString().padStart(2, "0");
-
     const closingTime =
       (hours === "17" && minutes === "59" && seconds >= "50") ||
       (hours === "18" && minutes === "00" && seconds <= "00");
-
     const redText = closingTime ? { color: "red" } : {};
+    let remainingTime = "";
+
+    if (hours >= "08" && hours < "18") {
+      const now = date.getTime();
+      const endOfDay = new Date(date);
+      endOfDay.setHours(18, 0, 0); // Set the end of day to 18:00:00
+      const diff = endOfDay.getTime() - now;
+      const remainingHours = Math.floor(diff / (1000 * 60 * 60))
+        .toString()
+        .padStart(2, "0");
+      const remainingMinutes = Math.floor((diff / (1000 * 60)) % 60)
+        .toString()
+        .padStart(2, "0");
+      const remainingSeconds = Math.floor((diff / 1000) % 60)
+        .toString()
+        .padStart(2, "0");
+      remainingTime = `${remainingHours}:${remainingMinutes}:${remainingSeconds}`;
+    }
 
     return (
       <div className={styles.serverTime}>
@@ -43,6 +58,14 @@ function ServerTime() {
         <h2 style={redText}>
           {hours}:{minutes}:{seconds}
         </h2>
+        {remainingTime && (
+          <p>
+            퇴실까지{" "}
+            <span style={closingTime ? { color: "red" } : { color: "#034BB9" }}>
+              {remainingTime}
+            </span>
+          </p>
+        )}
       </div>
     );
   };

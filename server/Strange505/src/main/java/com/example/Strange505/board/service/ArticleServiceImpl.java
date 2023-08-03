@@ -3,6 +3,7 @@ package com.example.Strange505.board.service;
 import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.domain.Board;
 import com.example.Strange505.board.dto.ArticleRequestDto;
+import com.example.Strange505.board.exception.NotAuthorException;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.BoardRepository;
 import com.example.Strange505.file.service.ImageService;
@@ -10,6 +11,8 @@ import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,24 +48,24 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> getAllArticles() {
-        return articleRepository.findAll();
+    public Page<Article> getAllArticles(Pageable pageable) {
+        return articleRepository.searchAllArticles(pageable);
     }
 
     @Override
-    public List<Article> getArticlesByBoard(Long boardId) {
-        return articleRepository.searchByBoard(boardId);
+    public Page<Article> getArticlesByBoard(Long boardId, Pageable pageable) {
+        return articleRepository.searchByBoard(boardId, pageable);
     }
 
     @Override
-    public List<Article> getArticlesByTitleAndContent(String keyword, Long boardId) {
-        return articleRepository.searchByTitleAndContent(keyword, boardId);
+    public Page<Article> getArticlesByTitleAndContent(String keyword, Long boardId, Pageable pageable) {
+        return articleRepository.searchByTitleAndContent(keyword, boardId, pageable);
     }
     @Override
-    public List<Article> getArticlesByUser(String email) {
+    public Page<Article> getArticlesByUser(String email, Pageable pageable) {
         User user = userRepository.findByEmail(email).orElseThrow();
         Long userId = user.getId();
-        return articleRepository.searchByUser(userId);
+        return articleRepository.searchByUser(userId, pageable);
     }
 
     @Override
@@ -75,7 +78,7 @@ public class ArticleServiceImpl implements ArticleService {
             imageService.deleteImageForUpdate(article.getContent(), dto);
             article.updateArticle(dto, board);
         } else {
-            throw new RuntimeException("작성자만 수정 가능합니다.");
+            throw new NotAuthorException("작성자만 수정 가능합니다.");
         }
     }
 
@@ -89,12 +92,13 @@ public class ArticleServiceImpl implements ArticleService {
             imageService.deleteImages(images);
             articleRepository.deleteById(id);
         } else {
-            throw new RuntimeException("작성자만 삭제 가능합니다.");
+            throw new NotAuthorException("작성자만 삭제 가능합니다.");
         }
 
     }
 
     @Override
+    @Transactional
     public void addViewCount(Long id) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException());
         article.addView();

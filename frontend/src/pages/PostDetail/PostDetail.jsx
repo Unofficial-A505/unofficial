@@ -11,6 +11,7 @@ import BestpostsWidget from "../../components/BestpostsWidget/BestpostsWidget";
 import EduGrantButton from "../../components/EduGrantButton/EduGrantsButton";
 
 import TopSpace from "../../components/TopSpace/TopSpace";
+import customAxios from "../../util/customAxios";
 
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
@@ -33,15 +34,16 @@ export default function PostDetail() {
   const { postId } = useParams();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
+  const [ createcomment, setcreateComment] = useState("");
   const [ comments, setComments ] = useState([])
+  const [ recommendedState, setrecommendedState ] = useState(false)
   console.log('지금 코멘트', comments)
   const commentElement = useRef(null);
 
   const getComment = () => {
-    axios({
+    customAxios({
       method: "get",
-      url: `https://unofficial.kr/api/comments/article/${postId}`,
+      url: `/api/comments/article/${postId}`,
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
@@ -54,9 +56,9 @@ export default function PostDetail() {
   };
 
   useEffect(() => {
-    axios({
+    customAxios({
       method: "get",
-      url: `https://unofficial.kr/api/articles/${postId}`,
+      url: `/api/articles/${postId}`,
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
@@ -89,29 +91,25 @@ export default function PostDetail() {
   //   );
 
 const commentCreate = () => {
-  const content = commentElement.current.value
+  const content = createcomment
   const parentId = 0;
   const articleId = postId;
   console.log(content)
-  axios({
+  customAxios({
     method: "post",
-    url: `https://unofficial.kr/api/comments`,
+    url: `/api/comments`,
     data: { articleId, content, parentId },
-    headers: {
-      Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTA1NzE4NjcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjIsInJvbGUiOiJST0xFX1VTRVIifQ.YOofxvS5cyC4WHNgQo1CqA77wwUd2fSLJTw01ubAlU8i2M7XSWoSSPcDWy7kLadmAFt2ZzcbqmX2h904Y4USYA`,
-    }
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
     })
     .then((res) => {
       console.log("댓글 불러오기!!!")
       console.log(res);
-      commentElement.current.value = ''
+      // commentElement.current.value = ''
+      setcreateComment("")
       getComment();
     })
-      .then((res) => {
-        console.log(res);
-        setComments("");
-        getComment();
-      })
       .catch((err) => console.log(err));
   };
 
@@ -120,16 +118,15 @@ const commentCreate = () => {
     const parentId = 0;
     const articleId = postId;
     console.log(content)
-    axios({
+    customAxios({
       method: "put",
-      url: `https://unofficial.kr/api/comments/${id}`,
+      url: `/api/comments/${id}`,
       data: { id, articleId, content, parentId },
-      headers: {
-        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTA1NzE4NjcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjIsInJvbGUiOiJST0xFX1VTRVIifQ.YOofxvS5cyC4WHNgQo1CqA77wwUd2fSLJTw01ubAlU8i2M7XSWoSSPcDWy7kLadmAFt2ZzcbqmX2h904Y4USYA`,
-      }
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
       })
       .then((res) => {
-        console.log("댓글 불러오기!!!")
         console.log(res);
         getComment();
       })
@@ -137,12 +134,12 @@ const commentCreate = () => {
     }
 
   const CommentDelete = (id) => {
-    axios({
+    customAxios({
       method: "delete",
-      url: `https://unofficial.kr/api/comments/${id}`,
-      headers: {
-        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTA1NzE4NjcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjIsInJvbGUiOiJST0xFX1VTRVIifQ.YOofxvS5cyC4WHNgQo1CqA77wwUd2fSLJTw01ubAlU8i2M7XSWoSSPcDWy7kLadmAFt2ZzcbqmX2h904Y4USYA`,
-      }
+      url: `/api/comments/${id}`,
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
       })
       .then((res) => {
         console.log(res);
@@ -150,6 +147,54 @@ const commentCreate = () => {
       })
       .catch((err) => console.log(err));
   };
+
+  const postDelete = () => {
+    console.log('post delete request')
+    axios({
+      method: "delete",
+      url: `https://unofficial.kr/api/articles/${postId}`,
+      headers: {
+        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTA1NzE4NjcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjIsInJvbGUiOiJST0xFX1VTRVIifQ.YOofxvS5cyC4WHNgQo1CqA77wwUd2fSLJTw01ubAlU8i2M7XSWoSSPcDWy7kLadmAFt2ZzcbqmX2h904Y4USYA`,
+      }
+      })
+      .then((res) => {
+        console.log(res);
+        navigate(`/boards/${boardTitle}`)
+      })
+      .catch((err) => console.log(err));
+    };
+
+  const postRecommendedInput = () => {
+    console.log('postRecommendedInput')
+    customAxios({
+      method: "post",
+      url: `/api/ads/uploadForArticle`,
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
+    })
+    .then((res) => {
+      console.log(res)
+      setrecommendedState((prev) => !prev)
+    })
+    .catch((res) => console.log(res))
+  }
+
+  const postRecommendedDelete = () => {
+    console.log('postRecommendedDelete')
+    customAxios({
+      method: "delete",
+      url: `/api/ads/uploadForArticle`,
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
+    })
+    .then((res) => {
+      console.log(res)
+      setrecommendedState((prev) => !prev)
+    })
+    .catch((res) => console.log(res))
+  }
 
   const username = "9기 서울";
   const timeago = "21분 전";
@@ -187,16 +232,23 @@ const commentCreate = () => {
             </div>
 
             <div className={styles.postBottombar}>
-              <div>
-                <FaRegThumbsUp class={styles.tabIcon} size="18" />
-                {recommended}
-              </div>
+              {!recommendedState ? 
+                <div onClick={postRecommendedInput}>
+                  <FaRegThumbsUp class={styles.tabIcon} size="18" />
+                  {recommended}
+                </div>
+                :
+                <div onClick={postRecommendedDelete}>
+                  <FaRegThumbsUp class={styles.tabIcon} size="18" />
+                  {recommended}
+                </div>
+              }
               <div className={styles.postupdateBottom}>
-                <div className={styles.postupdateBottomtab}>
+                <div onClick={() => navigate(`/boards/${boardTitle}/${postId}/update`, { state : { title, content }})} className={styles.postupdateBottomtab}>
                   <HiOutlinePencilAlt size="15" />
                   update
                 </div>
-                <div className={styles.postupdateBottomtab}>
+                <div onClick={postDelete} className={styles.postupdateBottomtab}>
                   <IoTrashOutline size="15" />
                   delete
                 </div>
@@ -215,7 +267,11 @@ const commentCreate = () => {
               <textarea
                 className={styles.commentInput}
                 type="text"
-                onChange={(e) => setComments(e.target.value)}
+                onChange={(e) => {
+                  setcreateComment(e.target.value);
+                  console.log(createcomment)
+                 }
+                }
                 placeholder="댓글을 작성해보세요"
               />
               <button className={styles.commentButton} onClick={commentCreate}>
