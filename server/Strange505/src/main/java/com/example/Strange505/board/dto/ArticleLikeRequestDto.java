@@ -9,5 +9,5 @@ import lombok.*;
 public class ArticleLikeRequestDto {
 
     private Long articleId;
-    private Long userId;
+//    private Long userId;
 }

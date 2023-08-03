@@ -4,7 +4,7 @@ import com.example.Strange505.board.dto.ArticleLikeRequestDto;
 
 public interface ArticleLikeService {
 
-    void like(ArticleLikeRequestDto dto);
+    void like(ArticleLikeRequestDto dto, String email);
 
-    void cancel(ArticleLikeRequestDto dto);
+//    void cancel(ArticleLikeRequestDto dto);
 }
