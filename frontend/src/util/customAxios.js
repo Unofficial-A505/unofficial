@@ -2,7 +2,7 @@ import axios from 'axios';
 import store from '../store/store';
 
 const customAxios = axios.create({
-    baseURL: 'https://unofficial.kr',
+    baseURL: `${process.env.REACT_APP_SERVER}`,
     //baseURL: 'https://localhost:8080'
 });
 
