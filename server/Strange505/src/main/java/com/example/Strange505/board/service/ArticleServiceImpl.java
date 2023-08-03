@@ -60,6 +60,13 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<Article> getArticlesByTitleAndContent(String keyword, Long boardId, Pageable pageable) {
+
+        Board findBoard = boardRepository.findById(boardId).orElse(null);
+
+        if (findBoard == null) {
+            boardId = null;
+        }
+
         return articleRepository.searchByTitleAndContent(keyword, boardId, pageable);
     }
     @Override
