@@ -13,6 +13,9 @@ import Footer from "../../components/Footer/Footer";
 import NavBar from "../../components/NavBar/NavBar";
 import customAxios from "../../util/customAxios";
 
+// 테스트용 axios
+import axios from 'axios';
+
 Quill.register("modules/ImageResize", ImageResize);
 
 const Title = styled.h3`
@@ -30,9 +33,11 @@ const QuillContainer = () => {
     const navigate = useNavigate();
     const { boardTitle } = useParams();
     const [ value, setValue ] = useState('');
-    const [title, setTitle] = useState('');
+    const [ title, setTitle ] = useState('');
     const TitleElement = useRef(null);
     const quillElement = useRef(null); 
+
+    const [ imageList, setimageList ] = useState([])
  
     // // styled components
     // const TitleInput = styled.input`
@@ -73,16 +78,15 @@ const QuillContainer = () => {
         'image',
         'align',
     ];
-
     useEffect (() => {
       quillElement.current.editor.getModule('toolbar').addHandler('image', function () {
       selectLocalImage();
     });
-  }, []);
+  }, [imageList]);
 
   const onChangeValue = (e) => {
     setValue(e);
-    console.log(e);
+    // console.log(e);
   };
 
   const changetitleValue = (e) => {
@@ -90,8 +94,11 @@ const QuillContainer = () => {
     console.log("title", e);
   };
 
+  const changeImageList = (url, file) => {
+    setimageList([...imageList, { url, file }]);
+  }
+
   // 이미지 url 추출 함수
-  const formData = new FormData();
   function selectLocalImage() {
     const fileInput = document.createElement("input");
     fileInput.setAttribute("type", "file");
@@ -101,19 +108,31 @@ const QuillContainer = () => {
 
     fileInput.addEventListener("change", function (e) {
       e.preventDefault();
-      // formData에 해당 이미지 싣기 
+      // editor에 이미지 삽입
+      const fileURL = window.URL.createObjectURL(e.target.files[0]);
       const file = fileInput.files[0];
-      formData.append("uploadFile", file);
+      const Image = Quill.import("formats/image");
+      Image.sanitize = (fileURL) => fileURL;
+      quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${fileURL}`);
       
-      // ql-editor에 이미지 띄움
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      let src = null
-      reader.onloadend = () => {
-        src = reader.result
-        quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${src}`)
-        console.log('src', src)
-      }
+      // 이미지 로컬 url 및 formData 담을 file ImageList에 담기
+      changeImageList(fileURL, file);
+      console.log('file', file)
+
+      // ql-editor에 이미지 띄움 - 사용 x
+      // const reader = new FileReader();
+      // reader.readAsDataURL(file);
+      // let src = null
+      // reader.onloadend = () => {
+      //   src = reader.result
+      //   console.log('src', src)
+      //   const imageSrc = src.slice(100, 150)
+      //   console.log(imageSrc)
+      //   quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${src}`)
+      //   // console.log('src', src)
+      //   setimageList([...imageList, { imageSrc }])
+      //   console.log('setimageList', imageList)
+      // }
     })
 
     // fileInput.addEventListener("change", function (e) {
@@ -153,28 +172,80 @@ const QuillContainer = () => {
     // });
   }
 
-  const createPost = () => {
-    const title = TitleElement.current.value;
-    const content = quillElement.current.editor.root.innerHTML;
-    const boardName = boardTitle;
-    const nickName = "strange505";
-    console.log(title, content, boardTitle);
+  // const createPost = () => {
+  //   sendFormData();
+  //   sendPost;
+  // }
 
-    customAxios({
-      method: "post",
-      url: `${process.env.REACT_APP_SERVER}/api/articles`,
-      // url: `http://70.12.247.35:8080/files/articleTest`,
-      data: {
-        title,
-        content,
-        boardName,
-        nickName,
-        // imageList
-      },
-      headers: {
-        Authorization: `Token ${this.$store.state.token}`,
-      }
+  function sendformData (content) {
+    return new Promise(function(resolve, reject) {
+      // let content = quillElement.current.editor.root.innerHTML;
+  
+      console.log(imageList)
+  
+      //글 등록하는 현재 content에 존재하는 image만 formData에 싣기
+      imageList.forEach((image) => {
+        let regexOne = new RegExp(`${image.url}`)
+        let imageString = String(regexOne)
+        imageString = imageString.replace(/\\/g, '')
+    
+        const imageChecked = content.match(regexOne)
+    
+        console.log('imageChecked', imageChecked)
+        if (imageChecked) {
+          // formData에 해당 이미지 싣기 
+          const formData = new FormData();
+          formData.append("uploadFile", image.file);
+  
+          axios({
+            method: "post",
+            url: `${process.env.REACT_APP_SERVER}/api/articles/image`,
+            data: formData,
+            headers: { "Content-Type": "multipart/form-data" },
+            // headers: {
+              //   Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTEwNjc3MzksInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjE0LCJyb2xlIjoiUk9MRV9BRE1JTiJ9.Z_SHpW9_1WQbswqnR4ADZqGNAphQjbEh88uBt2W_BVzKndwCQ4IUkwy7qIp-EuiOhXCWKB2nbR_O71RehedxXw`
+              // }
+            })
+          .then((res) => {
+            console.log(res);
+            console.log("success");
+            
+            const uploadPath = res.data;
+            content = content.replace(regexOne, `${uploadPath}`)
+            console.log('change source', content)
+            // quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${uploadPath}`);
+            
+            window.URL.revokeObjectURL(image.url)
+          })
+          .catch((err) => console.log(err));
+        } 
+      })
+      resolve(content)
     })
+  }
+
+  function sendPost(content) {
+    return new Promise(function(resolve, reject){
+      const title = TitleElement.current.value;
+      const boardName = boardTitle;
+      const nickName = "다솜";
+      console.log(title, content, boardTitle);
+  
+      customAxios({
+        method: "post",
+        url: `/api/articles`,
+        // url: `http://70.12.247.35:8080/files/articleTest`,
+        data: {
+          title,
+          content,
+          boardName,
+          nickName,
+          // imageList
+        },
+        headers: {
+          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTEwNjc3MzksInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjE0LCJyb2xlIjoiUk9MRV9BRE1JTiJ9.Z_SHpW9_1WQbswqnR4ADZqGNAphQjbEh88uBt2W_BVzKndwCQ4IUkwy7qIp-EuiOhXCWKB2nbR_O71RehedxXw`
+        }
+      })
       .then((res) => {
         navigate(`/boards/${boardTitle}/${res.data.id}`, { replace: true });
         console.log(res.data);
@@ -182,7 +253,13 @@ const QuillContainer = () => {
       .catch((err) => {
         console.log(err);
       });
+    })
   };
+  const createPost = () => {
+    let content = quillElement.current.editor.root.innerHTML;
+    sendformData(content)
+    .then((content) => sendPost(content))
+  }
 
   // 이외 함수들
   const handleCancel = () => {
@@ -243,6 +320,7 @@ const QuillContainer = () => {
             게시하기
           </button>
         </div>
+        {/* <button onClick={sendFormData}>image path 여러개 동시 추출 test</button> */}
       </div>
       <div className={styles.footerContainer}><Footer /></div>
     </div>

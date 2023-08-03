@@ -11,15 +11,30 @@ import TopSpace from "../../components/TopSpace/TopSpace";
 import SearchContent from "../../components/SearchContent/SearchContent";
 import AdHorizontal from "../../components/AdHorizontal/AdHorizontal";
 
+import customAxios from "../../util/customAxios";
+
 export default function SearchView() {
   const { keyword } = useParams();
   const { boardTitle } = useParams();
-  const [keywordAll, setKeywordAll] = useState("");
+  const [ keywordAll, setKeywordAll ] = useState("");
   const navigate = useNavigate();
 
-  // useEffect(() => {
-
-  // }, [ keyword ])
+  useEffect(() => {
+    customAxios({
+      method: "get",
+      // url: `/api/articles/search?keyword=${keyword}&boardId=1`,
+      url: `/api/articles/search?keyword=${keyword}&boardId=0`,
+      headers: {
+        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTEwNjc3MzksInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjE0LCJyb2xlIjoiUk9MRV9BRE1JTiJ9.Z_SHpW9_1WQbswqnR4ADZqGNAphQjbEh88uBt2W_BVzKndwCQ4IUkwy7qIp-EuiOhXCWKB2nbR_O71RehedxXw`
+      }
+    })
+    .then((res) => 
+      console.log(res)
+    )
+    .catch((err) => console.log(err));
+      return () => {  
+        console.log('unmounted')}
+    }, []);
 
   return (
     <div>
@@ -56,11 +71,11 @@ export default function SearchView() {
             onClick={() => navigate("/boards/자유게시판")}
           >
             <IoIosArrowBack />
-            목록으로 돌아가기
+            게시판으로 돌아가기
           </button>
         </div>
 
-        <div>
+        <div className={styles.searchcontentBox}>
           <SearchContent />
         </div>
       </div>
