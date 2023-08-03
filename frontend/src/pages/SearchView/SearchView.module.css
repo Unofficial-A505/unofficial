@@ -67,6 +67,15 @@
   font-weight: 400;
 }
 
+/* 게시물 전체 Container */
+
+.searchcontentBox {
+  width: 100%;
+  height: 800px;
+
+  border: 1px dotted gray;
+}
+
 /* 제목별, 내용별 검색결과창 스타일링 */
 
 .searchcontentTabs {
