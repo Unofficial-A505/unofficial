@@ -12,6 +12,9 @@ import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,47 +87,48 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentResponseDto> getCommentByArticle(Long articleId) {
+    public Page<CommentResponseDto> getCommentByArticle(Long articleId, Pageable pageable) {
 
-        List<Comment> list = commentRepository.searchByArticle(articleId);
-        List<CommentResponseDto> result = new ArrayList<>();
+        Page<Comment> repoList = commentRepository.searchByArticle(articleId, pageable);
+        List<CommentResponseDto> list = new ArrayList<>();
         for (Comment c:
-             list) {
+                repoList) {
             if (c.getParent() == null) {
-                result.add(new CommentResponseDto(
+                list.add(new CommentResponseDto(
                         c.getId(), c.getUser().getId(),
                         c.getArticle().getId(), c.getContent(),
                         null, c.getCreateTime(), c.getModifyTime()));
             } else {
-                result.add(new CommentResponseDto(
+                list.add(new CommentResponseDto(
                         c.getId(), c.getUser().getId(),
                         c.getArticle().getId(), c.getContent(),
                         c.getParent().getId(), c.getCreateTime(), c.getModifyTime()));
             }
         }
+        Page<CommentResponseDto> result = new PageImpl<>(list);
         return result;
     }
 
     @Override
-    public List<CommentResponseDto> getCommentByUser(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow();
-        Long userId = user.getId();
-        List<Comment> list = commentRepository.searchByUser(userId);
-        List<CommentResponseDto> result = new ArrayList<>();
+    public Page<CommentResponseDto> getCommentByUser(String email, Pageable pageable) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
+        Page<Comment> repoList = commentRepository.searchByUser(user.getId(), pageable);
+        List<CommentResponseDto> list = new ArrayList<>();
         for (Comment c:
-                list) {
+                repoList) {
             if (c.getParent() == null) {
-                result.add(new CommentResponseDto(
+                list.add(new CommentResponseDto(
                         c.getId(), c.getUser().getId(),
                         c.getArticle().getId(), c.getContent(),
                         null, c.getCreateTime(), c.getModifyTime()));
             } else {
-                result.add(new CommentResponseDto(
+                list.add(new CommentResponseDto(
                         c.getId(), c.getUser().getId(),
                         c.getArticle().getId(), c.getContent(),
                         c.getParent().getId(), c.getCreateTime(), c.getModifyTime()));
             }
         }
+        Page<CommentResponseDto> result = new PageImpl<>(list);
         return result;
     }
 

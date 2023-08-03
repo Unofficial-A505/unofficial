@@ -5,6 +5,8 @@ import com.example.Strange505.board.dto.CommentResponseDto;
 import com.example.Strange505.board.service.CommentService;
 import com.example.Strange505.user.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,17 +45,17 @@ public class CommentController {
 
 
     @GetMapping("/article/{articleId}")
-    public ResponseEntity<List<CommentResponseDto>> getCommentByArticle(@PathVariable Long articleId) {
+    public ResponseEntity<Page<CommentResponseDto>> getCommentByArticle(@PathVariable Long articleId, Pageable pageable) {
 
-        List<CommentResponseDto> list = commentService.getCommentByArticle(articleId);
+        Page<CommentResponseDto> list = commentService.getCommentByArticle(articleId, pageable);
 
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<CommentResponseDto>> getCommentByUser() {
+    public ResponseEntity<Page<CommentResponseDto>> getCommentByUser(Pageable pageable) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<CommentResponseDto> list = commentService.getCommentByUser(email);
+        Page<CommentResponseDto> list = commentService.getCommentByUser(email, pageable);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
