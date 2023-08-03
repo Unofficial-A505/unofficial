@@ -12,6 +12,7 @@ public class BoardResponseDto {
     private String name;
 
     public BoardResponseDto(Board board) {
+        this.id = board.getId();
         this.name = board.getName();
     }
 }
