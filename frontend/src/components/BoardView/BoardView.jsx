@@ -19,9 +19,9 @@ export default function BoardView( ){
     axios({
       method: "get",
       url: `${URL}api/v1/articles`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
       })
       .then((res) => {
         console.log(res.data);

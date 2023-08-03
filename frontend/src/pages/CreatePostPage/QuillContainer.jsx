@@ -162,7 +162,7 @@ const QuillContainer = () => {
 
     customAxios({
       method: "post",
-      url: `/api/articles`,
+      url: `${process.env.REACT_APP_SERVER}/api/articles`,
       // url: `http://70.12.247.35:8080/files/articleTest`,
       data: {
         title,
@@ -171,9 +171,9 @@ const QuillContainer = () => {
         nickName,
         // imageList
       },
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
     })
       .then((res) => {
         navigate(`/boards/${boardTitle}/${res.data.id}`, { replace: true });

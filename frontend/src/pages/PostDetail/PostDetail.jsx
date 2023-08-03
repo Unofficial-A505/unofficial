@@ -44,9 +44,9 @@ export default function PostDetail() {
     customAxios({
       method: "get",
       url: `/api/comments/article/${postId}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
     })
       .then((res) => {
         console.log("comments", res.data);
@@ -59,9 +59,9 @@ export default function PostDetail() {
     customAxios({
       method: "get",
       url: `/api/articles/${postId}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
     })
       .then((res) => {
         console.log('detail', res.data);
@@ -99,9 +99,9 @@ const commentCreate = () => {
     method: "post",
     url: `/api/comments`,
     data: { articleId, content, parentId },
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
     })
     .then((res) => {
       console.log(res);
@@ -121,9 +121,9 @@ const commentCreate = () => {
       method: "put",
       url: `/api/comments/${id}`,
       data: { id, articleId, content, parentId },
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
       })
       .then((res) => {
         console.log(res);
@@ -136,9 +136,9 @@ const commentCreate = () => {
     customAxios({
       method: "delete",
       url: `/api/comments/${id}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
       })
       .then((res) => {
         console.log(res);
@@ -152,9 +152,9 @@ const commentCreate = () => {
     customAxios({
       method: "delete",
       url: `/api/articles/${postId}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
       })
       .then((res) => {
         console.log(res);
@@ -170,9 +170,9 @@ const commentCreate = () => {
       method: "post",
       url: `/api/likes`,
       data: { articleId},
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
     })
     .then((res) => {
       console.log(res)
