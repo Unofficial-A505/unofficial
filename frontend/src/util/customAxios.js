@@ -3,7 +3,6 @@ import store from '../store/store';
 
 const customAxios = axios.create({
     baseURL: `${process.env.REACT_APP_SERVER}`,
-    //baseURL: 'https://localhost:8080'
 });
 
 // Add a request interceptor

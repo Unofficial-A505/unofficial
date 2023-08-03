@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styles from './Login.module.css'
 import logo from './../../assets/images/mobile_logo.png'
@@ -9,12 +9,6 @@ import customAxios from '../../util/customAxios'
 
 
 export default function Login({ setModalOpen }) {
-
-  const authUser = useSelector((state) => state.authUser)
-
-  useEffect(() => {
-    console.log(authUser)
-  }, [authUser])
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -48,9 +42,9 @@ export default function Login({ setModalOpen }) {
         password: userPassword,
       });
       // 성공 ? 토큰 저장 && 모달 off
-      dispatch(setAuthUserEmail(userEmail))
-      dispatch(setAccessToken(response.headers.authorization));
-      localStorage.setItem('REFRESH_TOKEN', response.headers.Refresh_token);
+      dispatch(setAuthUserEmail(userEmail));
+      dispatch(setAccessToken(response.headers.authorization.split(" ")[1]));
+      localStorage.setItem('REFRESH_TOKEN', response.headers.refresh_token);
       setModalOpen(false)
     }
     catch (err) {

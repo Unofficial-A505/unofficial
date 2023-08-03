@@ -61,13 +61,7 @@ export default function UserinfoBox() {
             비밀번호 찾기
           </p>
           <p>&nbsp;&nbsp;|&nbsp;&nbsp;</p>
-          <p
-            onClick={() => {
-              navigate("/signup");
-            }}
-          >
-            회원가입
-          </p>
+          <p onClick={() => { navigate("/signup")}}>회원가입</p>
         </div>
       </div>
     );
@@ -88,16 +82,18 @@ export default function UserinfoBox() {
         </div>
         <div className={styles.usermidContainer}>
           <span
-            class={styles.secondmypage}
+            className={styles.secondmypage}
             onClick={() => navigate("/user/password")}
           >
             {user}
           </span>
-          <span class={styles.secondhelloMessage}>의 이야기를 들려주세요</span>
-          <p class={styles.adverMessage}>
+          <span className={styles.secondhelloMessage}>
+            의 이야기를 들려주세요
+          </span>
+          <p className={styles.adverMessage}>
             진행중인{" "}
             <span
-              class={styles.adverButton}
+              className={styles.adverButton}
               onClick={() => navigate("/user/advertisement/myadv")}
             >
               광고
@@ -106,24 +102,24 @@ export default function UserinfoBox() {
           </p>
         </div>
 
-        <div class={styles.mypageContent}>
+        <div className={styles.mypageContent}>
           <p
-            class={styles.mymileButton}
+            className={styles.mymileButton}
             onClick={() => navigate("/user/advertisement/mymile")}
           >
             <RiDatabase2Line class={styles.mymileIcon} />
-            <p class={styles.mileageTotal}>{mileage}</p>
+            <p className={styles.mileageTotal}>{mileage}</p>
           </p>
-          <div class={styles.mypostsAndcomments}>
+          <div className={styles.mypostsAndcomments}>
             <p
-              class={styles.myButton}
+              className={styles.myButton}
               onClick={() => navigate("/user/activity/myposts")}
             >
               <BsFileEarmarkText class={styles.myIcon} />
               <p>3</p>
             </p>
             <p
-              class={styles.myButton}
+              className={styles.myButton}
               onClick={() => navigate("/user/activity/mycomments")}
             >
               <AiOutlineComment class={styles.myIcon} />

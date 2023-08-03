@@ -3,8 +3,7 @@ import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { setEmail, setPassword } from './../../store/signupSlice'
-import customAxios from '../../util/customAxios'
-
+import axios from 'axios'
 
 export default function Signup2() {
 
@@ -23,6 +22,7 @@ export default function Signup2() {
   const [userPassword1, setUserPassword1] = useState('')
   const [userPassword2, setUserPassword2] = useState('')
   const [passwordMismatch, setPasswordMismatch] = useState(true)
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const handleEmailChange = (event) => {
@@ -64,8 +64,8 @@ export default function Signup2() {
     }
     setDuplicationMent(<p style={{ color: 'green' }}>확인 중입니다.</p>)
 
-    customAxios
-      .post("/api/verify", { email: userEmail })
+    axios
+      .post(`${process.env.REACT_APP_SERVER}/api/verify`, { email: userEmail })
       .then((res) => {
         console.log(res)
         if (res.status === 200) {
@@ -74,10 +74,12 @@ export default function Signup2() {
         }
       })
       .catch((err) => {
-        if (err.response?.data.message) {
+        console.log(err)
+
+        if (err.response.data.message) {
           setDuplicationMent(<p style={{ color: 'red' }}>{err.response.data.message}</p>)
         } else {
-          setDuplicationMent(<p style={{ color: 'red' }}>사용 불가한 이메일입니다. 에듀싸피 이메일로 가입해주세요.</p>)
+          setDuplicationMent(<p style={{ color: 'red' }}>오류가 발생했습니다. 잠시 후 다시 시도해주세요.</p>)
         }
         setIsDuplicate(true)
         console.log(err)
@@ -135,23 +137,23 @@ export default function Signup2() {
       <h2>등록</h2>
       <p className='mb-3' style={{ color: 'red' }}>에듀싸피 계정과 동일한 이메일 주소로 가입해주세요.</p>
 
-      <div class="mb-1">
+      <div className="mb-1">
         <label for="exampleInputEmail" className="form-label">이메일 주소</label>
-        <div class="input-group">
-          <input type="email" class="form-control" id="exampleInputEmail" onChange={handleEmailChange} onInput={handleEmailValid} />
-          <button class="btn btn-outline-secondary" type="button" onClick={doubleCheck}>중복확인</button>
+        <div className="input-group">
+          <input type="email" className="form-control" id="exampleInputEmail" onChange={handleEmailChange} onInput={handleEmailValid} />
+          <button className="btn btn-outline-secondary" type="button" onClick={doubleCheck}>중복확인</button>
         </div>
         {userEmail && !emailValid && <p style={{ color: 'red' }}>올바른 이메일 주소를 입력해주세요.</p>}
         {duplicationMent}
       </div>
 
-      <div class="mb-1">
+      <div className="mb-1">
         <label for="exampleInputPassword1" className="form-label">비밀번호</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" onChange={handlePasswordChange1} />
+        <input type="password" className="form-control" id="exampleInputPassword1" onChange={handlePasswordChange1} />
       </div>
-      <div class="mb-4">
+      <div className="mb-4">
         <label for="exampleInputPassword2" className="form-label">비밀번호 확인</label>
-        <input type="password" class="form-control" id="exampleInputPassword2" onChange={handlePasswordChange2} />
+        <input type="password" className="form-control" id="exampleInputPassword2" onChange={handlePasswordChange2} />
         {userPassword1 && userPassword2 && passwordMismatch
           && <p style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</p>}
       </div>
