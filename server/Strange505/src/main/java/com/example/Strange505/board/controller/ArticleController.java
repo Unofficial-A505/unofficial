@@ -118,8 +118,8 @@ public class ArticleController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/board")
-    public ResponseEntity<Page<ArticleResponseDto>> getArticlesByBoard(Long boardId, Pageable pageable) {
+    @GetMapping("/board/{boardId}")
+    public ResponseEntity<Page<ArticleResponseDto>> getArticlesByBoard(@PathVariable Long boardId, Pageable pageable) {
         Page<Article> articles = articleService.getArticlesByBoard(boardId, pageable);
 
         Page<ArticleResponseDto> articleResponseDtoList = articles.map(findArticle ->
