@@ -157,7 +157,7 @@ const QuillContainer = () => {
     const title = TitleElement.current.value;
     const content = quillElement.current.editor.root.innerHTML;
     const boardName = boardTitle;
-    const nickName = "다솜";
+    const nickName = "strange505";
     console.log(title, content, boardTitle);
 
     customAxios({

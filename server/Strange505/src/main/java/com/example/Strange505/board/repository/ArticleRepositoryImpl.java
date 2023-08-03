@@ -24,7 +24,8 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
     public Page<Article> searchByTitleAndContent(String keyword, Long boardId, Pageable pageable) {
         List<Article> result = queryFactory
                 .selectFrom(article)
-                .where(eqBoard(boardId).and(titleCheck(keyword).or(contentCheck(keyword))))
+                .where(titleCheck(keyword).or(contentCheck(keyword)))
+                .where(eqBoard(boardId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

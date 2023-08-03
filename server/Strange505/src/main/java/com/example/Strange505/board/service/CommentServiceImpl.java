@@ -4,6 +4,7 @@ import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.domain.Comment;
 import com.example.Strange505.board.dto.CommentRequestDto;
 import com.example.Strange505.board.dto.CommentResponseDto;
+import com.example.Strange505.board.exception.NoResultException;
 import com.example.Strange505.board.exception.NotAuthorException;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.CommentRepository;
@@ -57,24 +58,51 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentResponseDto getCommentById(Long id) {
+
         Comment comment = commentRepository.findById(id).orElseThrow(()->new RuntimeException("Comment not found"));
-        return CommentResponseDto.builder()
-                .userId(comment.getUser().getId())
-                .articleId(comment.getArticle().getId())
-                .content(comment.getContent())
-                .parent(comment.getParent())
-                .build();
+        Comment parent = comment.getParent();
+
+        if (parent == null) {
+            return CommentResponseDto.builder()
+                    .userId(comment.getUser().getId())
+                    .articleId(comment.getArticle().getId())
+                    .content(comment.getContent())
+                    .parentId(null)
+                    .createTime(comment.getCreateTime())
+                    .modifyTime(comment.getModifyTime())
+                    .build();
+        } else {
+            return CommentResponseDto.builder()
+                    .userId(comment.getUser().getId())
+                    .articleId(comment.getArticle().getId())
+                    .content(comment.getContent())
+                    .parentId(comment.getParent().getId())
+                    .createTime(comment.getCreateTime())
+                    .modifyTime(comment.getModifyTime())
+                    .build();
+        }
     }
 
     @Override
     public List<CommentResponseDto> getCommentByArticle(Long articleId) {
+
         List<Comment> list = commentRepository.searchByArticle(articleId);
-        List<CommentResponseDto> dtoList = new ArrayList<>();
-        list.stream().forEach(findByArticle -> dtoList.add(new CommentResponseDto(
-                findByArticle.getId(), findByArticle.getUser().getId(),
-                findByArticle.getArticle().getId(),
-                findByArticle.getContent(), findByArticle.getParent())));
-        return dtoList;
+        List<CommentResponseDto> result = new ArrayList<>();
+        for (Comment c:
+             list) {
+            if (c.getParent() == null) {
+                result.add(new CommentResponseDto(
+                        c.getId(), c.getUser().getId(),
+                        c.getArticle().getId(), c.getContent(),
+                        null, c.getCreateTime(), c.getModifyTime()));
+            } else {
+                result.add(new CommentResponseDto(
+                        c.getId(), c.getUser().getId(),
+                        c.getArticle().getId(), c.getContent(),
+                        c.getParent().getId(), c.getCreateTime(), c.getModifyTime()));
+            }
+        }
+        return result;
     }
 
     @Override
@@ -82,19 +110,29 @@ public class CommentServiceImpl implements CommentService {
         User user = userRepository.findByEmail(email).orElseThrow();
         Long userId = user.getId();
         List<Comment> list = commentRepository.searchByUser(userId);
-        List<CommentResponseDto> dtoList = new ArrayList<>();
-        list.stream().forEach(findByArticle -> dtoList.add(new CommentResponseDto(
-                findByArticle.getId(),
-                findByArticle.getUser().getId(), findByArticle.getArticle().getId(),
-                findByArticle.getContent(), findByArticle.getParent())));
-        return dtoList;
+        List<CommentResponseDto> result = new ArrayList<>();
+        for (Comment c:
+                list) {
+            if (c.getParent() == null) {
+                result.add(new CommentResponseDto(
+                        c.getId(), c.getUser().getId(),
+                        c.getArticle().getId(), c.getContent(),
+                        null, c.getCreateTime(), c.getModifyTime()));
+            } else {
+                result.add(new CommentResponseDto(
+                        c.getId(), c.getUser().getId(),
+                        c.getArticle().getId(), c.getContent(),
+                        c.getParent().getId(), c.getCreateTime(), c.getModifyTime()));
+            }
+        }
+        return result;
     }
 
     @Override
     @Transactional
     public CommentResponseDto updateComment(Long id, CommentRequestDto dto, String email) {
         User user = userRepository.findByEmail(email).orElseThrow();
-        Comment comment = commentRepository.findById(id).orElseThrow(()->new RuntimeException("Comment not found"));
+        Comment comment = commentRepository.findById(id).orElseThrow(()->new NoResultException("Comment not found"));
         if (user.getId() == comment.getUser().getId()) {
             comment.update(dto.getContent(), LocalDateTime.now());
             Comment save = commentRepository.save(comment);
@@ -109,7 +147,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public void deleteComment(Long id, String email) {
         User user = userRepository.findByEmail(email).orElseThrow();
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("Comment not found"));
         if (user.getId() == comment.getUser().getId()) {
             comment.remove();
             List<Comment> removableCommentList = comment.findRemovableList();

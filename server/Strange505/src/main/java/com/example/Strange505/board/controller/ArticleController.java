@@ -51,9 +51,9 @@ public class ArticleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> modifyArticle(@PathVariable Long id, @RequestBody ArticleRequestDto dto) {
+    public ResponseEntity<?> modifyArticle(@RequestBody ArticleRequestDto dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        articleService.updateArticle(id, dto, email);
+        articleService.updateArticle(dto, email);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -69,6 +69,7 @@ public class ArticleController {
         addViewCount(id, req, res);
         Article article = articleService.getArticleById(id);
         ArticleResponseDto dto = ArticleResponseDto.builder()
+                .id(article.getId())
                 .title(article.getTitle())
                 .content(article.getContent())
                 .boardName(article.getBoard().getName())
