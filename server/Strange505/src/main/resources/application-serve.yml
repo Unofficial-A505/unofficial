@@ -20,7 +20,4 @@ spring:
 mail:
   base-url : "https://unofficial.kr/verify?verificationCode="
 
-OPENVIDU_URL: https://vidu.unofficial.kr
-OPENVIDU_SECRET: STRANGE505
-
 test: serve
