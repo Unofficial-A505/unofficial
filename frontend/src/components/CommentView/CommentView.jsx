@@ -7,12 +7,14 @@ import { IoChatboxOutline } from '@react-icons/all-files/io5/IoChatboxOutline';
 import { IoRocketOutline } from '@react-icons/all-files/io5/IoRocketOutline';
 import { BsArrowReturnRight } from '@react-icons/all-files/bs/BsArrowReturnRight';
 
+import customAxios from "../../util/customAxios";
+
 // 삭제 아이콘
 import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 // 수정 아이콘
 import { HiOutlinePencilAlt } from '@react-icons/all-files/hi/HiOutlinePencilAlt';
 
-export default function CommentView({ comment, CommentDelete, commentUpdate}){
+export default function CommentView({ comment, CommentDelete, commentUpdate, postId}){
   const commentRecommended = 0
   const comentContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce venenatis velit id justo vulputate eleifend. Integer maximus sapien enim, vel faucibus risus auctor vel. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus hendrerit tincidunt diam sed accumsan. Aenean rhoncus erat et nisi lobortis, nec tincidunt elit finibus. Cras ipsum nulla, egestas non nisl vel, pharetra mollis tellus. Nullam dignissim metus lectus, at faucibus ex lacinia a. Proin tristique augue ut turpis tincidunt lacinia.'
   const [ updateState, setupdateState ] = useState(false)
@@ -21,6 +23,28 @@ export default function CommentView({ comment, CommentDelete, commentUpdate}){
   const [ createComment, setcreateComment ] = useState('')
   const updateContent = useRef('')
   const { id, content } = comment
+
+  const recommentCreate = () => {
+    const content = comments
+    const parentId = id;
+    const articleId = postId;
+    console.log(content)
+    customAxios({
+      method: "post",
+      url: `/api/comments`,
+      data: { articleId, content, parentId },
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
+      })
+      .then((res) => {
+        console.log("댓글 불러오기!!!")
+        console.log(res);
+        // commentElement.current.value = ''
+        setcreateComment("")
+      })
+        .catch((err) => console.log(err));
+    };
 
   if (!updateState) {
     return(
@@ -56,7 +80,7 @@ export default function CommentView({ comment, CommentDelete, commentUpdate}){
               onChange={(e) => setComments(e.target.value)}
               placeholder="대댓글을 작성해보세요"
             />
-            <button className={styles.commentButton}>
+            <button onClick={recommentCreate} className={styles.commentButton}>
               <IoChatboxOutline size="23" />
             </button>
           </div>
