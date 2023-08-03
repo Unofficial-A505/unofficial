@@ -41,15 +41,12 @@ public class CommentController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CommentResponseDto> getCommentById(@PathVariable Long id) {
-        CommentResponseDto dto = commentService.getCommentById(id);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
 
     @GetMapping("/article/{articleId}")
     public ResponseEntity<List<CommentResponseDto>> getCommentByArticle(@PathVariable Long articleId) {
+
         List<CommentResponseDto> list = commentService.getCommentByArticle(articleId);
+
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -59,4 +56,11 @@ public class CommentController {
         List<CommentResponseDto> list = commentService.getCommentByUser(email);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CommentResponseDto> getCommentById(@PathVariable Long id) {
+        CommentResponseDto dto = commentService.getCommentById(id);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
 }
