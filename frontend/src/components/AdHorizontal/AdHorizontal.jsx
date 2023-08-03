@@ -30,7 +30,7 @@ export default function AdHorizontal() {
       url = `https://${url}`;
     }
 
-    window.location.href = url;
+    window.open(url, "_blank"); // Use "_blank" to open in a new tab
 };
   return (
     <>
