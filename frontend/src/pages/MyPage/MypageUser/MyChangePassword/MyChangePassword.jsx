@@ -82,17 +82,16 @@ export default function MyChangePassword() {
 
   const requestChangePassword = async (email, oldPassword, newPassword) => {
     try {
-      const response = await customAxios.post("/api/user/password", {
+      const response = await customAxios.post("/api/users/password", {
         email: email,
         oldPassword: oldPassword,
         newPassword: newPassword,
       });
       alert("비밀번호 변경이 완료되었습니다. 다시 로그인 해주시기 바랍니다.");
-      console.log("성공", response);
       logout();
       navigate("/");
     } catch (err) {
-      alert("실패");
+      alert("비밀번호 변경이 실패하였습니다. 다시 시도 해주시기 바랍니다.");
       console.log("실패", err);
       return;
     }

@@ -5,19 +5,16 @@ import { setAccessToken, setAuthUserEmail } from "../../store/loginSlice";
 
 import styles from "./UserinfoBox.module.css";
 import Login from "./../../components/Login/Login";
-import main_logo from "./../../assets/images/main_logo.png";
 
-import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
 import { RiDatabase2Line } from "@react-icons/all-files/ri/RiDatabase2Line";
 import { BsFileEarmarkText } from "@react-icons/all-files/bs/BsFileEarmarkText";
 import { AiOutlineComment } from "@react-icons/all-files/ai/AiOutlineComment";
-import { IoLogOutOutline } from "@react-icons/all-files/io5/IoLogOutOutline";
-
+import { AiOutlineLogout } from "@react-icons/all-files/ai/AiOutlineLogout";
 export default function UserinfoBox() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(null);
   const authUser = useSelector((state) => state.authUser);
 
   useEffect(() => {
@@ -61,7 +58,13 @@ export default function UserinfoBox() {
             비밀번호 찾기
           </p>
           <p>&nbsp;&nbsp;|&nbsp;&nbsp;</p>
-          <p onClick={() => { navigate("/signup")}}>회원가입</p>
+          <p
+            onClick={() => {
+              navigate("/signup");
+            }}
+          >
+            회원가입
+          </p>
         </div>
       </div>
     );
@@ -77,7 +80,7 @@ export default function UserinfoBox() {
             onClick={logout}
           >
             로그아웃&nbsp;
-            <IoLogOutOutline />
+            <AiOutlineLogout />
           </button>
         </div>
         <div className={styles.usermidContainer}>
