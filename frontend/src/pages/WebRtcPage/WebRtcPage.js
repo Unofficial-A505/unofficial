@@ -5,9 +5,7 @@ import React, { Component } from 'react';
 import './App.css';
 import UserVideoComponent from './UserVideoComponent';
 
-// const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
-const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://unofficial.kr/';
-// const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8080/';
+const APPLICATION_SERVER_URL = process.env.REACT_APP_SERVER + "/"
 
 
 class WebRtcPage extends Component {
@@ -78,7 +76,6 @@ class WebRtcPage extends Component {
 
     joinSession() {
         // --- 1) Get an OpenVidu object ---
-
         this.OV = new OpenVidu();
 
         // --- 2) Init a session ---
@@ -346,8 +343,8 @@ class WebRtcPage extends Component {
     async createToken(sessionId) {
         console.log("createToken")
         const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections',
-         { customSessionId: sessionId }, 
-        // {},
+        //  { customSessionId: sessionId }, 
+        {},
         {
             headers: { 'Content-Type': 'application/json', },
         });
