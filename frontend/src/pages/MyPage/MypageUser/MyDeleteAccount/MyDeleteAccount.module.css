@@ -1,0 +1,61 @@
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  width: 100%;
+  height: 520px;
+  padding: 0 3.5rem;
+}
+.mycontentTitle {
+  display: flex;
+  width: 100%;
+}
+.mypostsTitle {
+  color: #585858;
+  font-weight: 700;
+  margin-right: 10px;
+}
+.smallTitle {
+  height: 28px;
+  margin-top: 17px;
+  color: #757575;
+  font-size: 14px;
+}
+.myContentContainer {
+  height: 90%;
+  width: 750px;
+  padding: 0.6rem ;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.termsContainer {
+  border: 1px dotted #757575;
+  border-radius: 10px;
+  padding: 1rem;
+  width: 100%;
+  height: 60%;
+  margin: 0.5rem 0;
+}
+.formContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.formContainer button {
+  height: 2.4rem;
+  width: 6rem;
+}
+.inputContainer {
+  display: flex;
+  width: 90%;
+}
+.inputContainer label{
+  line-height: 230%;
+  margin-right: 0.5rem;
+}
+.inputContainer input {
+  width: 70%;
+  height: 2.4rem;
+}

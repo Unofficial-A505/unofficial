@@ -20,7 +20,7 @@ import SearchView from "./pages/SearchView/SearchView";
 
 import MypageUser from "./pages/MyPage/MypageUser/MypageUser";
 import MyChangePassword from "./pages/MyPage/MypageUser/MyChangePassword/MyChangePassword";
-import MySignout from "./pages/MyPage/MypageUser/MySignout/MySignout";
+import MyDeleteAccount from "./pages/MyPage/MypageUser/MyDeleteAccount/MyDeleteAccount";
 
 import MypageActivity from "./pages/MyPage/MypageActivity/MypageActivity";
 import MypostsView from "./pages/MyPage/MypageActivity/MypostsView/MypostsView";
@@ -82,7 +82,7 @@ const router = createBrowserRouter([
             element: <MypageUser />,
             children: [
               { path: "password", element: <MyChangePassword /> },
-              { path: "signout", element: <MySignout /> },
+              { path: "deletion", element: <MyDeleteAccount /> },
             ],
           },
           {
@@ -119,7 +119,7 @@ const router = createBrowserRouter([
       { path: "boards/search/:keyword", element: <SearchView /> },
       {
         path: "forgot-password",
-        element: <ForgotPasswordPage />
+        element: <ForgotPasswordPage />,
       },
     ],
   },
