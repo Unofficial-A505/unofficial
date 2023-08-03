@@ -12,7 +12,7 @@
   height: 600px;
   border: 1px solid #75757518;
   border-radius: 1rem;
-    box-shadow: 0px 8px 16px 0px rgba(194, 194, 194, 0.16), 0px 0px 24px 0px rgba(170, 170, 170, 0.16);
+  box-shadow: 0px 8px 16px 0px rgba(194, 194, 194, 0.16), 0px 0px 24px 0px rgba(170, 170, 170, 0.16);
 }
 
 .mypageContentContainer {

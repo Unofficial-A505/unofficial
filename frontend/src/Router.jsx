@@ -37,8 +37,8 @@ import CreatePostPage from "./pages/CreatePostPage/QuillContainer";
 // import CreatePostPage from './pages/CreatePostPage/CreatePost'
 
 import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage"
-import WebRTC from "./pages/WebRtcPage/WebRtcPage"
+import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
+import WebRTC from "./pages/WebRtcPage/WebRtcPage";
 
 const router = createBrowserRouter([
   {
@@ -71,8 +71,14 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      { path: "", element: <MainPage /> },
-      { path: "", element: <AddAdvPage /> },
+      {
+        path: "",
+        element: <MainPage />,
+      },
+      {
+        path: "user/advertisement/form",
+        element: <AddAdvPage />,
+      },
       {
         // path: ':userId',
         path: "user",
