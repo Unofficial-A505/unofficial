@@ -44,7 +44,7 @@ public class LunchScrapCron {
     @Scheduled(cron = "0 0 7 * * 0-4", zone = "Asia/Seoul")
     public void dailyCron() throws Exception {
         localScraper = new GwangjuScraper();
-        List<Lunch> lunches = localScraper.getWeeklyMenu();
+        List<Lunch> lunches = localScraper.getDailyMenu(DateUtil.getToday(1));
         updateMenu(lunches);
 
         localScraper = new GumiScraper();
@@ -56,7 +56,7 @@ public class LunchScrapCron {
     @Scheduled(cron = "0 10 11 ? * 1-5", zone = "Asia/Seoul")
     public void dailyCronImg() throws Exception {
         localScraper = new GwangjuScraper();
-        List<Lunch> lunches = localScraper.getWeeklyMenu();
+        List<Lunch> lunches = localScraper.getDailyMenu(DateUtil.getToday(0));
         updateMenu(lunches);
 
         localScraper = new GumiScraper();
