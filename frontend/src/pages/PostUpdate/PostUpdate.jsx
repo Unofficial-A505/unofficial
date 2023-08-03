@@ -117,7 +117,7 @@ const PostUpdate = () => {
 
       customAxios({
         method: "post",
-        url: `/api/ads/uploadForArticle`,
+        url: `${process.env.REACT_APP_SERVER}/api/ads/uploadForArticle`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
         // headers: {
@@ -152,7 +152,7 @@ const PostUpdate = () => {
 
     customAxios({
       method: "put",
-      url: `/api/articles/${postId}`,
+      url: `${process.env.REACT_APP_SERVER}/api/articles/${postId}`,
       // url: `http://70.12.247.35:8080/files/articleTest`,
       data: {
         id,
@@ -160,9 +160,9 @@ const PostUpdate = () => {
         title,
         content,
       },
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
     })
       .then((res) => {
         navigate(`/boards/${boardTitle}/${postId}`, { replace: true });

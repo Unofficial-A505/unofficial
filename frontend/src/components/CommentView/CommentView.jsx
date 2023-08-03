@@ -31,11 +31,11 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, pos
     console.log(content)
     customAxios({
       method: "post",
-      url: `/api/comments`,
+      url: `${process.env.REACT_APP_SERVER}/api/comments`,
       data: { articleId, content, parentId },
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
       })
       .then((res) => {
         console.log("댓글 불러오기!!!")

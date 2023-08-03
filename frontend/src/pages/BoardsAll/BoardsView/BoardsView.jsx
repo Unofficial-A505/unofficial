@@ -17,9 +17,9 @@ export default function BoardsView() {
     customAxios({
       method: "get",
       url: `/api/articles`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
     })
       .then((res) => {
         console.log(res.data);
