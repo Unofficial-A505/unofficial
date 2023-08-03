@@ -21,7 +21,7 @@ export default function BoardsAll() {
   const [keywordBoard, setKeywordBoard] = useState("");
 
   const navigate = useNavigate();
-  const URL = useSelector((state) => state.URL.API_URL);
+  // const URL = useSelector((state) => state.URL.API_URL);
 
   // const { isLoading, error, data: boards } = useQuery(
   //   ['boards'], () => {

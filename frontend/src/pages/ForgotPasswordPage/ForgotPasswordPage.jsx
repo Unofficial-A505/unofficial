@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 
 const ForgotPasswordPage = () => {
-  const [isComplete, setIsComplete] = useState(true);
+  const [isComplete, setIsComplete] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [selectedLocal, setSelectedLocal] = useState("");
   const [selectedGen, setSelectedGen] = useState("");

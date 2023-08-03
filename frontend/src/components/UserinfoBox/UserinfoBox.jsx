@@ -5,19 +5,16 @@ import { setAccessToken, setAuthUserEmail } from "../../store/loginSlice";
 
 import styles from "./UserinfoBox.module.css";
 import Login from "./../../components/Login/Login";
-import main_logo from "./../../assets/images/main_logo.png";
 
-import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
 import { RiDatabase2Line } from "@react-icons/all-files/ri/RiDatabase2Line";
 import { BsFileEarmarkText } from "@react-icons/all-files/bs/BsFileEarmarkText";
 import { AiOutlineComment } from "@react-icons/all-files/ai/AiOutlineComment";
-import { IoLogOutOutline } from "@react-icons/all-files/io5/IoLogOutOutline";
-
+import { AiOutlineLogout } from "@react-icons/all-files/ai/AiOutlineLogout";
 export default function UserinfoBox() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(null);
   const authUser = useSelector((state) => state.authUser);
 
   useEffect(() => {
@@ -83,21 +80,23 @@ export default function UserinfoBox() {
             onClick={logout}
           >
             로그아웃&nbsp;
-            <IoLogOutOutline />
+            <AiOutlineLogout />
           </button>
         </div>
         <div className={styles.usermidContainer}>
           <span
-            class={styles.secondmypage}
+            className={styles.secondmypage}
             onClick={() => navigate("/user/password")}
           >
             {user}
           </span>
-          <span class={styles.secondhelloMessage}>의 이야기를 들려주세요</span>
-          <p class={styles.adverMessage}>
+          <span className={styles.secondhelloMessage}>
+            의 이야기를 들려주세요
+          </span>
+          <p className={styles.adverMessage}>
             진행중인{" "}
             <span
-              class={styles.adverButton}
+              className={styles.adverButton}
               onClick={() => navigate("/user/advertisement/myadv")}
             >
               광고
@@ -106,24 +105,24 @@ export default function UserinfoBox() {
           </p>
         </div>
 
-        <div class={styles.mypageContent}>
+        <div className={styles.mypageContent}>
           <p
-            class={styles.mymileButton}
+            className={styles.mymileButton}
             onClick={() => navigate("/user/advertisement/mymile")}
           >
             <RiDatabase2Line class={styles.mymileIcon} />
-            <p class={styles.mileageTotal}>{mileage}</p>
+            <p className={styles.mileageTotal}>{mileage}</p>
           </p>
-          <div class={styles.mypostsAndcomments}>
+          <div className={styles.mypostsAndcomments}>
             <p
-              class={styles.myButton}
+              className={styles.myButton}
               onClick={() => navigate("/user/activity/myposts")}
             >
               <BsFileEarmarkText class={styles.myIcon} />
               <p>3</p>
             </p>
             <p
-              class={styles.myButton}
+              className={styles.myButton}
               onClick={() => navigate("/user/activity/mycomments")}
             >
               <AiOutlineComment class={styles.myIcon} />

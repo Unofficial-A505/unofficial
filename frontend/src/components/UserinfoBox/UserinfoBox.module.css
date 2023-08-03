@@ -48,15 +48,15 @@
   color: #606060;
 }
 .usertopContainer button{
-  padding: 5px;
+  padding: 5px 10px;
   border: 0;
-  border-radius: 10px;
+  border-radius: 15px;
   background-color: #fff;
   border: 1px solid #ebebeb;
   font-size: 0.9rem;
 }
 .usertopContainer button:hover {
-  background-color: #fdfdfd;
+  background-color: #eeeeee;
 }
 .usermidContainer {
   text-align: start;

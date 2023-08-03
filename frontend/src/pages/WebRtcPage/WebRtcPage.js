@@ -7,6 +7,8 @@ import UserVideoComponent from './UserVideoComponent';
 
 // const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://unofficial.kr/';
+// const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8080/';
+
 
 class WebRtcPage extends Component {
     constructor(props) {
@@ -343,7 +345,10 @@ class WebRtcPage extends Component {
 
     async createToken(sessionId) {
         console.log("createToken")
-        const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', { customSessionId: sessionId }, {
+        const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections',
+         { customSessionId: sessionId }, 
+        // {},
+        {
             headers: { 'Content-Type': 'application/json', },
         });
         return response.data; // The token

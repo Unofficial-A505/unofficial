@@ -2,8 +2,7 @@ import axios from 'axios';
 import store from '../store/store';
 
 const customAxios = axios.create({
-    baseURL: 'https://unofficial.kr',
-    //baseURL: 'http://localhost:8080'
+    baseURL: `${process.env.REACT_APP_SERVER}`,
 });
 
 // Add a request interceptor

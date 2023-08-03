@@ -101,7 +101,13 @@ const WeatherCard = ({ data }) => {
       <div className={styles.downContainer}>
         {[1, 2, 3].map((idx) => {
           return (
-            <Forecast times={times} images={images} temps={temps} idx={idx} />
+            <Forecast
+              times={times}
+              images={images}
+              temps={temps}
+              idx={idx}
+              key={idx}
+            />
           );
         })}
       </div>
