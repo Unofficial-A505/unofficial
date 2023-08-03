@@ -162,8 +162,13 @@ public class ArticleController {
     @PostMapping("/image")
     @ResponseBody
     public ResponseEntity<String> upload(@ModelAttribute ImageForm form) throws IOException {
-        MultipartFile file = form.getUploadFile().get(0);
-        return ResponseEntity.ok(s3Uploader.upload(file, "article"));
+        List<MultipartFile> files = form.getUploadFile();
+
+        for (MultipartFile file : files) {
+            s3Uploader.upload(file, "article");
+        }
+
+        return ResponseEntity.ok("전송 성공");
     }
 
 //    @PostMapping("/images")
