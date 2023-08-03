@@ -49,7 +49,7 @@ export default function Login({ setModalOpen }) {
       });
       // 성공 ? 토큰 저장 && 모달 off
       dispatch(setAuthUserEmail(userEmail))
-      dispatch(setAccessToken(response.headers.authorization));
+      dispatch(setAccessToken(response.headers.authorization.split(" ")[1]));
       localStorage.setItem('REFRESH_TOKEN', response.headers.Refresh_token);
       setModalOpen(false)
     }

@@ -1,5 +1,5 @@
 import styles from "./MyPage.module.css";
-
+import React, { useState, useEffect } from "react";
 import TopSpace from "../../components/TopSpace/TopSpace";
 
 import { FiHome } from "@react-icons/all-files/fi/FiHome";
@@ -8,6 +8,7 @@ import { RiAdvertisementLine } from "@react-icons/all-files/ri/RiAdvertisementLi
 import { BiLogOut } from "@react-icons/all-files/bi/BiLogOut";
 
 import { Outlet, Link, useLocation } from "react-router-dom";
+import customAxios from "../../util/customAxios";
 
 export default function MyPage() {
   const location = useLocation();
@@ -17,6 +18,18 @@ export default function MyPage() {
   const isActiveActivity = path.includes("activity");
   const isActiveAdvertisement = path.includes("advertisement");
   const isManagement = path.includes("management");//관리자
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    const getUserRole = async () => {
+      try {
+        const response = await customAxios.get("api/users/user");
+        setRole(response.data.role);
+      } catch (error) {
+        console.error("Error fetching user role", error);
+      }
+    };
+    getUserRole();
+  }, []);
   let activeTab;
   if (isActiveActivity) {
     activeTab = "활동";
@@ -77,19 +90,21 @@ export default function MyPage() {
                     광고 및 마일리지 관리
                   </Link>
                 </div>
-                <div className={styles.navnameContainer}>
-                  <RiAdvertisementLine
-                    className={styles.mypagenavIcon}
-                    style={activeTab === "관리자" ? { color: "#034BB9" } : null}
-                  />
-                  <Link
-                    to="management"
-                    className={styles.mypagenavtab}
-                    style={activeTab === "관리자" ? { color: "#034BB9" } : null}
-                  >
-                    광고 승인 및 취소(관리자)
-                  </Link>
-                </div>
+                {role === 'ADMIN' && (
+                  <div className={styles.navnameContainer}>
+                    <RiAdvertisementLine
+                      className={styles.mypagenavIcon}
+                      style={activeTab === "관리자" ? { color: "#034BB9" } : null}
+                    />
+                    <Link
+                      to="management"
+                      className={styles.mypagenavtab}
+                      style={activeTab === "관리자" ? { color: "#034BB9" } : null}
+                    >
+                      광고 승인 및 취소(관리자)
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           </nav>

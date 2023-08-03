@@ -3,14 +3,14 @@ import store from '../store/store';
 
 const customAxios = axios.create({
     baseURL: 'https://unofficial.kr',
-    //baseURL: 'https://localhost:8080'
+    //baseURL: 'http://localhost:8080'
 });
 
 // Add a request interceptor
 customAxios.interceptors.request.use(
     (config) => {
         const state = store.getState();
-        const accessToken = state.accessToken; // Replace with your access token path in Redux
+        const accessToken = state.authUser.accessToken; // Replace with your access token path in Redux
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }
