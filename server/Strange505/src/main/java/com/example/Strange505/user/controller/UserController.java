@@ -50,8 +50,9 @@ public class UserController {
     }
 
     @PostMapping("/drop")
-    public ResponseEntity withdraw() {
-        userService.withdrawUser();
+    public ResponseEntity withdraw(@RequestBody Object data) {
+        String password = ((HashMap<String,String>)data).get("password");
+        userService.withdrawUser(password);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
