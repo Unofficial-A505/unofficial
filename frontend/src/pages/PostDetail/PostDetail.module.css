@@ -132,6 +132,14 @@
   text-align: start;
 }
 
+.commentnickName {
+  display: flex;
+  justify-content: space-between;
+  width: 280px;
+  margin: 15px 0 10px 0;
+  /* align-items: start; */
+}
+
 .commentbox {
   position: relative;
   width: 100%;
@@ -144,7 +152,7 @@
 
 .commentInput {
   width: 90%;
-  margin: 10px 0 10px 10px;
+  margin: 10px 0 15px 10px;
   height: 50px;
   font-size: 1rem;
 

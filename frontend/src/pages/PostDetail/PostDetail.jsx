@@ -39,16 +39,13 @@ export default function PostDetail() {
   // const [ content, setContent] = useState("");
   const [ createcomment, setcreateComment] = useState("");
   const [ comments, setComments ] = useState([])
+  const [ commentnickName, setcommentnickName] = useState("")
   const [ recommendedState, setrecommendedState ] = useState(false)
   console.log('지금 코멘트', comments)
   const commentElement = useRef(null);
   
   const createTime = postDetail.createTime
   const updateTime = postDetail.modifyTime
-
-  console.log(typeof createTime)
-  console.log(typeof updateTime)
-
   const createTime_modify = createTime?.slice(0, 10)
   const updateTime_modify = updateTime?.slice(0, 10)
 
@@ -110,11 +107,13 @@ const commentCreate = () => {
   const content = createcomment
   const parentId = 0;
   const articleId = postId;
+  const nickName = commentnickName
+
   console.log(content)
   customAxios({
     method: "post",
     url: `${process.env.REACT_APP_SERVER}/api/comments`,
-    data: { articleId, content, parentId },
+    data: { articleId, content, parentId, nickName },
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
@@ -256,21 +255,10 @@ const commentCreate = () => {
             </div>
 
             <div className={styles.postBottombar}>
-              {/* {!recommendedState ? 
-                <div onClick={postRecommendedInput}>
-                  <FaRegThumbsUp class={styles.tabIcon} size="18" />
-                  {recommended}
-                </div>
-                :
-                <div onClick={postRecommendedDelete}>
-                  <FaRegThumbsUp class={styles.tabIcon} size="18" />
-                  {recommended}
-                </div>
-              } */}
               <div onClick={postRecommendedInput}>
-                  <FaRegThumbsUp class={styles.tabIcon} size="18" />
-                  {recommended}
-                </div>
+                <FaRegThumbsUp class={styles.tabIcon} size="18" />
+                {recommended}
+              </div>
               <div className={styles.postupdateBottom}>
                 <div onClick={() => navigate(`/boards/${boardTitle}/${postId}/update`, { state : postDetail })} className={styles.postupdateBottomtab}>
                   <HiOutlinePencilAlt size="15" />
@@ -291,6 +279,10 @@ const commentCreate = () => {
               <p>댓글 {commentsNum}</p>
             </div>
 
+            <div className={styles.commentnickName}>
+              <div>닉네임</div>
+              <input type="text" placeholder="닉네임을 입력하세요" onChange={(e) => commentnickName(e.target.value)}/>
+            </div>
             <div className={styles.commentbox}>
               <textarea
                 className={styles.commentInput}

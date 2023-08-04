@@ -6,12 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { FaRegThumbsUp } from "@react-icons/all-files/fa/FaRegThumbsUp";
 
 export default function PostView({ post, boardTitle }) {
-  const [postContent, setPostContent] = useState({});
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setPostContent(post);
-  }, []);
+  const createTime = post.createTime
+  const updateTime = post.modifyTime
+
+  const createTime_modify = createTime?.slice(0, 10)
+  const updateTime_modify = updateTime?.slice(0, 10)
 
   return (
     <>
@@ -23,17 +24,17 @@ export default function PostView({ post, boardTitle }) {
           <div
             className={styles.postTitle}
             onClick={() =>
-              navigate(`/boards/${boardTitle ? boardTitle : "자유게시판"}/${postContent.id}`)
+              navigate(`/boards/${boardTitle ? boardTitle : "자유게시판"}/${post.id}`)
             }
           >
-            {postContent.title}
+            {post.title}
           </div>
         </div>
         <div className={styles.postContainer}>
-          <div className={styles.postContent}>{post.createTime}</div>
-          <div className={styles.postContent}><FaRegThumbsUp className={styles.postIcon}/>{post.likes}</div>
+          <div className={styles.postContent}>{createTime_modify} (수정 : {updateTime_modify})</div>
+          <div className={styles.postContent} id={styles.postrecommendBox}><FaRegThumbsUp className={styles.postIcon}/>{post.likes}</div>
           <div className={styles.postContent}>사용자</div>
-          <div className={styles.postContent}>조회수 {post.views}</div>
+          <div className={styles.postContent} id={styles.postviewBox}>조회수 {post.views}</div>
         </div>
       </div>
     </>
