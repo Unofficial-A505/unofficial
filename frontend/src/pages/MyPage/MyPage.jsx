@@ -9,10 +9,12 @@ import { RiLogoutCircleLine } from "@react-icons/all-files/ri/RiLogoutCircleLine
 
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import customAxios from "../../util/customAxios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setAccessToken, setAuthUserEmail } from "../../store/loginSlice";
 
 export default function MyPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const authUser = useSelector((state) => state.authUser);
   const accessToken = authUser.accessToken;
 
@@ -52,6 +54,14 @@ export default function MyPage() {
   } else {
     activeTab = "정보";
   }
+
+  const logout = () => {
+    dispatch(setAccessToken(""));
+    dispatch(setAuthUserEmail(""));
+    localStorage.removeItem("REFRESH_TOKEN");
+    navigate("/");
+  };
+
   return (
     <>
       <TopSpace />
@@ -114,7 +124,7 @@ export default function MyPage() {
               )}
             </div>
           </nav>
-          <div className={styles.logoutTab}>
+          <div className={styles.logoutTab} onClick={logout}>
             <RiLogoutCircleLine className="me-2" size={20} />
             <p>Logout</p>
           </div>
