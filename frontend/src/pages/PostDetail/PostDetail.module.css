@@ -71,7 +71,7 @@
 
 .postusername {
   color: #034BB9;
-  font-size: 14px;
+  font-size: 17px;
   font-style: normal;
   font-weight: 300;
   line-height: normal;
@@ -81,7 +81,7 @@
 
 .posttimeago {
   color: #000;
-  font-size: 12.627px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 300;
   line-height: normal;
@@ -92,6 +92,12 @@
 .tabIcon {
   margin: 0 8px 4px 0;
   cursor: pointer;
+}
+
+/* 생성일자 및 조회수*/
+.dateViews {
+  display: flex;
+  /* border: 1px dotted red; */
 }
 
 .postcontentContainer {
@@ -126,6 +132,19 @@
   text-align: start;
 }
 
+.commentnickName {
+  display: flex;
+  justify-content: space-between;
+  width: 280px;
+  margin: 15px 0 10px 0;
+  /* align-items: start; */
+}
+
+.commentnickNameInput {
+  border: 2px solid #D9D9D9;
+  border-radius: 0.3rem;
+}
+
 .commentbox {
   position: relative;
   width: 100%;
@@ -138,7 +157,7 @@
 
 .commentInput {
   width: 90%;
-  margin: 10px 0 10px 10px;
+  margin: 10px 0 15px 10px;
   height: 50px;
   font-size: 1rem;
 

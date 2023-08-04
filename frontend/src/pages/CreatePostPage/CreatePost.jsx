@@ -92,11 +92,11 @@ export default function CreatePost() {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
     })
-      .then((res) => {
-        navigate(`/boards/${boardTitle}/${res.data.id}`, { replace: true });
-        console.log(res.data);
-      })
-      .catch((err) => console.log(err));
+    .then((res) => {
+      navigate(`/boards/${boardTitle}/${res.data.id}`, { replace: true });
+      console.log(res.data);
+    })
+    .catch((err) => console.log(err));
   };
 
   return (

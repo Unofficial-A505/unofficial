@@ -18,14 +18,13 @@ export default function BoardsView() {
   useEffect(() => {
     customAxios({
       method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/articles/board/${id}`,
+      url: `${process.env.REACT_APP_SERVER}/api/articles`,
       // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
       // }
     })
       .then((res) => {
         console.log(res.data);
-        setPosts(res.data.content);
+        setPosts(res.data.content); 
       })
       .catch((err) => console.log(err));
     return () => {

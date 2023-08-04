@@ -34,6 +34,7 @@ public class Article {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(length = 20, nullable = false)
     private String nickName;
 
     @ManyToOne(fetch = FetchType.LAZY)
