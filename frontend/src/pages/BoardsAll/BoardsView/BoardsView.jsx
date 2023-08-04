@@ -1,24 +1,26 @@
 import styles from "./BoardsView.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import PostsView from "../../../components/PostView/PostView";
 import customAxios from "../../../util/customAxios";
 
 export default function BoardsView() {
-  const [posts, setPosts] = useState([]);
+  const { state: index } = useLocation();
+  const [ posts, setPosts ] = useState([]);
   let { boardTitle } = useParams();
   if (!boardTitle) {
     boardTitle = "자유게시판";
   }
   const navigate = useNavigate();
+  console.log('index', index)
 
   useEffect(() => {
     customAxios({
       method: "get",
-      url: `/api/articles`,
+      url: `/api/articles/board/${index}`,
       headers: {
-        Authorization: `Token ${this.$store.state.token}`,
+        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTIxNjE1MzcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjEsInJvbGUiOiJST0xFX0FETUlOIn0.-yKThjZOeyLxvlpVzVHxMAfEw2jbtwVZ-wcX0pYWdgJETpiALTD3H0re8KngsVHx3Zu_rzF8wB_24jkAmv6O5g`,
       }
     })
       .then((res) => {
@@ -29,7 +31,7 @@ export default function BoardsView() {
     return () => {
       console.log("unmounted");
     };
-  }, []);
+  }, [posts]);
 
   if (posts) {
     return (
