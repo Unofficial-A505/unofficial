@@ -164,6 +164,7 @@ function Drop({ setModalOpen, setDropComplete, userEmail }) {
           <input
             type="password"
             className="form-control"
+            autocomplete="off"
             placeholder="비밀번호를 입력하세요"
             onChange={passwordHandler}
           />
