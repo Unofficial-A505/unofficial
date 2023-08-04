@@ -21,7 +21,7 @@ public class CommentController {
 
     private final CommentService commentService;
     private final AuthService authService;
-    
+
     @PostMapping
     public ResponseEntity<?> registerComment(@RequestBody CommentRequestDto dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
