@@ -56,7 +56,7 @@ decorator:
     p6spy:
       enable-logging: true
 
-OPENVIDU_URL: https://ec2.unofficial.kr:9000/
+OPENVIDU_URL: https://ec2.unofficial.kr/
 OPENVIDU_SECRET: STRANGE505
 
 main: main
