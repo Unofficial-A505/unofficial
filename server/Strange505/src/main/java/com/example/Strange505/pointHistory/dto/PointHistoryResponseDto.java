@@ -16,6 +16,6 @@ public class PointHistoryResponseDto {
     private int diff;
     private String description;
     private Timestamp actionDate;
-    private Long remainingPoints;
+    private int remainingPoints;
 
 }
