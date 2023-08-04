@@ -39,20 +39,28 @@
 
 #boardName {
   width: 40px;
+  text-align: start;
 }
 
 .postIcon {
   margin: 0 4px 4px 0;
 }
 
+#postcreatTime {
+  text-align: right;
+
+  border: 1px dotted red;
+}
+
 #postrecommendBox {
   width: 60px;
 
-  border: 1px aqua dotted;
+  /* border: 1px aqua dotted; */
 }
 
 #postviewBox {
   width: 100px;
+  text-align: start;
 
-  border: 1px dotted red;
+  /* border: 1px dotted red; */
 }
