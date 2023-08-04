@@ -15,7 +15,7 @@ export default function SweaButton() {
     <div className="d-flex">
       <button className={styles.swaeContainer} onClick={sweaClick}>
         <div className={styles.swaeLogo} />
-        <p className={styles.buttonTitle} style={{ color: "#161616;" }}>
+        <p className={styles.buttonTitle} style={{ color: "#161616" }}>
           SWEA
         </p>
       </button>
