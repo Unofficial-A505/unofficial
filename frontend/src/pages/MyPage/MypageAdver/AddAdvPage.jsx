@@ -3,8 +3,18 @@ import axios from "axios";
 import styles from "./AddAdvPage.module.css";
 import customAxios from "../../../util/customAxios";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function AddAdvPage() {
+  const authUser = useSelector((state) => state.authUser);
+  const accessToken = authUser.accessToken;
+
+  useEffect(() => {
+    if (!accessToken) {
+      navigate("/");
+    }
+  }, []);
+
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [redirectUrl, setRedirectUrl] = useState("");

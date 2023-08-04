@@ -30,7 +30,7 @@ export default function MyDeleteAccount() {
   const terms = () => {
     return (
       <div>
-        안녕
+        <p>안농</p>
       </div>
     )
   }
@@ -45,7 +45,7 @@ export default function MyDeleteAccount() {
           </p>
         </div>
         <div className={styles.termsContainer}>
-          {terms}
+          {terms()}
         </div>
         <div className="form-group mb-3">
           <input

@@ -14,13 +14,13 @@ import { useSelector } from "react-redux";
 export default function MyPage() {
   const navigate = useNavigate();
   const authUser = useSelector((state) => state.authUser);
-  const userEmail = authUser.authUserEmail;
+  const accessToken = authUser.accessToken;
 
   useEffect(() => {
-    if (!userEmail) {
+    if (!accessToken) {
       navigate("/");
     }
-  });
+  }, []);
 
   // 현재 경로에서 'activity'나 'advertisement' 문자열이 있는지 확인
   const location = useLocation();
