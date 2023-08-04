@@ -5,10 +5,11 @@ import React, { Component } from 'react';
 import './App.css';
 import UserVideoComponent from './UserVideoComponent';
 
-const APPLICATION_SERVER_URL = process.env.REACT_APP_SERVER + "/"
+// const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
+const APPLICATION_SERVER_URL = process.env.REACT_APP_SERVER + "/";
 
 
-class WebRtcPage extends Component {
+class App extends Component {
     constructor(props) {
         super(props);
 
@@ -76,6 +77,7 @@ class WebRtcPage extends Component {
 
     joinSession() {
         // --- 1) Get an OpenVidu object ---
+
         this.OV = new OpenVidu();
 
         // --- 2) Init a session ---
@@ -333,7 +335,6 @@ class WebRtcPage extends Component {
     }
 
     async createSession(sessionId) {
-        console.log("createSession")
         const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
             headers: { 'Content-Type': 'application/json', },
         });
@@ -341,15 +342,11 @@ class WebRtcPage extends Component {
     }
 
     async createToken(sessionId) {
-        console.log("createToken")
-        const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections',
-        //  { customSessionId: sessionId }, 
-        {},
-        {
+        const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
             headers: { 'Content-Type': 'application/json', },
         });
         return response.data; // The token
     }
 }
 
-export default WebRtcPage;
+export default App;
