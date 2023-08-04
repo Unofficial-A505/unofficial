@@ -74,6 +74,8 @@ public class ArticleController {
                 .content(article.getContent())
                 .boardName(article.getBoard().getName())
                 .nickName(article.getNickName())
+                .likes(article.getLikes())
+                .views(article.getViews())
                 .createTime(article.getCreateTime())
                 .modifyTime(article.getModifyTime())
                 .build();
