@@ -30,7 +30,7 @@ export default function PostView({ post, boardTitle }) {
           </div>
         </div>
         <div className={styles.postContainer}>
-          <div className={styles.postContent}>{post.createTime.slice(0, 10)}</div>
+          <div className={styles.postContent}>{post.createTime}</div>
           <div className={styles.postContent}><FaRegThumbsUp className={styles.postIcon}/>{post.likes}</div>
           <div className={styles.postContent}>사용자</div>
           <div className={styles.postContent}>조회수 {post.views}</div>

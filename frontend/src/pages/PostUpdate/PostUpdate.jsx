@@ -39,7 +39,7 @@ const PostUpdate = () => {
   const TitleElement = useRef(null);
   const quillElement = useRef(null);
 
-  const { state : { title, content }} = useLocation(); 
+  const { state : postDetail } = useLocation(); 
 
   const modules = {
     toolbar: {
@@ -83,7 +83,7 @@ const PostUpdate = () => {
         selectLocalImage();
       });
 
-      const delta = quillElement.current.editor.clipboard.convert(content)
+      const delta = quillElement.current.editor.clipboard.convert(postDetail.content)
       quillElement.current.editor.setContents(delta, 'silent')
 
   }, []);
@@ -197,7 +197,7 @@ const PostUpdate = () => {
           <input
             className={styles.inputTitle}
             type="text"
-            defaultValue={title}
+            defaultValue={postDetail.title}
             ref={TitleElement}
           />
           {/* <TitleInput placeholder="제목을 입력하세요" ref={TitleElement}/> */}

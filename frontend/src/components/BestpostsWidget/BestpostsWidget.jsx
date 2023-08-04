@@ -21,7 +21,7 @@ export default function BestpostsWidget(){
       // }
       })
       .then((res) => {
-        console.log(res.data);
+        console.log('best', res.data);
         setPosts(res.data.slice(0, 10));
       })
       .catch((err) => console.log(err))

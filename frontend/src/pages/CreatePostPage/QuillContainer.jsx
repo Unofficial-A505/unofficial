@@ -34,6 +34,7 @@ const QuillContainer = () => {
     const { boardTitle } = useParams();
     const [ value, setValue ] = useState('');
     const [ title, setTitle ] = useState('');
+    const [ nickName, setnickName ] = useState('');
     const TitleElement = useRef(null);
     const quillElement = useRef(null); 
 
@@ -238,7 +239,7 @@ const QuillContainer = () => {
     return new Promise(function(resolve, reject){
       const title = TitleElement.current.value;
       const boardName = boardTitle;
-      const nickName = "다솜";
+      const nickName = nickName
       console.log(title, content, boardTitle);
   
       customAxios({
@@ -288,6 +289,7 @@ const QuillContainer = () => {
       <NavBar />
 
       <div className={styles.craetecontainer}>
+
         <div className={styles.upmenu}>
           <Title>
             <p className={styles.boardTitle}>{boardTitle}</p>
@@ -327,6 +329,10 @@ const QuillContainer = () => {
             // const range = quillElement.current.getSelection();
             quillElement.current.editor.insertEmbed(quillElement.current.editor.root, 'image', `${imageURL}`);
             }}>이미지 태그로 삽입하기 테스트</button>  */}
+        <div className={styles.nicknameContainer}>
+          <span className={styles.nicknametitleBox}>닉네임</span>
+          <input type="text" onChange={(e) => setnickName(e.target.value)} placeholder='닉네임을 입력하세요'/>
+        </div>
         <div className={styles.undermenu}>
           <button className={styles.grayoutbutton} onClick={handleCancel}>
             <IoIosArrowBack />

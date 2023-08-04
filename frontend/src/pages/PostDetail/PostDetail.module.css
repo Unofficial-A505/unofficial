@@ -94,6 +94,12 @@
   cursor: pointer;
 }
 
+/* 생성일자 및 조회수*/
+.dateViews {
+  display: flex;
+  /* border: 1px dotted red; */
+}
+
 .postcontentContainer {
   margin: 50px 20px;
 }
