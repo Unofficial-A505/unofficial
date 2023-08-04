@@ -14,23 +14,23 @@ export default function BoardView( ){
 
   const navigate = useNavigate();
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    customAxios({
-      method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/best`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
-      })
-      .then((res) => {
-        console.log(res.data);
-        setPosts(res.data.slice(0, 10));
-      })
-      .catch((err) => console.log(err))
-    return () => {  
-      console.log('unmounted')
-    }}, []);
+  //   customAxios({
+  //     method: "get",
+  //     url: `${process.env.REACT_APP_SERVER}/api/best`,
+  //     // headers: {
+  //     //   Authorization: `Token ${this.$store.state.token}`,
+  //     // }
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setPosts(res.data.slice(0, 10));
+  //     })
+  //     .catch((err) => console.log(err))
+  //   return () => {  
+  //     console.log('unmounted')
+  //   }}, []);
 
   return(
     <div>

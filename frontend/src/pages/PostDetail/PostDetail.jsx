@@ -26,19 +26,30 @@ import { HiOutlinePencilAlt } from "@react-icons/all-files/hi/HiOutlinePencilAlt
 import { HiOutlineSpeakerphone } from "@react-icons/all-files/hi/HiOutlineSpeakerphone";
 // 말풍선 아이콘
 import { IoChatboxOutline } from "@react-icons/all-files/io5/IoChatboxOutline";
+// 조회수 아이콘
+import { AiOutlineEye } from "@react-icons/all-files/ai/AiOutlineEye";
 
 // API import
 export default function PostDetail() {
   const navigate = useNavigate();
   const { boardTitle } = useParams();
   const { postId } = useParams();
-  const [ title, setTitle] = useState("");
-  const [ content, setContent] = useState("");
+  const [ postDetail, setpostDetail ] = useState({})
+  // const [ title, setTitle] = useState("");
+  // const [ content, setContent] = useState("");
   const [ createcomment, setcreateComment] = useState("");
   const [ comments, setComments ] = useState([])
+  const [ commentnickName, setcommentnickName] = useState("")
   const [ recommendedState, setrecommendedState ] = useState(false)
   console.log('지금 코멘트', comments)
   const commentElement = useRef(null);
+  
+  const createTime = postDetail.createTime
+  const updateTime = postDetail.modifyTime
+  const createTime_modify = createTime?.slice(0, 10)
+  const updateTime_modify = updateTime?.slice(0, 10)
+
+  console.log(createTime_modify, updateTime_modify)
 
   const getComment = () => {
     customAxios({
@@ -65,8 +76,10 @@ export default function PostDetail() {
     })
       .then((res) => {
         console.log('detail', res.data);
-        setTitle(res.data.title);
-        setContent(res.data.content);
+        setpostDetail(res.data)
+        // setTitle(res.data.title);
+        // setContent(res.data.content);
+        console.log(postDetail)
       })
       .catch((err) => console.log(err));
 
@@ -94,11 +107,13 @@ const commentCreate = () => {
   const content = createcomment
   const parentId = 0;
   const articleId = postId;
+  const nickName = commentnickName
+
   console.log(content)
   customAxios({
     method: "post",
     url: `${process.env.REACT_APP_SERVER}/api/comments`,
-    data: { articleId, content, parentId },
+    data: { articleId, content, parentId, nickName },
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
@@ -219,37 +234,33 @@ const commentCreate = () => {
           </div>
           <div className={styles.postContainer}>
             <div>
-              <div className={styles.postTitle}>{title}</div>
+              <div className={styles.postTitle}>{postDetail.title}</div>
               <div className={styles.postusername}>{username}</div>
-              <div className={styles.posttimeago}>
-                <IoRocketOutline className={styles.tabIcon} size="20" />
-                {timeago}
+              <div className={styles.dateViews}>
+                <div className={styles.posttimeago}>
+                  <IoRocketOutline className={styles.tabIcon} size="20" />
+                  {createTime_modify} 
+                  {createTime_modify === updateTime_modify && ` (수정 : ${updateTime_modify})`}
+                </div>
+                <div className={styles.posttimeago}>
+                  <AiOutlineEye className={styles.tabIcon} size="19" />
+                  {postDetail.views}10
+                </div>
               </div>
             </div>
 
             <hr />
             <div className={styles.postcontentContainer}>
-              <div dangerouslySetInnerHTML={{ __html: content }} />
+              <div dangerouslySetInnerHTML={{ __html: postDetail.content }} />
             </div>
 
             <div className={styles.postBottombar}>
-              {/* {!recommendedState ? 
-                <div onClick={postRecommendedInput}>
-                  <FaRegThumbsUp class={styles.tabIcon} size="18" />
-                  {recommended}
-                </div>
-                :
-                <div onClick={postRecommendedDelete}>
-                  <FaRegThumbsUp class={styles.tabIcon} size="18" />
-                  {recommended}
-                </div>
-              } */}
               <div onClick={postRecommendedInput}>
-                  <FaRegThumbsUp class={styles.tabIcon} size="18" />
-                  {recommended}
-                </div>
+                <FaRegThumbsUp class={styles.tabIcon} size="18" />
+                {recommended}
+              </div>
               <div className={styles.postupdateBottom}>
-                <div onClick={() => navigate(`/boards/${boardTitle}/${postId}/update`, { state : { title, content }})} className={styles.postupdateBottomtab}>
+                <div onClick={() => navigate(`/boards/${boardTitle}/${postId}/update`, { state : postDetail })} className={styles.postupdateBottomtab}>
                   <HiOutlinePencilAlt size="15" />
                   update
                 </div>
@@ -268,6 +279,10 @@ const commentCreate = () => {
               <p>댓글 {commentsNum}</p>
             </div>
 
+            <div className={styles.commentnickName}>
+              <div>닉네임</div>
+              <input type="text" placeholder="닉네임을 입력하세요" onChange={(e) => commentnickName(e.target.value)}/>
+            </div>
             <div className={styles.commentbox}>
               <textarea
                 className={styles.commentInput}

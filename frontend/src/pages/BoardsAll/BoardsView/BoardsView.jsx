@@ -18,14 +18,14 @@ export default function BoardsView() {
   useEffect(() => {
     customAxios({
       method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/articles/board/${id}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      url: `${process.env.REACT_APP_SERVER}/api/articles`,
+      headers: {
+        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTIxNjE1MzcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjEsInJvbGUiOiJST0xFX0FETUlOIn0.-yKThjZOeyLxvlpVzVHxMAfEw2jbtwVZ-wcX0pYWdgJETpiALTD3H0re8KngsVHx3Zu_rzF8wB_24jkAmv6O5g`,
+      }
     })
       .then((res) => {
         console.log(res.data);
-        setPosts(res.data.content);
+        setPosts(res.data.content); 
       })
       .catch((err) => console.log(err));
     return () => {
