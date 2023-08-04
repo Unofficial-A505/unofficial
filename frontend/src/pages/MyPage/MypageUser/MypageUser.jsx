@@ -5,7 +5,7 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 export default function MypageUser(){
   const navigate = useNavigate();
   const location = useLocation();
-  console.log('location', location.pathname)
+  // console.log('location', location.pathname)
 
   return(
     <div>
