@@ -3,6 +3,8 @@ import styles from "./PostView.module.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { FaRegThumbsUp } from "@react-icons/all-files/fa/FaRegThumbsUp";
+
 export default function PostView({ post, boardTitle }) {
   const [postContent, setPostContent] = useState({});
   const navigate = useNavigate();
@@ -16,7 +18,7 @@ export default function PostView({ post, boardTitle }) {
       <div className={styles.boardpostContainer}>
         <div className={styles.postContainer}>
           <div className={styles.postContent} id={styles.boardName}>
-            {boardTitle ? boardTitle : "자유게시판"}
+            {post.id}
           </div>
           <div
             className={styles.postTitle}
@@ -28,9 +30,10 @@ export default function PostView({ post, boardTitle }) {
           </div>
         </div>
         <div className={styles.postContainer}>
-          <div className={styles.postContent}>추천수</div>
+          <div className={styles.postContent}>{post.createTime.slice(0, 10)}</div>
+          <div className={styles.postContent}><FaRegThumbsUp className={styles.postIcon}/>{post.likes}</div>
           <div className={styles.postContent}>사용자</div>
-          <div className={styles.postContent}>{post.updated_at}</div>
+          <div className={styles.postContent}>조회수 {post.views}</div>
         </div>
       </div>
     </>

@@ -253,7 +253,7 @@ const QuillContainer = () => {
           // imageList
         },
         headers: {
-          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTEwNjc3MzksInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjE0LCJyb2xlIjoiUk9MRV9BRE1JTiJ9.Z_SHpW9_1WQbswqnR4ADZqGNAphQjbEh88uBt2W_BVzKndwCQ4IUkwy7qIp-EuiOhXCWKB2nbR_O71RehedxXw`
+          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTIxNjE1MzcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjEsInJvbGUiOiJST0xFX0FETUlOIn0.-yKThjZOeyLxvlpVzVHxMAfEw2jbtwVZ-wcX0pYWdgJETpiALTD3H0re8KngsVHx3Zu_rzF8wB_24jkAmv6O5g`
         }
       })
       .then((res) => {

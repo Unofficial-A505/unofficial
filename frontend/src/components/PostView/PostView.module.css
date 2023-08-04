@@ -36,3 +36,11 @@
   font-weight: 400;
   line-height: normal;
 }
+
+#boardName {
+  width: 40px;
+}
+
+.postIcon {
+  margin: 0 4px 4px 0;
+}
