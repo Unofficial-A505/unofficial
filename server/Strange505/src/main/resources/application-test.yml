@@ -1,0 +1,50 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://unofficial.kr/ssafy_web_db?serverTimezone=Asia/Seoul
+    username: root
+    password: strange505
+  data:
+    redis:
+      host: unofficial.kr
+      port: 6379
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+        format_sql: true
+
+
+
+jwt:
+  secret: VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4=VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4= # 임의의 문자열을 Base64로 인코딩한 값
+  refresh-token-validity-in-seconds: 1209600 # 14일
+  access-token-validity-in-seconds: 43200 # 12시간
+
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAWEYQVFMPLZ45LNXQ
+      secret-key: 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
+    s3:
+      bucket: 505bucket
+    region:
+      static: ap-northeast-2 # 리전 정보
+    stack:
+      auto: false
+
+file:
+  dir: C:\Users\SSAFY\Desktop/file/
+
+mail:
+  base-url : "https://dev.unofficial.kr/verify?verificationCode="
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+
+test: test

@@ -1,21 +1,21 @@
-stages:          # List of stages for jobs, and their order of execution
+stages: # List of stages for jobs, and their order of execution
   - test
   - build
   - libs
   - deploy
   - finish
 
-test:       # This job runs in the build stage, which runs first.
+test: # This job runs in the build stage, which runs first.
   image: openjdk:17.0.1-oraclelinux8
   stage: test
-  script: 
+  script:
     - chmod -R 775 server/
     - cd ./server/Strange505
     - ./gradlew test
 
-build:   # This job runs in the test stage.
+build: # This job runs in the test stage.
   image: openjdk:17.0.1-oraclelinux8
-  stage: build    # It only starts when the job in the build stage completes successfully.
+  stage: build # It only starts when the job in the build stage completes successfully.
   variables:
     IMAGE_NAME: strangedev505/springboot-app
   script:
@@ -23,11 +23,11 @@ build:   # This job runs in the test stage.
     - cd ./server/Strange505
     - ./gradlew clean
     - ./gradlew build
-    - docker build -t $IMAGE_NAME .
+    - docker build -t $IMAGE_NAME --build-arg env=serve .
   only:
     - master
 
-npm: 
+npm:
   stage: libs
   cache:
     paths:
@@ -37,8 +37,8 @@ npm:
     - cd frontend
     - npm install
 
-deploy-was1:      # This job runs in the deploy stage.
-  stage: deploy 
+deploy-was1: # This job runs in the deploy stage.
+  stage: deploy
   tags:
     - deployer
   script:
@@ -46,11 +46,11 @@ deploy-was1:      # This job runs in the deploy stage.
     - docker rm springboot-app || true
     - docker run -d --restart always --network ubuntu_default --ip 172.18.0.50 -e TZ=Asia/Seoul --name springboot-app strangedev505/springboot-app
   when: on_success
-  only: 
+  only:
     - master
 
-deploy-was2:      # This job runs in the deploy stage.
-  stage: deploy 
+deploy-was2: # This job runs in the deploy stage.
+  stage: deploy
   tags:
     - deployer
   script:
@@ -58,11 +58,14 @@ deploy-was2:      # This job runs in the deploy stage.
     - docker rm springboot-app2 || true
     - docker run -d --restart always --network ubuntu_default --ip 172.18.0.51 -e TZ=Asia/Seoul --name springboot-app2 strangedev505/springboot-app
   when: on_success
-  only: 
+  only:
     - master
 
-deploy-react:      # This job runs in the deploy stage.
-  stage: deploy 
+deploy-react: # This job runs in the deploy stage.
+  stage: deploy
+  variables:
+    IMAGE_NAME: strangedev505/react
+    NAME: react
   tags:
     - deployer
   cache:
@@ -74,10 +77,11 @@ deploy-react:      # This job runs in the deploy stage.
     - npm install
     - npm install --save-dev @babel/plugin-proposal-private-property-in-object
     - npm run build
-    - whoami
-    - rm -rf /home/ubuntu/react-build-files
-    - cp -r build /home/ubuntu/react-build-files
-  only: 
+    - docker build -t $IMAGE_NAME --build-arg env=prod .
+    - docker stop $NAME || true
+    - docker rm $NAME || true
+    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.52 -e TZ=Asia/Seoul --name $NAME $IMAGE_NAME
+  only:
     - master
 
 finish:
@@ -85,5 +89,61 @@ finish:
   script:
     - docker rmi $(docker images -f "dangling=true" -q)
     - docker restart ubuntu_nginx_1
-  only: 
+  only:
     - master
+
+build-dev: # This job runs in the test stage.
+  image: openjdk:17.0.1-oraclelinux8
+  stage: build # It only starts when the job in the build stage completes successfully.
+  variables:
+    IMAGE_NAME: strangedev505/springboot-dev
+  script:
+    - chmod -R 775 server/
+    - cd ./server/Strange505
+    - ./gradlew clean
+    - ./gradlew build
+    - docker build -t $IMAGE_NAME --build-arg env=qa .
+  only:
+    - develop
+
+deploy-was1-dev: # This job runs in the deploy stage.
+  stage: deploy
+  tags:
+    - deployer
+  script:
+    - docker stop springboot-dev || true
+    - docker rm springboot-dev || true
+    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.100 -e TZ=Asia/Seoul --name springboot-dev strangedev505/springboot-dev
+  when: on_success
+  only:
+    - develop
+
+deploy-react-dev: # This job runs in the deploy stage.
+  stage: deploy
+  variables:
+    IMAGE_NAME: strangedev505/react-dev
+    NAME: react-dev
+  tags:
+    - deployer
+  cache:
+    paths:
+      - dist
+  script:
+    - chmod -R 775 frontend/
+    - cd frontend
+    - npm install
+    - npm install --save-dev @babel/plugin-proposal-private-property-in-object
+    - npm run build:dev
+    - docker build -t $IMAGE_NAME --build-arg env=qa .
+    - docker stop $NAME || true
+    - docker rm $NAME || true
+    - docker run -d --restart always --network ubuntu_default --ip 172.18.0.101 -e TZ=Asia/Seoul --name $NAME $IMAGE_NAME
+  only:
+    - develop
+
+finish-dev:
+  stage: finish
+  script:
+    - docker restart ubuntu_nginx_1
+  only:
+    - develop

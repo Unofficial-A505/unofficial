@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import PostView from '../PostView/PostView'
-import customAxios from "../../util/customAxios";
+import customAxios from '../../util/customAxios';
 
 export default function BoardView( ){
   const [ posts, setPosts ] = useState([]);
@@ -14,7 +14,7 @@ export default function BoardView( ){
 
   const navigate = useNavigate();
 
-  useEffect(() => {
+  // useEffect(() => {
 
     customAxios({
       method: "get",

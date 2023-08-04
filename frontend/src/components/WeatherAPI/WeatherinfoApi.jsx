@@ -16,7 +16,6 @@ export default function WeatherWidget() {
       const data = await Promise.all(cities.map(getWeather));
       setWeatherData(data);
     };
-
     fetchWeatherData();
   }, []);
 
@@ -40,7 +39,7 @@ export default function WeatherWidget() {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 5000,
     arrows: false,
   };
 
@@ -60,6 +59,23 @@ export default function WeatherWidget() {
 }
 
 const WeatherCard = ({ data }) => {
+  const indices = [0, 1, 2, 3];
+  const img_url = "https://openweathermap.org/img/wn/";
+
+  const times = indices.map((i) => {
+    const date = new Date(data.list[i].dt_txt);
+    date.setHours(date.getHours() + 6);
+    return date.getHours() + "시";
+  });
+
+  const temps = indices.map((i) => {
+    return Math.round(data.list[i].main.temp * 10) / 10 + "°C";
+  });
+
+  const images = indices.map((i) => {
+    return img_url + data.list[i].weather[0].icon + "@2x.png";
+  });
+
   return (
     <div className={styles.weatherCardContainer}>
       <div className={styles.upperContainer}>
@@ -72,69 +88,39 @@ const WeatherCard = ({ data }) => {
         </div>
         <div className="d-flex">
           <img
-            src={`https://openweathermap.org/img/wn/${data.list[0].weather[0].icon}@2x.png`}
-            alt="날씨이모티콘"
+            src={images[0]}
+            alt={data.list[0].weather[0].description}
             width={100}
           />
           <div className="d-flex flex-column justify-content-center text-start">
-            <p className="m-0 fs-2">
-              {Math.round(data.list[0].main.temp * 10) / 10}°C
-            </p>
+            <p className="m-0 fs-2">{temps[0]}</p>
             <p className="m-0 fs-6">{data.list[0].weather[0].description}</p>
           </div>
         </div>
       </div>
       <div className={styles.downContainer}>
-        <div className={styles.forecastWather}>
-          <p>
-            {new Date(
-              new Date(data.list[1].dt_txt).setHours(
-                new Date(data.list[1].dt_txt).getHours() + 6
-              )
-            ).getHours()}
-            시
-          </p>
-          <img
-            src={`https://openweathermap.org/img/wn/${data.list[1].weather[0].icon}@2x.png`}
-            alt="날씨이모티콘"
-            width="60"
-          />
-          <p>{Math.round(data.list[1].main.temp * 10) / 10}°C</p>
-        </div>
-        <div className={styles.forecastWather}>
-          <p>
-            {new Date(
-              new Date(data.list[2].dt_txt).setHours(
-                new Date(data.list[2].dt_txt).getHours() + 6
-              )
-            ).getHours()}
-            시
-          </p>
-          <img
-            src={`https://openweathermap.org/img/wn/${data.list[2].weather[0].icon}@2x.png`}
-            alt="날씨이모티콘"
-            width="60"
-          />
-          <p>{Math.round(data.list[2].main.temp * 10) / 10}°C</p>
-        </div>
-        <div className={styles.forecastWather}>
-          <p>
-            {new Date(
-              new Date(data.list[3].dt_txt).setHours(
-                new Date(data.list[3].dt_txt).getHours() + 6
-              )
-            ).getHours()}
-            시
-          </p>
-          <img
-            src={`https://openweathermap.org/img/wn/${data.list[3].weather[0].icon}@2x.png`}
-            alt="날씨이모티콘"
-            width="60"
-          />
-          <p>{Math.round(data.list[3].main.temp * 10) / 10}°C</p>
-        </div>
+        {[1, 2, 3].map((idx) => {
+          return (
+            <Forecast
+              times={times}
+              images={images}
+              temps={temps}
+              idx={idx}
+              key={idx}
+            />
+          );
+        })}
       </div>
-      <div style={{ height: "100" }}></div>
+    </div>
+  );
+};
+
+const Forecast = ({ times, images, temps, idx }) => {
+  return (
+    <div className={styles.forecastWather}>
+      <p>{times[idx]}</p>
+      <img src={images[idx]} alt={"날씨" + idx} />
+      <p>{temps[idx]}</p>
     </div>
   );
 };

@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: serve
   h2:
     console:
       enabled: true
@@ -10,30 +12,6 @@ spring:
     multipart:
       max-file-size: 5MB
       max-request-size: 5MB
-
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3308/ssafy_web_db?serverTimezone=Asia/Seoul
-#    username: root
-#    password: 1234
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://unofficial.kr/ssafy_web_db?serverTimezone=Asia/Seoul
-    username: root
-    password: strange505
-  data:
-    redis:
-      host: unofficial.kr
-      port: 6379
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        default_batch_fetch_size: 1000
-        format_sql: true
-
   mail:
     host: smtp.gmail.com
     port: 587
@@ -73,10 +51,12 @@ cloud:
 file:
   dir: C:\Users\SSAFY\Desktop/file/
 
-mail:
-  base-url : "https://unofficial.kr/verify?verificationCode="
-
 decorator:
   datasource:
     p6spy:
       enable-logging: true
+
+OPENVIDU_URL: https://ec2.unofficial.kr:9000/
+OPENVIDU_SECRET: STRANGE505
+
+main: main

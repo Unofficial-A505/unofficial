@@ -20,7 +20,7 @@ import SearchView from "./pages/SearchView/SearchView";
 
 import MypageUser from "./pages/MyPage/MypageUser/MypageUser";
 import MyChangePassword from "./pages/MyPage/MypageUser/MyChangePassword/MyChangePassword";
-import MySignout from "./pages/MyPage/MypageUser/MySignout/MySignout";
+import MyDeleteAccount from "./pages/MyPage/MypageUser/MyDeleteAccount/MyDeleteAccount";
 
 import MypageActivity from "./pages/MyPage/MypageActivity/MypageActivity";
 import MypostsView from "./pages/MyPage/MypageActivity/MypostsView/MypostsView";
@@ -37,16 +37,17 @@ import CreatePostPage from "./pages/CreatePostPage/QuillContainer";
 // import CreatePostPage from './pages/CreatePostPage/CreatePost'
 
 import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage"
+import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
+import WebRTC from "./pages/WebRtcPage/WebRtcPage";
 
 const router = createBrowserRouter([
   {
-    path: "/verify",
-    element: <EmailVerifyPage />,
+    path: "/web-rtc",
+    element: <WebRTC />,
   },
   {
-    path: "/forgot-password",
-    element: <ForgotPasswordPage />,
+    path: "/verify",
+    element: <EmailVerifyPage />,
   },
   {
     path: "/signup",
@@ -70,7 +71,14 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      { path: "", element: <MainPage /> },
+      {
+        path: "",
+        element: <MainPage />,
+      },
+      {
+        path: "user/advertisement/form",
+        element: <AddAdvPage />,
+      },
       {
         // path: ':userId',
         path: "user",
@@ -81,7 +89,7 @@ const router = createBrowserRouter([
             element: <MypageUser />,
             children: [
               { path: "password", element: <MyChangePassword /> },
-              { path: "signout", element: <MySignout /> },
+              { path: "deletion", element: <MyDeleteAccount /> },
             ],
           },
           {
@@ -116,6 +124,10 @@ const router = createBrowserRouter([
       },
       { path: "boards/:boardTitle/:postId", element: <PostDetail /> },
       { path: "boards/search/:keyword", element: <SearchView /> },
+      {
+        path: "forgot-password",
+        element: <ForgotPasswordPage />,
+      },
     ],
   },
   { path: "/user/advertisement/form", element: <AddAdvPage /> },

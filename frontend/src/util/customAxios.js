@@ -2,14 +2,14 @@ import axios from 'axios';
 import store from '../store/store';
 
 const customAxios = axios.create({
-    baseURL: 'https://unofficial.kr',
+    baseURL: `${process.env.REACT_APP_SERVER}`,
 });
 
 // Add a request interceptor
 customAxios.interceptors.request.use(
     (config) => {
         const state = store.getState();
-        const accessToken = state.accessToken; // Replace with your access token path in Redux
+        const accessToken = state.authUser.accessToken; // Replace with your access token path in Redux
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }
