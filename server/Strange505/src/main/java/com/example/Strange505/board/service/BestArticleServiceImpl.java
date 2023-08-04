@@ -25,7 +25,8 @@ public class BestArticleServiceImpl implements BestArticleService{
                 new BestArticleResponseDto(findBestArticle.getArticle().getTitle(),
                         findBestArticle.getArticle().getLikes(),
                         findBestArticle.getArticle().getUser().getGen(),
-                        findBestArticle.getArticle().getUser().getLocal()))
+                        findBestArticle.getArticle().getUser().getLocal(),
+                        findBestArticle.getArticle().getBoard().getId()))
                 .toList();
         return result;
     }
