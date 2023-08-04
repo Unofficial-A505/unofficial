@@ -36,21 +36,6 @@ export default function BoardsAll() {
   };
 
   useEffect(() => {
-
-    customAxios({
-      method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/articles`,
-      // headers: {
-      // }
-    })
-      .then((res) => {
-        console.log(res.data);
-        setPosts(res.data.content); 
-      })
-      .catch((err) => console.log(err));
-
-    /* 위 axios 추후 삭제 */
-
     customAxios({
       method: "get",
       url: `${process.env.REACT_APP_SERVER}/api/boards`,
