@@ -33,9 +33,9 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, pos
       method: "post",
       url: `${process.env.REACT_APP_SERVER}/api/comments`,
       data: { articleId, content, parentId },
-      headers: {
-        Authorization: `Token ${this.$store.state.token}`,
-      }
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
       })
       .then((res) => {
         console.log("댓글 불러오기!!!")

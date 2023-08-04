@@ -19,9 +19,9 @@ export default function BoardsView() {
     customAxios({
       method: "get",
       url: `${process.env.REACT_APP_SERVER}/api/articles/board/${id}`,
-      headers: {
-        Authorization: `Token ${this.$store.state.token}`,
-      }
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
     })
       .then((res) => {
         console.log(res.data);
