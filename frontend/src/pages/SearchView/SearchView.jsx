@@ -22,10 +22,9 @@ export default function SearchView() {
   useEffect(() => {
     customAxios({
       method: "get",
-      // url: `/api/articles/search?keyword=${keyword}&boardId=1`,
-      url: `/api/articles/search?keyword=${keyword}&boardId=0`,
+      url: `${process.env.REACT_APP_SERVER}/api/articles/search?keyword=${keyword}&boardId=0`,
       headers: {
-        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTEwNjc3MzksInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjE0LCJyb2xlIjoiUk9MRV9BRE1JTiJ9.Z_SHpW9_1WQbswqnR4ADZqGNAphQjbEh88uBt2W_BVzKndwCQ4IUkwy7qIp-EuiOhXCWKB2nbR_O71RehedxXw`
+        Authorization: `Token ${this.$store.state.token}`,
       }
     })
     .then((res) => 

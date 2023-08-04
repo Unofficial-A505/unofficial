@@ -43,7 +43,7 @@ export default function PostDetail() {
   const getComment = () => {
     customAxios({
       method: "get",
-      url: `/api/comments/article/${postId}`,
+      url: `${process.env.REACT_APP_SERVER}/api/comments/article/${postId}`,
       headers: {
         Authorization: `Token ${this.$store.state.token}`,
       }
@@ -58,7 +58,7 @@ export default function PostDetail() {
   useEffect(() => {
     customAxios({
       method: "get",
-      url: `/api/articles/${postId}`,
+      url: `${process.env.REACT_APP_SERVER}/api/articles/${postId}`,
       headers: {
         Authorization: `Token ${this.$store.state.token}`,
       }
@@ -97,7 +97,7 @@ const commentCreate = () => {
   console.log(content)
   customAxios({
     method: "post",
-    url: `/api/comments`,
+    url: `${process.env.REACT_APP_SERVER}/api/comments`,
     data: { articleId, content, parentId },
       headers: {
         Authorization: `Token ${this.$store.state.token}`,
@@ -119,7 +119,7 @@ const commentCreate = () => {
     console.log(content)
     customAxios({
       method: "put",
-      url: `/api/comments/${id}`,
+      url: `${process.env.REACT_APP_SERVER}/api/comments/${id}`,
       data: { id, articleId, content, parentId },
       headers: {
         Authorization: `Token ${this.$store.state.token}`,
@@ -135,7 +135,7 @@ const commentCreate = () => {
   const CommentDelete = (id) => {
     customAxios({
       method: "delete",
-      url: `/api/comments/${id}`,
+      url: `${process.env.REACT_APP_SERVER}/api/comments/${id}`,
       headers: {
         Authorization: `Token ${this.$store.state.token}`,
       }
@@ -151,7 +151,7 @@ const commentCreate = () => {
     console.log('post delete request')
     customAxios({
       method: "delete",
-      url: `/api/articles/${postId}`,
+      url: `${process.env.REACT_APP_SERVER}/api/articles/${postId}`,
       headers: {
         Authorization: `Token ${this.$store.state.token}`,
       }
@@ -168,8 +168,8 @@ const commentCreate = () => {
     console.log('postRecommendedInput')
     customAxios({
       method: "post",
-      url: `/api/likes`,
-      data: { articleId},
+      url: `${process.env.REACT_APP_SERVER}/api/likes`,
+      data: { articleId },
       headers: {
         Authorization: `Token ${this.$store.state.token}`,
       }

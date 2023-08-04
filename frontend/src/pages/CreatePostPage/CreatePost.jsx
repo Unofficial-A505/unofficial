@@ -83,7 +83,7 @@ export default function CreatePost() {
 
     customAxios({
       method: "post",
-      url: `/api/articles/`,
+      url: `${process.env.REACT_APP_SERVER}/api/articles/`,
       data: {
         title,
         content,

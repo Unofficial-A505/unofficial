@@ -6,21 +6,21 @@ import PostsView from "../../../components/PostView/PostView";
 import customAxios from "../../../util/customAxios";
 
 export default function BoardsView() {
-  const { state: index } = useLocation();
+  const { state: id } = useLocation();
   const [ posts, setPosts ] = useState([]);
   let { boardTitle } = useParams();
   if (!boardTitle) {
     boardTitle = "자유게시판";
   }
   const navigate = useNavigate();
-  console.log('index', index)
+  console.log('id', id)
 
   useEffect(() => {
     customAxios({
       method: "get",
-      url: `/api/articles/board/${index}`,
+      url: `${process.env.REACT_APP_SERVER}/api/articles/board/${id}`,
       headers: {
-        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTIxNjE1MzcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjEsInJvbGUiOiJST0xFX0FETUlOIn0.-yKThjZOeyLxvlpVzVHxMAfEw2jbtwVZ-wcX0pYWdgJETpiALTD3H0re8KngsVHx3Zu_rzF8wB_24jkAmv6O5g`,
+        Authorization: `Token ${this.$store.state.token}`,
       }
     })
       .then((res) => {
@@ -31,7 +31,7 @@ export default function BoardsView() {
     return () => {
       console.log("unmounted");
     };
-  }, [posts]);
+  }, [id]);
 
   if (posts) {
     return (

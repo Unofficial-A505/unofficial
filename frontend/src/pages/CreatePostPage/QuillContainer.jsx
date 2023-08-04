@@ -197,14 +197,12 @@ const QuillContainer = () => {
           const formData = new FormData();
           formData.append("uploadFile", image.file);
   
-          axios({
+          customAxios({
             method: "post",
             url: `${process.env.REACT_APP_SERVER}/api/articles/image`,
             data: formData,
-            headers: { "Content-Type": "multipart/form-data" },
-            // headers: {
-              //   Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTEwNjc3MzksInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjE0LCJyb2xlIjoiUk9MRV9BRE1JTiJ9.Z_SHpW9_1WQbswqnR4ADZqGNAphQjbEh88uBt2W_BVzKndwCQ4IUkwy7qIp-EuiOhXCWKB2nbR_O71RehedxXw`
-              // }
+            headers: { "Content-Type": "multipart/form-data", 
+                        Authorization: `Token ${this.$store.state.token}`,},
             })
           .then((res) => {
             console.log(res);
@@ -233,7 +231,7 @@ const QuillContainer = () => {
   
       customAxios({
         method: "post",
-        url: `/api/articles`,
+        url: `${process.env.REACT_APP_SERVER}/api/articles`,
         // url: `http://70.12.247.35:8080/files/articleTest`,
         data: {
           title,
@@ -243,7 +241,7 @@ const QuillContainer = () => {
           // imageList
         },
         headers: {
-          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTEwNjc3MzksInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjE0LCJyb2xlIjoiUk9MRV9BRE1JTiJ9.Z_SHpW9_1WQbswqnR4ADZqGNAphQjbEh88uBt2W_BVzKndwCQ4IUkwy7qIp-EuiOhXCWKB2nbR_O71RehedxXw`
+          Authorization: `Token ${this.$store.state.token}`,
         }
       })
       .then((res) => {

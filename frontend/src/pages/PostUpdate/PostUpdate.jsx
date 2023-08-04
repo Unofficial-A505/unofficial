@@ -119,10 +119,9 @@ const PostUpdate = () => {
         method: "post",
         url: `${process.env.REACT_APP_SERVER}/api/ads/uploadForArticle`,
         data: formData,
-        headers: { "Content-Type": "multipart/form-data" },
-        // headers: {
-        //   Authorization: `Token ${this.$store.state.token}`,
-        // }
+        headers: { "Content-Type": "multipart/form-data",
+                    Authorization: `Token ${this.$store.state.token}` },
+
       })
         .then((res) => {
           console.log(res.data);
