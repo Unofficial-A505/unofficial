@@ -177,11 +177,13 @@ const QuillContainer = () => {
   //   sendPost;
   // }
 
-  function sendformData (content) {
+  function sendformData () {
+    let content = quillElement.current.editor.root.innerHTML;
     return new Promise(function(resolve, reject) {
       // let content = quillElement.current.editor.root.innerHTML;
   
       console.log(imageList)
+      const imagePromises = []
   
       //글 등록하는 현재 content에 존재하는 image만 formData에 싣기
       imageList.forEach((image) => {
@@ -197,13 +199,14 @@ const QuillContainer = () => {
           const formData = new FormData();
           formData.append("uploadFile", image.file);
   
-          customAxios({
+          const promise = axios({
             method: "post",
-            url: `${process.env.REACT_APP_SERVER}/api/articles/image`,
+            url: `https://unofficial.kr/api/articles/image`,
             data: formData,
-            headers: { "Content-Type": "multipart/form-data", 
-                        // Authorization: `Token ${this.$store.state.token}`,
-                      },
+            headers: { "Content-Type": "multipart/form-data" },
+            // headers: {
+              //   Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTEwNjc3MzksInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjE0LCJyb2xlIjoiUk9MRV9BRE1JTiJ9.Z_SHpW9_1WQbswqnR4ADZqGNAphQjbEh88uBt2W_BVzKndwCQ4IUkwy7qIp-EuiOhXCWKB2nbR_O71RehedxXw`
+              // }
             })
           .then((res) => {
             console.log(res);
@@ -217,9 +220,17 @@ const QuillContainer = () => {
             window.URL.revokeObjectURL(image.url)
           })
           .catch((err) => console.log(err));
+
+          imagePromises.push(promise)
         } 
       })
-      resolve(content)
+      Promise.all(imagePromises)
+      .then(() => {
+        resolve(content);
+      })
+      .catch((err) => {
+        reject(err);
+      });
     })
   }
 
@@ -232,7 +243,7 @@ const QuillContainer = () => {
   
       customAxios({
         method: "post",
-        url: `${process.env.REACT_APP_SERVER}/api/articles`,
+        url: `/api/articles`,
         // url: `http://70.12.247.35:8080/files/articleTest`,
         data: {
           title,
@@ -241,9 +252,9 @@ const QuillContainer = () => {
           nickName,
           // imageList
         },
-        // headers: {
-        //   Authorization: `Token ${this.$store.state.token}`,
-        // }
+        headers: {
+          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTEwNjc3MzksInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjE0LCJyb2xlIjoiUk9MRV9BRE1JTiJ9.Z_SHpW9_1WQbswqnR4ADZqGNAphQjbEh88uBt2W_BVzKndwCQ4IUkwy7qIp-EuiOhXCWKB2nbR_O71RehedxXw`
+        }
       })
       .then((res) => {
         navigate(`/boards/${boardTitle}/${res.data.id}`, { replace: true });
@@ -254,10 +265,16 @@ const QuillContainer = () => {
       });
     })
   };
-  const createPost = () => {
-    let content = quillElement.current.editor.root.innerHTML;
-    sendformData(content)
-    .then((content) => sendPost(content))
+  async function createPost() {
+    try {
+      const content = await sendformData();
+      console.log("sendformData completed");
+
+      await sendPost(content);
+      console.log("sendPost completed");
+    }  catch (err) {
+      console.error("Error in createPost:", err);
+    }
   }
 
   // 이외 함수들
