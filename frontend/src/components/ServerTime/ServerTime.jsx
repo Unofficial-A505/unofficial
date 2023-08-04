@@ -28,7 +28,7 @@ function ServerTime() {
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const seconds = date.getSeconds().toString().padStart(2, "0");
     const closingTime =
-      (hours === "17" && minutes === "59" && seconds >= "50") ||
+      (hours === "17" && minutes === "59" && seconds >= "00") ||
       (hours === "18" && minutes === "00" && seconds <= "00");
     const redText = closingTime ? { color: "red" } : {};
     let remainingTime = "";
