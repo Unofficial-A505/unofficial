@@ -104,6 +104,12 @@ export default function PostDetail() {
   //   );
 
 const commentCreate = () => {
+
+  if (!commentnickName) {
+    alert('댓글 닉네임을 입력해주세요!')
+  } else if (!createcomment) {
+    alert('댓글을 입력해주세요!')
+  } else {
   const content = createcomment
   const parentId = 0;
   const articleId = postId;
@@ -125,6 +131,7 @@ const commentCreate = () => {
       getComment();
     })
       .catch((err) => console.log(err));
+    } 
   };
 
   const commentUpdate = (updateComment, id) => {
@@ -281,7 +288,7 @@ const commentCreate = () => {
 
             <div className={styles.commentnickName}>
               <div>닉네임</div>
-              <input type="text" placeholder="닉네임을 입력하세요" onChange={(e) => commentnickName(e.target.value)}/>
+              <input className={styles.commentnickNameInput} type="text" placeholder="닉네임을 입력하세요" onChange={(e) => setcommentnickName(e.target.value)}/>
             </div>
             <div className={styles.commentbox}>
               <textarea
