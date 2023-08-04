@@ -32,8 +32,8 @@ export default function PostDetail() {
   const navigate = useNavigate();
   const { boardTitle } = useParams();
   const { postId } = useParams();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [ title, setTitle] = useState("");
+  const [ content, setContent] = useState("");
   const [ createcomment, setcreateComment] = useState("");
   const [ comments, setComments ] = useState([])
   const [ recommendedState, setrecommendedState ] = useState(false)
@@ -43,10 +43,10 @@ export default function PostDetail() {
   const getComment = () => {
     customAxios({
       method: "get",
-      url: `/api/comments/article/${postId}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      url: `${process.env.REACT_APP_SERVER}/api/comments/article/${postId}`,
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
     })
       .then((res) => {
         console.log("comments", res.data);
@@ -58,13 +58,13 @@ export default function PostDetail() {
   useEffect(() => {
     customAxios({
       method: "get",
-      url: `/api/articles/${postId}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      url: `${process.env.REACT_APP_SERVER}/api/articles/${postId}`,
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
     })
       .then((res) => {
-        console.log(res.data);
+        console.log('detail', res.data);
         setTitle(res.data.title);
         setContent(res.data.content);
       })
@@ -97,14 +97,13 @@ const commentCreate = () => {
   console.log(content)
   customAxios({
     method: "post",
-    url: `/api/comments`,
+    url: `${process.env.REACT_APP_SERVER}/api/comments`,
     data: { articleId, content, parentId },
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
     })
     .then((res) => {
-      console.log("댓글 불러오기!!!")
       console.log(res);
       // commentElement.current.value = ''
       setcreateComment("")
@@ -120,11 +119,11 @@ const commentCreate = () => {
     console.log(content)
     customAxios({
       method: "put",
-      url: `/api/comments/${id}`,
+      url: `${process.env.REACT_APP_SERVER}/api/comments/${id}`,
       data: { id, articleId, content, parentId },
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
       })
       .then((res) => {
         console.log(res);
@@ -136,10 +135,10 @@ const commentCreate = () => {
   const CommentDelete = (id) => {
     customAxios({
       method: "delete",
-      url: `/api/comments/${id}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      url: `${process.env.REACT_APP_SERVER}/api/comments/${id}`,
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
       })
       .then((res) => {
         console.log(res);
@@ -150,11 +149,11 @@ const commentCreate = () => {
 
   const postDelete = () => {
     console.log('post delete request')
-    axios({
+    customAxios({
       method: "delete",
-      url: `https://unofficial.kr/api/articles/${postId}`,
+      url: `${process.env.REACT_APP_SERVER}/api/articles/${postId}`,
       headers: {
-        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTA1NzE4NjcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjIsInJvbGUiOiJST0xFX1VTRVIifQ.YOofxvS5cyC4WHNgQo1CqA77wwUd2fSLJTw01ubAlU8i2M7XSWoSSPcDWy7kLadmAFt2ZzcbqmX2h904Y4USYA`,
+        Authorization: `Token ${this.$store.state.token}`,
       }
       })
       .then((res) => {
@@ -165,13 +164,15 @@ const commentCreate = () => {
     };
 
   const postRecommendedInput = () => {
+    const articleId = postId;
     console.log('postRecommendedInput')
     customAxios({
       method: "post",
-      url: `/api/ads/uploadForArticle`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      url: `${process.env.REACT_APP_SERVER}/api/likes`,
+      data: { articleId },
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
     })
     .then((res) => {
       console.log(res)
@@ -180,21 +181,21 @@ const commentCreate = () => {
     .catch((res) => console.log(res))
   }
 
-  const postRecommendedDelete = () => {
-    console.log('postRecommendedDelete')
-    customAxios({
-      method: "delete",
-      url: `/api/ads/uploadForArticle`,
+  // const postRecommendedDelete = () => {
+  //   console.log('postRecommendedDelete')
+  //   customAxios({
+  //     method: "delete",
+  //     url: `/api/likes`,
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
-    })
-    .then((res) => {
-      console.log(res)
-      setrecommendedState((prev) => !prev)
-    })
-    .catch((res) => console.log(res))
-  }
+  //   })
+  //   .then((res) => {
+  //     console.log(res)
+  //     setrecommendedState((prev) => !prev)
+  //   })
+  //   .catch((res) => console.log(res))
+  // }
 
   const username = "9기 서울";
   const timeago = "21분 전";
@@ -232,7 +233,7 @@ const commentCreate = () => {
             </div>
 
             <div className={styles.postBottombar}>
-              {!recommendedState ? 
+              {/* {!recommendedState ? 
                 <div onClick={postRecommendedInput}>
                   <FaRegThumbsUp class={styles.tabIcon} size="18" />
                   {recommended}
@@ -242,7 +243,11 @@ const commentCreate = () => {
                   <FaRegThumbsUp class={styles.tabIcon} size="18" />
                   {recommended}
                 </div>
-              }
+              } */}
+              <div onClick={postRecommendedInput}>
+                  <FaRegThumbsUp class={styles.tabIcon} size="18" />
+                  {recommended}
+                </div>
               <div className={styles.postupdateBottom}>
                 <div onClick={() => navigate(`/boards/${boardTitle}/${postId}/update`, { state : { title, content }})} className={styles.postupdateBottomtab}>
                   <HiOutlinePencilAlt size="15" />
@@ -284,7 +289,7 @@ const commentCreate = () => {
             <hr />
             {comments.map((comment, index) =>
               <div key={index}> 
-                <CommentView comment={comment} CommentDelete={CommentDelete} commentUpdate={commentUpdate}/>
+                <CommentView comment={comment} CommentDelete={CommentDelete} commentUpdate={commentUpdate} postId={postId}/>
               </div>
             )}
           </div>

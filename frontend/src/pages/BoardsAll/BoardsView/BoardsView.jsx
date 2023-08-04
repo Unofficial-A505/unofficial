@@ -1,34 +1,37 @@
 import styles from "./BoardsView.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import PostsView from "../../../components/PostView/PostView";
+import customAxios from "../../../util/customAxios";
 
 export default function BoardsView() {
-  const [posts, setPosts] = useState([]);
+  const { state: id } = useLocation();
+  const [ posts, setPosts ] = useState([]);
   let { boardTitle } = useParams();
   if (!boardTitle) {
     boardTitle = "자유게시판";
   }
   const navigate = useNavigate();
+  console.log('id', id)
 
   useEffect(() => {
-    axios({
+    customAxios({
       method: "get",
-      url: `https://unofficial.kr/api/articles`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      url: `${process.env.REACT_APP_SERVER}/api/articles/board/${id}`,
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
     })
       .then((res) => {
         console.log(res.data);
-        setPosts(res.data);
+        setPosts(res.data.content);
       })
       .catch((err) => console.log(err));
     return () => {
       console.log("unmounted");
     };
-  }, []);
+  }, [id]);
 
   if (posts) {
     return (

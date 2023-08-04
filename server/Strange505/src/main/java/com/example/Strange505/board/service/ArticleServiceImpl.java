@@ -3,6 +3,7 @@ package com.example.Strange505.board.service;
 import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.domain.Board;
 import com.example.Strange505.board.dto.ArticleRequestDto;
+import com.example.Strange505.board.exception.NoResultException;
 import com.example.Strange505.board.exception.NotAuthorException;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.BoardRepository;
@@ -32,8 +33,8 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional
     public Article createArticle(ArticleRequestDto dto, String email){
-        User user = userRepository.findByEmail(email).orElseThrow();
-        Board board = boardRepository.findByName(dto.getBoardName()).orElseThrow();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
+        Board board = boardRepository.findByName(dto.getBoardName()).orElseThrow(() -> new NoResultException("게시판을 찾을 수 없습니다."));
         Article article = Article.createArticle(dto, user, board);
         if (dto.getImageList() != null) {
             imageService.notUsingImageDelete(dto.getImageList(), imageService.parsingArticle(dto.getContent()));
@@ -44,7 +45,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article getArticleById(Long id) {
-        return articleRepository.findById(id).orElseThrow(() -> new RuntimeException("Article not found"));
+        return articleRepository.findById(id).orElseThrow(() -> new NoResultException("게시글을 찾을 수 없습니다."));
     }
 
     @Override
@@ -59,21 +60,28 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Page<Article> getArticlesByTitleAndContent(String keyword, Long boardId, Pageable pageable) {
+
+        Board findBoard = boardRepository.findById(boardId).orElse(null);
+
+        if (findBoard == null) {
+            boardId = null;
+        }
+
         return articleRepository.searchByTitleAndContent(keyword, boardId, pageable);
     }
     @Override
     public Page<Article> getArticlesByUser(String email, Pageable pageable) {
-        User user = userRepository.findByEmail(email).orElseThrow();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
         Long userId = user.getId();
         return articleRepository.searchByUser(userId, pageable);
     }
 
     @Override
     @Transactional
-    public void updateArticle(Long id, ArticleRequestDto dto, String email) {
-        User user = userRepository.findByEmail(email).orElseThrow();
-        Board board = boardRepository.findByName(dto.getBoardName()).orElseThrow();
-        Article article = articleRepository.findById(id).orElseThrow();
+    public void updateArticle(ArticleRequestDto dto, String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
+        Board board = boardRepository.findByName(dto.getBoardName()).orElseThrow(() -> new NoResultException("게시판을 찾을 수 없습니다."));
+        Article article = articleRepository.findById(dto.getId()).orElseThrow(() -> new NoResultException("게시글을 찾을 수 없습니다."));
         if (user.getId() == article.getUser().getId()) {
             imageService.deleteImageForUpdate(article.getContent(), dto);
             article.updateArticle(dto, board);
@@ -85,8 +93,8 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional
     public void deleteArticle(Long id, String email) {
-        User user = userRepository.findByEmail(email).orElseThrow();
-        Article article = articleRepository.findById(id).orElseThrow();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
+        Article article = articleRepository.findById(id).orElseThrow(() -> new NoResultException("게시글을 찾을 수 없습니다."));
         if (user.getId() == article.getUser().getId()) {
             List<String> images = imageService.parsingArticle(article.getContent());
             imageService.deleteImages(images);
@@ -100,7 +108,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     @Transactional
     public void addViewCount(Long id) {
-        Article article = articleRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        Article article = articleRepository.findById(id).orElseThrow(() -> new NoResultException("게시글을 찾을 수 없습니다."));
         article.addView();
     }
 

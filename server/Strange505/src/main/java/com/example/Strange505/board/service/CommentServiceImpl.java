@@ -4,6 +4,7 @@ import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.domain.Comment;
 import com.example.Strange505.board.dto.CommentRequestDto;
 import com.example.Strange505.board.dto.CommentResponseDto;
+import com.example.Strange505.board.exception.NoResultException;
 import com.example.Strange505.board.exception.NotAuthorException;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.CommentRepository;
@@ -11,6 +12,9 @@ import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,44 +61,82 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentResponseDto getCommentById(Long id) {
+
         Comment comment = commentRepository.findById(id).orElseThrow(()->new RuntimeException("Comment not found"));
-        return CommentResponseDto.builder()
-                .userId(comment.getUser().getId())
-                .articleId(comment.getArticle().getId())
-                .content(comment.getContent())
-                .parent(comment.getParent())
-                .build();
+        Comment parent = comment.getParent();
+
+        if (parent == null) {
+            return CommentResponseDto.builder()
+                    .userId(comment.getUser().getId())
+                    .articleId(comment.getArticle().getId())
+                    .content(comment.getContent())
+                    .parentId(null)
+                    .createTime(comment.getCreateTime())
+                    .modifyTime(comment.getModifyTime())
+                    .build();
+        } else {
+            return CommentResponseDto.builder()
+                    .userId(comment.getUser().getId())
+                    .articleId(comment.getArticle().getId())
+                    .content(comment.getContent())
+                    .parentId(comment.getParent().getId())
+                    .createTime(comment.getCreateTime())
+                    .modifyTime(comment.getModifyTime())
+                    .build();
+        }
     }
 
     @Override
-    public List<CommentResponseDto> getCommentByArticle(Long articleId) {
-        List<Comment> list = commentRepository.searchByArticle(articleId);
-        List<CommentResponseDto> dtoList = new ArrayList<>();
-        list.stream().forEach(findByArticle -> dtoList.add(new CommentResponseDto(
-                findByArticle.getId(), findByArticle.getUser().getId(),
-                findByArticle.getArticle().getId(),
-                findByArticle.getContent(), findByArticle.getParent())));
-        return dtoList;
+    public Page<CommentResponseDto> getCommentByArticle(Long articleId, Pageable pageable) {
+
+        Page<Comment> repoList = commentRepository.searchByArticle(articleId, pageable);
+        List<CommentResponseDto> list = new ArrayList<>();
+        for (Comment c:
+                repoList) {
+            if (c.getParent() == null) {
+                list.add(new CommentResponseDto(
+                        c.getId(), c.getUser().getId(),
+                        c.getArticle().getId(), c.getContent(),
+                        null, c.getCreateTime(), c.getModifyTime()));
+            } else {
+                list.add(new CommentResponseDto(
+                        c.getId(), c.getUser().getId(),
+                        c.getArticle().getId(), c.getContent(),
+                        c.getParent().getId(), c.getCreateTime(), c.getModifyTime()));
+            }
+        }
+        Page<CommentResponseDto> result = new PageImpl<>(list);
+        return result;
     }
 
     @Override
-    public List<CommentResponseDto> getCommentByUser(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow();
-        Long userId = user.getId();
-        List<Comment> list = commentRepository.searchByUser(userId);
-        List<CommentResponseDto> dtoList = new ArrayList<>();
-        list.stream().forEach(findByArticle -> dtoList.add(new CommentResponseDto(
-                findByArticle.getId(),
-                findByArticle.getUser().getId(), findByArticle.getArticle().getId(),
-                findByArticle.getContent(), findByArticle.getParent())));
-        return dtoList;
+    public Page<CommentResponseDto> getCommentByUser(String email, Pageable pageable) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
+        Page<Comment> repoList = commentRepository.searchByUser(user.getId(), pageable);
+        List<CommentResponseDto> list = new ArrayList<>();
+        for (Comment c:
+                repoList) {
+            if (c.getParent() == null) {
+                list.add(new CommentResponseDto(
+                        c.getId(), c.getUser().getId(),
+                        c.getArticle().getId(), c.getContent(),
+                        null, c.getCreateTime(), c.getModifyTime()));
+            } else {
+                list.add(new CommentResponseDto(
+                        c.getId(), c.getUser().getId(),
+                        c.getArticle().getId(), c.getContent(),
+                        c.getParent().getId(), c.getCreateTime(), c.getModifyTime()));
+            }
+        }
+        Page<CommentResponseDto> result = new PageImpl<>(list);
+        return result;
     }
 
     @Override
     @Transactional
     public CommentResponseDto updateComment(Long id, CommentRequestDto dto, String email) {
         User user = userRepository.findByEmail(email).orElseThrow();
-        Comment comment = commentRepository.findById(id).orElseThrow(()->new RuntimeException("Comment not found"));
+        Comment comment = commentRepository.findById(id).orElseThrow(()->new NoResultException("Comment not found"));
         if (user.getId() == comment.getUser().getId()) {
             comment.update(dto.getContent(), LocalDateTime.now());
             Comment save = commentRepository.save(comment);
@@ -109,7 +151,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public void deleteComment(Long id, String email) {
         User user = userRepository.findByEmail(email).orElseThrow();
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("Comment not found"));
         if (user.getId() == comment.getUser().getId()) {
             comment.remove();
             List<Comment> removableCommentList = comment.findRemovableList();

@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { FaCrown } from '@react-icons/all-files/fa/FaCrown';
+import customAxios from '../../util/customAxios';
 
 export default function BestpostsWidget(){
   const navigate = useNavigate();
@@ -12,12 +13,12 @@ export default function BestpostsWidget(){
   const [ posts, setPosts ] = useState([])
 
   useEffect(() => {
-    axios({
+    customAxios({
       method: "get",
-      url: `http://127.0.0.1:8000/api/v1/articles/`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      url: `${process.env.REACT_APP_SERVER}/api/best`,
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
       })
       .then((res) => {
         console.log(res.data);

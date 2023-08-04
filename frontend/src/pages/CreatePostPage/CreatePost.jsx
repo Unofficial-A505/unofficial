@@ -83,14 +83,14 @@ export default function CreatePost() {
 
     customAxios({
       method: "post",
-      url: `/api/articles/`,
+      url: `${process.env.REACT_APP_SERVER}/api/articles/`,
       data: {
         title,
         content,
       },
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
     })
       .then((res) => {
         navigate(`/boards/${boardTitle}/${res.data.id}`, { replace: true });

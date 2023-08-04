@@ -11,15 +11,29 @@ import TopSpace from "../../components/TopSpace/TopSpace";
 import SearchContent from "../../components/SearchContent/SearchContent";
 import AdHorizontal from "../../components/AdHorizontal/AdHorizontal";
 
+import customAxios from "../../util/customAxios";
+
 export default function SearchView() {
   const { keyword } = useParams();
   const { boardTitle } = useParams();
-  const [keywordAll, setKeywordAll] = useState("");
+  const [ keywordAll, setKeywordAll ] = useState("");
   const navigate = useNavigate();
 
-  // useEffect(() => {
-
-  // }, [ keyword ])
+  useEffect(() => {
+    customAxios({
+      method: "get",
+      url: `${process.env.REACT_APP_SERVER}/api/articles/search?keyword=${keyword}&boardId=0`,
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
+    })
+    .then((res) => 
+      console.log(res)
+    )
+    .catch((err) => console.log(err));
+      return () => {  
+        console.log('unmounted')}
+    }, []);
 
   return (
     <div>
@@ -56,11 +70,11 @@ export default function SearchView() {
             onClick={() => navigate("/boards/자유게시판")}
           >
             <IoIosArrowBack />
-            목록으로 돌아가기
+            게시판으로 돌아가기
           </button>
         </div>
 
-        <div>
+        <div className={styles.searchcontentBox}>
           <SearchContent />
         </div>
       </div>

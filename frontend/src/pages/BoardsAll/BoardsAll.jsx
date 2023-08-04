@@ -1,12 +1,10 @@
 import styles from "./BoardsAll.module.css";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { Link, useNavigate, useParams, Outlet } from "react-router-dom";
+import { useNavigate, useParams, Outlet, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 
 import AdHorizontal from "../../components/AdHorizontal/AdHorizontal";
-import BoardsView from "./BoardsView/BoardsView";
 import TopSpace from "../../components/TopSpace/TopSpace";
 
 import { FiSearch } from "@react-icons/all-files/fi/FiSearch";
@@ -14,11 +12,11 @@ import { CgAddR } from "@react-icons/all-files/cg/CgAddR";
 import customAxios from "../../util/customAxios";
 
 export default function BoardsAll() {
-  const [boardTitles, setboardTitles] = useState([]);
+  const [ boardTitles, setboardTitles ] = useState([]);
   const { boardTitle } = useParams();
   const boardsearchMessage = `${boardTitle}에서 찾고싶은 게시글의 제목 또는 내용의 키워드를 검색해보세요`;
-  const [keywordAll, setKeywordAll] = useState("");
-  const [keywordBoard, setKeywordBoard] = useState("");
+  const [ keywordAll, setKeywordAll ] = useState("");
+  const [ keywordBoard, setKeywordBoard ] = useState("");
 
   const navigate = useNavigate();
   // const URL = useSelector((state) => state.URL.API_URL);
@@ -33,11 +31,16 @@ export default function BoardsAll() {
 
     customAxios({
       method: "get",
-      url: '/api/boards'
+      url: `${process.env.REACT_APP_SERVER}/api/boards`,
+      headers: {
+        Authorization: `Token ${this.$store.state.token}`,
+      }
     })
     .then((res) => {
+      const boards = res.data
       setboardTitles(res.data)
-      console.log('res.data', res.data)})
+      console.log('res.data', res.data)
+      console.log(boardTitles)})
     .catch((err) => console.log(err))
 
     return () => {  
@@ -81,13 +84,13 @@ export default function BoardsAll() {
                 <button
                   key={index}
                   className={
-                    board.title == boardTitle
+                    board.name == boardTitle
                       ? styles.boardtabSelected
                       : styles.boardtab
                   }
-                  onClick={() => navigate(`/boards/${board.title}`)}
+                  onClick={() => navigate(`/boards/${board.name}`, { state: board.id })}
                 >
-                  {board.title}
+                  {board.name}
                 </button>
               ))}
             </div>
