@@ -8,7 +8,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/suggestions")
-@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 public class SuggestionController {
     @Autowired
