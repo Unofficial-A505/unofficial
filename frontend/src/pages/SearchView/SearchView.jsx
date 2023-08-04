@@ -23,9 +23,9 @@ export default function SearchView() {
     customAxios({
       method: "get",
       url: `${process.env.REACT_APP_SERVER}/api/articles/search?keyword=${keyword}&boardId=0`,
-      headers: {
-        Authorization: `Token ${this.$store.state.token}`,
-      }
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
     })
     .then((res) => 
       console.log(res)

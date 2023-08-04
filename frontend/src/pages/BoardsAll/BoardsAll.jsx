@@ -32,9 +32,9 @@ export default function BoardsAll() {
     customAxios({
       method: "get",
       url: `${process.env.REACT_APP_SERVER}/api/boards`,
-      headers: {
-        Authorization: `Token ${this.$store.state.token}`,
-      }
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
     })
     .then((res) => {
       const boards = res.data

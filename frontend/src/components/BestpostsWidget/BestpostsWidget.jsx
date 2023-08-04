@@ -16,9 +16,9 @@ export default function BestpostsWidget(){
     customAxios({
       method: "get",
       url: `${process.env.REACT_APP_SERVER}/api/best`,
-      headers: {
-        Authorization: `Token ${this.$store.state.token}`,
-      }
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
       })
       .then((res) => {
         console.log(res.data);

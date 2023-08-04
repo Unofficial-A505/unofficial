@@ -202,7 +202,8 @@ const QuillContainer = () => {
             url: `${process.env.REACT_APP_SERVER}/api/articles/image`,
             data: formData,
             headers: { "Content-Type": "multipart/form-data", 
-                        Authorization: `Token ${this.$store.state.token}`,},
+                        // Authorization: `Token ${this.$store.state.token}`,
+                      },
             })
           .then((res) => {
             console.log(res);
@@ -240,9 +241,9 @@ const QuillContainer = () => {
           nickName,
           // imageList
         },
-        headers: {
-          Authorization: `Token ${this.$store.state.token}`,
-        }
+        // headers: {
+        //   Authorization: `Token ${this.$store.state.token}`,
+        // }
       })
       .then((res) => {
         navigate(`/boards/${boardTitle}/${res.data.id}`, { replace: true });
