@@ -16,4 +16,5 @@ public class CommentRequestDto {
     private Long articleId;
     private String content;
     private Long parentId;
+    private String nickName;
 }

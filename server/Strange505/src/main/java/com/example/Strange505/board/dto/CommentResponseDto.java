@@ -20,6 +20,7 @@ public class CommentResponseDto implements Serializable {
     private Long articleId;
     private String content;
     private Long parentId;
+    private String nickName;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
 
@@ -28,6 +29,7 @@ public class CommentResponseDto implements Serializable {
         this.articleId = comment.getArticle().getId();
         this.userId = comment.getUser().getId();
         this.parentId = comment.getParent().getId();
+        this.nickName = comment.getNickName();
         this.createTime = comment.getCreateTime();
         this.modifyTime = comment.getModifyTime();
     }

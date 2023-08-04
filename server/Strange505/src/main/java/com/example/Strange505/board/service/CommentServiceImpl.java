@@ -96,13 +96,13 @@ public class CommentServiceImpl implements CommentService {
             if (c.getParent() == null) {
                 list.add(new CommentResponseDto(
                         c.getId(), c.getUser().getId(),
-                        c.getArticle().getId(), c.getContent(),
-                        null, c.getCreateTime(), c.getModifyTime()));
+                        c.getArticle().getId(), c.getContent(), null,
+                        c.getNickName(), c.getCreateTime(), c.getModifyTime()));
             } else {
                 list.add(new CommentResponseDto(
                         c.getId(), c.getUser().getId(),
-                        c.getArticle().getId(), c.getContent(),
-                        c.getParent().getId(), c.getCreateTime(), c.getModifyTime()));
+                        c.getArticle().getId(), c.getContent(), c.getParent().getId(),
+                        c.getNickName(), c.getCreateTime(), c.getModifyTime()));
             }
         }
         Page<CommentResponseDto> result = new PageImpl<>(list);
@@ -120,12 +120,12 @@ public class CommentServiceImpl implements CommentService {
                 list.add(new CommentResponseDto(
                         c.getId(), c.getUser().getId(),
                         c.getArticle().getId(), c.getContent(),
-                        null, c.getCreateTime(), c.getModifyTime()));
+                        null, c.getNickName(), c.getCreateTime(), c.getModifyTime()));
             } else {
                 list.add(new CommentResponseDto(
                         c.getId(), c.getUser().getId(),
-                        c.getArticle().getId(), c.getContent(),
-                        c.getParent().getId(), c.getCreateTime(), c.getModifyTime()));
+                        c.getArticle().getId(), c.getContent(), c.getParent().getId(),
+                        c.getNickName(), c.getCreateTime(), c.getModifyTime()));
             }
         }
         Page<CommentResponseDto> result = new PageImpl<>(list);

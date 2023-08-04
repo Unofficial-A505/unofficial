@@ -35,6 +35,9 @@ public class Comment {
     @Column(length = 1000, nullable = false)
     private String content;
 
+    @Column(length = 20, nullable = false)
+    private String nickName;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Comment parent;
