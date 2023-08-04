@@ -236,7 +236,7 @@ const commentCreate = () => {
             <span className={styles.boardTitle}>{boardTitle}</span>
             <button
               className={styles.grayoutbutton}
-              onClick={() => navigate(`/boards/${boardTitle}`, { state : 1 })}
+              onClick={() => navigate(`/boards/${boardTitle}`, { state : postDetail.boardId })}
             >
               <IoIosArrowBack />
               목록으로 돌아가기
@@ -360,14 +360,14 @@ const commentCreate = () => {
           <div className={styles.moreTopbar}>
             <button
               className={styles.buttonlayoutDel}
-              onClick={() => navigate(`/boards/${boardTitle}`)}
+              onClick={() => navigate(`/boards/${boardTitle}`, { state : postDetail.boardId })}
             >
               <span className={styles.boardmoreTitleA}>{boardTitle}</span>
               <span className={styles.boardmoreTitleB}>글 더 보기</span>
             </button>
             <button
               className={styles.grayoutbutton}
-              onClick={() => navigate(`/boards/${boardTitle}`)}
+              onClick={() => navigate(`/boards/${boardTitle}`, { state : postDetail.boardId })}
             >
               목록 보기
               <IoIosArrowForward />

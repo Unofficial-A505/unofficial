@@ -13,6 +13,7 @@ public class ArticleResponseDto {
     private String title;
     private String content;
     private String boardName;
+    private Long boardId;
     private String nickName;
     private Integer likes;
     private Integer views;
