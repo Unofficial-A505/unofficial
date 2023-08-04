@@ -1,6 +1,5 @@
 .boardsTopContainer {
   height: 120px;
-  border: 1px dotted red;
 }
 
 /* 전체 검색 박스 */
@@ -42,22 +41,45 @@
 
 /* 전체 게시판 베스트 게시글 */
 .boardsallBestContainer {
+  position: relative;
+  display: flex;
+
   width: 720px;
   height: 35px;
-  margin: 0 auto;
+  margin: 15px auto;
 
   border: 1px solid #75757579;
   border-radius: 1rem;
   background-color: #f6f7f8
 }
 
+.boardsallBestBox {
+  padding: 2px 0 0 15px;
+
+  /* border: 1px dotted red; */
+  width: 500px;
+  text-align: start;
+}
+
 .bestbannerTitle {
   height: 32px;
   width: 160px;
+  padding: 3px 0 0 0;
 
   color: rgba(10, 10, 10, 0.571);
-  border: 1px dotted red;
-}s
+  /* border: 1px dotted red; */
+}
+
+.bestContent {
+  margin: 0 12px 0 0;
+
+  color: #757575;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+} 
 
 /* 광고 container */
 .advContainer {

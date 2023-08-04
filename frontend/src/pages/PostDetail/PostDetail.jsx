@@ -247,7 +247,7 @@ const commentCreate = () => {
                 <div className={styles.posttimeago}>
                   <IoRocketOutline className={styles.tabIcon} size="20" />
                   {createTime_modify} 
-                  {createTime_modify === updateTime_modify && ` (수정 : ${updateTime_modify})`}
+                  {createTime_modify !== updateTime_modify && ` (수정 : ${updateTime_modify})`}
                 </div>
                 <div className={styles.posttimeago}>
                   <AiOutlineEye className={styles.tabIcon} size="19" />

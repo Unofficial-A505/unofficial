@@ -8,8 +8,8 @@ import Slider from "react-slick";
 export default function WeatherWidget() {
   const cities = ["Seoul", "Daejeon", "Gumi", "Gwangju", "Busan"];
   const api_key = "be3211008c87f453651f5f04faa61375";
-  const [weatherData, setWeatherData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [ weatherData, setWeatherData ] = useState([]);
+  const [ loading, setLoading ] = useState(true);
 
   useEffect(() => {
     const fetchWeatherData = async () => {

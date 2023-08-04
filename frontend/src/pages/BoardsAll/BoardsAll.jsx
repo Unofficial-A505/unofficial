@@ -1,8 +1,6 @@
 import styles from "./BoardsAll.module.css";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Outlet, useLocation } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
 
 import AdHorizontal from "../../components/AdHorizontal/AdHorizontal";
 import TopSpace from "../../components/TopSpace/TopSpace";
@@ -11,23 +9,48 @@ import { FiSearch } from "@react-icons/all-files/fi/FiSearch";
 import { CgAddR } from "@react-icons/all-files/cg/CgAddR";
 import customAxios from "../../util/customAxios";
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+
 export default function BoardsAll() {
   const [ boardTitles, setboardTitles ] = useState([]);
   const { boardTitle } = useParams();
   const boardsearchMessage = `${boardTitle}에서 찾고싶은 게시글의 제목 또는 내용의 키워드를 검색`;
   const [ keywordAll, setKeywordAll ] = useState("");
   const [ keywordBoard, setKeywordBoard ] = useState("");
+  const [ posts, setPosts ] = useState([]);
 
   const navigate = useNavigate();
-  // const URL = useSelector((state) => state.URL.API_URL);
 
-  // const { isLoading, error, data: boards } = useQuery(
-  //   ['boards'], () => {
-  //     const posts = new Posts();
-  //     return posts.boards();
-  //   });
+  const settings = {
+    dots: false,
+    infinite: true,
+    vertical: true, // 세로 방향으로 슬라이드
+    // verticalSwiping: true, // 세로 방향으로 슬라이드 스와이프
+    speed: 500,
+    slidesToShow: 1, // 한 번에 보여줄 아이템 개수
+    slidesToScroll: 1, // 스크롤시 이동할 아이템 개수
+    autoplay: true,
+    autoplaySpeed: 2000,
+  };
 
   useEffect(() => {
+
+    customAxios({
+      method: "get",
+      url: `${process.env.REACT_APP_SERVER}/api/articles`,
+      headers: {
+        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTIxNjE1MzcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjEsInJvbGUiOiJST0xFX0FETUlOIn0.-yKThjZOeyLxvlpVzVHxMAfEw2jbtwVZ-wcX0pYWdgJETpiALTD3H0re8KngsVHx3Zu_rzF8wB_24jkAmv6O5g`,
+      }
+    })
+      .then((res) => {
+        console.log(res.data);
+        setPosts(res.data.content); 
+      })
+      .catch((err) => console.log(err));
+
+    /* 위 axios 추후 삭제 */
 
     customAxios({
       method: "get",
@@ -73,10 +96,16 @@ export default function BoardsAll() {
             </button>
           </div> 
         </form>
-        
+
         <div className={styles.boardsallBestContainer}>
-          <div className={styles.bestbannerTitle}>현재 best 게시글</div>
-          <div></div>
+          <div className={styles.bestbannerTitle}>전체 best 게시글</div>
+          <div className={styles.boardsallBestBox}>
+            <Slider {...settings}>
+              {posts.map((data, index) => (
+                <div><span className={styles.bestContent}>{data.boardName}</span><span>{data.title}</span></div>
+                ))}
+            </Slider>
+          </div>
         </div>
       </div>
 
@@ -157,6 +186,14 @@ export default function BoardsAll() {
           </ul>
         </nav>
       </div>
+    </div>
+  );
+}
+
+const Slide = () => {
+  return (
+    <div>
+
     </div>
   );
 }
