@@ -286,7 +286,7 @@ const commentCreate = () => {
           </div>
           <div className={styles.commentInputContainer}>
             <div className={styles.commentTitle}>
-              <p>댓글 {commentsInfo.pageInfo.totalElements}</p>
+              <p>댓글 {commentsInfo.pageInfo?.totalElements}</p>
             </div>
 
             <div className={styles.commentnickName}>
