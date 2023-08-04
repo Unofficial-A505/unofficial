@@ -81,9 +81,6 @@ export default function PostDetail() {
         setpostDetail(res.data)
         // setTitle(res.data.title);
         // setContent(res.data.content);
-        if (boardTitleFromUrl===undefined) {
-          navigate(`/boards/${res.data.boardName}/${res.data.id}`)
-        }
         setBoardTitle(res.data.boardName)
       })
       .catch((err) => console.log(err));
@@ -245,7 +242,7 @@ const commentCreate = () => {
           <div className={styles.postContainer}>
             <div>
               <div className={styles.postTitle}>{postDetail.title}</div>
-              <div className={styles.postusername}>{username}</div>
+              <div className={styles.postusername}>{postDetail.nickName === null || postDetail.nickName===""? "익명" : postDetail.nickName}</div>
               <div className={styles.dateViews}>
                 <div className={styles.posttimeago}>
                   <IoRocketOutline className={styles.tabIcon} size="20" />
