@@ -80,4 +80,11 @@
   /* border: 1px red dotted; */
 }
 
+.tableContainer {
+  box-shadow: none;
+}
+
+.myPointTable {
+  height: 90%;
+}
 
