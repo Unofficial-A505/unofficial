@@ -5,21 +5,17 @@ import PostsView from "../../../components/PostView/PostView";
 import customAxios from "../../../util/customAxios";
 
 export default function BoardsView() {
-  const { state: id } = useLocation();
   const [ posts, setPosts ] = useState(null);
-  let { boardTitle } = useParams();
-  if (!boardTitle) {
-    boardTitle = "자유게시판";
-  }
+  let { boardId } = useParams();
+
   const navigate = useNavigate();
-  console.log('id', id)
+  console.log('id', boardId)
 
   useEffect(() => {
     customAxios({
       method: "get",
       url: `${process.env.REACT_APP_SERVER}/api/articles`,
-      // headers: {
-      // }
+      // url: `${process.env.REACT_APP_SERVER}/api/articles/${boardId}`,
     })
       .then((res) => {
         console.log(res.data);
@@ -29,13 +25,13 @@ export default function BoardsView() {
     return () => {
       console.log("unmounted");
     };
-  }, [id]);
+  }, [boardId]);
 
   if (posts) {
     return (
       <div>
         {posts.map((post, index) => (
-          <PostsView key={index} boardTitle={boardTitle} post={post} />
+          <PostsView key={index} boardId={boardId} post={post} />
         ))}
       </div>
     );

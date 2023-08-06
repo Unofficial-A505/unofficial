@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import { FaRegThumbsUp } from "@react-icons/all-files/fa/FaRegThumbsUp";
 
-export default function PostView({ post, boardTitle }) {
+export default function PostView({ post, boardId }) {
   const navigate = useNavigate();
 
   const createTime = post.createTime
@@ -24,7 +24,7 @@ export default function PostView({ post, boardTitle }) {
           <div
             className={styles.postTitle}
             onClick={() =>
-              navigate(`/boards/${boardTitle ? boardTitle : "자유게시판"}/${post.id}`)
+              navigate(`/boards/${boardId}/${post.id}`)
             }
           >
             {post.title}

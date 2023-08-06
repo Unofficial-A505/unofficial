@@ -115,11 +115,11 @@ const router = createBrowserRouter([
         path: "boards",
         element: <BoardsAll />,
         children: [
-          { path: ":boardTitle", element: <BoardsView /> },
-          { path: ":boardTitle/search/:keyword", element: <BoardSearchView /> },
+          { path: ":boardId", element: <BoardsView /> },
+          { path: ":boardId/search/:keyword", element: <BoardSearchView /> },
         ],
       },
-      { path: "boards/:boardTitle/:postId", element: <PostDetail /> },
+      { path: "boards/:boardId/:postId", element: <PostDetail /> },
       { path: "boards/search/:keyword", element: <SearchView /> },
       {
         path: "forgot-password",
@@ -128,8 +128,8 @@ const router = createBrowserRouter([
     ],
   },
   { path: "/user/advertisement/form", element: <AddAdvPage /> },
-  { path: "boards/:boardTitle/create", element: <CreatePostPage /> },
-  { path: "boards/:boardTitle/:postId/update", element: <PostUpdate /> },
+  { path: "boards/:boardId/create", element: <CreatePostPage /> },
+  { path: "boards/:boardId/:postId/update", element: <PostUpdate /> },
 ]);
 
 export default router;

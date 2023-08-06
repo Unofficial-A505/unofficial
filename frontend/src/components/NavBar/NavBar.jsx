@@ -39,7 +39,7 @@ export default function NavBar() {
         <button
           className={styles.tab}
           onClick={() => {
-            navigate("/boards/자유게시판", { state: 1});
+            navigate("/boards/1");
           }}
         >
           게시판

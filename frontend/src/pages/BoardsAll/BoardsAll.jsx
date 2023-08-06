@@ -15,8 +15,8 @@ import Slider from "react-slick";
 
 export default function BoardsAll() {
   const [ boardTitles, setboardTitles ] = useState([]);
-  const { boardTitle } = useParams();
-  const boardsearchMessage = `${boardTitle}에서 찾고싶은 게시글의 제목 또는 내용의 키워드를 검색`;
+  const { boardId } = useParams();
+  const boardsearchMessage = `${boardId}에서 찾고싶은 게시글의 제목 또는 내용의 키워드를 검색`;
   const [ keywordAll, setKeywordAll ] = useState("");
   const [ keywordBoard, setKeywordBoard ] = useState("");
   const [ posts, setPosts ] = useState([]);
@@ -36,12 +36,10 @@ export default function BoardsAll() {
   };
 
   useEffect(() => {
-
+    // best 게시글 api
     customAxios({
       method: "get",
       url: `${process.env.REACT_APP_SERVER}/api/articles`,
-      // headers: {
-      // }
     })
       .then((res) => {
         console.log(res.data);
@@ -49,14 +47,11 @@ export default function BoardsAll() {
       })
       .catch((err) => console.log(err));
 
-    /* 위 axios 추후 삭제 */
-
+    
+    // boards Title api
     customAxios({
       method: "get",
       url: `${process.env.REACT_APP_SERVER}/api/boards`,
-      headers: {
-        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTIxNjE1MzcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjEsInJvbGUiOiJST0xFX0FETUlOIn0.-yKThjZOeyLxvlpVzVHxMAfEw2jbtwVZ-wcX0pYWdgJETpiALTD3H0re8KngsVHx3Zu_rzF8wB_24jkAmv6O5g`
-      }
     })
     .then((res) => {
       const boards = res.data
@@ -115,11 +110,11 @@ export default function BoardsAll() {
               <button
               key={index}
               className={
-                board.name == boardTitle
+                board.id == boardId
                 ? styles.boardtabSelected
                 : styles.boardtab
               }
-                onClick={() => navigate(`/boards/${board.name}`, { state: board.id })}
+                onClick={() => navigate(`/boards/${board.id}`)}
                 >
                 {board.name}
               </button>
@@ -128,7 +123,7 @@ export default function BoardsAll() {
           <div className={styles.postcreateContainer}>
             <button
               className={styles.createpageButton}
-              onClick={() => navigate(`/boards/${boardTitle}/create`)}
+              onClick={() => navigate(`/boards/${boardId}/create`)}
             >
               <CgAddR className={styles.createpageIcon} size="20" />새 글 작성
             </button>
@@ -144,7 +139,7 @@ export default function BoardsAll() {
         </div>
 
         <form className={styles.searchboxhere}>
-          <p>{boardTitle} 게시글 검색</p>
+          <p>{boardId} 게시글 검색</p>
           <div className={styles.searchInputBox}>
             <input
               className={styles.search}
@@ -158,7 +153,7 @@ export default function BoardsAll() {
             <button
               className={styles.searchbutton}
               onClick={() => {
-                navigate(`/boards/${boardTitle}/search/${keywordBoard}`);
+                navigate(`/boards/${boardId}/search/${keywordBoard}`);
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             >
@@ -185,14 +180,6 @@ export default function BoardsAll() {
           </ul>
         </nav>
       </div>
-    </div>
-  );
-}
-
-const Slide = () => {
-  return (
-    <div>
-
     </div>
   );
 }

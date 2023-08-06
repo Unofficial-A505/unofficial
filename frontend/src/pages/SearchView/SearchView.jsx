@@ -15,7 +15,7 @@ import customAxios from "../../util/customAxios";
 
 export default function SearchView() {
   const { keyword } = useParams();
-  const { boardTitle } = useParams();
+  const { boardId } = useParams();
   const [ keywordAll, setKeywordAll ] = useState("");
   const navigate = useNavigate();
 

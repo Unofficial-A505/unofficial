@@ -28,7 +28,7 @@ const Title = styled.h3`
     `;
 const QuillContainer = () => {
     const navigate = useNavigate();
-    const { boardTitle } = useParams();
+    const { boardId } = useParams();
     const [ value, setValue ] = useState('');
     const [ nickName, setnickName ] = useState('');
     const TitleElement = useRef(null);
@@ -158,9 +158,9 @@ const QuillContainer = () => {
   function sendPost(content) {
     return new Promise(function(resolve, reject){
       const title = TitleElement.current.value;
-      const boardName = boardTitle;
+      const boardName = boardId;
       const nickName = nickName
-      console.log(title, content, boardTitle);
+      console.log(title, content, boardId);
   
       customAxios({
         method: "post",
@@ -174,7 +174,7 @@ const QuillContainer = () => {
         },
       })
       .then((res) => {
-        navigate(`/boards/${boardTitle}/${res.data.id}`, { replace: true });
+        navigate(`/boards/${boardId}/${res.data.id}`, { replace: true });
         console.log(res.data);
       })
       .catch((err) => {
@@ -209,7 +209,7 @@ const QuillContainer = () => {
 
         <div className={styles.upmenu}>
           <Title>
-            <p className={styles.boardTitle}>{boardTitle}</p>
+            <p className={styles.boardId}>{boardId}</p>
             <p>새 글 작성</p>
           </Title>
           <button className="btn" id={styles.createsubmitbutton}>
