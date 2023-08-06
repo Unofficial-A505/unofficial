@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './BoardSearchView.module.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
 import SearchContent from '../../../components/SearchContent/SearchContent'
 
@@ -12,12 +12,15 @@ export default function BoardSearchView() {
   const navigate = useNavigate();
   const { boardId } = useParams();
   const { keyword } = useParams();
+  const { state : currboardName } = useLocation();
+  const [ searchResults, setsearchResults ] = useState([]);
 
   useEffect(() => {
     // 특정 게시판에서 게시글 검색
     searchViewApi(keyword, boardId)
     .then((res) => {
-      console.log('search success', res)
+      console.log('search success', res);
+      setsearchResults(res)
     }).catch((err) => console.log(err));
 
     return () => {  
@@ -27,12 +30,12 @@ export default function BoardSearchView() {
   return (
     <div>
       <div className={styles.searchUpheader}>
-        <div><span className={styles.boardId}>{boardId}</span>의 <span className={styles.searchKeyword}>'{keyword}'</span> 검색 결과</div>
+        <div><span className={styles.boardTitle}>{currboardName}</span>의 <span className={styles.searchKeyword}>'{keyword}'</span> 검색 결과</div>
         <button className={styles.grayoutbutton} onClick={() => navigate(`/boards/${boardId}`)}><IoIosArrowBack />목록으로 돌아가기</button>
       </div>
-
+        
       <div className={styles.boardscontentTitles}>
-        <SearchContent />
+        <SearchContent searchResults={searchResults} keyword={keyword}/>
       </div>
     </div>
   );

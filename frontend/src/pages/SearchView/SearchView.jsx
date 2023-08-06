@@ -16,13 +16,15 @@ import { searchViewApi } from "../../api/boards"
 export default function SearchView() {
   const { keyword } = useParams();
   const [ keywordAll, setKeywordAll ] = useState("");
+  const [ searchResults, setsearchResults ] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     // 전체게시판에서 게시글 검색
     searchViewApi(keyword, 0)
     .then((res) => {
-      console.log('search success', res)
+      console.log('search success', res);
+      setsearchResults(res);
     }).catch((err) => console.log(err));
 
     return () => {  
@@ -56,12 +58,12 @@ export default function SearchView() {
 
         <div className={styles.searchUpheader}>
           <div>
-            <span className={styles.boardTitle}>전체게시판</span>의{" "}
+            <span className={styles.boardTitle}>전체게시판</span>의
             <span className={styles.searchKeyword}>'{keyword}'</span> 검색 결과
           </div>
           <button
             className={styles.grayoutbutton}
-            onClick={() => navigate("/boards/자유게시판")}
+            onClick={() => navigate("/boards/1")}
           >
             <IoIosArrowBack />
             게시판으로 돌아가기
@@ -69,7 +71,7 @@ export default function SearchView() {
         </div>
 
         <div className={styles.searchcontentBox}>
-          <SearchContent />
+          <SearchContent searchResults={searchResults} keyword={keyword}/>
         </div>
       </div>
     </div>

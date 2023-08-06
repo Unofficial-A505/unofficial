@@ -7,7 +7,7 @@ const postCommentsApi = (postId) => customAxios({
 }).then((res) => res.data)
 
 
-// 게시글별 댓글 생성
+// 게시글별 댓글 생성 ( 댓글 & 대댓글 )
 const postCommentCreateApi = (articleId, content, parentId, nickName) => customAxios({
   method: "post",
   url: `${process.env.REACT_APP_SERVER}/api/comments`,

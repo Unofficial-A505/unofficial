@@ -57,11 +57,14 @@ const QuillContainer = () => {
         'image',
         'align',
     ];
+    
     useEffect (() => {
       quillElement.current.editor.getModule('toolbar').addHandler('image', function () {
       selectLocalImage();
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
-  }, [imageList]);
+    }, [imageList]);
 
   const onChangeValue = (e) => {
     setValue(e);
@@ -91,7 +94,6 @@ const QuillContainer = () => {
       
       // 이미지 로컬 url 및 formData 담을 file ImageList에 담기
       changeImageList(fileURL, file);
-
     })
   }
 

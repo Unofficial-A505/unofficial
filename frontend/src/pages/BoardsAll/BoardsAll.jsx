@@ -55,15 +55,20 @@ export default function BoardsAll() {
           setcurrboardName(board.name)}})
     }).catch((err) => console.log(err))
 
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
     return () => {  
       console.log('unmounted')
      }}, [boardId || boardNames]);
 
+
+
   return(
     <div>
-      <TopSpace />
-
-      <div>게시판</div>
+      <div className={styles.advContainer}>
+        <AdHorizontal />
+      </div>
+      
       <div className={styles.boardsTopContainer}>
         <form className={styles.searchboxall}>
           <p>전체 게시글 검색</p>
@@ -91,7 +96,7 @@ export default function BoardsAll() {
           <div className={styles.boardsallBestBox}>
             <Slider {...settings}>
               {bestPostlist.map((data, index) => (
-                <div key={index}><span className={styles.bestContent}>{data.boardName}</span><span>{data.title}</span></div>
+                <div key={index} className={styles.bestContentContainer}><span className={styles.bestContent}>{data.boardName}</span><span>{data.title}</span></div>
                 ))}
             </Slider>
           </div>
@@ -148,7 +153,7 @@ export default function BoardsAll() {
             <button
               className={styles.searchbutton}
               onClick={() => {
-                navigate(`/boards/${boardId}/search/${keywordBoard}`);
+                navigate(`/boards/${boardId}/search/${keywordBoard}`, { state : currboardName });
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             >

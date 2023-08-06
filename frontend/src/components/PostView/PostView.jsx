@@ -3,7 +3,7 @@ import styles from "./PostView.module.css";
 import { useNavigate } from "react-router-dom";
 import { FaRegThumbsUp } from "@react-icons/all-files/fa/FaRegThumbsUp";
 
-export default function PostView({ post, boardId }) {
+export default function PostView({ post, boardId, searchView, keyword }) {
   const navigate = useNavigate();
 
   const createTime = post.createTime
@@ -14,19 +14,23 @@ export default function PostView({ post, boardId }) {
   return (
     <>
       <div className={styles.boardpostContainer}>
-        <div className={styles.postContainer}>
+        <div className={styles.postContainerA}>
           <div className={styles.postContent} id={styles.boardName}>
             {post.id}
           </div>
-          <div
-            className={styles.postTitle}
-            onClick={() =>
-              navigate(`/boards/${boardId}/${post.id}`)
-            }>
+          {!searchView ?
+          <div className={styles.postTitle}
+            onClick={() => navigate(`/boards/${boardId}/${post.id}`)}>
             {post.title}
           </div>
+          : (<div className={styles.postTitle}
+          onClick={() => navigate(`/boards/${boardId}/${post.id}`)}>
+          <span>{post.title.split(keyword)[0]}</span>
+          <span style={{ color: "#3F51B5", fontWeight: "550",}}>{keyword}</span>
+          <span>{post.title.split(keyword)[1]}</span>
+          </div>)}
         </div>
-        <div className={styles.postContainer}>
+        <div className={styles.postContainerB}>
           <div className={styles.postContent}>{createTime_modify} (수정 : {updateTime_modify})</div>
           <div className={styles.postContent} id={styles.postrecommendBox}><FaRegThumbsUp className={styles.postIcon}/>{post.likes}</div>
           <div className={styles.postContent} id={styles.postviewBox}>조회수 {post.views}</div>

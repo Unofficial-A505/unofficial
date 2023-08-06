@@ -1,15 +1,14 @@
 import styles from "./PostDetail.module.css";
 
 import { useState, useEffect, useDebugValue, useRef } from "react";
-import { useParams, useNavigate, redirect, Navigate } from "react-router-dom";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 
 import BoardView from "../../components/BoardView/BoardView";
 import CommentView from "../../components/CommentView/CommentView";
 import BestpostsWidget from "../../components/BestpostsWidget/BestpostsWidget";
-import EduGrantButton from "../../components/EduGrantButton/EduGrantsButton";
+import ServerTime from "../../components/ServerTime/ServerTime";
 
 import TopSpace from "../../components/TopSpace/TopSpace";
-import customAxios from "../../util/customAxios";
 
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
@@ -27,6 +26,7 @@ import { IoChatboxOutline } from "@react-icons/all-files/io5/IoChatboxOutline";
 // 조회수 아이콘
 import { AiOutlineEye } from "@react-icons/all-files/ai/AiOutlineEye";
 
+import { boardArticlesAll } from '../../api/boards'
 import { postDetailApi, postDeleteApi, postRecommendInputApi } from '../../api/posts'
 import { postCommentsApi, postCommentCreateApi, postCommentUpdateApi, postCommentDeleteApi } from '../../api/comments'
 
@@ -39,6 +39,7 @@ export default function PostDetail() {
   const [ createcomment, setcreateComment] = useState("");
   const [ comments, setComments ] = useState([])
   const [ commentnickName, setcommentnickName] = useState("")
+  const [ articleList, setarticleList ] = useState([]);
   const [ recommendedState, setrecommendedState ] = useState(false)
   const commentElement = useRef(null);
 
@@ -52,6 +53,11 @@ export default function PostDetail() {
   };
 
   useEffect(() => {
+    // 동일 게시판 글 더보기 -> 게시글 가져오기
+    boardArticlesAll
+    .then((res) => setarticleList(res))
+    .catch((err) => console.log(err));
+
     // 게시글 상세정보 가져오기
     postDetailApi(postId)
     .then((res) => setpostDetail(res))
@@ -237,7 +243,7 @@ export default function PostDetail() {
             </nav>
           </div>
 
-          <div className={styles.pageBottomtab}>
+          {/* <div className={styles.pageBottomtab}>
             <button
               className={styles.grayoutbutton}
               onClick={() => navigate(`/boards/${boardId}`)}
@@ -252,10 +258,10 @@ export default function PostDetail() {
               다음글 보기
               <IoIosArrowForward />
             </button>
-          </div>
+          </div> */}
 
-          <hr />
-
+          <br />
+          
           <div className={styles.moreTopbar}>
             <button
               className={styles.buttonlayoutDel}
@@ -272,14 +278,14 @@ export default function PostDetail() {
               <IoIosArrowForward />
             </button>
           </div>
-          <BoardView />
+          <BoardView posts={articleList}/>
         </span>
 
         <span className={styles.sideviewContainer}>
           <div className={styles.sideContentContainer}>
             <div className={styles.sidecontentmiddleBox}>
               <BestpostsWidget />
-              <EduGrantButton />
+              <ServerTime />
             </div>
           </div>
         </span>
