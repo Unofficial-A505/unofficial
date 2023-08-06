@@ -18,17 +18,19 @@ export default function PostView({ post, boardId, searchView, keyword }) {
           <div className={styles.postContent} id={styles.boardName}>
             {post.id}
           </div>
+
           {!searchView ?
-          <div className={styles.postTitle}
+          <div title={post.title} className={styles.postTitle}
             onClick={() => navigate(`/boards/${boardId}/${post.id}`)}>
             {post.title}
           </div>
-          : (<div className={styles.postTitle}
+          : (<div title={post.title} className={styles.postTitle}
           onClick={() => navigate(`/boards/${boardId}/${post.id}`)}>
           <span>{post.title.split(keyword)[0]}</span>
           <span style={{ color: "#3F51B5", fontWeight: "550",}}>{keyword}</span>
           <span>{post.title.split(keyword)[1]}</span>
           </div>)}
+
         </div>
         <div className={styles.postContainerB}>
           <div className={styles.postContent}>{createTime_modify} (수정 : {updateTime_modify})</div>

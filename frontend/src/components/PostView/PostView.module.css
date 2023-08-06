@@ -49,6 +49,13 @@
   line-height: normal;
 }
 
+.postTitle:hover {
+  font-weight: 500;
+
+  text-decoration: underline;
+  text-underline-position: under;
+}
+
 .postContent {
   margin: 0 12px 0 0;
 

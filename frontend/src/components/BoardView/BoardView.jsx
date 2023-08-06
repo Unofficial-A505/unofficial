@@ -8,10 +8,8 @@ import PostView from '../PostView/PostView'
 import customAxios from '../../util/customAxios';
 
 export default function BoardView({ posts, searchView, keyword }){
+  if (!posts) { posts = [] }
 
-  if (!posts) {
-    posts = []
-  }
   const [ currentPage, setCurrentPage ] = useState(1);
   const pageSize = 10;
 
