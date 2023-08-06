@@ -11,7 +11,7 @@ import TopSpace from "../../components/TopSpace/TopSpace";
 import SearchContent from "../../components/SearchContent/SearchContent";
 import AdHorizontal from "../../components/AdHorizontal/AdHorizontal";
 
-import { bestPostsApi, searchViewApi } from "../../api/boards"
+import { bestPostsApi, searchViewApi, boardNamesApi } from "../../api/boards"
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -22,6 +22,7 @@ export default function SearchView() {
   const [ keywordAll, setKeywordAll ] = useState("");
   const [ searchResults, setsearchResults ] = useState([]);
   const [ bestPostlist, setbestPostlist ] = useState([]);
+  const [ boardNames, setboardNames ] = useState([]);
   const navigate = useNavigate();
 
   const settings = {
@@ -49,6 +50,12 @@ export default function SearchView() {
       console.log('best', res)
       setbestPostlist(res);
     }).catch((err) => console.log(err));
+
+     // boards Title api
+     boardNamesApi
+     .then((res) => {
+       setboardNames(res)
+     }).catch((err) => console.log(err))
 
     return () => {  
       console.log('unmounted')}
@@ -90,6 +97,20 @@ export default function SearchView() {
                 <div key={index} className={styles.bestContentContainer}><span className={styles.bestContent}>{data.boardName}</span><span>{data.title}</span></div>
                 ))}
             </Slider>
+          </div>
+        </div>
+      </div>
+      <div className={styles.boardcontainer}>
+        <div className={styles.boardtabContainer}>
+          <div>
+            {boardNames.map((board, index) => (
+              <button
+              key={index}
+              className={styles.boardtab}
+              onClick={() => navigate(`/boards/${board.id}`, { state: board.name })}>
+              {board.name}
+              </button>
+            ))}
           </div>
         </div>
       </div>

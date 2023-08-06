@@ -173,3 +173,40 @@
   width: 920px;
   height: 120px;
 }
+
+/* 게시판 탭 (자유게시판, 비밀게시판, 9기게시판 etc...) */
+
+.boardcontainer{
+  width: 1200px;
+  margin: 0 auto;
+  /* border: 1px dotted green; */
+}
+
+.boardtabContainer {
+  width: 98%;
+  margin: 10px auto;
+  display: flex;
+  justify-content: space-between;
+  /* border: 1px red dotted; */
+}
+
+.boardtab {
+  margin: 6px;
+  color: #000;
+
+  border: 0;
+  background-color: transparent;
+
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.boardtab:hover {
+  color: #034BB9;
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-position: under;
+}

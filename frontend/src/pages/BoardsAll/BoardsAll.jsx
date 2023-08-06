@@ -68,7 +68,7 @@ export default function BoardsAll() {
       <div className={styles.advContainer}>
         <AdHorizontal />
       </div>
-      
+
       <div className={styles.boardsTopContainer}>
         <form className={styles.searchboxall}>
           <p>전체 게시글 검색</p>
@@ -138,6 +138,7 @@ export default function BoardsAll() {
           <AdHorizontal />
         </div>
 
+        <div className={styles.boardBottomBar}>
         <form className={styles.searchboxhere}>
           <p>{currboardName} 게시글 검색</p>
           <div className={styles.searchInputBox}>
@@ -179,6 +180,8 @@ export default function BoardsAll() {
             </li>
           </ul>
         </nav>
+        </div>
+
       </div>
     </div>
   );

@@ -100,7 +100,7 @@
 .searchboxhere {
   position: relative;
   display: flex;
-  width: 750px;
+  width: 620px;
 
   margin: 15px auto;
 
@@ -233,9 +233,19 @@
 
 .pagination {
   margin: 0 auto;
+  margin-top: 20px;
   width: 80px;
+  height: 50px;
 
   /* border: 1px dotted red; */
 }
 
+/* 게시판 내 검색 + 페이지네이션 */
+.boardBottomBar {
+  display: flex;
+  justify-content: space-between;
+
+  width: 1176px;
+  /* border: 1px dotted gray; */
+}
 
