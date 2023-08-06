@@ -1,8 +1,6 @@
 import styles from "./PostDetail.module.css";
-import axios from "axios";
 
 import { useState, useEffect, useDebugValue, useRef } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { useParams, useNavigate, redirect, Navigate } from "react-router-dom";
 
 import BoardView from "../../components/BoardView/BoardView";

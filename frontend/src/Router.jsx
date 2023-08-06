@@ -15,7 +15,7 @@ import BoardSearchView from "./pages/BoardsAll/BoardSearchView/BoardSearchView";
 
 import PostDetail from "./pages/PostDetail/PostDetail";
 import PostUpdate from "./pages/PostUpdate/PostUpdate";
-// import CreatePostPage from './pages/CreatePostPage/CreatePostPage'
+import CreatePostPage from './pages/CreatePostPage/CreatePostPage'
 import SearchView from "./pages/SearchView/SearchView";
 
 import MypageUser from "./pages/MyPage/MypageUser/MypageUser";
@@ -32,9 +32,6 @@ import MyAdvertisement from "./pages/MyPage/MypageAdver/MyAdvertisement/MyAdvert
 
 import Management from "./pages/MyPage/Management/Management";
 import AddAdvPage from "./pages/MyPage/MypageAdver/AddAdvPage";
-
-import CreatePostPage from "./pages/CreatePostPage/QuillContainer";
-// import CreatePostPage from './pages/CreatePostPage/CreatePost'
 
 import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
