@@ -115,7 +115,7 @@ const QuillContainer = () => {
           const formData = new FormData();
           formData.append("uploadFile", image.file);
   
-          const promise = postImageApi
+          const promise = postImageApi(formData)
           .then((res) => {
             console.log("success");
             const uploadPath = res.data;

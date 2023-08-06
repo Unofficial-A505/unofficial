@@ -45,7 +45,9 @@ export default function PostDetail() {
   // 댓글 가져오기
   const getComment = () => {
     postCommentsApi(postId)
-    .then((res) => setComments(res))
+    .then((res) => {
+      setComments(res);
+      console.log(res)})
     .catch((err) => console.log(err));
   };
 
@@ -79,6 +81,9 @@ export default function PostDetail() {
   
   // 댓글 생성
   const commentCreate = () => {
+    let text = document.querySelector(".textarea").value;
+    text = text.replaceAll(/(\n|\r\n)/g, "<br>");
+
     if (!commentnickName) { alert('댓글 닉네임을 입력해주세요!')
     } else if (!createcomment) { alert('댓글을 입력해주세요!')
     } else {
@@ -94,6 +99,9 @@ export default function PostDetail() {
 
   // 댓글 수정
   const commentUpdate = (updateComment, id) => {
+    let text = document.querySelector(".textarea").value;
+    text = text.replaceAll(/(\n|\r\n)/g, "<br>");
+
     const content = updateComment
     const parentId = 0;
     const articleId = postId;

@@ -18,7 +18,7 @@
 /* post 내용 container */
 .postviewContainer {
   width: 1000px;
-  border: 1px dotted aqua;
+  /* border: 1px dotted aqua; */
 }
 
 .postContentContainer {
