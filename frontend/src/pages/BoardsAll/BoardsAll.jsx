@@ -50,14 +50,14 @@ export default function BoardsAll() {
     boardNamesApi
     .then((res) => {
       setboardNames(res)
-      boardNames.forEach((board) => {
+      res.forEach((board) => {
         if (board.id == boardId) {
           setcurrboardName(board.name)}})
     }).catch((err) => console.log(err))
 
     return () => {  
       console.log('unmounted')
-     }}, []);
+     }}, [boardId || boardNames]);
 
   return(
     <div>
@@ -118,7 +118,7 @@ export default function BoardsAll() {
           <div className={styles.postcreateContainer}>
             <button
               className={styles.createpageButton}
-              onClick={() => navigate(`/boards/${boardId}/create`)}
+              onClick={() => navigate(`/boards/${boardId}/create`, {state : currboardName })}
             >
               <CgAddR className={styles.createpageIcon} size="20" />새 글 작성
             </button>

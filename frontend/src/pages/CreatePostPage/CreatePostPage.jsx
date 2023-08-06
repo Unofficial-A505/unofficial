@@ -1,17 +1,17 @@
 import styles from "./CreatePostPage.module.css";
 
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+
 import Quill from "quill";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImageResize from "@looop/quill-image-resize-module-react";
+
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 import TopSpace from "../../components/TopSpace/TopSpace";
 import Footer from "../../components/Footer/Footer";
 import NavBar from "../../components/NavBar/NavBar";
-import customAxios from "../../util/customAxios";
 
 import { postImageApi, postCreateApi } from "../../api/posts"
 
@@ -20,11 +20,12 @@ Quill.register("modules/ImageResize", ImageResize);
 const QuillContainer = () => {
     const navigate = useNavigate();
     const { boardId } = useParams();
+    const { state : currboardName } = useLocation();
+
     const [ value, setValue ] = useState('');
     const [ nickName, setnickName ] = useState('');
     const TitleElement = useRef(null);
     const quillElement = useRef(null); 
-
     const [ imageList, setimageList ] = useState([])
  
     const modules = {
@@ -173,10 +174,10 @@ const QuillContainer = () => {
 
         <div className={styles.topmenu}>
           <h3 className={styles.topmenuBox}>
-            <p className={styles.boardTitle}>{boardId}</p>
+            <p className={styles.boardTitle}>{currboardName}</p>
             <p>새 글 작성</p>
           </h3>
-          <button className="btn" id={styles.createsubmitbutton}>
+          <button className="btn" id={styles.createsubmitbutton} onClick={createPost}>
             게시하기
           </button>
         </div>
