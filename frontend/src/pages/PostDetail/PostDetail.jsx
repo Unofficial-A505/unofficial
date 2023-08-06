@@ -30,11 +30,9 @@ import { AiOutlineEye } from "@react-icons/all-files/ai/AiOutlineEye";
 // API import
 export default function PostDetail() {
   const navigate = useNavigate();
-  const { boardTitle } = useParams();
+  const { boardId } = useParams();
   const { postId } = useParams();
   const [ postDetail, setpostDetail ] = useState({})
-  // const [ title, setTitle] = useState("");
-  // const [ content, setContent] = useState("");
   const [ createcomment, setcreateComment] = useState("");
   const [ comments, setComments ] = useState([])
   const [ commentnickName, setcommentnickName] = useState("")
@@ -53,9 +51,6 @@ export default function PostDetail() {
     customAxios({
       method: "get",
       url: `${process.env.REACT_APP_SERVER}/api/comments/article/${postId}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
     })
       .then((res) => {
         console.log("comments", res.data);
@@ -68,15 +63,9 @@ export default function PostDetail() {
     customAxios({
       method: "get",
       url: `${process.env.REACT_APP_SERVER}/api/articles/${postId}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
     })
       .then((res) => {
-        console.log('detail', res.data);
         setpostDetail(res.data)
-        // setTitle(res.data.title);
-        // setContent(res.data.content);
         console.log(postDetail)
       })
       .catch((err) => console.log(err));
@@ -87,19 +76,6 @@ export default function PostDetail() {
       return () => {  
         console.log('unmounted')}
       }, [postId]);
-
-  // const { isLoading, error, data: hello } = useQuery(
-  //   ['hello', postId ], () =>
-  //     axios({
-  //     method: "get",
-  //     url: `http://127.0.0.1:8000/api/v1/articles/${postId}/`,
-  //     // headers: {
-  //     //   Authorization: `Token ${this.$store.state.token}`,
-  //     // }
-  //     })
-  //     .then((res) => res.data)
-  //     .catch((err) => console.log(err))
-  //   );
 
 const commentCreate = () => {
 
@@ -118,9 +94,6 @@ const commentCreate = () => {
     method: "post",
     url: `${process.env.REACT_APP_SERVER}/api/comments`,
     data: { articleId, content, parentId, nickName },
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
     })
     .then((res) => {
       console.log(res);
@@ -141,9 +114,6 @@ const commentCreate = () => {
       method: "put",
       url: `${process.env.REACT_APP_SERVER}/api/comments/${id}`,
       data: { id, articleId, content, parentId },
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
       })
       .then((res) => {
         console.log(res);
@@ -156,9 +126,6 @@ const commentCreate = () => {
     customAxios({
       method: "delete",
       url: `${process.env.REACT_APP_SERVER}/api/comments/${id}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
       })
       .then((res) => {
         console.log(res);
@@ -172,13 +139,10 @@ const commentCreate = () => {
     customAxios({
       method: "delete",
       url: `${process.env.REACT_APP_SERVER}/api/articles/${postId}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
       })
       .then((res) => {
         console.log(res);
-        navigate(`/boards/${boardTitle}`)
+        navigate(`/boards/${boardId}`)
       })
       .catch((err) => console.log(err));
     };
@@ -190,9 +154,6 @@ const commentCreate = () => {
       method: "post",
       url: `${process.env.REACT_APP_SERVER}/api/likes`,
       data: { articleId },
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
     })
     .then((res) => {
       console.log(res)
@@ -228,10 +189,10 @@ const commentCreate = () => {
       <div className={styles.postdetailallContainer}>
         <span className={styles.postviewContainer}>
           <div className={styles.postTopbar}>
-            <span className={styles.boardTitle}>{boardTitle}</span>
+            <span className={styles.boardTitle}>{postDetail.boardName}</span>
             <button
               className={styles.grayoutbutton}
-              onClick={() => navigate(`/boards/${boardTitle}`)}
+              onClick={() => navigate(`/boards/${boardId}`)}
             >
               <IoIosArrowBack />
               목록으로 돌아가기
@@ -265,7 +226,7 @@ const commentCreate = () => {
                 {recommended}
               </div>
               <div className={styles.postupdateBottom}>
-                <div onClick={() => navigate(`/boards/${boardTitle}/${postId}/update`, { state : postDetail })} className={styles.postupdateBottomtab}>
+                <div onClick={() => navigate(`/boards/${boardId}/${postId}/update`, { state : postDetail })} className={styles.postupdateBottomtab}>
                   <HiOutlinePencilAlt size="15" />
                   update
                 </div>
@@ -295,8 +256,7 @@ const commentCreate = () => {
                 onChange={(e) => {
                   setcreateComment(e.target.value);
                   console.log(createcomment)
-                 }
-                }
+                 }}
                 placeholder="댓글을 작성해보세요"
               />
               <button className={styles.commentButton} onClick={commentCreate}>
@@ -336,7 +296,7 @@ const commentCreate = () => {
           <div className={styles.pageBottomtab}>
             <button
               className={styles.grayoutbutton}
-              onClick={() => navigate(`/boards/${boardTitle}`)}
+              onClick={() => navigate(`/boards/${boardId}`)}
             >
               <IoIosArrowBack />
               이전글 보기
@@ -355,14 +315,14 @@ const commentCreate = () => {
           <div className={styles.moreTopbar}>
             <button
               className={styles.buttonlayoutDel}
-              onClick={() => navigate(`/boards/${boardTitle}`)}
+              onClick={() => navigate(`/boards/${boardId}`)}
             >
-              <span className={styles.boardmoreTitleA}>{boardTitle}</span>
+              <span className={styles.boardmoreTitleA}>{postDetail.boardName}</span>
               <span className={styles.boardmoreTitleB}>글 더 보기</span>
             </button>
             <button
               className={styles.grayoutbutton}
-              onClick={() => navigate(`/boards/${boardTitle}`)}
+              onClick={() => navigate(`/boards/${boardId}`)}
             >
               목록 보기
               <IoIosArrowForward />

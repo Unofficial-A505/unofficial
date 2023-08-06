@@ -31,7 +31,7 @@ export default function BoardsView() {
     return (
       <div>
         {posts.map((post, index) => (
-          <PostsView key={index} boardId={boardId} post={post} />
+          <PostsView boardId={boardId} post={post} />
         ))}
       </div>
     );

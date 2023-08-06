@@ -15,12 +15,14 @@ import Slider from "react-slick";
 
 export default function BoardsAll() {
   const [ boardTitles, setboardTitles ] = useState([]);
+  const [ currboardName, setcurrboardName ] = useState('');
   const { boardId } = useParams();
-  const boardsearchMessage = `${boardId}에서 찾고싶은 게시글의 제목 또는 내용의 키워드를 검색`;
   const [ keywordAll, setKeywordAll ] = useState("");
   const [ keywordBoard, setKeywordBoard ] = useState("");
   const [ posts, setPosts ] = useState([]);
-
+  
+  const boardsearchMessage = `${currboardName}에서 찾고싶은 게시글의 제목 또는 내용의 키워드를 검색`;
+  
   const navigate = useNavigate();
 
   const settings = {
@@ -56,8 +58,14 @@ export default function BoardsAll() {
     .then((res) => {
       const boards = res.data
       setboardTitles(res.data)
+      boardTitles.forEach((board) => {
+        if (board.id == boardId) {
+          setcurrboardName(board.name)
+        }
+      })
       console.log('res.data', res.data)
-      console.log(boardTitles)})
+      console.log(boardTitles)
+    })
     .catch((err) => console.log(err))
 
     return () => {  
@@ -114,7 +122,7 @@ export default function BoardsAll() {
                 ? styles.boardtabSelected
                 : styles.boardtab
               }
-                onClick={() => navigate(`/boards/${board.id}`)}
+                onClick={() => navigate(`/boards/${board.id}`, { state: board.name })}
                 >
                 {board.name}
               </button>
@@ -139,7 +147,7 @@ export default function BoardsAll() {
         </div>
 
         <form className={styles.searchboxhere}>
-          <p>{boardId} 게시글 검색</p>
+          <p>{currboardName} 게시글 검색</p>
           <div className={styles.searchInputBox}>
             <input
               className={styles.search}
