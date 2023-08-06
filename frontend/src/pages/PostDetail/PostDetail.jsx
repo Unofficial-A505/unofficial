@@ -48,7 +48,7 @@ export default function PostDetail() {
     postCommentsApi(postId)
     .then((res) => {
       setComments(res);
-      console.log(res)})
+      console.log('getComments', res)})
     .catch((err) => console.log(err));
   };
 

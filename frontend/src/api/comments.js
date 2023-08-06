@@ -4,7 +4,7 @@ import customAxios from "../util/customAxios";
 const postCommentsApi = (postId) => customAxios({
   method: "get",
   url: `${process.env.REACT_APP_SERVER}/api/comments/article/${postId}`,
-}).then((res) => res.data)
+}).then((res) => res.data.content)
 
 
 // 게시글별 댓글 생성 ( 댓글 & 대댓글 )
