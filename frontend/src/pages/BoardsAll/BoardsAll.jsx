@@ -1,25 +1,26 @@
 import styles from "./BoardsAll.module.css";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, Outlet, useLocation } from "react-router-dom";
+import { useNavigate, useParams, Outlet} from "react-router-dom";
 
 import AdHorizontal from "../../components/AdHorizontal/AdHorizontal";
 import TopSpace from "../../components/TopSpace/TopSpace";
 
 import { FiSearch } from "@react-icons/all-files/fi/FiSearch";
 import { CgAddR } from "@react-icons/all-files/cg/CgAddR";
-import customAxios from "../../util/customAxios";
+
+import { bestPostsApi, boardNamesApi } from "../../api/boards"
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
 export default function BoardsAll() {
-  const [ boardTitles, setboardTitles ] = useState([]);
+  const [ boardNames, setboardNames ] = useState([]);
   const [ currboardName, setcurrboardName ] = useState('');
   const { boardId } = useParams();
   const [ keywordAll, setKeywordAll ] = useState("");
   const [ keywordBoard, setKeywordBoard ] = useState("");
-  const [ posts, setPosts ] = useState([]);
+  const [ bestPostlist, setbestPostlist ] = useState([]);
   
   const boardsearchMessage = `${currboardName}에서 찾고싶은 게시글의 제목 또는 내용의 키워드를 검색`;
   
@@ -39,34 +40,20 @@ export default function BoardsAll() {
 
   useEffect(() => {
     // best 게시글 api
-    customAxios({
-      method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/articles`,
-    })
-      .then((res) => {
-        console.log(res.data);
-        setPosts(res.data.content); 
-      })
-      .catch((err) => console.log(err));
-
-    
-    // boards Title api
-    customAxios({
-      method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/boards`,
-    })
+    bestPostsApi
     .then((res) => {
-      const boards = res.data
-      setboardTitles(res.data)
-      boardTitles.forEach((board) => {
+      console.log('best', res)
+      setbestPostlist(res);
+    }).catch((err) => console.log(err));
+   
+    // boards Title api
+    boardNamesApi
+    .then((res) => {
+      setboardNames(res)
+      boardNames.forEach((board) => {
         if (board.id == boardId) {
-          setcurrboardName(board.name)
-        }
-      })
-      console.log('res.data', res.data)
-      console.log(boardTitles)
-    })
-    .catch((err) => console.log(err))
+          setcurrboardName(board.name)}})
+    }).catch((err) => console.log(err))
 
     return () => {  
       console.log('unmounted')
@@ -103,8 +90,8 @@ export default function BoardsAll() {
           <div className={styles.bestbannerTitle}>전체 best 게시글</div>
           <div className={styles.boardsallBestBox}>
             <Slider {...settings}>
-              {posts.map((data, index) => (
-                <div><span className={styles.bestContent}>{data.boardName}</span><span>{data.title}</span></div>
+              {bestPostlist.map((data, index) => (
+                <div key={index}><span className={styles.bestContent}>{data.boardName}</span><span>{data.title}</span></div>
                 ))}
             </Slider>
           </div>
@@ -114,7 +101,7 @@ export default function BoardsAll() {
       <div className={styles.boardcontainer}>
         <div className={styles.boardtabContainer}>
           <div>
-            {boardTitles.map((board, index) => (
+            {boardNames.map((board, index) => (
               <button
               key={index}
               className={

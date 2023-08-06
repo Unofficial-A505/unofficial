@@ -27,6 +27,9 @@ import { IoChatboxOutline } from "@react-icons/all-files/io5/IoChatboxOutline";
 // 조회수 아이콘
 import { AiOutlineEye } from "@react-icons/all-files/ai/AiOutlineEye";
 
+import { postDetailApi, postDeleteApi, postRecommendInputApi } from '../../api/posts'
+import { postCommentsApi, postCommentCreateApi, postCommentUpdateApi, postCommentDeleteApi } from '../../api/comments'
+
 // API import
 export default function PostDetail() {
   const navigate = useNavigate();
@@ -37,151 +40,84 @@ export default function PostDetail() {
   const [ comments, setComments ] = useState([])
   const [ commentnickName, setcommentnickName] = useState("")
   const [ recommendedState, setrecommendedState ] = useState(false)
-  console.log('지금 코멘트', comments)
   const commentElement = useRef(null);
-  
-  const createTime = postDetail.createTime
-  const updateTime = postDetail.modifyTime
-  const createTime_modify = createTime?.slice(0, 10)
-  const updateTime_modify = updateTime?.slice(0, 10)
 
-  console.log(createTime_modify, updateTime_modify)
-
+  // 댓글 가져오기
   const getComment = () => {
-    customAxios({
-      method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/comments/article/${postId}`,
-    })
-      .then((res) => {
-        console.log("comments", res.data);
-        setComments(res.data.content);
-      })
-      .catch((err) => console.log(err));
+    postCommentsApi(postId)
+    .then((res) => setComments(res))
+    .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    customAxios({
-      method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/articles/${postId}`,
-    })
-      .then((res) => {
-        setpostDetail(res.data)
-        console.log(postDetail)
-      })
-      .catch((err) => console.log(err));
+    // 게시글 상세정보 가져오기
+    postDetailApi(postId)
+    .then((res) => setpostDetail(res))
+    .catch((err) => console.log(err));
 
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    getComment();
 
-      getComment(); 
-      return () => {  
-        console.log('unmounted')}
-      }, [postId]);
+    return () => {  
+      console.log('unmounted')}
+    }, [postId]);
+    
+  // 게시글 삭제
+  const postDelete = () => {
+    postDeleteApi(postId)
+    .then(() => {navigate(`/boards/${boardId}`)})
+    .catch((err) => console.log(err));
+    };
+  
+  // 게시글 추천
+  const postRecommendedInput = () => {
+    const articleId = postId;
+    postRecommendInputApi(articleId)
+    .then(() => setrecommendedState((prev) => !prev))
+    .catch((res) => console.log(res))
+  }
+  
+  // 댓글 생성
+  const commentCreate = () => {
+    if (!commentnickName) { alert('댓글 닉네임을 입력해주세요!')
+    } else if (!createcomment) { alert('댓글을 입력해주세요!')
+    } else {
+      const content = createcomment
+      const parentId = 0;
+      const articleId = postId;
+      const nickName = commentnickName
 
-const commentCreate = () => {
-
-  if (!commentnickName) {
-    alert('댓글 닉네임을 입력해주세요!')
-  } else if (!createcomment) {
-    alert('댓글을 입력해주세요!')
-  } else {
-  const content = createcomment
-  const parentId = 0;
-  const articleId = postId;
-  const nickName = commentnickName
-
-  console.log(content)
-  customAxios({
-    method: "post",
-    url: `${process.env.REACT_APP_SERVER}/api/comments`,
-    data: { articleId, content, parentId, nickName },
-    })
-    .then((res) => {
-      console.log(res);
-      // commentElement.current.value = ''
-      setcreateComment("")
-      getComment();
-    })
-      .catch((err) => console.log(err));
-    } 
+    postCommentCreateApi(articleId, content, parentId, nickName)
+    .then(() => getComment())
+    .catch((err) => console.log(err));} 
   };
 
+  // 댓글 수정
   const commentUpdate = (updateComment, id) => {
     const content = updateComment
     const parentId = 0;
     const articleId = postId;
-    console.log(content)
-    customAxios({
-      method: "put",
-      url: `${process.env.REACT_APP_SERVER}/api/comments/${id}`,
-      data: { id, articleId, content, parentId },
-      })
-      .then((res) => {
-        console.log(res);
-        getComment();
-      })
-      .catch((err) => console.log(err))
+    postCommentUpdateApi(id, articleId, content, parentId)
+    .then(() => getComment())
+    .catch((err) => console.log(err))
     }
 
+  // 댓글 삭제
   const CommentDelete = (id) => {
-    customAxios({
-      method: "delete",
-      url: `${process.env.REACT_APP_SERVER}/api/comments/${id}`,
-      })
-      .then((res) => {
-        console.log(res);
-        getComment();
-      })
-      .catch((err) => console.log(err));
+    postCommentDeleteApi(id)
+    .then(() => getComment())
+    .catch((err) => console.log(err));
   };
 
-  const postDelete = () => {
-    console.log('post delete request')
-    customAxios({
-      method: "delete",
-      url: `${process.env.REACT_APP_SERVER}/api/articles/${postId}`,
-      })
-      .then((res) => {
-        console.log(res);
-        navigate(`/boards/${boardId}`)
-      })
-      .catch((err) => console.log(err));
-    };
-
-  const postRecommendedInput = () => {
-    const articleId = postId;
-    console.log('postRecommendedInput')
-    customAxios({
-      method: "post",
-      url: `${process.env.REACT_APP_SERVER}/api/likes`,
-      data: { articleId },
-    })
-    .then((res) => {
-      console.log(res)
-      setrecommendedState((prev) => !prev)
-    })
-    .catch((res) => console.log(res))
-  }
-
-  // const postRecommendedDelete = () => {
-  //   console.log('postRecommendedDelete')
-  //   customAxios({
-  //     method: "delete",
-  //     url: `/api/likes`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
-  //   })
-  //   .then((res) => {
-  //     console.log(res)
-  //     setrecommendedState((prev) => !prev)
-  //   })
-  //   .catch((res) => console.log(res))
-  // }
-
   const username = "9기 서울";
-  const timeago = "21분 전";
   const recommended = 37;
   const commentsNum = 3;
+
+  const createTime = postDetail.createTime
+  const updateTime = postDetail.modifyTime
+  const createTime_modify = createTime?.slice(0, 10)
+  const updateTime_modify = updateTime?.slice(0, 10)
+  // console.log(createTime_modify, updateTime_modify)
 
   return (
     <>

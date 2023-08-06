@@ -13,19 +13,10 @@ import Footer from "../../components/Footer/Footer";
 import NavBar from "../../components/NavBar/NavBar";
 import customAxios from "../../util/customAxios";
 
+import { postImageApi, postCreateApi } from "../../api/posts"
+
 Quill.register("modules/ImageResize", ImageResize);
 
-const Title = styled.h3`
-    margin: 0 0 0 10px;
-    text-align: start;
-    color: #000;s
-    font-family: Inter;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 700px;
-    line-height: normal;
-    display: flex;
-    `;
 const QuillContainer = () => {
     const navigate = useNavigate();
     const { boardId } = useParams();
@@ -123,35 +114,23 @@ const QuillContainer = () => {
           const formData = new FormData();
           formData.append("uploadFile", image.file);
   
-          const promise = customAxios({
-            method: "post",
-            url: `${process.env.REACT_APP_SERVER}/api/articles/image`,
-            data: formData,
-            headers: { "Content-Type": "multipart/form-data" },
-            })
+          const promise = postImageApi
           .then((res) => {
-            console.log(res);
             console.log("success");
-            
             const uploadPath = res.data;
             content = content.replace(regexOne, `${uploadPath}`)
             console.log('change source', content)
             // quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${uploadPath}`);
             
             window.URL.revokeObjectURL(image.url)
-          })
-          .catch((err) => console.log(err));
+          }).catch((err) => console.log(err));
 
           imagePromises.push(promise)
         } 
       })
       Promise.all(imagePromises)
-      .then(() => {
-        resolve(content);
-      })
-      .catch((err) => {
-        reject(err);
-      });
+      .then(() => resolve(content))
+      .catch((err) => reject(err));
     })
   }
 
@@ -162,24 +141,9 @@ const QuillContainer = () => {
       const nickName = nickName
       console.log(title, content, boardId);
   
-      customAxios({
-        method: "post",
-        url: `${process.env.REACT_APP_SERVER}/api/articles`,
-        data: {
-          title,
-          content,
-          boardName,
-          nickName,
-          // imageList
-        },
-      })
-      .then((res) => {
-        navigate(`/boards/${boardId}/${res.data.id}`, { replace: true });
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      postCreateApi(title, content, boardName, nickName)
+      .then((res) => navigate(`/boards/${boardId}/${res.data.id}`, { replace: true }))
+      .catch((err) => console.log(err))
     })
   };
 
@@ -207,11 +171,11 @@ const QuillContainer = () => {
 
       <div className={styles.craetecontainer}>
 
-        <div className={styles.upmenu}>
-          <Title>
-            <p className={styles.boardId}>{boardId}</p>
+        <div className={styles.topmenu}>
+          <h3 className={styles.topmenuBox}>
+            <p className={styles.boardTitle}>{boardId}</p>
             <p>새 글 작성</p>
-          </Title>
+          </h3>
           <button className="btn" id={styles.createsubmitbutton}>
             게시하기
           </button>

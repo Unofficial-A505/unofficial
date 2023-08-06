@@ -11,29 +11,23 @@ import TopSpace from "../../components/TopSpace/TopSpace";
 import SearchContent from "../../components/SearchContent/SearchContent";
 import AdHorizontal from "../../components/AdHorizontal/AdHorizontal";
 
-import customAxios from "../../util/customAxios";
+import { searchViewApi } from "../../api/boards"
 
 export default function SearchView() {
   const { keyword } = useParams();
-  const { boardId } = useParams();
   const [ keywordAll, setKeywordAll ] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    customAxios({
-      method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/articles/search?keyword=${keyword}&boardId=0`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
-    })
-    .then((res) => 
-      console.log(res)
-    )
-    .catch((err) => console.log(err));
-      return () => {  
-        console.log('unmounted')}
-    }, []);
+    // 전체게시판에서 게시글 검색
+    searchViewApi(keyword, 0)
+    .then((res) => {
+      console.log('search success', res)
+    }).catch((err) => console.log(err));
+
+    return () => {  
+      console.log('unmounted')}
+  }, []);
 
   return (
     <div>

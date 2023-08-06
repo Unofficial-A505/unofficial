@@ -1,27 +1,21 @@
 import styles from "./BoardsView.module.css";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { boardArticlesAll } from "../../../api/boards"
 import PostsView from "../../../components/PostView/PostView";
-import customAxios from "../../../util/customAxios";
 
 export default function BoardsView() {
   const [ posts, setPosts ] = useState(null);
   let { boardId } = useParams();
-
   const navigate = useNavigate();
-  console.log('id', boardId)
+  console.log('boardId', boardId)
 
   useEffect(() => {
-    customAxios({
-      method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/articles`,
-      // url: `${process.env.REACT_APP_SERVER}/api/articles/${boardId}`,
-    })
-      .then((res) => {
-        console.log(res.data);
-        setPosts(res.data.content); 
-      })
-      .catch((err) => console.log(err));
+    boardArticlesAll
+    .then((res) => {
+      setPosts(res);
+    }).catch((err) => console.log(err));
+
     return () => {
       console.log("unmounted");
     };
@@ -31,7 +25,7 @@ export default function BoardsView() {
     return (
       <div>
         {posts.map((post, index) => (
-          <PostsView boardId={boardId} post={post} />
+          <PostsView key={index} boardId={boardId} post={post} />
         ))}
       </div>
     );
