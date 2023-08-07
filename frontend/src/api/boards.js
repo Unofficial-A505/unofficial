@@ -22,6 +22,10 @@ const boardArticlesAll = customAxios({
 
 
 // 각 board 별 게시글
+const boardsArticles = (boardId) => customAxios({
+  method: "get",
+  url: `/api/articles/board/${boardId}`,
+}).then((res) => res.data.content)
 
 
 // 게시글 키워드 검색 (전체 & 게시판 별)
@@ -30,4 +34,5 @@ const searchViewApi = (keyword, boardId) => customAxios({
   url: `/api/articles/search?keyword=${keyword}&boardId=${boardId}`,
 }).then((res) => res.data.content)
 
-export { bestPostsApi, boardNamesApi, boardArticlesAll, searchViewApi }
+
+export { bestPostsApi, boardNamesApi, boardArticlesAll, boardsArticles, searchViewApi }

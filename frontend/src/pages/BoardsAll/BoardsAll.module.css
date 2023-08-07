@@ -55,6 +55,7 @@
 
 .boardsallBestBox {
   padding: 2px 0 0 15px;
+  height: 32px;
 
   /* border: 1px dotted red; */
   width: 500px;
@@ -71,6 +72,15 @@
 }
 
 .bestContentContainer {
+  height: 32px;
+  /* border: 1px dotted red;  */
+}
+
+div .slick-list {
+  height: 32px;
+}
+
+.bestContentBox {
   /* border: 1px dotted red; */
   /* 박스 길이 넘어가는 글자들 ... 처리*/
   text-overflow: ellipsis;

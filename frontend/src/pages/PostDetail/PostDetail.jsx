@@ -26,7 +26,7 @@ import { IoChatboxOutline } from "@react-icons/all-files/io5/IoChatboxOutline";
 // 조회수 아이콘
 import { AiOutlineEye } from "@react-icons/all-files/ai/AiOutlineEye";
 
-import { boardArticlesAll } from '../../api/boards'
+import { boardsArticles } from '../../api/boards'
 import { postDetailApi, postDeleteApi, postRecommendInputApi } from '../../api/posts'
 import { postCommentsApi, postCommentCreateApi, postCommentUpdateApi, postCommentDeleteApi } from '../../api/comments'
 
@@ -35,7 +35,6 @@ import customAxios from '../../util/customAxios'
 // API import
 export default function PostDetail() {
   const navigate = useNavigate();
-  // const { boardTitleFromUrl } = useParams();
   const { boardId } = useParams();
   const { postId } = useParams();
   const [ boardTitle, setBoardTitle ] = useState('')
@@ -44,55 +43,43 @@ export default function PostDetail() {
   const [ comments, setComments ] = useState([])
   const [ commentsInfo, setCommentsInfo ] = useState({})
   const [ commentnickName, setcommentnickName] = useState("")
-  const [ articleList, setarticleList ] = useState([]);
+  const [ currboardPosts, setcurrboardPosts ] = useState([])
   const [ recommendedState, setrecommendedState ] = useState(false)
-  const commentElement = useRef(null);
 
   // 댓글 가져오기
   const getComment = () => {
     customAxios({
       method: "get",
       url: `${process.env.REACT_APP_SERVER}/api/comments/article/${postId}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
     })
       .then((res) => {
         setComments(res.data.content);
         setCommentsInfo(res.data)
+
+        console.log('comments', res.data.content)
+        console.log('commentsinfo', res.data)
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    customAxios({
-      method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/articles/${postId}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
-    })
-      .then((res) => {
-        console.log('detail', res.data);
-        setpostDetail(res.data)
-        // setTitle(res.data.title);
-        // setContent(res.data.content);
-        setBoardTitle(res.data.boardName)
-      })
-      .catch((err) => console.log(err));
-
-      window.scrollTo({ top: 0, behavior: "smooth" });
 
     // 게시글 상세정보 가져오기
     postDetailApi(postId)
-    .then((res) => setpostDetail(res))
-    .catch((err) => console.log(err));
+    .then((res) => {
+      setpostDetail(res);
+      setBoardTitle(res.boardName);
+    }).catch((err) => console.log(err));
 
     window.scrollTo({ top: 0, behavior: "smooth" });
     getComment();
 
+    // 현재 board 게시글
+    boardsArticles(boardId)
+    .then((res) => setcurrboardPosts(res))
+
     return () => {  
-      console.log('unmounted')}
+      console.log('unmounted');}
     }, [postId]);
     
   // 게시글 삭제
@@ -148,14 +135,10 @@ export default function PostDetail() {
     .catch((err) => console.log(err));
   };
 
-  const username = "9기 서울";
-  const timeago = "21분 전";
-
   const createTime = postDetail.createTime
   const updateTime = postDetail.modifyTime
   const createTime_modify = createTime?.slice(0, 10)
   const updateTime_modify = updateTime?.slice(0, 10)
-  // console.log(createTime_modify, updateTime_modify)
 
   return (
     <>
@@ -221,7 +204,7 @@ export default function PostDetail() {
 
             <div className={styles.commentnickName}>
               <div>닉네임</div>
-              <input className={styles.commentnickNameInput} type="text" placeholder="닉네임을 입력하세요" onChange={(e) => {setcommentnickName(e.target.value); console.log(commentnickName);}}/>
+              <input className={styles.commentnickNameInput} type="text" placeholder="닉네임을 입력하세요" onChange={(e) => setcommentnickName(e.target.value)}/>
             </div>
             <div className={styles.commentbox}>
               <textarea
@@ -229,7 +212,6 @@ export default function PostDetail() {
                 type="text"
                 onChange={(e) => {
                   setcreateComment(e.target.value);
-                  console.log(createcomment)
                  }}
                 placeholder="댓글을 작성해보세요"
               />
@@ -302,7 +284,7 @@ export default function PostDetail() {
               <IoIosArrowForward />
             </button>
           </div>
-          <BoardView posts={articleList}/>
+          <BoardView posts={currboardPosts}/>
         </span>
 
         <span className={styles.sideviewContainer}>
