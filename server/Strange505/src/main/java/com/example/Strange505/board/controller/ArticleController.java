@@ -5,6 +5,7 @@ import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.board.dto.ArticleResponseDto;
 import com.example.Strange505.board.dto.ImageForm;
+import com.example.Strange505.board.service.ArticleLikeService;
 import com.example.Strange505.board.service.ArticleService;
 import com.example.Strange505.dto.PageResponseDto;
 import com.example.Strange505.file.service.S3UploaderService;
@@ -34,6 +35,7 @@ public class ArticleController {
     private final ArticleService articleService;
     private final S3UploaderService s3Uploader;
     private final AuthService authService;
+    private final ArticleLikeService articleLikeService;
 
     @PostMapping
     public ResponseEntity<?> registerArticle(@RequestBody ArticleRequestDto dto) {
@@ -71,8 +73,14 @@ public class ArticleController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ArticleResponseDto> getArticle(@PathVariable Long id, HttpServletRequest req, HttpServletResponse res) {
+        // 조회수 증가
         addViewCount(id, req, res);
         Article article = articleService.getArticleById(id);
+        // 이 글에 들어온 사용자와 글 작성자가 같은지 반환
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        boolean isUserThisArticle = articleService.checkUser(id, email);
+        // 이 글에 들어온 사용자가 좋아요를 했는지 반환
+        boolean isLikedThisArticle = articleLikeService.checkLiked(id, email);
         ArticleResponseDto dto = ArticleResponseDto.builder()
                 .id(article.getId())
                 .title(article.getTitle())
@@ -84,6 +92,8 @@ public class ArticleController {
                 .local(article.getUser().getLocal())
                 .likes(article.getLikes())
                 .views(article.getViews())
+                .isLiked(isLikedThisArticle)
+                .isUser(isUserThisArticle)
                 .createTime(article.getCreateTime())
                 .modifyTime(article.getModifyTime())
                 .build();
@@ -97,7 +107,7 @@ public class ArticleController {
                 new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
                         findArticle.getLikes(), findArticle.getViews(),
-                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(),
+                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(), null, null,
                         findArticle.getCreateTime(), findArticle.getModifyTime()));
 
         Map<String, Object> pageInfo = new HashMap<>();
@@ -118,7 +128,7 @@ public class ArticleController {
                 new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
                         findArticle.getLikes(), findArticle.getViews(),
-                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(),
+                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(), null, null,
                         findArticle.getCreateTime(), findArticle.getModifyTime()));
 
         Map<String, Object> pageInfo = new HashMap<>();
@@ -140,7 +150,7 @@ public class ArticleController {
                 new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
                         findArticle.getLikes(), findArticle.getViews(),
-                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(),
+                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(), null, null,
                         findArticle.getCreateTime(), findArticle.getModifyTime()));
         Map<String, Object> pageInfo = new HashMap<>();
         pageInfo.put("page", pageable.getPageNumber());
@@ -161,7 +171,7 @@ public class ArticleController {
                 new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
                         findArticle.getLikes(), findArticle.getViews(),
-                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(),
+                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(), null, null,
                         findArticle.getCreateTime(), findArticle.getModifyTime()));
 
         Map<String, Object> pageInfo = new HashMap<>();
@@ -215,27 +225,4 @@ public class ArticleController {
 
         return ResponseEntity.ok("전송 성공");
     }
-
-//    @PostMapping("/images")
-////    public ResponseEntity<Boolean> saveImage(@RequestPart List<MultipartFile> files, @RequestParam Long articleId) throws IOException {
-//    public ResponseEntity<Boolean> saveImage(@ModelAttribute ImageForm form) throws IOException {
-//        List<MultipartFile> files = form.getUploadFile();
-//        System.out.println(files);
-//        // 실제 디렉토리에 파일 저장
-//        List<UploadFile> attachFile = fileStore.storeFiles(files);
-//        // DB에 데이터 저장
-////        attachFile.stream().forEach(file -> imageService.saveImage(file, articleId));
-//        return ResponseEntity.status(HttpStatus.OK).build();
-//    }
-
-//    @GetMapping("/images/{articleId}")
-//    public ResponseEntity<List<String>> getImagePaths(@PathVariable String articleId) {
-//        List<String> result = imageService.getPathsByArticle(Long.parseLong(articleId));
-//        return ResponseEntity.status(HttpStatus.OK).body(result);
-//    }
-//
-//    @GetMapping("/image/{filename}")
-//    public Resource downLoadImage(@PathVariable String filename) throws MalformedURLException {
-//        return new UrlResource("file:" + fileStore.getFullPath(filename));
-//    }
 }
