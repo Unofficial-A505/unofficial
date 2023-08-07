@@ -179,7 +179,9 @@ public class CommentServiceImpl implements CommentService {
             comment.remove();
             List<Comment> removableCommentList = comment.findRemovableList();
             log.info("removeList = {}", removableCommentList);
-            commentRepository.deleteAll(removableCommentList);
+            for (Comment c: removableCommentList) {
+                c.remove();
+            }
         } else {
             throw new NotAuthorException("작성자만 삭제 가능합니다.");
         }
