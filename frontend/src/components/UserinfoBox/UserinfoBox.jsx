@@ -17,12 +17,12 @@ export default function UserinfoBox() {
   const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState({});
-  const [isAuth, setIsAuth] = useState(true);
-  // const authUser = useSelector((state) => state.authUser);
-  // console.log(userInfo)
-  // useEffect(() => {
-  //   setIsAuth(authUser.accessToken);
-  // }, [authUser]);
+  const [isAuth, setIsAuth] = useState(null);
+  const authUser = useSelector((state) => state.authUser);
+
+  useEffect(() => {
+    setIsAuth(authUser.accessToken);
+  }, [authUser]);
 
   useEffect(() => {
     const getUserData = async () => {
