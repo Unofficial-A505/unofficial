@@ -53,7 +53,7 @@ public class Article {
     private LocalDateTime modifyTime;
 
     // 삭제 상태 변수
-    private boolean isRemoved = false;
+    private Boolean isRemoved = false;
 
     public static Article createArticle(ArticleRequestDto dto, User user, Board board) {
         Article article = new Article();
