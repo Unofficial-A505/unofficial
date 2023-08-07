@@ -15,16 +15,16 @@ import TopSpace from "../../components/TopSpace/TopSpace";
 import { FaCrown } from "@react-icons/all-files/fa/FaCrown";
 
 import { useEffect, useState } from 'react';
-import { bestPostsApi } from '../../api/boards'
+// import { bestPostsApi } from '../../api/boards'
 
 export default function MainPage() {
-  const [ bestPosts, setbestPosts ] = useState("")
+  // const [ bestPosts, setbestPosts ] = useState("")
 
-  useEffect(() => {
-    bestPostsApi
-    .then((res) => setbestPosts(res))
-    .catch((err) => console.log(err))
-  }, [])
+  // useEffect(() => {
+  //   bestPostsApi
+  //   .then((res) => setbestPosts(res))
+  //   .catch((err) => console.log(err))
+  // }, [])
 
   return (
     <section className={styles.mainPage}>
@@ -58,7 +58,7 @@ export default function MainPage() {
             Best 게시글
             <FaCrown className={styles.bestIcons} />
           </div>
-          <BoardView posts={bestPosts}/>
+          {/* <BoardView posts={bestPosts}/> */}
         </div>
         <div className={styles.middleRightContainer}>
           <WeatherinfoApi />
