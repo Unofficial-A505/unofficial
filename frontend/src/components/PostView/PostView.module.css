@@ -69,6 +69,11 @@
 }
 
 #boardName {
+  width: 100px;
+  text-align: start;
+}
+
+#postId {
   width: 40px;
   text-align: start;
 }

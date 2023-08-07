@@ -159,12 +159,27 @@ public class ArticleController {
     @PostMapping("/image")
     @ResponseBody
     public ResponseEntity<String> upload(@ModelAttribute ImageForm form) throws IOException {
-        List<MultipartFile> files = form.getUploadFile();
+        MultipartFile file = form.getUploadFile().get(0);
+        String imageUrl = null;
 
+        // 여기서 마지막 파일의 URL만 반환됩니다. 여러 파일의 경우 로직 변경이 필요합니다.
+        imageUrl = s3Uploader.upload(file, "article");
+
+
+        return ResponseEntity.ok(imageUrl);
+    }
+
+    @PostMapping("/images")
+    @ResponseBody
+    public ResponseEntity<List<String>> uploads(@ModelAttribute ImageForm form) throws IOException {
+        List<MultipartFile> files = form.getUploadFile();
+        List<String> imageUrl = null;
+
+        // 여기서 마지막 파일의 URL만 반환됩니다. 여러 파일의 경우 로직 변경이 필요합니다.
         for (MultipartFile file : files) {
-            s3Uploader.upload(file, "article");
+            imageUrl.add(s3Uploader.upload(file, "article"));
         }
 
-        return ResponseEntity.ok("전송 성공");
+        return ResponseEntity.ok(imageUrl);
     }
 }

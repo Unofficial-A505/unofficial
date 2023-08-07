@@ -20,6 +20,8 @@ import { postUpdateApi, postImageApi } from "../../api/posts"
 Quill.register("modules/ImageResize", ImageResize);
 
 const PostUpdate = () => {
+  useDocumentTitle("게시글 수정");
+
   const navigate = useNavigate();
   const { boardId } = useParams();
   const { postId } = useParams();
@@ -32,6 +34,7 @@ const PostUpdate = () => {
   const quillElement = useRef(null);
   const [ imageList, setimageList ] = useState([])
 
+  const { state: postDetail } = useLocation();
 
   const modules = {
     toolbar: {
@@ -249,7 +252,9 @@ const PostUpdate = () => {
           </button>
         </div>
       </div>
-      <div className={styles.footerContainer}><Footer /></div>
+      <div className={styles.footerContainer}>
+        <Footer />
+      </div>
     </div>
   );
 };

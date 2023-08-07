@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
+import static com.example.Strange505.board.domain.QArticle.article;
+
 @RequiredArgsConstructor
 public class CommentRepositoryImpl implements CommentRepositoryCustom {
 
@@ -25,7 +27,14 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-        return new PageImpl<>(result, pageable, result.size());
+
+        Long count = queryFactory
+                .select(comment.count())
+                .from(comment)
+                .where(comment.article.id.eq(articleId))
+                .fetchOne();
+
+        return new PageImpl<>(result, pageable, count);
     }
 
     @Override
@@ -37,6 +46,13 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-        return new PageImpl<>(result, pageable, result.size());
+
+        Long count = queryFactory
+                .select(comment.count())
+                .from(comment)
+                .where(comment.user.id.eq(userId))
+                .fetchOne();
+
+        return new PageImpl<>(result, pageable, count);
     }
 }

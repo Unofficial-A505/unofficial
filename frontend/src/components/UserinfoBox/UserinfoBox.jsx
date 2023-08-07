@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setAccessToken, setAuthUserEmail } from "../../store/loginSlice";
+import customAxios from "../../util/customAxios";
 
 import styles from "./UserinfoBox.module.css";
 import Login from "./../../components/Login/Login";
@@ -10,10 +11,12 @@ import { RiDatabase2Line } from "@react-icons/all-files/ri/RiDatabase2Line";
 import { BsFileEarmarkText } from "@react-icons/all-files/bs/BsFileEarmarkText";
 import { AiOutlineComment } from "@react-icons/all-files/ai/AiOutlineComment";
 import { AiOutlineLogout } from "@react-icons/all-files/ai/AiOutlineLogout";
+
 export default function UserinfoBox() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [userInfo, setUserInfo] = useState({});
   const [isAuth, setIsAuth] = useState(null);
   const authUser = useSelector((state) => state.authUser);
 
@@ -21,10 +24,19 @@ export default function UserinfoBox() {
     setIsAuth(authUser.accessToken);
   }, [authUser]);
 
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const response = await customAxios.get("api/users/user");
+        setUserInfo(response.data);
+      } catch (error) {
+        console.error("Error fetching user role", error);
+      }
+    };
+    getUserData();
+  }, []);
+
   const [modalOpen, setModalOpen] = useState(false);
-  const [userInfo, setUserInfo] = useState({});
-  const user = "SSAFY 서울 9기";
-  const mileage = 5100;
 
   const logout = () => {
     dispatch(setAccessToken(""));
@@ -84,24 +96,24 @@ export default function UserinfoBox() {
           </button>
         </div>
         <div className={styles.usermidContainer}>
-          <span
-            className={styles.secondmypage}
-            onClick={() => navigate("/user/password")}
-          >
-            {user}
-          </span>
-          <span className={styles.secondhelloMessage}>
-            의 이야기를 들려주세요
-          </span>
-          <p className={styles.adverMessage}>
-            진행중인{" "}
+          <div>
             <span
-              className={styles.adverButton}
-              onClick={() => navigate("/user/advertisement/myadv")}
+              className={styles.secondmypage}
+              onClick={() => navigate("/user/password")}
             >
-              광고
+              SSAFY{" "}
+              {userInfo.length ? `${userInfo.local} ${userInfo.gen}기` : null}
             </span>
-            가 없습니다.
+            <span className={styles.secondhelloMessage}>
+              님의 이야기를 들려주세요
+            </span>
+          </div>
+          <p
+            className={styles.adverButton}
+            style={{ color: "#034BB9" }}
+            onClick={() => navigate("/user/advertisement/myadv")}
+          >
+            광고 신청하기
           </p>
         </div>
 
@@ -111,7 +123,9 @@ export default function UserinfoBox() {
             onClick={() => navigate("/user/advertisement/mymile")}
           >
             <RiDatabase2Line className={styles.mymileIcon} />
-            <p className={styles.mileageTotal}>{mileage}</p>
+            <p className={styles.mileageTotal}>
+              {userInfo.length ? `${userInfo.point}` : "내 포인트"}
+            </p>
           </p>
           <div className={styles.mypostsAndcomments}>
             <p
@@ -119,14 +133,14 @@ export default function UserinfoBox() {
               onClick={() => navigate("/user/activity/myposts")}
             >
               <BsFileEarmarkText className={styles.myIcon} />
-              <p>3</p>
+              <p>내 게시글&nbsp;</p>
             </p>
             <p
               className={styles.myButton}
               onClick={() => navigate("/user/activity/mycomments")}
             >
               <AiOutlineComment className={styles.myIcon} />
-              <p>12</p>
+              <p>내 댓글</p>
             </p>
           </div>
         </div>

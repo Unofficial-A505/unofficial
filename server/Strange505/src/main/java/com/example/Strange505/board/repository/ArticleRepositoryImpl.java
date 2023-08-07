@@ -31,7 +31,14 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
                 .orderBy(article.id.desc())
                 .fetch();
 
-        return new PageImpl<>(result, pageable, result.size());
+        Long count = queryFactory
+                .select(article.count())
+                .from(article)
+                .where(titleCheck(keyword).or(contentCheck(keyword)))
+                .where(eqBoard(boardId))
+                .fetchOne();
+
+        return new PageImpl<>(result, pageable, count);
     }
 
     private BooleanExpression titleCheck(String title) {
@@ -70,7 +77,13 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
                 .orderBy(article.id.desc())
                 .fetch();
 
-        return new PageImpl<>(result, pageable, result.size());
+        Long count = queryFactory
+                .select(article.count())
+                .from(article)
+                .where(article.user.id.eq(userId))
+                .fetchOne();
+
+        return new PageImpl<>(result, pageable, count);
     }
 
     @Override
@@ -83,7 +96,13 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
                 .orderBy(article.id.desc())
                 .fetch();
 
-        return new PageImpl<>(result, pageable, result.size());
+        Long count = queryFactory
+                .select(article.count())
+                .from(article)
+                .where(article.board.id.eq(boardId))
+                .fetchOne();
+
+        return new PageImpl<>(result, pageable, count);
     }
 
     @Override
@@ -95,7 +114,12 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
                 .orderBy(article.id.desc())
                 .fetch();
 
-        return new PageImpl<>(result, pageable, result.size());
+        Long count = queryFactory
+                .select(article.count())
+                .from(article)
+                .fetchOne();
+
+        return new PageImpl<>(result, pageable, count);
     }
 
     @Override

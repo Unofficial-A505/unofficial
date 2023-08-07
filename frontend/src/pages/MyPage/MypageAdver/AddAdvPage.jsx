@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import styles from "./AddAdvPage.module.css";
 import customAxios from "../../../util/customAxios";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import useDocumentTitle from "../../../useDocumentTitle";
 
 export default function AddAdvPage() {
+  useDocumentTitle("광고신청");
+
   const authUser = useSelector((state) => state.authUser);
   const accessToken = authUser.accessToken;
 
@@ -169,7 +171,7 @@ export default function AddAdvPage() {
         adsCost: adsCost,
         userId: userId,
       };
-      
+
       await customAxios
         .post("/api/ads", adData)
         .then((res) => {

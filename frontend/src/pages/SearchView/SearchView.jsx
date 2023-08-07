@@ -7,22 +7,24 @@ import { useParams, useNavigate } from "react-router-dom";
 import { FiSearch } from "@react-icons/all-files/fi/FiSearch";
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 
-import TopSpace from "../../components/TopSpace/TopSpace";
 import SearchContent from "../../components/SearchContent/SearchContent";
 import AdHorizontal from "../../components/AdHorizontal/AdHorizontal";
 
-import { bestPostsApi, searchViewApi, boardNamesApi } from "../../api/boards"
+import { bestPostsApi, searchViewApi, boardNamesApi } from "../../api/boards";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import useDocumentTitle from "../../useDocumentTitle";
 
 export default function SearchView() {
+  useDocumentTitle("게시글 찾기");
+
   const { keyword } = useParams();
-  const [ keywordAll, setKeywordAll ] = useState("");
-  const [ searchResults, setsearchResults ] = useState([]);
-  const [ bestPostlist, setbestPostlist ] = useState([]);
-  const [ boardNames, setboardNames ] = useState([]);
+  const [keywordAll, setKeywordAll] = useState("");
+  const [searchResults, setsearchResults] = useState([]);
+  const [bestPostlist, setbestPostlist] = useState([]);
+  const [boardNames, setboardNames] = useState([]);
   const navigate = useNavigate();
 
   const settings = {
@@ -40,25 +42,29 @@ export default function SearchView() {
   useEffect(() => {
     // 전체게시판에서 게시글 검색
     searchViewApi(keyword, 0)
-    .then((res) => {
-      console.log('search success', res);
-      setsearchResults(res);
-    }).catch((err) => console.log(err));
+      .then((res) => {
+        console.log("search success", res);
+        setsearchResults(res);
+      })
+      .catch((err) => console.log(err));
 
     bestPostsApi
-    .then((res) => {
-      console.log('best', res)
-      setbestPostlist(res);
-    }).catch((err) => console.log(err));
+      .then((res) => {
+        console.log("best", res);
+        setbestPostlist(res);
+      })
+      .catch((err) => console.log(err));
 
-     // boards Title api
-     boardNamesApi
-     .then((res) => {
-       setboardNames(res)
-     }).catch((err) => console.log(err))
+    // boards Title api
+    boardNamesApi
+      .then((res) => {
+        setboardNames(res);
+      })
+      .catch((err) => console.log(err));
 
-    return () => {  
-      console.log('unmounted')}
+    return () => {
+      console.log("unmounted");
+    };
   }, []);
 
   return (
@@ -86,7 +92,7 @@ export default function SearchView() {
             >
               <FiSearch />
             </button>
-          </div> 
+          </div>
         </form>
 
         <div className={styles.boardsallBestContainer}>
@@ -94,8 +100,11 @@ export default function SearchView() {
           <div className={styles.boardsallBestBox}>
             <Slider {...settings}>
               {bestPostlist.map((data, index) => (
-                <div key={index} className={styles.bestContentContainer}><span className={styles.bestContent}>{data.boardName}</span><span>{data.title}</span></div>
-                ))}
+                <div key={index} className={styles.bestContentContainer}>
+                  <span className={styles.bestContent}>{data.boardName}</span>
+                  <span>{data.title}</span>
+                </div>
+              ))}
             </Slider>
           </div>
         </div>
@@ -105,10 +114,13 @@ export default function SearchView() {
           <div>
             {boardNames.map((board, index) => (
               <button
-              key={index}
-              className={styles.boardtab}
-              onClick={() => navigate(`/boards/${board.id}`, { state: board.name })}>
-              {board.name}
+                key={index}
+                className={styles.boardtab}
+                onClick={() =>
+                  navigate(`/boards/${board.id}`, { state: board.name })
+                }
+              >
+                {board.name}
               </button>
             ))}
           </div>
@@ -116,7 +128,6 @@ export default function SearchView() {
       </div>
 
       <div className={styles.searchcontentContainer}>
-
         <div className={styles.searchUpheader}>
           <div>
             <span className={styles.boardTitle}>전체게시판</span>의
@@ -132,7 +143,7 @@ export default function SearchView() {
         </div>
 
         <div className={styles.searchcontentBox}>
-          <SearchContent searchResults={searchResults} keyword={keyword}/>
+          <SearchContent searchResults={searchResults} keyword={keyword} />
         </div>
       </div>
     </div>
