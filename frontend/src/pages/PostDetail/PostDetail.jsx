@@ -104,7 +104,14 @@ export default function PostDetail() {
   const postRecommendedInput = () => {
     const articleId = postId;
     postRecommendInputApi(articleId)
-      .then(() => setrecommendedState((prev) => !prev))
+      .then(() => {
+        if (recommendedState) {
+          postDetail.likes += 1;
+        } else {
+          postDetail.likes -= 1;
+        }
+        setrecommendedState((prev) => !prev);
+      })
       .catch((res) => console.log(res));
   };
 
