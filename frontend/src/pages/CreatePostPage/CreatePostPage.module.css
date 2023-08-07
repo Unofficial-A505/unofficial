@@ -6,11 +6,22 @@
   margin: 10px auto;
 }
 
-.upmenu {
+.topmenu {
   display: flex;
   justify-content: space-between;
 
   margin: 20px 0 0 0;
+}
+
+.topmenuBox {
+  margin: 0 0 0 10px;
+  text-align: start;
+  color: #000;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700px;
+  line-height: normal;
+  display: flex;
 }
 
 .boardTitle {
@@ -32,6 +43,19 @@
   display: flex;
 }
 
+.nicknameContainer {
+  width: 400px;
+  margin: 80px 0 40px 10px;
+}
+
+.nicknametitleBox {
+  margin: 0 10px;
+  width: 50px;
+
+  font-size: 20px;
+  font-weight: 500;
+} 
+
 #createpagetitle {
   text-align: start;
   margin: 20px 0 10px 0;
@@ -52,7 +76,7 @@
 
 .undermenu {
   width: 100%;
-  margin: 60px auto;
+  margin: 10px auto;
 
   display: flex;
   justify-content: space-between;

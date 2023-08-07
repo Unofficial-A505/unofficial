@@ -24,6 +24,10 @@
 .image_preview_container {
   width: 920px;
   height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #737373;
   border: 3px dashed #c8c8c8;
   background-color: #e9ecef;
   margin-bottom: 1.5rem;

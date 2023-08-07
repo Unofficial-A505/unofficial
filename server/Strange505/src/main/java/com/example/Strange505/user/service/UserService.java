@@ -99,9 +99,13 @@ public class UserService {
         user.pointAdd(point);
     }
 
-    public void withdrawUser() {
+    public void withdrawUser(String password) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User finduser = userRepository.findByEmail(email).orElseThrow();
+
+        if(encoder.matches(password, finduser.getPassword())) {
+            throw new NoMatchPasswordException("비밀번호가 일치하지 않습니다.");
+        }
         finduser.withdraw();
     }
 }

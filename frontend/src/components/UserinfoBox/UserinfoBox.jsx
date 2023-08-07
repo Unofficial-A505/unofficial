@@ -110,7 +110,7 @@ export default function UserinfoBox() {
             className={styles.mymileButton}
             onClick={() => navigate("/user/advertisement/mymile")}
           >
-            <RiDatabase2Line class={styles.mymileIcon} />
+            <RiDatabase2Line className={styles.mymileIcon} />
             <p className={styles.mileageTotal}>{mileage}</p>
           </p>
           <div className={styles.mypostsAndcomments}>
@@ -118,14 +118,14 @@ export default function UserinfoBox() {
               className={styles.myButton}
               onClick={() => navigate("/user/activity/myposts")}
             >
-              <BsFileEarmarkText class={styles.myIcon} />
+              <BsFileEarmarkText className={styles.myIcon} />
               <p>3</p>
             </p>
             <p
               className={styles.myButton}
               onClick={() => navigate("/user/activity/mycomments")}
             >
-              <AiOutlineComment class={styles.myIcon} />
+              <AiOutlineComment className={styles.myIcon} />
               <p>12</p>
             </p>
           </div>

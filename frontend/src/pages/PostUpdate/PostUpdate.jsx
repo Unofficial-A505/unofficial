@@ -32,14 +32,14 @@ const Title = styled.h3`
     `;
 const PostUpdate = () => {
   const navigate = useNavigate();
-  const { boardTitle } = useParams();
+  const { boardId } = useParams();
   const { postId } = useParams();
   const [value, setValue] = useState("");
   // const [ updatetitle, setupdateTitle ] = useState("");
   const TitleElement = useRef(null);
   const quillElement = useRef(null);
 
-  const { state : { title, content }} = useLocation(); 
+  const { state : postDetail } = useLocation(); 
 
   const modules = {
     toolbar: {
@@ -83,7 +83,7 @@ const PostUpdate = () => {
         selectLocalImage();
       });
 
-      const delta = quillElement.current.editor.clipboard.convert(content)
+      const delta = quillElement.current.editor.clipboard.convert(postDetail.content)
       quillElement.current.editor.setContents(delta, 'silent')
 
   }, []);
@@ -146,9 +146,9 @@ const PostUpdate = () => {
   const updatePost = () => {
     const title = TitleElement.current.value;
     const content = quillElement.current.editor.root.innerHTML;
-    const boardName = boardTitle;
+    const boardName = boardId;
     const id = postId;
-    console.log(title, content, boardTitle);
+    console.log(title, content, boardId);
 
     customAxios({
       method: "put",
@@ -165,7 +165,7 @@ const PostUpdate = () => {
       // }
     })
       .then((res) => {
-        navigate(`/boards/${boardTitle}/${postId}`, { replace: true });
+        navigate(`/boards/${boardId}/${postId}`, { replace: true });
         console.log(res.data);
       })
       .catch((err) => {
@@ -185,7 +185,7 @@ const PostUpdate = () => {
       <div className={styles.craetecontainer}>
         <div className={styles.upmenu}>
           <Title>
-            <p className={styles.boardTitle}>{boardTitle}</p>
+            <p className={styles.boardTitle}>{boardId}}</p>
             <p>글 수정</p>
           </Title>
           <button onClick={updatePost} className="btn" id={styles.createsubmitbutton}>
@@ -197,7 +197,7 @@ const PostUpdate = () => {
           <input
             className={styles.inputTitle}
             type="text"
-            defaultValue={title}
+            defaultValue={postDetail.title}
             ref={TitleElement}
           />
           {/* <TitleInput placeholder="제목을 입력하세요" ref={TitleElement}/> */}

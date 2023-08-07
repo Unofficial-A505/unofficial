@@ -14,6 +14,8 @@ import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 // 수정 아이콘
 import { HiOutlinePencilAlt } from '@react-icons/all-files/hi/HiOutlinePencilAlt';
 
+import recommentView from '../recommentView/recommentView';
+
 export default function CommentView({ comment, CommentDelete, commentUpdate, postId}){
   const commentRecommended = 0
   const comentContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce venenatis velit id justo vulputate eleifend. Integer maximus sapien enim, vel faucibus risus auctor vel. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus hendrerit tincidunt diam sed accumsan. Aenean rhoncus erat et nisi lobortis, nec tincidunt elit finibus. Cras ipsum nulla, egestas non nisl vel, pharetra mollis tellus. Nullam dignissim metus lectus, at faucibus ex lacinia a. Proin tristique augue ut turpis tincidunt lacinia.'
@@ -22,7 +24,7 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, pos
   const [ comments, setComments ] = useState('')
   const [ createComment, setcreateComment ] = useState('')
   const updateContent = useRef('')
-  const { id, content } = comment
+  const { content, id } = comment
 
   const recommentCreate = () => {
     const content = comments
@@ -85,6 +87,8 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, pos
             </button>
           </div>
         </div>}
+
+        <recommentView />
 
         <hr />
   

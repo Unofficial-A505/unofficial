@@ -1,18 +1,17 @@
 package com.example.Strange505.board.dto;
 
 import com.example.Strange505.board.domain.Comment;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class CommentResponseDto implements Serializable {
 
     private Long id;
@@ -20,14 +19,17 @@ public class CommentResponseDto implements Serializable {
     private Long articleId;
     private String content;
     private Long parentId;
+    private String nickName;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
+    private List<CommentResponseDto> children;
 
     public CommentResponseDto(Comment comment) {
         this.content = comment.getContent();
         this.articleId = comment.getArticle().getId();
         this.userId = comment.getUser().getId();
         this.parentId = comment.getParent().getId();
+        this.nickName = comment.getNickName();
         this.createTime = comment.getCreateTime();
         this.modifyTime = comment.getModifyTime();
     }

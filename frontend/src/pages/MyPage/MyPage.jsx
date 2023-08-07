@@ -5,22 +5,24 @@ import TopSpace from "../../components/TopSpace/TopSpace";
 import { FiHome } from "@react-icons/all-files/fi/FiHome";
 import { FiActivity } from "@react-icons/all-files/fi/FiActivity";
 import { RiAdvertisementLine } from "@react-icons/all-files/ri/RiAdvertisementLine";
-import { BiLogOut } from "@react-icons/all-files/bi/BiLogOut";
+import { RiLogoutCircleLine } from "@react-icons/all-files/ri/RiLogoutCircleLine";
 
-import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import customAxios from "../../util/customAxios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setAccessToken, setAuthUserEmail } from "../../store/loginSlice";
 
 export default function MyPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const authUser = useSelector((state) => state.authUser);
-  const userEmail = authUser.authUserEmail;
+  const accessToken = authUser.accessToken;
 
   useEffect(() => {
-    if (!userEmail) {
+    if (!accessToken) {
       navigate("/");
     }
-  });
+  }, []);
 
   // 현재 경로에서 'activity'나 'advertisement' 문자열이 있는지 확인
   const location = useLocation();
@@ -55,13 +57,21 @@ export default function MyPage() {
   }else {
     activeTab = "정보";
   }
+
+  const logout = () => {
+    dispatch(setAccessToken(""));
+    dispatch(setAuthUserEmail(""));
+    localStorage.removeItem("REFRESH_TOKEN");
+    navigate("/");
+  };
+
   return (
     <>
       <TopSpace />
       <div className={styles.mypageContainer}>
         <div className={styles.mypageNavContainer}>
           <nav>
-            <div className={styles.navtitleContainer}>
+            <div className={styles.navTitleContainer}>
               <h4>마이페이지</h4>
             </div>
             <div className={styles.navtopContainer}>
@@ -134,11 +144,37 @@ export default function MyPage() {
                 </div>
                 )}
               </div>
+              <div
+                className={styles.navTab}
+                onClick={() => navigate("advertisement/mymile")}
+                style={
+                  activeTab === "광고"
+                    ? { color: "#034BB9" }
+                    : { color: "#666a71" }
+                }
+              >
+                <RiAdvertisementLine className="me-2" size={20} />
+                <p>광고 및 마일리지 관리</p>
+              </div>
+              {role === "ADMIN" && (
+                <div
+                  className={styles.navTab}
+                  onClick={() => navigate("management")}
+                  style={
+                    activeTab === "관리자"
+                      ? { color: "#034BB9" }
+                      : { color: "#666a71" }
+                  }
+                >
+                  <RiAdvertisementLine className="me-2" size={20} />
+                  <p>광고 승인 및 취소(관리자)</p>
+                </div>
+              )}
             </div>
           </nav>
-          <div className={styles.navlogoutContainer}>
-            <BiLogOut />
-            <button className={styles.logoutButton}>Logout</button>
+          <div className={styles.logoutTab} onClick={logout}>
+            <RiLogoutCircleLine className="me-2" size={20} />
+            <p>Logout</p>
           </div>
         </div>
         <div className={styles.mypageContentContainer}>

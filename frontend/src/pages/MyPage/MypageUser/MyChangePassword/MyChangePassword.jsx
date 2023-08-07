@@ -33,7 +33,6 @@ export default function MyChangePassword() {
     setNewPassword2(e.target.value);
     setPasswordMismatch(newPassword1 !== e.target.value);
   };
-  console.log(oldPassword, newPassword1, newPassword2);
   const reset = () => {
     window.location.reload();
   };
@@ -114,7 +113,7 @@ export default function MyChangePassword() {
         </div>
         <div className={styles.inputContainer}>
           <div className="mb-3 row">
-            <label for="staticEmail" className="col-sm-3 col-form-label">
+            <label htmlFor="staticEmail" className="col-sm-3 col-form-label">
               이메일
             </label>
             <div className="col-sm-9">
@@ -128,40 +127,41 @@ export default function MyChangePassword() {
             </div>
           </div>
           <div className="mb-3 row">
-            <label for="inputPassword" className="col-sm-3 col-form-label">
+            <label htmlFor="inputPassword1" className="col-sm-3 col-form-label">
               기존 비밀번호
             </label>
             <div className="col-sm-9">
               <input
                 type="password"
                 className="form-control"
-                id="inputPassword"
+                id="inputPassword1"
+                autocomplete="off"
                 onChange={onOldPasswordHandler}
               />
             </div>
           </div>
           <div className="mb-3 row">
-            <label for="inputPassword" className="col-sm-3 col-form-label">
+            <label htmlFor="inputPassword2" className="col-sm-3 col-form-label">
               새 비밀번호
             </label>
             <div className="col-sm-9">
               <input
                 type="password"
                 className="form-control"
-                id="inputPassword"
+                id="inputPassword2"
                 onChange={onNewPassword1Handler}
               />
             </div>
           </div>
           <div className="mb-3 row">
-            <label for="inputPassword" className="col-sm-3 col-form-label">
+            <label htmlFor="inputPassword3" className="col-sm-3 col-form-label">
               새 비밀번호 확인
             </label>
             <div className="col-sm-9">
               <input
                 type="password"
                 className="form-control"
-                id="inputPassword"
+                id="inputPassword3"
                 onChange={onNewPassword2Handler}
               />
               {newPassword1 && newPassword2 && passwordMismatch && (
