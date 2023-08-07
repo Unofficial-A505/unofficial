@@ -17,6 +17,8 @@ public class ArticleResponseDto {
     private String nickName;
     private Integer likes;
     private Integer views;
+    private Integer gen;
+    private String local;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
 }
