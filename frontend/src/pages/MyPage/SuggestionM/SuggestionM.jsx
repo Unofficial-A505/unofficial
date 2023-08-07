@@ -36,22 +36,24 @@ const SuggestionM = () => {
     };
   
     return (
-      <div className="suggestion-container">
-        <div className="suggestion-list">
-          {suggestions.map((suggestion) => (
-            <div key={suggestion.id} onClick={() => handleSuggestionClick(suggestion.id)}>
-              {suggestion.title}
-            </div>
-          ))}
-        </div>
-  
-        {selectedSuggestion && (
-          <div className="suggestion-details">
-            {selectedSuggestion.content}
+        <div className={styles.suggestionContainer}>
+          <div className={styles.suggestionList}>
+            {suggestions.map((suggestion) => (
+              <div key={suggestion.id} onClick={() => handleSuggestionClick(suggestion.id)}>
+               제목: {suggestion.title} || 생성된 날짜:{suggestion.createdDate}
+              </div>
+            ))}
           </div>
-        )}
-      </div>
-    );
+  
+          <div className={styles.suggestionDetails}>
+            {selectedSuggestion && (
+              <div>
+                {selectedSuggestion.content}
+              </div>
+            )}
+          </div>
+        </div>
+      );
   }
   
   export default SuggestionM;
