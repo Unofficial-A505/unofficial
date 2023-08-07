@@ -45,6 +45,7 @@ public class Comment {
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
     // 삭제 상태 변수
+    @Column(columnDefinition = "boolean default false")
     private Boolean isRemoved = false;
 
     public void addChild(Comment child) {

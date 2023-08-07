@@ -64,6 +64,10 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public ArticleResponseDto getArticleById(Long id, String email) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new NoResultException("게시글을 찾을 수 없습니다."));
+        // 삭제된 글이라면
+        if (article.getIsRemoved()) {
+            return null;
+        }
         // 이 글에 들어온 사용자와 글 작성자가 같은지 반환
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NoResultException("사용자가 존재하지 않습니다."));

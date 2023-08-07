@@ -51,6 +51,7 @@ public class CommentServiceImpl implements CommentService {
                     .createTime(LocalDateTime.now())
                     .user(user)
                     .nickName(dto.getNickName())
+                    .isRemoved(false)
                     .build();
         } else {
             comment = Comment.builder()
@@ -60,6 +61,7 @@ public class CommentServiceImpl implements CommentService {
                     .parent(parent)
                     .user(user)
                     .nickName(dto.getNickName())
+                    .isRemoved(false)
                     .build();
             parent.addChild(comment);
         }
@@ -72,10 +74,13 @@ public class CommentServiceImpl implements CommentService {
 
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new RuntimeException("Comment not found"));
         Comment parent = comment.getParent();
+        // 삭제된 댓글이라면
+        if (comment.getIsRemoved()) {
+            return null;
+        }
 
         if (parent == null) {
             return CommentResponseDto.builder()
-//                    .userId(comment.getUser().getId())
                     .articleId(comment.getArticle().getId())
                     .content(comment.getContent())
                     .parentId(null)
@@ -85,7 +90,6 @@ public class CommentServiceImpl implements CommentService {
                     .build();
         } else {
             return CommentResponseDto.builder()
-//                    .userId(comment.getUser().getId())
                     .articleId(comment.getArticle().getId())
                     .content(comment.getContent())
                     .parentId(comment.getParent().getId())
