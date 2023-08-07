@@ -46,6 +46,8 @@ public class ArticleController {
                 .boardName(article.getBoard().getName())
                 .boardId(article.getBoard().getId())
                 .nickName(article.getNickName())
+                .gen(article.getUser().getGen())
+                .local(article.getUser().getLocal())
                 .createTime(article.getCreateTime())
                 .modifyTime(article.getModifyTime())
                 .build();
@@ -78,6 +80,8 @@ public class ArticleController {
                 .boardName(article.getBoard().getName())
                 .boardId(article.getBoard().getId())
                 .nickName(article.getNickName())
+                .gen(article.getUser().getGen())
+                .local(article.getUser().getLocal())
                 .likes(article.getLikes())
                 .views(article.getViews())
                 .createTime(article.getCreateTime())
@@ -93,6 +97,7 @@ public class ArticleController {
                 new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
                         findArticle.getLikes(), findArticle.getViews(),
+                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(),
                         findArticle.getCreateTime(), findArticle.getModifyTime()));
 
         Map<String, Object> pageInfo = new HashMap<>();
@@ -113,6 +118,7 @@ public class ArticleController {
                 new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
                         findArticle.getLikes(), findArticle.getViews(),
+                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(),
                         findArticle.getCreateTime(), findArticle.getModifyTime()));
 
         Map<String, Object> pageInfo = new HashMap<>();
@@ -134,6 +140,7 @@ public class ArticleController {
                 new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
                         findArticle.getLikes(), findArticle.getViews(),
+                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(),
                         findArticle.getCreateTime(), findArticle.getModifyTime()));
         Map<String, Object> pageInfo = new HashMap<>();
         pageInfo.put("page", pageable.getPageNumber());
@@ -154,6 +161,7 @@ public class ArticleController {
                 new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
                         findArticle.getLikes(), findArticle.getViews(),
+                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(),
                         findArticle.getCreateTime(), findArticle.getModifyTime()));
 
         Map<String, Object> pageInfo = new HashMap<>();

@@ -22,7 +22,7 @@ export default function BoardsAll() {
   const [ keywordBoard, setKeywordBoard ] = useState("");
   const [ bestPostlist, setbestPostlist ] = useState([]);
   
-  const boardsearchMessage = `${currboardName}에서 찾고싶은 게시글의 제목 또는 내용의 키워드를 검색`;
+  const boardsearchMessage = `${currboardName}에서 찾고싶은 게시글의 키워드를 검색`;
   
   const navigate = useNavigate();
 
@@ -77,7 +77,7 @@ export default function BoardsAll() {
               className={styles.search}
               id={styles.all}
               type="text"
-              placeholder="찾고싶은 게시글의 제목 또는 내용의 키워드를 검색"
+              placeholder="찾고싶은 게시글의 키워드를 검색"
               onChange={(e) => {
                 setKeywordAll(e.target.value);
               }}
@@ -140,7 +140,7 @@ export default function BoardsAll() {
 
         <div className={styles.boardBottomBar}>
         <form className={styles.searchboxhere}>
-          <p>{currboardName} 게시글 검색</p>
+          <p>{currboardName} 검색</p>
           <div className={styles.searchInputBox}>
             <input
               className={styles.search}

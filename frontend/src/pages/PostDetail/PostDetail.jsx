@@ -221,7 +221,7 @@ export default function PostDetail() {
 
             <div className={styles.commentnickName}>
               <div>닉네임</div>
-              <input className={styles.commentnickNameInput} type="text" placeholder="닉네임을 입력하세요" onChange={(e) => setcommentnickName(e.target.value)}/>
+              <input className={styles.commentnickNameInput} type="text" placeholder="닉네임을 입력하세요" onChange={(e) => {setcommentnickName(e.target.value); console.log(commentnickName);}}/>
             </div>
             <div className={styles.commentbox}>
               <textarea

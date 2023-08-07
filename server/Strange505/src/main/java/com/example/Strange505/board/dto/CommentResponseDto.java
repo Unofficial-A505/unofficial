@@ -15,11 +15,13 @@ import java.util.List;
 public class CommentResponseDto implements Serializable {
 
     private Long id;
-    private Long userId;
+//    private Long userId;
     private Long articleId;
     private String content;
     private Long parentId;
     private String nickName;
+    private Integer gen;
+    private String local;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
     private List<CommentResponseDto> children;
@@ -27,7 +29,7 @@ public class CommentResponseDto implements Serializable {
     public CommentResponseDto(Comment comment) {
         this.content = comment.getContent();
         this.articleId = comment.getArticle().getId();
-        this.userId = comment.getUser().getId();
+//        this.userId = comment.getUser().getId();
         this.parentId = comment.getParent().getId();
         this.nickName = comment.getNickName();
         this.createTime = comment.getCreateTime();

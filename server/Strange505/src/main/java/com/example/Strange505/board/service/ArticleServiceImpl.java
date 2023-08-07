@@ -3,6 +3,7 @@ package com.example.Strange505.board.service;
 import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.domain.Board;
 import com.example.Strange505.board.dto.ArticleRequestDto;
+import com.example.Strange505.board.dto.ArticleResponseDto;
 import com.example.Strange505.board.exception.NoResultException;
 import com.example.Strange505.board.exception.NotAuthorException;
 import com.example.Strange505.board.repository.ArticleRepository;
@@ -98,7 +99,6 @@ public class ArticleServiceImpl implements ArticleService {
         if (user.getId() == article.getUser().getId()) {
             List<String> images = imageService.parsingArticle(article.getContent());
             imageService.deleteImages(images);
-            articleRepository.deleteById(id);
         } else {
             throw new NotAuthorException("작성자만 삭제 가능합니다.");
         }
