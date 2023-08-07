@@ -8,6 +8,8 @@ import com.example.Strange505.board.exception.NoResultException;
 import com.example.Strange505.board.exception.NotAuthorException;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.CommentRepository;
+import com.example.Strange505.pointHistory.dto.PointHistoryDto;
+import com.example.Strange505.pointHistory.service.PointHistoryService;
 import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
+    private final PointHistoryService pointHistoryService;
 
     @Override
     @Transactional
@@ -60,6 +63,7 @@ public class CommentServiceImpl implements CommentService {
             parent.addChild(comment);
         }
         commentRepository.save(comment);
+        addPoint(user.getId());
     }
 
     @Override
@@ -185,5 +189,12 @@ public class CommentServiceImpl implements CommentService {
         } else {
             throw new NotAuthorException("작성자만 삭제 가능합니다.");
         }
+    }
+
+    @Override
+    @Transactional
+    public void addPoint(Long userId) {
+        PointHistoryDto pointHistoryDto = new PointHistoryDto(10, "게시글 작성 적립", userId);
+        pointHistoryService.putNewPointHistory(pointHistoryDto);
     }
 }
