@@ -2,6 +2,7 @@ package com.example.Strange505.board.controller;
 
 import com.example.Strange505.board.dto.CommentRequestDto;
 import com.example.Strange505.board.dto.CommentResponseDto;
+import com.example.Strange505.board.dto.MypageCommentResponseDto;
 import com.example.Strange505.board.service.CommentService;
 import com.example.Strange505.dto.PageResponseDto;
 import com.example.Strange505.user.service.AuthService;
@@ -60,10 +61,10 @@ public class CommentController {
         return new ResponseEntity<>(new PageResponseDto<>(pageInfo, list.getContent()), HttpStatus.OK);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<PageResponseDto<CommentResponseDto>> getCommentByUser(Pageable pageable) {
+    @GetMapping("/user")
+    public ResponseEntity<PageResponseDto<MypageCommentResponseDto>> getCommentByUser(Pageable pageable) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        Page<CommentResponseDto> list = commentService.getCommentByUser(email, pageable);
+        Page<MypageCommentResponseDto> list = commentService.getCommentByUser(email, pageable);
 
         Map<String, Object> pageInfo = new HashMap<>();
         pageInfo.put("page", pageable.getPageNumber());
