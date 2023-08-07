@@ -70,7 +70,7 @@ public class CommentServiceImpl implements CommentService {
 
         if (parent == null) {
             return CommentResponseDto.builder()
-                    .userId(comment.getUser().getId())
+//                    .userId(comment.getUser().getId())
                     .articleId(comment.getArticle().getId())
                     .content(comment.getContent())
                     .parentId(null)
@@ -80,7 +80,7 @@ public class CommentServiceImpl implements CommentService {
                     .build();
         } else {
             return CommentResponseDto.builder()
-                    .userId(comment.getUser().getId())
+//                    .userId(comment.getUser().getId())
                     .articleId(comment.getArticle().getId())
                     .content(comment.getContent())
                     .parentId(comment.getParent().getId())
@@ -109,14 +109,20 @@ public class CommentServiceImpl implements CommentService {
         if (c.getParent() == null) {
 
             List<CommentResponseDto> reComment = c.getChildren().stream().map(comment -> new CommentResponseDto(
-                    comment.getId(), comment.getUser().getId(),
+                    comment.getId(),
+//                    comment.getUser().getId(),
                     comment.getArticle().getId(), comment.getContent(), null,
-                    comment.getNickName(), comment.getCreateTime(), comment.getModifyTime(), null)).toList();
+                    comment.getNickName(),
+                    comment.getUser().getGen(), comment.getUser().getLocal(),
+                    comment.getCreateTime(), comment.getModifyTime(), null)).toList();
 
             list.add(new CommentResponseDto(
-                    c.getId(), c.getUser().getId(),
+                    c.getId(),
+//                    c.getUser().getId(),
                     c.getArticle().getId(), c.getContent(), null,
-                    c.getNickName(), c.getCreateTime(), c.getModifyTime(), reComment));
+                    c.getNickName(),
+                    c.getUser().getGen(), c.getUser().getLocal(),
+                    c.getCreateTime(), c.getModifyTime(), reComment));
         }
     }
 
@@ -129,14 +135,20 @@ public class CommentServiceImpl implements CommentService {
                 repoList) {
             if (c.getParent() == null) {
                 list.add(new CommentResponseDto(
-                        c.getId(), c.getUser().getId(),
+                        c.getId(),
+//                        c.getUser().getId(),
                         c.getArticle().getId(), c.getContent(),
-                        null, c.getNickName(), c.getCreateTime(), c.getModifyTime(), null));
+                        null, c.getNickName(),
+                        c.getUser().getGen(), c.getUser().getLocal(),
+                        c.getCreateTime(), c.getModifyTime(), null));
             } else {
                 list.add(new CommentResponseDto(
-                        c.getId(), c.getUser().getId(),
-                        c.getArticle().getId(), c.getContent(), c.getParent().getId(),
-                        c.getNickName(), c.getCreateTime(), c.getModifyTime(), null));
+                        c.getId(),
+//                        c.getUser().getId(),
+                        c.getArticle().getId(), c.getContent(),
+                        c.getParent().getId(), c.getNickName(),
+                        c.getUser().getGen(), c.getUser().getLocal(),
+                        c.getCreateTime(), c.getModifyTime(), null));
             }
         }
         Page<CommentResponseDto> result = new PageImpl<>(list);
