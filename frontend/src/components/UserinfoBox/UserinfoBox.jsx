@@ -19,7 +19,7 @@ export default function UserinfoBox() {
   const [userInfo, setUserInfo] = useState({});
   const [isAuth, setIsAuth] = useState(true);
   const authUser = useSelector((state) => state.authUser);
-
+  console.log(userInfo)
   useEffect(() => {
     setIsAuth(authUser.accessToken);
   }, [authUser]);
@@ -28,7 +28,7 @@ export default function UserinfoBox() {
     const getUserData = async () => {
       try {
         const response = await customAxios.get("api/users/user");
-        setUserInfo(response);
+        setUserInfo(response.data);
       } catch (error) {
         console.error("Error fetching user role", error);
       }
@@ -100,7 +100,7 @@ export default function UserinfoBox() {
             className={styles.secondmypage}
             onClick={() => navigate("/user/password")}
           >
-            SSAFY {userInfo.data.local} {userInfo.data.gen}
+            SSAFY
           </span>
           <span className={styles.secondhelloMessage}>
             님의 이야기를 들려주세요
@@ -123,7 +123,7 @@ export default function UserinfoBox() {
             onClick={() => navigate("/user/advertisement/mymile")}
           >
             <RiDatabase2Line className={styles.mymileIcon} />
-            <p className={styles.mileageTotal}>{userInfo.data.mileage}</p>
+            <p className={styles.mileageTotal}>마일리지</p>
           </p>
           <div className={styles.mypostsAndcomments}>
             <p
