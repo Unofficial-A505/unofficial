@@ -22,8 +22,8 @@ const QuillContainer = () => {
     const { boardId } = useParams();
     const { state : currboardName } = useLocation();
 
-    const [ value, setValue ] = useState('');
-    const [ nickName, setnickName ] = useState('');
+    // const [ value, setValue ] = useState('');
+    const [ nickNameInput, setnickName ] = useState('');
     const TitleElement = useRef(null);
     const quillElement = useRef(null); 
     const [ imageList, setimageList ] = useState([])
@@ -66,10 +66,10 @@ const QuillContainer = () => {
     });
     }, [imageList]);
 
-  const onChangeValue = (e) => {
-    setValue(e);
-    // console.log(e);
-  };
+  // const onChangeValue = (e) => {
+  //   setValue(e);
+  //   // console.log(e);
+  // };
 
   const changeImageList = (url, file) => {
     setimageList([...imageList, { url, file }]);
@@ -119,6 +119,7 @@ const QuillContainer = () => {
   
           const promise = postImageApi(formData)
           .then((res) => {
+            console.log('image', res.url)
             console.log("success");
             const uploadPath = res.data;
             content = content.replace(regexOne, `${uploadPath}`)
@@ -140,9 +141,9 @@ const QuillContainer = () => {
   function sendPost(content) {
     return new Promise(function(resolve, reject){
       const title = TitleElement.current.value;
-      const boardName = boardId;
-      const nickName = nickName
-      console.log(title, content, boardId);
+      const boardName = currboardName;
+      const nickName = nickNameInput
+      console.log('send Post', title, content, currboardName, nickNameInput);
   
       postCreateApi(title, content, boardName, nickName)
       .then((res) => navigate(`/boards/${boardId}/${res.data.id}`, { replace: true }))
@@ -195,8 +196,8 @@ const QuillContainer = () => {
 
         <ReactQuill
           id="react-quill"
-          value={value}
-          onChange={onChangeValue}
+          // value={value}
+          // onChange={onChangeValue}
           modules={modules}
           formats={formats}
           selection={{ start: 0, end: 0 }}
@@ -207,7 +208,7 @@ const QuillContainer = () => {
 
         <div className={styles.nicknameContainer}>
           <span className={styles.nicknametitleBox}>닉네임</span>
-          <input type="text" onChange={(e) => {setnickName(e.target.value); console.log(nickName)}} placeholder='닉네임을 입력하세요'/>
+          <input type="text" onChange={(e) => {setnickName(e.target.value); console.log(nickNameInput)}} placeholder='닉네임을 입력하세요'/>
         </div>
         <div className={styles.undermenu}>
           <button className={styles.grayoutbutton} onClick={handleCancel}>
