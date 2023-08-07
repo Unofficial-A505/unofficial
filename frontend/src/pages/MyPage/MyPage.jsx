@@ -7,7 +7,7 @@ import { FiActivity } from "@react-icons/all-files/fi/FiActivity";
 import { RiAdvertisementLine } from "@react-icons/all-files/ri/RiAdvertisementLine";
 import { RiLogoutCircleLine } from "@react-icons/all-files/ri/RiLogoutCircleLine";
 
-import { Outlet, useLocation, useNavigate,Link } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import customAxios from "../../util/customAxios";
 import { useDispatch, useSelector } from "react-redux";
 import { setAccessToken, setAuthUserEmail } from "../../store/loginSlice";
