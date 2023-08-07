@@ -37,6 +37,7 @@ import CreatePostPage from "./pages/CreatePostPage/QuillContainer";
 import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
 import WebRTC from "./pages/WebRtcPage/WebRtcPage";
+import SuggestionM from "./pages/MyPage/SuggestionM/SuggestionM";
 
 const router = createBrowserRouter([
   {
@@ -115,6 +116,7 @@ const router = createBrowserRouter([
           { path: "activity", element: <MypageActivity /> },
           { path: "advertisement", element: <MypageAdver /> },
           { path: "management", element: <Management /> },
+          { path: "suggestion", element: <SuggestionM /> },
         ],
       },
       {
@@ -122,11 +124,11 @@ const router = createBrowserRouter([
         title: "게시판",
         element: <BoardsAll />,
         children: [
-          { path: ":boardTitle", element: <BoardsView /> },
-          { path: ":boardTitle/search/:keyword", element: <BoardSearchView /> },
+          { path: ":boardId", element: <BoardsView /> },
+          { path: ":boardId/search/:keyword", element: <BoardSearchView /> },
         ],
       },
-      { path: "boards/:boardTitle/:postId", element: <PostDetail /> },
+      { path: "boards/:boardId/:postId", element: <PostDetail /> },
       { path: "boards/search/:keyword", element: <SearchView /> },
       {
         path: "forgot-password",
@@ -135,8 +137,8 @@ const router = createBrowserRouter([
     ],
   },
   { path: "/user/advertisement/form", element: <AddAdvPage /> },
-  { path: "boards/:boardTitle/create", element: <CreatePostPage /> },
-  { path: "boards/:boardTitle/:postId/update", element: <PostUpdate /> },
+  { path: "boards/:boardId/create", element: <CreatePostPage /> },
+  { path: "boards/:boardId/:postId/update", element: <PostUpdate /> },
 ]);
 
 export default router;

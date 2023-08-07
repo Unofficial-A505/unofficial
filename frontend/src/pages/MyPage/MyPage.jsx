@@ -7,7 +7,7 @@ import { FiActivity } from "@react-icons/all-files/fi/FiActivity";
 import { RiAdvertisementLine } from "@react-icons/all-files/ri/RiAdvertisementLine";
 import { RiLogoutCircleLine } from "@react-icons/all-files/ri/RiLogoutCircleLine";
 
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate,Link } from "react-router-dom";
 import customAxios from "../../util/customAxios";
 import { useDispatch, useSelector } from "react-redux";
 import { setAccessToken, setAuthUserEmail } from "../../store/loginSlice";
@@ -29,7 +29,8 @@ export default function MyPage() {
   const path = location.pathname;
   const isActiveActivity = path.includes("activity");
   const isActiveAdvertisement = path.includes("advertisement");
-  const isManagement = path.includes("management"); //관리자
+  const isManagement = path.includes("management");  //관리자
+  const isSuggestion = path.includes("suggestion");
   const [role, setRole] = useState(null);
 
   useEffect(() => {
@@ -51,7 +52,9 @@ export default function MyPage() {
     activeTab = "광고";
   } else if (isManagement) {
     activeTab = "관리자"; // 관리자
-  } else {
+  } else if (isSuggestion) {
+    activeTab = "건의함"; // 건의함
+  }else {
     activeTab = "정보";
   }
 
@@ -122,6 +125,20 @@ export default function MyPage() {
                   <p>광고 승인 및 취소(관리자)</p>
                 </div>
               )}
+              {role === 'ADMIN' && (
+                  <div
+                  className={styles.navTab}
+                  onClick={() => navigate("suggestion")}
+                  style={
+                    activeTab === "건의함"
+                      ? { color: "#034BB9" }
+                      : { color: "#666a71" }
+                  }
+                >
+                  <RiAdvertisementLine className="me-2" size={20} />
+                  <p>건의함(관리자)</p>
+                </div>
+                )}
             </div>
           </nav>
           <div className={styles.logoutTab} onClick={logout}>

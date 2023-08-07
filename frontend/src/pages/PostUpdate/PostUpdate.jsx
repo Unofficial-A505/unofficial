@@ -32,7 +32,7 @@ const Title = styled.h3`
     `;
 const PostUpdate = () => {
   const navigate = useNavigate();
-  const { boardTitle } = useParams();
+  const { boardId } = useParams();
   const { postId } = useParams();
   const [value, setValue] = useState("");
   // const [ updatetitle, setupdateTitle ] = useState("");
@@ -146,9 +146,9 @@ const PostUpdate = () => {
   const updatePost = () => {
     const title = TitleElement.current.value;
     const content = quillElement.current.editor.root.innerHTML;
-    const boardName = boardTitle;
+    const boardName = boardId;
     const id = postId;
-    console.log(title, content, boardTitle);
+    console.log(title, content, boardId);
 
     customAxios({
       method: "put",
@@ -165,7 +165,7 @@ const PostUpdate = () => {
       // }
     })
       .then((res) => {
-        navigate(`/boards/${boardTitle}/${postId}`, { replace: true });
+        navigate(`/boards/${boardId}/${postId}`, { replace: true });
         console.log(res.data);
       })
       .catch((err) => {
@@ -185,7 +185,7 @@ const PostUpdate = () => {
       <div className={styles.craetecontainer}>
         <div className={styles.upmenu}>
           <Title>
-            <p className={styles.boardTitle}>{boardTitle}</p>
+            <p className={styles.boardTitle}>{boardId}}</p>
             <p>글 수정</p>
           </Title>
           <button onClick={updatePost} className="btn" id={styles.createsubmitbutton}>

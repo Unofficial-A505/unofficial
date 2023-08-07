@@ -6,11 +6,12 @@ import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.board.dto.ArticleResponseDto;
 import com.example.Strange505.board.dto.ImageForm;
 import com.example.Strange505.board.service.ArticleService;
+import com.example.Strange505.dto.PageResponseDto;
+import com.example.Strange505.file.service.S3UploaderService;
 import com.example.Strange505.user.service.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import com.example.Strange505.file.service.S3UploaderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +22,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/articles")
@@ -42,6 +44,7 @@ public class ArticleController {
                 .title(article.getTitle())
                 .content(article.getContent())
                 .boardName(article.getBoard().getName())
+                .boardId(article.getBoard().getId())
                 .nickName(article.getNickName())
                 .createTime(article.getCreateTime())
                 .modifyTime(article.getModifyTime())
@@ -73,6 +76,7 @@ public class ArticleController {
                 .title(article.getTitle())
                 .content(article.getContent())
                 .boardName(article.getBoard().getName())
+                .boardId(article.getBoard().getId())
                 .nickName(article.getNickName())
                 .likes(article.getLikes())
                 .views(article.getViews())
@@ -83,54 +87,84 @@ public class ArticleController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ArticleResponseDto>> getAllArticles(Pageable pageable) {
+    public ResponseEntity<PageResponseDto<ArticleResponseDto>> getAllArticles(Pageable pageable) {
         Page<Article> articles = articleService.getAllArticles(pageable);
         Page<ArticleResponseDto> articleResponseDtoList = articles.map(findArticle ->
                 new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
-                        findArticle.getBoard().getName(), findArticle.getNickName(),
+                        findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
                         findArticle.getLikes(), findArticle.getViews(),
                         findArticle.getCreateTime(), findArticle.getModifyTime()));
 
-        return new ResponseEntity<>(articleResponseDtoList, HttpStatus.OK);
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("page", pageable.getPageNumber());
+        pageInfo.put("size", pageable.getPageSize());
+        pageInfo.put("totalElements", articleResponseDtoList.getTotalElements());
+        pageInfo.put("totalPages", articleResponseDtoList.getTotalPages());
+        List<ArticleResponseDto> contents = articleResponseDtoList.getContent();
+
+
+        return new ResponseEntity<>(new PageResponseDto<>(pageInfo, contents), HttpStatus.OK);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Page<ArticleResponseDto>> getArticlesByTitleAndContent(@RequestParam String keyword, @RequestParam Long boardId, Pageable pageable) {
+    public ResponseEntity<PageResponseDto<ArticleResponseDto>> getArticlesByTitleAndContent(@RequestParam String keyword, @RequestParam Long boardId, Pageable pageable) {
         Page<Article> articles = articleService.getArticlesByTitleAndContent(keyword, boardId, pageable);
-
         Page<ArticleResponseDto> articleResponseDtoList = articles.map(findArticle ->
                 new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
-                        findArticle.getBoard().getName(), findArticle.getNickName(),
+                        findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
                         findArticle.getLikes(), findArticle.getViews(),
                         findArticle.getCreateTime(), findArticle.getModifyTime()));
 
-        return new ResponseEntity<>(articleResponseDtoList, HttpStatus.OK);
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("page", pageable.getPageNumber());
+        pageInfo.put("size", pageable.getPageSize());
+        pageInfo.put("totalElements", articleResponseDtoList.getTotalElements());
+        pageInfo.put("totalPages", articleResponseDtoList.getTotalPages());
+        List<ArticleResponseDto> contents = articleResponseDtoList.getContent();
+
+
+        return new ResponseEntity<>(new PageResponseDto<>(pageInfo, contents), HttpStatus.OK);
     }
 
     @GetMapping("/user")
-    public ResponseEntity<Page<ArticleResponseDto>> getArticlesByUser(Pageable pageable) {
+    public ResponseEntity<PageResponseDto<ArticleResponseDto>> getArticlesByUser(Pageable pageable) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Page<Article> articles = articleService.getArticlesByUser(email, pageable);
-        Page<ArticleResponseDto> result = articles.map(findArticle ->
-                        new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
-                                findArticle.getBoard().getName(), findArticle.getNickName(),
-                                findArticle.getLikes(), findArticle.getViews(),
-                                findArticle.getCreateTime(), findArticle.getModifyTime()));
+        Page<ArticleResponseDto> articleResponseDtoList = articles.map(findArticle ->
+                new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
+                        findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
+                        findArticle.getLikes(), findArticle.getViews(),
+                        findArticle.getCreateTime(), findArticle.getModifyTime()));
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("page", pageable.getPageNumber());
+        pageInfo.put("size", pageable.getPageSize());
+        pageInfo.put("totalElements", articleResponseDtoList.getTotalElements());
+        pageInfo.put("totalPages", articleResponseDtoList.getTotalPages());
+        List<ArticleResponseDto> contents = articleResponseDtoList.getContent();
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+
+        return new ResponseEntity<>(new PageResponseDto<>(pageInfo, contents), HttpStatus.OK);
     }
 
     @GetMapping("/board/{boardId}")
-    public ResponseEntity<Page<ArticleResponseDto>> getArticlesByBoard(@PathVariable Long boardId, Pageable pageable) {
+    public ResponseEntity<PageResponseDto<ArticleResponseDto>> getArticlesByBoard(@PathVariable Long boardId, Pageable pageable) {
         Page<Article> articles = articleService.getArticlesByBoard(boardId, pageable);
 
         Page<ArticleResponseDto> articleResponseDtoList = articles.map(findArticle ->
-                        new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
-                                findArticle.getBoard().getName(), findArticle.getNickName(),
-                                findArticle.getLikes(), findArticle.getViews(),
-                                findArticle.getCreateTime(), findArticle.getModifyTime()));
+                new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
+                        findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
+                        findArticle.getLikes(), findArticle.getViews(),
+                        findArticle.getCreateTime(), findArticle.getModifyTime()));
 
-        return new ResponseEntity<>(articleResponseDtoList, HttpStatus.OK);
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("page", pageable.getPageNumber());
+        pageInfo.put("size", pageable.getPageSize());
+        pageInfo.put("totalElements", articleResponseDtoList.getTotalElements());
+        pageInfo.put("totalPages", articleResponseDtoList.getTotalPages());
+        List<ArticleResponseDto> contents = articleResponseDtoList.getContent();
+
+
+        return new ResponseEntity<>(new PageResponseDto<>(pageInfo, contents), HttpStatus.OK);
     }
 
     private void addViewCount(Long id, HttpServletRequest req, HttpServletResponse res) {

@@ -18,7 +18,7 @@
 /* post 내용 container */
 .postviewContainer {
   width: 1000px;
-  border: 1px dotted aqua;
+  /* border: 1px dotted aqua; */
 }
 
 .postContentContainer {
@@ -217,7 +217,7 @@ textarea:focus {
   margin: 5pX 10px 0 10px;
 
   color: #034BB9;
-  font-size: 22px;
+  font-size: 28px;
   font-style: normal;
   font-weight: 800;
   line-height: normal;
@@ -225,7 +225,7 @@ textarea:focus {
 
 .boardmoreTitleB {
   color: #757575;
-  font-size: 16.5px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -247,7 +247,7 @@ textarea:focus {
 }
 
 .sidecontentmiddleBox {
-  width: 260px;
+  width: 280px;
   margin: 0 auto;
   /* border: 1px dotted orangered; */
 }

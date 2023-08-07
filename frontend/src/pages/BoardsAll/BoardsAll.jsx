@@ -1,26 +1,29 @@
 import styles from "./BoardsAll.module.css";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, Outlet, useLocation } from "react-router-dom";
+import { useNavigate, useParams, Outlet} from "react-router-dom";
 
 import AdHorizontal from "../../components/AdHorizontal/AdHorizontal";
 import TopSpace from "../../components/TopSpace/TopSpace";
 
 import { FiSearch } from "@react-icons/all-files/fi/FiSearch";
 import { CgAddR } from "@react-icons/all-files/cg/CgAddR";
-import customAxios from "../../util/customAxios";
+
+import { bestPostsApi, boardNamesApi } from "../../api/boards"
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
 export default function BoardsAll() {
-  const [ boardTitles, setboardTitles ] = useState([]);
-  const { boardTitle } = useParams();
-  const boardsearchMessage = `${boardTitle}에서 찾고싶은 게시글의 제목 또는 내용의 키워드를 검색`;
+  const [ boardNames, setboardNames ] = useState([]);
+  const [ currboardName, setcurrboardName ] = useState('');
+  const { boardId } = useParams();
   const [ keywordAll, setKeywordAll ] = useState("");
   const [ keywordBoard, setKeywordBoard ] = useState("");
-  const [ posts, setPosts ] = useState([]);
-
+  const [ bestPostlist, setbestPostlist ] = useState([]);
+  
+  const boardsearchMessage = `${currboardName}에서 찾고싶은 게시글의 제목 또는 내용의 키워드를 검색`;
+  
   const navigate = useNavigate();
 
   const settings = {
@@ -36,43 +39,36 @@ export default function BoardsAll() {
   };
 
   useEffect(() => {
-
-    customAxios({
-      method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/articles`,
-      // headers: {
-      // }
-    })
-      .then((res) => {
-        console.log(res.data);
-        setPosts(res.data.content); 
-      })
-      .catch((err) => console.log(err));
-
-    /* 위 axios 추후 삭제 */
-
-    customAxios({
-      method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/boards`,
-      // headers: {
-      // }
-    })
+    // best 게시글 api
+    bestPostsApi
     .then((res) => {
-      const boards = res.data
-      setboardTitles(res.data)
-      console.log('res.data', res.data)
-      console.log(boardTitles)})
-    .catch((err) => console.log(err))
+      console.log('best', res)
+      setbestPostlist(res);
+    }).catch((err) => console.log(err));
+   
+    // boards Title api
+    boardNamesApi
+    .then((res) => {
+      setboardNames(res)
+      res.forEach((board) => {
+        if (board.id == boardId) {
+          setcurrboardName(board.name)}})
+    }).catch((err) => console.log(err))
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
     return () => {  
       console.log('unmounted')
-     }}, []);
+     }}, [boardId || boardNames]);
+
+
 
   return(
     <div>
-      <TopSpace />
+      <div className={styles.advContainer}>
+        <AdHorizontal />
+      </div>
 
-      <div>게시판</div>
       <div className={styles.boardsTopContainer}>
         <form className={styles.searchboxall}>
           <p>전체 게시글 검색</p>
@@ -99,8 +95,8 @@ export default function BoardsAll() {
           <div className={styles.bestbannerTitle}>전체 best 게시글</div>
           <div className={styles.boardsallBestBox}>
             <Slider {...settings}>
-              {posts.map((data, index) => (
-                <div><span className={styles.bestContent}>{data.boardName}</span><span>{data.title}</span></div>
+              {bestPostlist.map((data, index) => (
+                <div key={index} className={styles.bestContentContainer}><span className={styles.bestContent}>{data.boardName}</span><span>{data.title}</span></div>
                 ))}
             </Slider>
           </div>
@@ -110,15 +106,15 @@ export default function BoardsAll() {
       <div className={styles.boardcontainer}>
         <div className={styles.boardtabContainer}>
           <div>
-            {boardTitles.map((board, index) => (
+            {boardNames.map((board, index) => (
               <button
               key={index}
               className={
-                board.name == boardTitle
+                board.id == boardId
                 ? styles.boardtabSelected
                 : styles.boardtab
               }
-                onClick={() => navigate(`/boards/${board.name}`, { state: board.id })}
+                onClick={() => navigate(`/boards/${board.id}`, { state: board.name })}
                 >
                 {board.name}
               </button>
@@ -127,7 +123,7 @@ export default function BoardsAll() {
           <div className={styles.postcreateContainer}>
             <button
               className={styles.createpageButton}
-              onClick={() => navigate(`/boards/${boardTitle}/create`)}
+              onClick={() => navigate(`/boards/${boardId}/create`, {state : currboardName })}
             >
               <CgAddR className={styles.createpageIcon} size="20" />새 글 작성
             </button>
@@ -142,8 +138,9 @@ export default function BoardsAll() {
           <AdHorizontal />
         </div>
 
+        <div className={styles.boardBottomBar}>
         <form className={styles.searchboxhere}>
-          <p>{boardTitle} 게시글 검색</p>
+          <p>{currboardName} 게시글 검색</p>
           <div className={styles.searchInputBox}>
             <input
               className={styles.search}
@@ -157,7 +154,7 @@ export default function BoardsAll() {
             <button
               className={styles.searchbutton}
               onClick={() => {
-                navigate(`/boards/${boardTitle}/search/${keywordBoard}`);
+                navigate(`/boards/${boardId}/search/${keywordBoard}`, { state : currboardName });
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             >
@@ -183,15 +180,9 @@ export default function BoardsAll() {
             </li>
           </ul>
         </nav>
+        </div>
+
       </div>
-    </div>
-  );
-}
-
-const Slide = () => {
-  return (
-    <div>
-
     </div>
   );
 }

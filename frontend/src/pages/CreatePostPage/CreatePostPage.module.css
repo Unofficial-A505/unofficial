@@ -6,11 +6,22 @@
   margin: 10px auto;
 }
 
-.upmenu {
+.topmenu {
   display: flex;
   justify-content: space-between;
 
   margin: 20px 0 0 0;
+}
+
+.topmenuBox {
+  margin: 0 0 0 10px;
+  text-align: start;
+  color: #000;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700px;
+  line-height: normal;
+  display: flex;
 }
 
 .boardTitle {
