@@ -10,15 +10,14 @@ export default function MypostsView(){
   const date = 100
   
   const [myPosts, setMyPosts] = useState([])
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(1)
   const [pageInfo, setPageInfo] = useState({})
   const size = 9
 
   useEffect(() => {
     customAxios
-      .get(`/api/articles/user?page=${page}&size=${size}`)
+      .get(`/api/articles/user?page=${page-1}&size=${size}`)
       .then((res)=> {
-        console.log(res.data)
         setMyPosts(res.data.content)
         setPageInfo(res.data.pageInfo)
       }
@@ -38,7 +37,6 @@ export default function MypostsView(){
           </div>
           <p style={{color:'#282828'}}>가입한지 <span style={{color:'#034BB9', fontSize:'1.2rem', fontWeight:'600'}}>+{ date }일</span></p>
         </div>
-        {/* <div className={styles.temp} /> */}
         <BoardView posts={myPosts} myBoard={true}/>
       </div>
       <PaginationControl
