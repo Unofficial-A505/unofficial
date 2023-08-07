@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import PostView from '../PostView/PostView'
 import customAxios from '../../util/customAxios';
 
-export default function BoardView({ posts, searchView, keyword }){
+export default function BoardView({ posts, searchView, keyword, myBoard }){
   if (!posts) { posts = [] }
 
   const [ currentPage, setCurrentPage ] = useState(1);
@@ -19,7 +19,7 @@ export default function BoardView({ posts, searchView, keyword }){
     <div>
       {posts.map((post, index) => (
         <div key={index}>
-          <PostView post={post} searchView={searchView} keyword={keyword}/>
+          <PostView post={post} searchView={searchView} keyword={keyword} myBoard={myBoard}/>
         </div>
       ))}
     </div>

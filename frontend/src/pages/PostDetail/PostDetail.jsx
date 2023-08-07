@@ -100,7 +100,7 @@ export default function PostDetail() {
   
   // 댓글 생성
   const commentCreate = () => {
-    let text = document.querySelector(".textarea").value;
+    let text = document.querySelector("textarea").value;
     text = text.replaceAll(/(\n|\r\n)/g, "<br>");
 
     if (!commentnickName) { alert('댓글 닉네임을 입력해주세요!')
