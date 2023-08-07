@@ -34,4 +34,5 @@ const searchViewApi = (keyword, boardId) => customAxios({
   url: `/api/articles/search?keyword=${keyword}&boardId=${boardId}`,
 }).then((res) => res.data.content)
 
+
 export { bestPostsApi, boardNamesApi, boardArticlesAll, boardsArticles, searchViewApi }

@@ -35,9 +35,6 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, pos
       method: "post",
       url: `${process.env.REACT_APP_SERVER}/api/comments`,
       data: { articleId, content, parentId },
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
       })
       .then((res) => {
         console.log("댓글 불러오기!!!")
@@ -65,9 +62,9 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, pos
           <div>
             <span className={styles.commentIcons} onClick={() => {
               setupdateState((prev) => !prev);
-              setcreateComment(createComment.content);
+              // setcreateComment(createComment.content);
               }}>
-              <span className={styles.updatetextPosition} ><HiOutlinePencilAlt />수정하기</span></span>
+            <span className={styles.updatetextPosition} ><HiOutlinePencilAlt />수정하기</span></span>
             <span className={styles.commentIcons} onClick={() => {CommentDelete(id)}}><span className={styles.updatetextPosition}><IoTrashOutline />삭제하기</span></span>
           </div>
         </div>
@@ -87,8 +84,10 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, pos
             </button>
           </div>
         </div>}
-
-        <recommentView />
+        
+        {comment.children.map((recomment, index) => 
+          <RecommentView key={index} recomment={recomment}/>
+        )}
 
         <hr />
   
@@ -102,8 +101,6 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, pos
             <span className={styles.commentTitle}>9기 구미</span>
             <span className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} />15분 전</span>
           </div>
-          <div>
-          </div>
         </div>
         
         <div className={styles.updateinputContainer}>
@@ -115,11 +112,16 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, pos
           <button className={styles.updateButtons} onClick={() => {
             const Content = updateContent.current.value;
             console.log('update content', updateContent.current.value);
-            commentUpdate(Content, id);
+            // commentUpdate(Content, id);
             setupdateState((prev) => !prev);
             }}><HiOutlinePencilAlt className={styles.updateIcons} />수정 완료</button>
           <button className={styles.updateButtons} onClick={() => setupdateState((prev) => !prev)}>취소</button>
         </div>
+        
+        {comment.children.map((recomment, index) => 
+          <RecommentView key={index} recomment={recomment}/>
+        )}
+
         <hr />
   
       </div>

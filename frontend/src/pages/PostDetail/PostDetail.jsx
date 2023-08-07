@@ -53,13 +53,13 @@ export default function PostDetail() {
     customAxios({
       method: "get",
       url: `${process.env.REACT_APP_SERVER}/api/comments/article/${postId}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
     })
       .then((res) => {
         setComments(res.data.content);
         setCommentsInfo(res.data)
+
+        console.log('comments', res.data.content)
+        console.log('commentsinfo', res.data)
       })
       .catch((err) => console.log(err));
   };
@@ -86,7 +86,8 @@ export default function PostDetail() {
     getComment();
 
     return () => {  
-      console.log('unmounted')}
+      console.log('unmounted');
+      console.log('comments', comments);}
     }, [postId]);
     
   // 게시글 삭제
