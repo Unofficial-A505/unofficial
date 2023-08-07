@@ -38,9 +38,6 @@ public class ArticleServiceImpl implements ArticleService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
         Board board = boardRepository.findByName(dto.getBoardName()).orElseThrow(() -> new NoResultException("게시판을 찾을 수 없습니다."));
         Article article = Article.createArticle(dto, user, board);
-        if (dto.getImageList() != null) {
-            imageService.notUsingImageDelete(dto.getImageList(), imageService.parsingArticle(dto.getContent()));
-        }
         Article savedArticle = articleRepository.save(article);
         return savedArticle;
     }
