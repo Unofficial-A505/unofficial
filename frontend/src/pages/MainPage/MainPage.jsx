@@ -1,4 +1,5 @@
 import styles from "./MainPage.module.css";
+import BoardView from "../../components/BoardView/BoardView";
 import UserinfoBox from "../../components/UserinfoBox/UserinfoBox";
 import AdHorizontal from "../../components/AdHorizontal/AdHorizontal";
 import AdVertical from "../../components/AdVertical/AdVertical";

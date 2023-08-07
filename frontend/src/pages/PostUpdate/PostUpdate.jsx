@@ -2,7 +2,6 @@ import styles from "./PostUpdate.module.css";
 
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import styled from "styled-components";
 
 import Quill from "quill";
 import ReactQuill from "react-quill";
@@ -17,6 +16,8 @@ import NavBar from "../../components/NavBar/NavBar";
 
 import { postUpdateApi, postImageApi } from "../../api/posts"
 
+import useDocumentTitle from "../../useDocumentTitle";
+
 Quill.register("modules/ImageResize", ImageResize);
 
 const PostUpdate = () => {
@@ -26,15 +27,12 @@ const PostUpdate = () => {
   const { boardId } = useParams();
   const { postId } = useParams();
   const { state : postDetail } = useLocation(); 
-  console.log('postDetail', postDetail)
   
   // const [value, setValue] = useState("");
   const [ nickNameInput, setnickName ] = useState('');
   const TitleElement = useRef(null);
   const quillElement = useRef(null);
   const [ imageList, setimageList ] = useState([])
-
-  const { state: postDetail } = useLocation();
 
   const modules = {
     toolbar: {

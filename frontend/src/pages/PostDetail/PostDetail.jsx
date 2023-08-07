@@ -46,6 +46,7 @@ export default function PostDetail() {
   const [comments, setComments] = useState([]);
   const [commentsInfo, setCommentsInfo] = useState({});
   const [commentnickName, setcommentnickName] = useState("");
+  const [currboardPosts, setcurrboardPosts] = useState([]);
   const [articleList, setarticleList] = useState([]);
   const [recommendedState, setrecommendedState] = useState(false);
   const commentElement = useRef(null);
