@@ -11,6 +11,8 @@ import com.example.Strange505.board.repository.ArticleLikeRepository;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.BoardRepository;
 import com.example.Strange505.file.service.ImageService;
+import com.example.Strange505.pointHistory.dto.PointHistoryDto;
+import com.example.Strange505.pointHistory.service.PointHistoryService;
 import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,7 @@ public class ArticleServiceImpl implements ArticleService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     private final ImageService imageService;
+    private final PointHistoryService pointHistoryService;
 
     @Override
     @Transactional
@@ -54,6 +57,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .createTime(savedArticle.getCreateTime())
                 .modifyTime(savedArticle.getModifyTime())
                 .build();
+        addPoint(user.getId());
         return responseDto;
     }
 
@@ -194,6 +198,13 @@ public class ArticleServiceImpl implements ArticleService {
     public void addViewCount(Long id) {
         Article article = articleRepository.findById(id).orElseThrow(() -> new NoResultException("게시글을 찾을 수 없습니다."));
         article.addView();
+    }
+
+    @Override
+    @Transactional
+    public void addPoint(Long userId) {
+        PointHistoryDto pointHistoryDto = new PointHistoryDto(10, "게시글 작성 적립", userId);
+        pointHistoryService.putNewPointHistory(pointHistoryDto);
     }
 
 }

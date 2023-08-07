@@ -27,4 +27,6 @@ public interface ArticleService {
     void deleteArticle(Long id, String email);
 
     void addViewCount(Long id);
+
+    void addPoint(Long userId);
 }
