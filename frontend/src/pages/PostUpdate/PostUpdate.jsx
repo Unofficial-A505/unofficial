@@ -188,7 +188,7 @@ const PostUpdate = () => {
       <div className={styles.craetecontainer}>
         <div className={styles.upmenu}>
           <Title>
-            <p className={styles.boardTitle}>{boardId}}</p>
+            <p className={styles.boardTitle}>{boardId}</p>
             <p>글 수정</p>
           </Title>
           <button

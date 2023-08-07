@@ -4,6 +4,7 @@ import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.domain.Comment;
 import com.example.Strange505.board.dto.CommentRequestDto;
 import com.example.Strange505.board.dto.CommentResponseDto;
+import com.example.Strange505.board.dto.MypageCommentResponseDto;
 import com.example.Strange505.board.exception.NoResultException;
 import com.example.Strange505.board.exception.NotAuthorException;
 import com.example.Strange505.board.repository.ArticleRepository;
@@ -127,31 +128,35 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Page<CommentResponseDto> getCommentByUser(String email, Pageable pageable) {
+    public Page<MypageCommentResponseDto> getCommentByUser(String email, Pageable pageable) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
         Page<Comment> repoList = commentRepository.searchByUser(user.getId(), pageable);
-        List<CommentResponseDto> list = new ArrayList<>();
+        List<MypageCommentResponseDto> list = new ArrayList<>();
         for (Comment c :
                 repoList) {
             if (c.getParent() == null) {
-                list.add(new CommentResponseDto(
+                list.add(new MypageCommentResponseDto(
                         c.getId(),
-//                        c.getUser().getId(),
                         c.getArticle().getId(), c.getContent(),
                         null, c.getNickName(),
                         c.getUser().getGen(), c.getUser().getLocal(),
-                        c.getCreateTime(), c.getModifyTime(), null));
+                        c.getCreateTime(), c.getModifyTime(), null,
+                        c.getArticle().getTitle(),
+                        c.getArticle().getBoard().getName(),
+                        c.getArticle().getBoard().getId()));
             } else {
-                list.add(new CommentResponseDto(
+                list.add(new MypageCommentResponseDto(
                         c.getId(),
-//                        c.getUser().getId(),
                         c.getArticle().getId(), c.getContent(),
                         c.getParent().getId(), c.getNickName(),
                         c.getUser().getGen(), c.getUser().getLocal(),
-                        c.getCreateTime(), c.getModifyTime(), null));
+                        c.getCreateTime(), c.getModifyTime(), null,
+                        c.getArticle().getTitle(),
+                        c.getArticle().getBoard().getName(),
+                        c.getArticle().getBoard().getId()));
             }
         }
-        Page<CommentResponseDto> result = new PageImpl<>(list);
+        Page<MypageCommentResponseDto> result = new PageImpl<>(list);
         return result;
     }
 
