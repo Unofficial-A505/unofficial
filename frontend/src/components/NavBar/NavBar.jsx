@@ -56,7 +56,8 @@ export default function NavBar() {
 
   return (
     <div>
-      <nav className="navbar navbar-expand-sm">
+      {/* <nav className="navbar navbar-expand-sm"> */}
+      <nav className="navbar navbar-expand">
         <div className={`container-fluid ${styles.container}`}>
           <a className="navbar-brand" style={{ padding: "10px" }} href="/">
             <img src={main_logo} alt="main_logo" width={150} style={{marginBottom:'5px'}} />
