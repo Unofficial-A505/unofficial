@@ -54,21 +54,4 @@ public class ArticleLikeServiceImpl implements ArticleLikeService {
         }
 
     }
-
-    @Override
-    public boolean checkLiked(Long id, String email) {
-        Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new NoResultException("게시글이 존재하지 않습니다."));
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new NoResultException("사용자가 존재하지 않습니다."));
-        ArticleLike articleLike = articleLikeRepository.findByArticleAndUser(article, user)
-                .orElse(null);
-
-        if (articleLike == null) {
-            return false;
-        } else {
-            return true;
-        }
-
-    }
 }

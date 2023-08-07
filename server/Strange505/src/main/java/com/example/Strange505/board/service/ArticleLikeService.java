@@ -6,5 +6,4 @@ public interface ArticleLikeService {
 
     void like(ArticleLikeRequestDto dto, String email);
 
-    boolean checkLiked(Long id, String email);
 }
