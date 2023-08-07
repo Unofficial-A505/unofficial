@@ -100,7 +100,7 @@ export default function UserinfoBox() {
             className={styles.secondmypage}
             onClick={() => navigate("/user/password")}
           >
-            SSAFY {userInfo.local} {userInfo.gen}
+            SSAFY {userInfo.data.local} {userInfo.data.gen}
           </span>
           <span className={styles.secondhelloMessage}>
             님의 이야기를 들려주세요
@@ -123,7 +123,7 @@ export default function UserinfoBox() {
             onClick={() => navigate("/user/advertisement/mymile")}
           >
             <RiDatabase2Line className={styles.mymileIcon} />
-            <p className={styles.mileageTotal}>{userInfo.mileage}</p>
+            <p className={styles.mileageTotal}>{userInfo.data.mileage}</p>
           </p>
           <div className={styles.mypostsAndcomments}>
             <p
