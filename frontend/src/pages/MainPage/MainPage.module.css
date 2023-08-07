@@ -63,5 +63,6 @@
   width: 330px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   /* border: 1px dotted pink; */
 }
