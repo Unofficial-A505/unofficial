@@ -32,7 +32,7 @@ import MyAdvertisement from "./pages/MyPage/MypageAdver/MyAdvertisement/MyAdvert
 import Management from "./pages/MyPage/Management/Management";
 import AddAdvPage from "./pages/MyPage/MypageAdver/AddAdvPage";
 
-import CreatePostPage from "./pages/CreatePostPage/QuillContainer";
+import CreatePostPage from "./pages/CreatePostPage/CreatePostPage";
 
 import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
