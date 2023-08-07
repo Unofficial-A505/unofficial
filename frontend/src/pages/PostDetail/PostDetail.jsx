@@ -105,7 +105,7 @@ export default function PostDetail() {
     const articleId = postId;
     postRecommendInputApi(articleId)
       .then(() => {
-        if (recommendedState) {
+        if (!recommendedState) {
           postDetail.likes += 1;
         } else {
           postDetail.likes -= 1;
