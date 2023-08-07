@@ -31,6 +31,7 @@ import { postDetailApi, postDeleteApi, postRecommendInputApi } from '../../api/p
 import { postCommentsApi, postCommentCreateApi, postCommentUpdateApi, postCommentDeleteApi } from '../../api/comments'
 
 import customAxios from '../../util/customAxios'
+import useDocumentTitle from "../../useDocumentTitle";
 
 // API import
 export default function PostDetail() {
@@ -47,6 +48,8 @@ export default function PostDetail() {
   const [ articleList, setarticleList ] = useState([]);
   const [ recommendedState, setrecommendedState ] = useState(false)
   const commentElement = useRef(null);
+
+  useDocumentTitle({boardTitle});
 
   // 댓글 가져오기
   const getComment = () => {

@@ -1,5 +1,4 @@
 import styles from "./PostUpdate.module.css";
-import axios from "axios";
 
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
@@ -16,6 +15,7 @@ import TopSpace from "../../components/TopSpace/TopSpace";
 import Footer from "../../components/Footer/Footer";
 import NavBar from "../../components/NavBar/NavBar";
 import customAxios from "../../util/customAxios";
+import useDocumentTitle from "../../useDocumentTitle";
 
 Quill.register("modules/ImageResize", ImageResize);
 
@@ -31,6 +31,8 @@ const Title = styled.h3`
     display: flex;
     `;
 const PostUpdate = () => {
+  useDocumentTitle("게시글 수정");
+
   const navigate = useNavigate();
   const { boardId } = useParams();
   const { postId } = useParams();
@@ -39,7 +41,7 @@ const PostUpdate = () => {
   const TitleElement = useRef(null);
   const quillElement = useRef(null);
 
-  const { state : postDetail } = useLocation(); 
+  const { state: postDetail } = useLocation();
 
   const modules = {
     toolbar: {
@@ -83,9 +85,10 @@ const PostUpdate = () => {
         selectLocalImage();
       });
 
-      const delta = quillElement.current.editor.clipboard.convert(postDetail.content)
-      quillElement.current.editor.setContents(delta, 'silent')
-
+    const delta = quillElement.current.editor.clipboard.convert(
+      postDetail.content
+    );
+    quillElement.current.editor.setContents(delta, "silent");
   }, []);
 
   const onChangeValue = (e) => {
@@ -119,10 +122,10 @@ const PostUpdate = () => {
         method: "post",
         url: `${process.env.REACT_APP_SERVER}/api/ads/uploadForArticle`,
         data: formData,
-        headers: { "Content-Type": "multipart/form-data",
-                    // Authorization: `Token ${this.$store.state.token}` 
-                  },
-
+        headers: {
+          "Content-Type": "multipart/form-data",
+          // Authorization: `Token ${this.$store.state.token}`
+        },
       })
         .then((res) => {
           console.log(res.data);
@@ -188,7 +191,11 @@ const PostUpdate = () => {
             <p className={styles.boardTitle}>{boardId}}</p>
             <p>글 수정</p>
           </Title>
-          <button onClick={updatePost} className="btn" id={styles.createsubmitbutton}>
+          <button
+            onClick={updatePost}
+            className="btn"
+            id={styles.createsubmitbutton}
+          >
             등록하기
           </button>
         </div>
@@ -230,7 +237,9 @@ const PostUpdate = () => {
           </button>
         </div>
       </div>
-      <div className={styles.footerContainer}><Footer /></div>
+      <div className={styles.footerContainer}>
+        <Footer />
+      </div>
     </div>
   );
 };

@@ -5,26 +5,16 @@ import AdVertical from "../../components/AdVertical/AdVertical";
 import EdussafyButton from "../../components/EdussafyButton/EdussafyButton";
 import SweaButton from "../../components/SweaBtn/SweaButton";
 import EduGrantsButton from "../../components/EduGrantButton/EduGrantsButton";
-import BoardView from "../../components/BoardView/BoardView";
 import WeatherinfoApi from "../../components/WeatherAPI/WeatherinfoApi";
 import LunchCarousel from "../../components/LunchCarousel/LunchCarousel";
-import ServerTime from "../../components/ServerTime/ServerTime"
+import ServerTime from "../../components/ServerTime/ServerTime";
 import TopSpace from "../../components/TopSpace/TopSpace";
+import useDocumentTitle from "../../useDocumentTitle";
 
-// best 게시물 아이콘
 import { FaCrown } from "@react-icons/all-files/fa/FaCrown";
 
-import { useEffect, useState } from 'react';
-// import { bestPostsApi } from '../../api/boards'
-
 export default function MainPage() {
-  // const [ bestPosts, setbestPosts ] = useState("")
-
-  // useEffect(() => {
-  //   bestPostsApi
-  //   .then((res) => setbestPosts(res))
-  //   .catch((err) => console.log(err))
-  // }, [])
+  useDocumentTitle("언오피셜");
 
   return (
     <section className={styles.mainPage}>

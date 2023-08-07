@@ -90,7 +90,7 @@ export default function Signup2() {
     let pw = userPassword2
     let num = pw.search(/[0-9]/g);
     let eng = pw.search(/[a-z]/ig);
-    let spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?-]/gi);
+    // let spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?-]/gi);
 
     if (passwordMismatch) {
       alert('비밀번호가 일치하지 않습니다.')
@@ -101,8 +101,8 @@ export default function Signup2() {
     } else if (pw.search(/\s/) !== -1) {
       alert("비밀번호는 공백 없이 입력해주세요.");
       return false
-    } else if (num === -1 || eng === -1 || spe === -1) {
-      alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
+    } else if (num === -1 || eng === -1) {
+      alert("영문,숫자를 혼합하여 입력해주세요.");
       return false
     }
     return true

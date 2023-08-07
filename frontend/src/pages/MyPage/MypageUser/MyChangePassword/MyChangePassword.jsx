@@ -41,7 +41,7 @@ export default function MyChangePassword() {
     let pw = newPassword2;
     let num = pw.search(/[0-9]/g);
     let eng = pw.search(/[a-z]/gi);
-    let spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+    // let spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
 
     if (pw.length < 8 || pw.length > 20) {
       alert("8 ~ 20자리 이내로 입력해주세요.");
@@ -49,7 +49,7 @@ export default function MyChangePassword() {
     } else if (pw.search(/\s/) !== -1) {
       alert("비밀번호는 공백 없이 입력해주세요.");
       return false;
-    } else if (num < 0 || eng < 0 || spe < 0) {
+    } else if (num < 0 || eng < 0) {
       alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
       return false;
     } else if (passwordMismatch) {

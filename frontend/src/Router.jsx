@@ -42,7 +42,6 @@ import SuggestionM from "./pages/MyPage/SuggestionM/SuggestionM";
 const router = createBrowserRouter([
   {
     path: "/web-rtc",
-    title: "WebRTC",
     element: <WebRTC />,
   },
   {
@@ -51,7 +50,6 @@ const router = createBrowserRouter([
   },
   {
     path: "/signup",
-    title: "회원가입",
     element: <Signup />,
     children: [
       {
@@ -72,21 +70,17 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      {
-        path: "",
-        title: "언오피셜",
+      { path: "",
         element: <MainPage />,
       },
       {
         path: "user/advertisement/form",
-        title: "광고신청",
         element: <AddAdvPage />,
       },
       {
         // path: ':userId',
         path: "user",
         element: <MyPage />,
-        title: "마이페이지",
         children: [
           {
             path: "",
@@ -121,7 +115,6 @@ const router = createBrowserRouter([
       },
       {
         path: "boards",
-        title: "게시판",
         element: <BoardsAll />,
         children: [
           { path: ":boardId", element: <BoardsView /> },
