@@ -24,9 +24,11 @@ public class BestArticleServiceImpl implements BestArticleService{
         List<BestArticleResponseDto> result = list.stream().map(findBestArticle ->
                 new BestArticleResponseDto(findBestArticle.getArticle().getTitle(),
                         findBestArticle.getArticle().getLikes(),
+                        findBestArticle.getArticle().getViews(),
                         findBestArticle.getArticle().getUser().getGen(),
                         findBestArticle.getArticle().getUser().getLocal(),
-                        findBestArticle.getArticle().getBoard().getId()))
+                        findBestArticle.getArticle().getBoard().getId(),
+                        findBestArticle.getArticle().getBoard().getName()))
                 .toList();
         return result;
     }

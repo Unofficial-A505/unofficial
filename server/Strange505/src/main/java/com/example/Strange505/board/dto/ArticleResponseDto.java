@@ -19,6 +19,8 @@ public class ArticleResponseDto {
     private Integer views;
     private Integer gen;
     private String local;
+    private Boolean isLiked;
+    private Boolean isUser;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
 }

@@ -26,18 +26,9 @@ import { IoChatboxOutline } from "@react-icons/all-files/io5/IoChatboxOutline";
 // 조회수 아이콘
 import { AiOutlineEye } from "@react-icons/all-files/ai/AiOutlineEye";
 
-import { boardArticlesAll } from "../../api/boards";
-import {
-  postDetailApi,
-  postDeleteApi,
-  postRecommendInputApi,
-} from "../../api/posts";
-import {
-  postCommentsApi,
-  postCommentCreateApi,
-  postCommentUpdateApi,
-  postCommentDeleteApi,
-} from "../../api/comments";
+import { boardsArticles } from '../../api/boards'
+import { postDetailApi, postDeleteApi, postRecommendInputApi } from '../../api/posts'
+import { postCommentsApi, postCommentCreateApi, postCommentUpdateApi, postCommentDeleteApi } from '../../api/comments'
 
 import customAxios from "../../util/customAxios";
 import useDocumentTitle from "../../useDocumentTitle";
@@ -91,11 +82,14 @@ export default function PostDetail() {
     window.scrollTo({ top: 0, behavior: "smooth" });
     getComment();
 
-    return () => {
-      console.log("unmounted");
-    };
-  }, [postId]);
+    // 현재 board 게시글
+    boardsArticles(boardId)
+    .then((res) => setcurrboardPosts(res))
 
+    return () => {  
+      console.log('unmounted');}
+    }, [postId]);
+    
   // 게시글 삭제
   const postDelete = () => {
     postDeleteApi(postId)
@@ -154,14 +148,10 @@ export default function PostDetail() {
       .catch((err) => console.log(err));
   };
 
-  const username = "9기 서울";
-  const timeago = "21분 전";
-
-  const createTime = postDetail.createTime;
-  const updateTime = postDetail.modifyTime;
-  const createTime_modify = createTime?.slice(0, 10);
-  const updateTime_modify = updateTime?.slice(0, 10);
-  // console.log(createTime_modify, updateTime_modify)
+  const createTime = postDetail.createTime
+  const updateTime = postDetail.modifyTime
+  const createTime_modify = createTime?.slice(0, 10)
+  const updateTime_modify = updateTime?.slice(0, 10)
 
   return (
     <>
@@ -244,15 +234,7 @@ export default function PostDetail() {
 
             <div className={styles.commentnickName}>
               <div>닉네임</div>
-              <input
-                className={styles.commentnickNameInput}
-                type="text"
-                placeholder="닉네임을 입력하세요"
-                onChange={(e) => {
-                  setcommentnickName(e.target.value);
-                  console.log(commentnickName);
-                }}
-              />
+              <input className={styles.commentnickNameInput} type="text" placeholder="닉네임을 입력하세요" onChange={(e) => setcommentnickName(e.target.value)}/>
             </div>
             <div className={styles.commentbox}>
               <textarea
@@ -260,8 +242,7 @@ export default function PostDetail() {
                 type="text"
                 onChange={(e) => {
                   setcreateComment(e.target.value);
-                  console.log(createcomment);
-                }}
+                 }}
                 placeholder="댓글을 작성해보세요"
               />
               <button className={styles.commentButton} onClick={commentCreate}>
@@ -345,7 +326,7 @@ export default function PostDetail() {
               <IoIosArrowForward />
             </button>
           </div>
-          <BoardView posts={articleList} />
+          <BoardView posts={currboardPosts}/>
         </span>
 
         <span className={styles.sideviewContainer}>

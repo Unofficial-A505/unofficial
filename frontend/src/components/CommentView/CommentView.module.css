@@ -17,8 +17,19 @@
   line-height: normal;
 }
 
+.recommentGenLocalInfo {
+  margin: 0 7px 0 0;
+  /* border: 1px dotted red; */
+}
+
+.recommentnickName {
+  width: 150px;
+  /* border: 1px dotted red; */
+}
+
 .commentcreateTimeago {
   margin: 0 10px;
+  color: #3e3e3e;
 }
 
 /* 수정하기, 삭제하기 아이콘 */
@@ -41,7 +52,7 @@
 }
 
 .commentBottombar {
-  margin: 10px 20px;
+  margin: 10px 40px 0 15px;
 
   display: flex;
   justify-content: space-between;

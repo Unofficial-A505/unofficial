@@ -6,6 +6,7 @@ const postDetailApi = (postId) => customAxios({
   url: `/api/articles/${postId}`,
 }).then((res) => res.data)
 
+
 // 게시글 등록시 이미지 formData 전송
 const postImageApi = (formData) => customAxios({
   method: "post",
@@ -22,6 +23,11 @@ const postCreateApi = (title, content, boardName, nickName) => customAxios({
 })
 
 // 게시글 수정
+const postUpdateApi = (postId, id, title, content, boardName, nickName) => customAxios({
+    method: "put",
+    url: `/api/articles/${postId}`,
+    data: {id, title, content, boardName, nickName}
+  })
 
 // 게시글 삭제
 const postDeleteApi = (postId) => customAxios({
@@ -36,4 +42,4 @@ const postRecommendInputApi = (articleId) => customAxios({
   data: { articleId },
 })
 
-export { postDetailApi, postImageApi, postCreateApi, postDeleteApi, postRecommendInputApi }
+export { postDetailApi, postImageApi, postCreateApi, postUpdateApi, postDeleteApi, postRecommendInputApi }

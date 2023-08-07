@@ -29,9 +29,9 @@ export default function BoardsAll() {
   const navigate = useNavigate();
 
   const settings = {
-    dots: false,
+    // dots: false,
     infinite: true,
-    vertical: true, // 세로 방향으로 슬라이드
+    // vertical: true, // 세로 방향으로 슬라이드
     // verticalSwiping: true, // 세로 방향으로 슬라이드 스와이프
     speed: 500,
     slidesToShow: 1, // 한 번에 보여줄 아이템 개수
@@ -43,12 +43,10 @@ export default function BoardsAll() {
   useEffect(() => {
     // best 게시글 api
     bestPostsApi
-      .then((res) => {
-        console.log("best", res);
-        setbestPostlist(res);
-      })
-      .catch((err) => console.log(err));
-
+    .then((res) => {
+      setbestPostlist(res);
+    }).catch((err) => console.log(err));
+   
     // boards Title api
     boardNamesApi
       .then((res) => {
@@ -99,7 +97,7 @@ export default function BoardsAll() {
         <div className={styles.boardsallBestContainer}>
           <div className={styles.bestbannerTitle}>전체 best 게시글</div>
           <div className={styles.boardsallBestBox}>
-            <Slider {...settings}>
+            <Slider {...settings} className={styles.bestContentContainer}>
               {bestPostlist.map((data, index) => (
                 <div key={index} className={styles.bestContentContainer}>
                   <span className={styles.bestContent}>{data.boardName}</span>
@@ -133,9 +131,7 @@ export default function BoardsAll() {
           <div className={styles.postcreateContainer}>
             <button
               className={styles.createpageButton}
-              onClick={() =>
-                navigate(`/boards/${boardId}/create`, { state: currboardName })
-              }
+              onClick={() => navigate(`/boards/${boardId}/create`, { state : currboardName })}
             >
               <CgAddR className={styles.createpageIcon} size="20" />새 글 작성
             </button>

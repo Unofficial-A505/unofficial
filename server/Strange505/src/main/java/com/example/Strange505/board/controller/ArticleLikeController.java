@@ -21,10 +21,4 @@ public class ArticleLikeController {
         articleLikeService.like(dto, email);
         return new ResponseEntity(HttpStatus.OK);
     }
-
-//    @DeleteMapping
-//    public ResponseEntity<?> cancel(@RequestBody ArticleLikeRequestDto dto) {
-//        articleLikeService.cancel(dto);
-//        return new ResponseEntity(HttpStatus.OK);
-//    }
 }

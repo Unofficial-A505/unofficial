@@ -17,4 +17,5 @@ public interface CommentService {
     Page<MypageCommentResponseDto> getCommentByUser(String email, Pageable pageable);
     CommentResponseDto updateComment(Long id, CommentRequestDto requestDto, String email);
     void deleteComment(Long id, String email);
+    void addPoint(Long userId);
 }
