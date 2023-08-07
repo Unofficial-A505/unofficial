@@ -7,37 +7,21 @@ import { useSelector } from 'react-redux';
 import PostView from '../PostView/PostView'
 import customAxios from '../../util/customAxios';
 
-export default function BoardView(props){
+export default function BoardView({ posts, searchView, keyword }){
+  if (!posts) { posts = [] }
+
   const [ currentPage, setCurrentPage ] = useState(1);
   const pageSize = 10;
 
   const navigate = useNavigate();
 
-  // useEffect(() => {
-
-  //   customAxios({
-  //     method: "get",
-  //     url: `${process.env.REACT_APP_SERVER}/api/best`,
-  //     // headers: {
-  //     //   Authorization: `Token ${this.$store.state.token}`,
-  //     // }
-  //     })
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       setPosts(res.data.slice(0, 10));
-  //     })
-  //     .catch((err) => console.log(err))
-  //   return () => {  
-  //     console.log('unmounted')
-  //   }}, []);
-
   return(
     <div>
       {props.posts.map((post, index) => (
         <div key={index}>
-          <PostView post={post}/>
+          <PostView post={post} searchView={searchView} keyword={keyword}/>
         </div>
       ))}
     </div>
-  );
+  ) 
 }

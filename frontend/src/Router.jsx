@@ -15,7 +15,7 @@ import BoardSearchView from "./pages/BoardsAll/BoardSearchView/BoardSearchView";
 
 import PostDetail from "./pages/PostDetail/PostDetail";
 import PostUpdate from "./pages/PostUpdate/PostUpdate";
-// import CreatePostPage from './pages/CreatePostPage/CreatePostPage'
+import CreatePostPage from './pages/CreatePostPage/CreatePostPage'
 import SearchView from "./pages/SearchView/SearchView";
 
 import MypageUser from "./pages/MyPage/MypageUser/MypageUser";
@@ -33,12 +33,10 @@ import MyAdvertisement from "./pages/MyPage/MypageAdver/MyAdvertisement/MyAdvert
 import Management from "./pages/MyPage/Management/Management";
 import AddAdvPage from "./pages/MyPage/MypageAdver/AddAdvPage";
 
-import CreatePostPage from "./pages/CreatePostPage/QuillContainer";
-// import CreatePostPage from './pages/CreatePostPage/CreatePost'
-
 import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
 import WebRTC from "./pages/WebRtcPage/WebRtcPage";
+import SuggestionM from "./pages/MyPage/SuggestionM/SuggestionM";
 
 const router = createBrowserRouter([
   {
@@ -112,17 +110,18 @@ const router = createBrowserRouter([
           { path: "activity", element: <MypageActivity /> },
           { path: "advertisement", element: <MypageAdver /> },
           { path: "management", element: <Management /> },
+          { path: "suggestion", element: <SuggestionM /> },
         ],
       },
       {
         path: "boards",
         element: <BoardsAll />,
         children: [
-          { path: ":boardTitle", element: <BoardsView /> },
-          { path: ":boardTitle/search/:keyword", element: <BoardSearchView /> },
+          { path: ":boardId", element: <BoardsView /> },
+          { path: ":boardId/search/:keyword", element: <BoardSearchView /> },
         ],
       },
-      { path: "boards/:boardTitle/:postId", element: <PostDetail /> },
+      { path: "boards/:boardId/:postId", element: <PostDetail /> },
       { path: "boards/search/:keyword", element: <SearchView /> },
       {
         path: "forgot-password",
@@ -131,8 +130,8 @@ const router = createBrowserRouter([
     ],
   },
   { path: "/user/advertisement/form", element: <AddAdvPage /> },
-  { path: "boards/:boardTitle/create", element: <CreatePostPage /> },
-  { path: "boards/:boardTitle/:postId/update", element: <PostUpdate /> },
+  { path: "boards/:boardId/create", element: <CreatePostPage /> },
+  { path: "boards/:boardId/:postId/update", element: <PostUpdate /> },
 ]);
 
 export default router;
