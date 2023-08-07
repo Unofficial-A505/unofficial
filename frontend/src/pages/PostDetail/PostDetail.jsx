@@ -63,7 +63,10 @@ export default function PostDetail() {
   const getComment = () => {
     customAxios({
       method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/comments/article/${postId}`,
+      url: `/api/comments/article/${postId}`,
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
     })
       .then((res) => {
         setComments(res.data.content);
@@ -73,24 +76,17 @@ export default function PostDetail() {
   };
 
   useEffect(() => {
-    customAxios({
-      method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/articles/${postId}`,
-    })
-      .then((res) => {
-        console.log("detail", res.data);
-        setpostDetail(res.data);
-        setBoardTitle(res.data.boardName);
-        setDocumentTitle(res.data.boardName);
-      })
-      .catch((err) => console.log(err));
 
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     // 게시글 상세정보 가져오기
     postDetailApi(postId)
-      .then((res) => setpostDetail(res))
-      .catch((err) => console.log(err));
+    .then((res) =>{ 
+      setpostDetail(res)
+      setBoardTitle(res.boardName)
+      setDocumentTitle(res.boardName)
+    })
+    .catch((err) => console.log(err));
 
     window.scrollTo({ top: 0, behavior: "smooth" });
     getComment();
@@ -119,7 +115,7 @@ export default function PostDetail() {
 
   // 댓글 생성
   const commentCreate = () => {
-    let text = document.querySelector(".textarea").value;
+    let text = document.querySelector("textarea").value;
     text = text.replaceAll(/(\n|\r\n)/g, "<br>");
 
     if (!commentnickName) {
@@ -340,6 +336,7 @@ export default function PostDetail() {
             </button>
             <button
               className={styles.grayoutbutton}
+              onClick={() => navigate(`/boards/${postDetail.boardId}`, { state : postDetail.boardId })}
               onClick={() =>
                 navigate(`/boards/${boardTitle}`, { state: postDetail.boardId })
               }
