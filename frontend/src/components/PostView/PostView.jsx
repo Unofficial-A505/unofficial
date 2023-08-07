@@ -31,7 +31,7 @@ export default function PostView({ post, boardTitle }) {
           </div>
         </div>
         <div className={styles.postContainer}>
-          <div className={styles.postContent}>{createTime_modify} (수정 : {updateTime_modify})</div>
+          <div className={styles.postContent}>{createTime_modify} </div>
           <div className={styles.postContent} id={styles.postrecommendBox}><FaRegThumbsUp className={styles.postIcon}/>{post.likes}</div>
           {/* <div className={styles.postContent}>사용자</div> */}
           <div className={styles.postContent} id={styles.postviewBox}>조회수 {post.views}</div>

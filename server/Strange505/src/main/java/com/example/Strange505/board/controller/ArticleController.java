@@ -127,16 +127,23 @@ public class ArticleController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<Page<ArticleResponseDto>> getArticlesByUser(Pageable pageable) {
+    public ResponseEntity<PageResponseDto<ArticleResponseDto>> getArticlesByUser(Pageable pageable) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Page<Article> articles = articleService.getArticlesByUser(email, pageable);
-        Page<ArticleResponseDto> result = articles.map(findArticle ->
+        Page<ArticleResponseDto> articleResponseDtoList = articles.map(findArticle ->
                 new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
                         findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
                         findArticle.getLikes(), findArticle.getViews(),
                         findArticle.getCreateTime(), findArticle.getModifyTime()));
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("page", pageable.getPageNumber());
+        pageInfo.put("size", pageable.getPageSize());
+        pageInfo.put("totalElements", articleResponseDtoList.getTotalElements());
+        pageInfo.put("totalPages", articleResponseDtoList.getTotalPages());
+        List<ArticleResponseDto> contents = articleResponseDtoList.getContent();
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+
+        return new ResponseEntity<>(new PageResponseDto<>(pageInfo, contents), HttpStatus.OK);
     }
 
     @GetMapping("/board/{boardId}")

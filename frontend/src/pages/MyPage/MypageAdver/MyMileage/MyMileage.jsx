@@ -17,13 +17,6 @@ export default function MyMileage() {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    customAxios.get("/api/point/history?size=" + contentPerPage).then((res) => {
-      setRows(res.data.content);
-      setPageInfo(res.data.pageInfo);
-    });
-  }, []);
-
-  useEffect(() => {
     customAxios
       .get("/api/point/history?size=" + contentPerPage + "&page=" + (page - 1))
       .then((res) => {
