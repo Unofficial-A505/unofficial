@@ -21,7 +21,7 @@ export default function BestpostsWidget(){
       // }
       })
       .then((res) => {
-        console.log(res.data);
+        console.log('best', res.data);
         setPosts(res.data.slice(0, 10));
       })
       .catch((err) => console.log(err))
@@ -35,8 +35,8 @@ export default function BestpostsWidget(){
       <div className={styles.bestpostsContainer}>
         {posts.map((post, index) => 
           <div key={index} className={styles.bestpostContents}>
-            <span className={styles.bestboardTitles} onClick={() => {navigate(`/boards/자우게시판`)}}>자유</span>
-            <span className={styles.bestcontentTitles} onClick={() => navigate(`/boards/자유게시판/${post.id}`)}>{post.title}</span>
+            <span className={styles.bestboardTitles} onClick={() => {navigate(`/boards/boardId`)}}>boardName</span>
+            <span title={post.title} className={styles.bestcontentTitles} onClick={() => navigate(`/boards/자유게시판/${post.id}`)}>{post.title}</span>
           </div>
         )}
       </div>  

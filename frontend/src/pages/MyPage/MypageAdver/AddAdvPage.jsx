@@ -3,8 +3,18 @@ import axios from "axios";
 import styles from "./AddAdvPage.module.css";
 import customAxios from "../../../util/customAxios";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function AddAdvPage() {
+  const authUser = useSelector((state) => state.authUser);
+  const accessToken = authUser.accessToken;
+
+  useEffect(() => {
+    if (!accessToken) {
+      navigate("/");
+    }
+  }, []);
+
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [redirectUrl, setRedirectUrl] = useState("");
@@ -183,7 +193,7 @@ export default function AddAdvPage() {
 
           <div className={styles.AdvSelect}>
             <label for="formFile" class="form-label">
-              광고 파일 선택(JPG,GIF,PNG,JPEG)
+              광고 파일 선택
             </label>
             <input
               className="form-control form-control-sm"
@@ -195,6 +205,7 @@ export default function AddAdvPage() {
           </div>
           <div className={styles.image_preview_container}>
             {preview && <img src={preview} alt="Preview" />}
+            <p>제한 크기 : 5MB, 920 X 120px ( .jpg / .gif / .png / .jpeg )</p>
           </div>
 
           <div className="row g-3 align-items-center mb-1">

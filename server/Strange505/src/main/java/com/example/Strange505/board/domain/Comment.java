@@ -2,10 +2,7 @@ package com.example.Strange505.board.domain;
 
 import com.example.Strange505.user.domain.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,6 +31,9 @@ public class Comment {
 
     @Column(length = 1000, nullable = false)
     private String content;
+
+    @Column(length = 20, nullable = false)
+    private String nickName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")

@@ -36,6 +36,8 @@ public class QComment extends EntityPathBase<Comment> {
 
     public final DateTimePath<java.time.LocalDateTime> modifyTime = createDateTime("modifyTime", java.time.LocalDateTime.class);
 
+    public final StringPath nickName = createString("nickName");
+
     public final QComment parent;
 
     public final com.example.Strange505.user.domain.QUser user;

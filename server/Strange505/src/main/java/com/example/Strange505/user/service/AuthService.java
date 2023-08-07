@@ -44,6 +44,10 @@ public class AuthService {
             throw new NotActivatedException("이메일 인증이 이루어 지지 않았습니다.");
         }
 
+        if (userService.getUserByEmail(loginDto.getEmail()).is_withdraw()) {
+            throw new NotActivatedException("탈퇴한 회원입니다.");
+        }
+
         return generateToken(SERVER, authentication.getName(), getAuthorities(authentication));
     }
 
