@@ -70,11 +70,18 @@
   /* border: 1px dotted red; */
 }
 
+.bestContentContainer {
+  /* border: 1px dotted red; */
+  /* 박스 길이 넘어가는 글자들 ... 처리*/
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .bestContent {
   margin: 0 12px 0 0;
 
   color: #757575;
-  font-family: Inter;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -83,7 +90,7 @@
 
 /* 광고 container */
 .advContainer {
-  margin: auto;
+  margin: 30px auto;
 
   width: 920px;
   height: 120px;
@@ -93,7 +100,7 @@
 .searchboxhere {
   position: relative;
   display: flex;
-  width: 750px;
+  width: 620px;
 
   margin: 15px auto;
 
@@ -226,9 +233,19 @@
 
 .pagination {
   margin: 0 auto;
+  margin-top: 20px;
   width: 80px;
+  height: 50px;
 
-  border: 1px dotted red;
+  /* border: 1px dotted red; */
 }
 
+/* 게시판 내 검색 + 페이지네이션 */
+.boardBottomBar {
+  display: flex;
+  justify-content: space-between;
+
+  width: 1176px;
+  /* border: 1px dotted gray; */
+}
 

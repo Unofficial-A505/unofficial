@@ -1,19 +1,14 @@
 import styles from "./BoardsView.module.css";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { boardArticlesAll } from "../../../api/boards"
 import PostsView from "../../../components/PostView/PostView";
-import customAxios from "../../../util/customAxios";
 
 export default function BoardsView() {
-  const { state: id } = useLocation();
-  const [ posts, setPosts ] = useState([]);
-  let { boardTitle } = useParams();
-  if (!boardTitle) {
-    boardTitle = "자유게시판";
-  }
+  const [ posts, setPosts ] = useState(null);
+  let { boardId } = useParams();
   const navigate = useNavigate();
-  console.log('id', id)
+  console.log('boardId', boardId)
 
   useEffect(() => {
     customAxios({
@@ -30,7 +25,7 @@ export default function BoardsView() {
     return () => {
       console.log("unmounted");
     };
-  }, [id]);
+  }, [boardId]);
 
   if (posts) {
     return (
@@ -46,10 +41,3 @@ export default function BoardsView() {
     return <div>결과가 없습니다.</div>;
   }
 }
-//   return(
-//     <div>
-//       BoardsView
-//       {boardTitle}
-//     </div>
-//   );
-// }
