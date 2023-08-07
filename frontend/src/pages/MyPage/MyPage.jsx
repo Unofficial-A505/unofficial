@@ -105,7 +105,7 @@ export default function MyPage() {
                     광고 및 마일리지 관리
                   </Link>
                 </div>
-                {role === 'USER' && (
+                {role === 'ADMIN' && (
                   <div className={styles.navnameContainer}>
                     <RiAdvertisementLine
                       className={styles.mypagenavIcon}
