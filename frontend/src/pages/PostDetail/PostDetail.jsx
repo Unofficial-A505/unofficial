@@ -33,11 +33,13 @@ import { postCommentsApi, postCommentCreateApi, postCommentUpdateApi, postCommen
 // API import
 export default function PostDetail() {
   const navigate = useNavigate();
-  const { boardId } = useParams();
+  const { boardTitleFromUrl } = useParams();
+  const [ boardTitle, setBoardTitle ] = useState('')
   const { postId } = useParams();
   const [ postDetail, setpostDetail ] = useState({})
   const [ createcomment, setcreateComment] = useState("");
   const [ comments, setComments ] = useState([])
+  const [ commentsInfo, setCommentsInfo ] = useState({})
   const [ commentnickName, setcommentnickName] = useState("")
   const [ articleList, setarticleList ] = useState([]);
   const [ recommendedState, setrecommendedState ] = useState(false)
@@ -45,18 +47,38 @@ export default function PostDetail() {
 
   // 댓글 가져오기
   const getComment = () => {
-    postCommentsApi(postId)
-    .then((res) => {
-      setComments(res);
-      console.log('getComments', res)})
-    .catch((err) => console.log(err));
+    customAxios({
+      method: "get",
+      url: `${process.env.REACT_APP_SERVER}/api/comments/article/${postId}`,
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
+    })
+      .then((res) => {
+        setComments(res.data.content);
+        setCommentsInfo(res.data)
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    // 동일 게시판 글 더보기 -> 게시글 가져오기
-    boardArticlesAll
-    .then((res) => setarticleList(res))
-    .catch((err) => console.log(err));
+    customAxios({
+      method: "get",
+      url: `${process.env.REACT_APP_SERVER}/api/articles/${postId}`,
+      // headers: {
+      //   Authorization: `Token ${this.$store.state.token}`,
+      // }
+    })
+      .then((res) => {
+        console.log('detail', res.data);
+        setpostDetail(res.data)
+        // setTitle(res.data.title);
+        // setContent(res.data.content);
+        setBoardTitle(res.data.boardName)
+      })
+      .catch((err) => console.log(err));
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
 
     // 게시글 상세정보 가져오기
     postDetailApi(postId)
@@ -124,8 +146,7 @@ export default function PostDetail() {
   };
 
   const username = "9기 서울";
-  const recommended = 37;
-  const commentsNum = 3;
+  const timeago = "21분 전";
 
   const createTime = postDetail.createTime
   const updateTime = postDetail.modifyTime
@@ -142,7 +163,7 @@ export default function PostDetail() {
             <span className={styles.boardTitle}>{postDetail.boardName}</span>
             <button
               className={styles.grayoutbutton}
-              onClick={() => navigate(`/boards/${boardId}`)}
+              onClick={() => navigate(`/boards/${boardTitle}`, { state : postDetail.boardId })}
             >
               <IoIosArrowBack />
               목록으로 돌아가기
@@ -151,7 +172,7 @@ export default function PostDetail() {
           <div className={styles.postContainer}>
             <div>
               <div className={styles.postTitle}>{postDetail.title}</div>
-              <div className={styles.postusername}>{username}</div>
+              <div className={styles.postusername}>{postDetail.nickName === null || postDetail.nickName===""? "익명" : postDetail.nickName}</div>
               <div className={styles.dateViews}>
                 <div className={styles.posttimeago}>
                   <IoRocketOutline className={styles.tabIcon} size="20" />
@@ -160,7 +181,7 @@ export default function PostDetail() {
                 </div>
                 <div className={styles.posttimeago}>
                   <AiOutlineEye className={styles.tabIcon} size="19" />
-                  {postDetail.views}10
+                  {postDetail.views}
                 </div>
               </div>
             </div>
@@ -173,7 +194,7 @@ export default function PostDetail() {
             <div className={styles.postBottombar}>
               <div onClick={postRecommendedInput}>
                 <FaRegThumbsUp class={styles.tabIcon} size="18" />
-                {recommended}
+                {postDetail.likes}
               </div>
               <div className={styles.postupdateBottom}>
                 <div onClick={() => navigate(`/boards/${boardId}/${postId}/update`, { state : postDetail })} className={styles.postupdateBottomtab}>
@@ -192,7 +213,7 @@ export default function PostDetail() {
           </div>
           <div className={styles.commentInputContainer}>
             <div className={styles.commentTitle}>
-              <p>댓글 {commentsNum}</p>
+              <p>댓글 {commentsInfo.pageInfo?.totalElements}</p>
             </div>
 
             <div className={styles.commentnickName}>
@@ -265,14 +286,14 @@ export default function PostDetail() {
           <div className={styles.moreTopbar}>
             <button
               className={styles.buttonlayoutDel}
-              onClick={() => navigate(`/boards/${boardId}`)}
+              onClick={() => navigate(`/boards/${boardTitle}`, { state : postDetail.boardId })}
             >
               <span className={styles.boardmoreTitleA}>{postDetail.boardName}</span>
               <span className={styles.boardmoreTitleB}>글 더 보기</span>
             </button>
             <button
               className={styles.grayoutbutton}
-              onClick={() => navigate(`/boards/${boardId}`)}
+              onClick={() => navigate(`/boards/${boardTitle}`, { state : postDetail.boardId })}
             >
               목록 보기
               <IoIosArrowForward />

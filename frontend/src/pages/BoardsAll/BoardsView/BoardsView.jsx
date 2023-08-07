@@ -11,11 +11,17 @@ export default function BoardsView() {
   console.log('boardId', boardId)
 
   useEffect(() => {
-    boardArticlesAll
-    .then((res) => {
-      setPosts(res);
-    }).catch((err) => console.log(err));
-
+    customAxios({
+      method: "get",
+      url: `/api/articles/board/${id}`,
+      // headers: {
+      // }
+    })
+      .then((res) => {
+        console.log(res.data);
+        setPosts(res.data.content); 
+      })
+      .catch((err) => console.log(err));
     return () => {
       console.log("unmounted");
     };
@@ -24,9 +30,11 @@ export default function BoardsView() {
   if (posts) {
     return (
       <div>
-        {posts.map((post, index) => (
-          <PostsView key={index} boardId={boardId} post={post} />
-        ))}
+        {
+          posts.map((post, index) => (
+            <PostsView key={index} boardTitle={boardTitle} post={post} />
+          ))
+        }
       </div>
     );
   } else {
