@@ -14,7 +14,7 @@ import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 // 수정 아이콘
 import { HiOutlinePencilAlt } from '@react-icons/all-files/hi/HiOutlinePencilAlt';
 
-import recommentView from '../recommentView/recommentView';
+import RecommentView from '../RecommentView/RecommentView';
 
 export default function CommentView({ comment, CommentDelete, commentUpdate, postId}){
   const commentRecommended = 0

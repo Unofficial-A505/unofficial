@@ -68,15 +68,9 @@ export default function PostDetail() {
     customAxios({
       method: "get",
       url: `${process.env.REACT_APP_SERVER}/api/articles/${postId}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
     })
       .then((res) => {
-        console.log('detail', res.data);
         setpostDetail(res.data)
-        // setTitle(res.data.title);
-        // setContent(res.data.content);
         setBoardTitle(res.data.boardName)
       })
       .catch((err) => console.log(err));
@@ -155,7 +149,6 @@ export default function PostDetail() {
   const updateTime = postDetail.modifyTime
   const createTime_modify = createTime?.slice(0, 10)
   const updateTime_modify = updateTime?.slice(0, 10)
-  // console.log(createTime_modify, updateTime_modify)
 
   return (
     <>
@@ -221,7 +214,7 @@ export default function PostDetail() {
 
             <div className={styles.commentnickName}>
               <div>닉네임</div>
-              <input className={styles.commentnickNameInput} type="text" placeholder="닉네임을 입력하세요" onChange={(e) => {setcommentnickName(e.target.value); console.log(commentnickName);}}/>
+              <input className={styles.commentnickNameInput} type="text" placeholder="닉네임을 입력하세요" onChange={(e) => setcommentnickName(e.target.value)}/>
             </div>
             <div className={styles.commentbox}>
               <textarea
@@ -229,7 +222,6 @@ export default function PostDetail() {
                 type="text"
                 onChange={(e) => {
                   setcreateComment(e.target.value);
-                  console.log(createcomment)
                  }}
                 placeholder="댓글을 작성해보세요"
               />

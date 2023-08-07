@@ -27,9 +27,9 @@ export default function BoardsAll() {
   const navigate = useNavigate();
 
   const settings = {
-    dots: false,
+    // dots: false,
     infinite: true,
-    vertical: true, // 세로 방향으로 슬라이드
+    // vertical: true, // 세로 방향으로 슬라이드
     // verticalSwiping: true, // 세로 방향으로 슬라이드 스와이프
     speed: 500,
     slidesToShow: 1, // 한 번에 보여줄 아이템 개수
@@ -42,7 +42,6 @@ export default function BoardsAll() {
     // best 게시글 api
     bestPostsApi
     .then((res) => {
-      console.log('best', res)
       setbestPostlist(res);
     }).catch((err) => console.log(err));
    
@@ -94,9 +93,9 @@ export default function BoardsAll() {
         <div className={styles.boardsallBestContainer}>
           <div className={styles.bestbannerTitle}>전체 best 게시글</div>
           <div className={styles.boardsallBestBox}>
-            <Slider {...settings}>
+            <Slider {...settings} className={styles.bestContentContainer}>
               {bestPostlist.map((data, index) => (
-                <div key={index} className={styles.bestContentContainer}><span className={styles.bestContent}>{data.boardName}</span><span>{data.title}</span></div>
+                <div key={index} className={styles.bestContentBox}><span className={styles.bestContent}>{data.boardName}</span><span>{data.title}</span></div>
                 ))}
             </Slider>
           </div>
