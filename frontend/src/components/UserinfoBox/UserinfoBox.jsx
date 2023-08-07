@@ -18,11 +18,11 @@ export default function UserinfoBox() {
 
   const [userInfo, setUserInfo] = useState({});
   const [isAuth, setIsAuth] = useState(true);
-  const authUser = useSelector((state) => state.authUser);
-  console.log(userInfo)
-  useEffect(() => {
-    setIsAuth(authUser.accessToken);
-  }, [authUser]);
+  // const authUser = useSelector((state) => state.authUser);
+  // console.log(userInfo)
+  // useEffect(() => {
+  //   setIsAuth(authUser.accessToken);
+  // }, [authUser]);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -96,24 +96,24 @@ export default function UserinfoBox() {
           </button>
         </div>
         <div className={styles.usermidContainer}>
-          <span
-            className={styles.secondmypage}
-            onClick={() => navigate("/user/password")}
-          >
-            SSAFY
-          </span>
-          <span className={styles.secondhelloMessage}>
-            님의 이야기를 들려주세요
-          </span>
-          <p className={styles.adverMessage}>
-            진행중인{" "}
+          <div>
             <span
-              className={styles.adverButton}
-              onClick={() => navigate("/user/advertisement/myadv")}
+              className={styles.secondmypage}
+              onClick={() => navigate("/user/password")}
             >
-              광고
+              SSAFY{" "}
+              {userInfo.length ? `${userInfo.local} ${userInfo.gen}기` : null}
             </span>
-            가 없습니다.
+            <span className={styles.secondhelloMessage}>
+              님의 이야기를 들려주세요
+            </span>
+          </div>
+          <p
+            className={styles.adverButton}
+            style={{ color: "#034BB9" }}
+            onClick={() => navigate("/user/advertisement/myadv")}
+          >
+            광고 신청하기
           </p>
         </div>
 
@@ -123,7 +123,9 @@ export default function UserinfoBox() {
             onClick={() => navigate("/user/advertisement/mymile")}
           >
             <RiDatabase2Line className={styles.mymileIcon} />
-            <p className={styles.mileageTotal}>마일리지</p>
+            <p className={styles.mileageTotal}>
+              {userInfo.length ? `${userInfo.point}` : "내 포인트"}
+            </p>
           </p>
           <div className={styles.mypostsAndcomments}>
             <p
