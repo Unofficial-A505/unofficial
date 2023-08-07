@@ -32,13 +32,15 @@ import { AiOutlineEye } from "@react-icons/all-files/ai/AiOutlineEye";
 // API import
 export default function PostDetail() {
   const navigate = useNavigate();
-  const { boardTitle } = useParams();
+  const { boardTitleFromUrl } = useParams();
+  const [ boardTitle, setBoardTitle ] = useState('')
   const { postId } = useParams();
   const [ postDetail, setpostDetail ] = useState({})
   // const [ title, setTitle] = useState("");
   // const [ content, setContent] = useState("");
   const [ createcomment, setcreateComment] = useState("");
   const [ comments, setComments ] = useState([])
+  const [ commentsInfo, setCommentsInfo ] = useState({})
   const [ commentnickName, setcommentnickName] = useState("")
   const [ recommendedState, setrecommendedState ] = useState(false)
   console.log('지금 코멘트', comments)
@@ -60,8 +62,8 @@ export default function PostDetail() {
       // }
     })
       .then((res) => {
-        console.log("comments", res.data);
         setComments(res.data.content);
+        setCommentsInfo(res.data)
       })
       .catch((err) => console.log(err));
   };
@@ -79,7 +81,7 @@ export default function PostDetail() {
         setpostDetail(res.data)
         // setTitle(res.data.title);
         // setContent(res.data.content);
-        console.log(postDetail)
+        setBoardTitle(res.data.boardName)
       })
       .catch((err) => console.log(err));
 
@@ -221,8 +223,6 @@ const commentCreate = () => {
 
   const username = "9기 서울";
   const timeago = "21분 전";
-  const recommended = 37;
-  const commentsNum = 3;
 
   return (
     <>
@@ -233,7 +233,7 @@ const commentCreate = () => {
             <span className={styles.boardTitle}>{boardTitle}</span>
             <button
               className={styles.grayoutbutton}
-              onClick={() => navigate(`/boards/${boardTitle}`)}
+              onClick={() => navigate(`/boards/${boardTitle}`, { state : postDetail.boardId })}
             >
               <IoIosArrowBack />
               목록으로 돌아가기
@@ -242,7 +242,7 @@ const commentCreate = () => {
           <div className={styles.postContainer}>
             <div>
               <div className={styles.postTitle}>{postDetail.title}</div>
-              <div className={styles.postusername}>{username}</div>
+              <div className={styles.postusername}>{postDetail.nickName === null || postDetail.nickName===""? "익명" : postDetail.nickName}</div>
               <div className={styles.dateViews}>
                 <div className={styles.posttimeago}>
                   <IoRocketOutline className={styles.tabIcon} size="20" />
@@ -251,7 +251,7 @@ const commentCreate = () => {
                 </div>
                 <div className={styles.posttimeago}>
                   <AiOutlineEye className={styles.tabIcon} size="19" />
-                  {postDetail.views}10
+                  {postDetail.views}
                 </div>
               </div>
             </div>
@@ -264,7 +264,7 @@ const commentCreate = () => {
             <div className={styles.postBottombar}>
               <div onClick={postRecommendedInput}>
                 <FaRegThumbsUp class={styles.tabIcon} size="18" />
-                {recommended}
+                {postDetail.likes}
               </div>
               <div className={styles.postupdateBottom}>
                 <div onClick={() => navigate(`/boards/${boardTitle}/${postId}/update`, { state : postDetail })} className={styles.postupdateBottomtab}>
@@ -283,7 +283,7 @@ const commentCreate = () => {
           </div>
           <div className={styles.commentInputContainer}>
             <div className={styles.commentTitle}>
-              <p>댓글 {commentsNum}</p>
+              <p>댓글 {commentsInfo.pageInfo?.totalElements}</p>
             </div>
 
             <div className={styles.commentnickName}>
@@ -357,14 +357,14 @@ const commentCreate = () => {
           <div className={styles.moreTopbar}>
             <button
               className={styles.buttonlayoutDel}
-              onClick={() => navigate(`/boards/${boardTitle}`)}
+              onClick={() => navigate(`/boards/${boardTitle}`, { state : postDetail.boardId })}
             >
               <span className={styles.boardmoreTitleA}>{boardTitle}</span>
               <span className={styles.boardmoreTitleB}>글 더 보기</span>
             </button>
             <button
               className={styles.grayoutbutton}
-              onClick={() => navigate(`/boards/${boardTitle}`)}
+              onClick={() => navigate(`/boards/${boardTitle}`, { state : postDetail.boardId })}
             >
               목록 보기
               <IoIosArrowForward />

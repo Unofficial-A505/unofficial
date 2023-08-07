@@ -18,7 +18,7 @@ export default function BoardsView() {
   useEffect(() => {
     customAxios({
       method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/articles`,
+      url: `/api/articles/board/${id}`,
       // headers: {
       // }
     })
@@ -35,9 +35,11 @@ export default function BoardsView() {
   if (posts) {
     return (
       <div>
-        {posts.map((post, index) => (
-          <PostsView key={index} boardTitle={boardTitle} post={post} />
-        ))}
+        {
+          posts.map((post, index) => (
+            <PostsView key={index} boardTitle={boardTitle} post={post} />
+          ))
+        }
       </div>
     );
   } else {
