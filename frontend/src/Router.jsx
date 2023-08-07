@@ -39,6 +39,7 @@ import CreatePostPage from "./pages/CreatePostPage/QuillContainer";
 import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
 import WebRTC from "./pages/WebRtcPage/WebRtcPage";
+import SuggestionM from "./pages/MyPage/SuggestionM/SuggestionM";
 
 const router = createBrowserRouter([
   {
@@ -112,6 +113,7 @@ const router = createBrowserRouter([
           { path: "activity", element: <MypageActivity /> },
           { path: "advertisement", element: <MypageAdver /> },
           { path: "management", element: <Management /> },
+          { path: "suggestion", element: <SuggestionM /> },
         ],
       },
       {

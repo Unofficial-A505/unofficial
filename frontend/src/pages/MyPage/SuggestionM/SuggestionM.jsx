@@ -21,12 +21,18 @@ const SuggestionM = () => {
     }, []);
   
     const handleSuggestionClick = async (id) => {
-      try {
+      // 이미 선택된 suggestion을 다시 클릭한 경우
+    if (selectedSuggestion && selectedSuggestion.id === id) {
+        setSelectedSuggestion(null); // content 숨기기
+        return;
+    }
+
+    try {
         const response = await customAxios.get(`/api/suggestions/${id}`);
         setSelectedSuggestion(response.data);
-      } catch (error) {
+    } catch (error) {
         console.error("Error fetching suggestion details:", error);
-      }
+    }
     };
   
     return (

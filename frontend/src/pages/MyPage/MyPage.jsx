@@ -118,7 +118,9 @@ export default function MyPage() {
                     >
                       광고 승인 및 취소(관리자)
                     </Link>
-                  </div>,
+                  </div>
+                )}
+                {role === 'ADMIN' && (
                   <div className={styles.navnameContainer}>
                   <FiActivity
                     className={styles.mypagenavIcon}
