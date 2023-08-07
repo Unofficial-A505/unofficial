@@ -1,40 +1,22 @@
 .suggestion-container {
+    display: flex;
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    box-sizing: border-box;
 }
 
 .suggestion-list {
     flex: 1;
     overflow-y: auto;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 20px;
-}
-
-.suggestion-list > div {
-    padding: 10px;
-    cursor: pointer;
-    border-bottom: 1px solid #e0e0e0;
-    transition: background-color 0.3s;
-}
-
-.suggestion-list > div:hover {
-    background-color: #f0f0f0;
-}
-
-.suggestion-list > div:last-child {
-    border-bottom: none;
+    border-right: 1px solid #e0e0e0;
+    max-height: 500px;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .suggestion-details {
     flex: 2;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
+    padding: 20px;
+    box-sizing: border-box;
     overflow-y: auto;
+    max-height: 500px;
 }

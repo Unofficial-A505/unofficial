@@ -74,78 +74,71 @@ export default function MyPage() {
             <div className={styles.navTitleContainer}>
               <h4>마이페이지</h4>
             </div>
-            <div className={styles.navtopContainer}>
-              <div>
-                <div className={styles.navnameContainer}>
-                  <FiHome
-                    className={styles.mypagenavIcon}
-                    style={activeTab === "정보" ? { color: "#034BB9 " } : null}
-                  />
-                  <Link
-                    to="/user/password"
-                    className={styles.mypagenavtab}
-                    style={activeTab === "정보" ? { color: "#034BB9 " } : null}
-                  >
-                    내 정보 수정
-                  </Link>
-                </div>
-                <div className={styles.navnameContainer}>
-                  <FiActivity
-                    className={styles.mypagenavIcon}
-                    style={activeTab === "활동" ? { color: "#034BB9" } : null}
-                  />
-                  <Link
-                    to="activity/myposts"
-                    className={styles.mypagenavtab}
-                    style={activeTab === "활동" ? { color: "#034BB9" } : null}
-                  >
-                    내 활동 모아보기
-                  </Link>
-                </div>
-                <div className={styles.navnameContainer}>
-                  <RiAdvertisementLine
-                    className={styles.mypagenavIcon}
-                    style={activeTab === "광고" ? { color: "#034BB9" } : null}
-                  />
-                  <Link
-                    to="advertisement/mymile"
-                    className={styles.mypagenavtab}
-                    style={activeTab === "광고" ? { color: "#034BB9" } : null}
-                  >
-                    광고 및 마일리지 관리
-                  </Link>
-                </div>
-                {role === 'ADMIN' && (
-                  <div className={styles.navnameContainer}>
-                    <RiAdvertisementLine
-                      className={styles.mypagenavIcon}
-                      style={activeTab === "관리자" ? { color: "#034BB9" } : null}
-                    />
-                    <Link
-                      to="management"
-                      className={styles.mypagenavtab}
-                      style={activeTab === "관리자" ? { color: "#034BB9" } : null}
-                    >
-                      광고 승인 및 취소(관리자)
-                    </Link>
-                  </div>
-                )}
-                {role === 'ADMIN' && (
-                  <div className={styles.navnameContainer}>
-                  <FiActivity
-                    className={styles.mypagenavIcon}
-                    style={activeTab === "건의함" ? { color: "#034BB9" } : null}
-                  />
-                  <Link
-                    to="suggestion"
-                    className={styles.mypagenavtab}
-                    style={activeTab === "건의함" ? { color: "#034BB9" } : null}
-                  >
-                    건의함(관리자)
-                  </Link>
-                </div>
-                )}
+            <div>
+              <div
+                className={styles.navTab}
+                onClick={() => navigate("password")}
+                style={
+                  activeTab === "정보"
+                    ? { color: "#034BB9" }
+                    : { color: "#666a71" }
+                }
+              >
+                <FiHome className="me-2" size={20} />
+                <p>내 정보 수정</p>
               </div>
+              <div
+                className={styles.navTab}
+                onClick={() => navigate("activity/myposts")}
+                style={
+                  activeTab === "활동"
+                    ? { color: "#034BB9" }
+                    : { color: "#666a71" }
+                }
+              >
+                <FiActivity className="me-2" size={20} />
+                <p>내 활동 모아보기</p>
+              </div>
+              <div
+                className={styles.navTab}
+                onClick={() => navigate("advertisement/mymile")}
+                style={
+                  activeTab === "광고"
+                    ? { color: "#034BB9" }
+                    : { color: "#666a71" }
+                }
+              >
+                <RiAdvertisementLine className="me-2" size={20} />
+                <p>광고 및 마일리지 관리</p>
+              </div>
+              {role === "ADMIN" && (
+                <div
+                  className={styles.navTab}
+                  onClick={() => navigate("management")}
+                  style={
+                    activeTab === "관리자"
+                      ? { color: "#034BB9" }
+                      : { color: "#666a71" }
+                  }
+                >
+                  <RiAdvertisementLine className="me-2" size={20} />
+                  <p>광고 승인 및 취소(관리자)</p>
+                </div>
+              )}
+              {role === 'ADMIN' && (
+                  <div
+                  className={styles.navTab}
+                  onClick={() => navigate("suggestion")}
+                  style={
+                    activeTab === "건의함"
+                      ? { color: "#034BB9" }
+                      : { color: "#666a71" }
+                  }
+                >
+                  <RiAdvertisementLine className="me-2" size={20} />
+                  <p>건의함(관리자)</p>
+                </div>
+                )}
             </div>
           </nav>
           <div className={styles.logoutTab} onClick={logout}>
