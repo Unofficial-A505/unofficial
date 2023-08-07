@@ -63,6 +63,7 @@ public class ArticleController {
     public ResponseEntity<ArticleResponseDto> getArticle(@PathVariable Long id, HttpServletRequest req, HttpServletResponse res) {
         // 조회수 증가
         addViewCount(id, req, res);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         ArticleResponseDto responseDto = articleService.getArticleById(id, email);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
