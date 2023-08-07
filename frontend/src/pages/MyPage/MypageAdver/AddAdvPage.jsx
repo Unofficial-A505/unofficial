@@ -135,18 +135,12 @@ export default function AddAdvPage() {
   const submitForm = async (event) => {
     event.preventDefault();
     try {
-      // const response = await customAxios.get('/api/users/user'); // You need to adjust this endpoint
-      // setUserId(response.data.id);
-      // setUserPoint(response.data.point);
-      // console.log("User ID:", response.data.id);
-      // console.log("User Point:", response.data.point);
-
       if (!selectedFile) {
         alert("이미지를 먼저 업로드해주세요.");
         return; // Return early to stop the rest of the function
       }
 
-      if (adsCost > userPoint /*response.data.point*/) {
+      if (adsCost > userPoint) {
         alert(
           "광고 비용이 현재 사용 가능한 포인트보다 높습니다. 광고 비용을 조정해주세요."
         );
@@ -163,21 +157,12 @@ export default function AddAdvPage() {
         endDate: endDate.toISOString(),
         adminConfirmed: "PENDING",
         adsCost: adsCost,
-        userId: userId, //response.data.id
+        userId: userId,
       };
-      const adCostNeg = -Math.abs(adsCost);
-      await customAxios
-        .put("/api/users/point", { point: adCostNeg })
-        .then((response) => {
-          //console.log(response.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      
       await customAxios
         .post("/api/ads", adData)
         .then((res) => {
-          //console.log(res.data);
           alert("광고 등록이 성공적으로 완료되었습니다.");
           closeWindow();
         })

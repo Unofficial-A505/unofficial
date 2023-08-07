@@ -28,6 +28,7 @@ export default function MyPage() {
   const isActiveActivity = path.includes("activity");
   const isActiveAdvertisement = path.includes("advertisement");
   const isManagement = path.includes("management");  //관리자
+  const isSuggestion = path.includes("suggestion");
   const [role, setRole] = useState(null);
 
   useEffect(() => {
@@ -49,7 +50,9 @@ export default function MyPage() {
     activeTab = "광고";
   } else if (isManagement) {
     activeTab = "관리자"; // 관리자
-  } else {
+  } else if (isSuggestion) {
+    activeTab = "건의함"; // 건의함
+  }else {
     activeTab = "정보";
   }
   return (
@@ -102,7 +105,7 @@ export default function MyPage() {
                     광고 및 마일리지 관리
                   </Link>
                 </div>
-                {role === 'ADMIN' && (
+                {role === 'USER' && (
                   <div className={styles.navnameContainer}>
                     <RiAdvertisementLine
                       className={styles.mypagenavIcon}
@@ -115,7 +118,20 @@ export default function MyPage() {
                     >
                       광고 승인 및 취소(관리자)
                     </Link>
-                  </div>
+                  </div>,
+                  <div className={styles.navnameContainer}>
+                  <FiActivity
+                    className={styles.mypagenavIcon}
+                    style={activeTab === "건의함" ? { color: "#034BB9" } : null}
+                  />
+                  <Link
+                    to="suggestion"
+                    className={styles.mypagenavtab}
+                    style={activeTab === "건의함" ? { color: "#034BB9" } : null}
+                  >
+                    건의함(관리자)
+                  </Link>
+                </div>
                 )}
               </div>
             </div>

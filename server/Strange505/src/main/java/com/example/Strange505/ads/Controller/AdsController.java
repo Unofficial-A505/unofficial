@@ -6,20 +6,33 @@ import com.example.Strange505.ads.Dto.AdsDto;
 import com.example.Strange505.ads.Service.AdsService;
 import com.example.Strange505.file.service.S3UploaderService;
 import org.springframework.web.multipart.MultipartFile;
+import com.example.Strange505.pointHistory.dto.PointHistoryDto;
+import com.example.Strange505.pointHistory.service.PointHistoryService;
 import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/ads")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+
 public class AdsController {
     private final AdsService adsService;
     private final S3UploaderService s3Uploader;
+    private final PointHistoryService pointHistoryService;
 
     @PostMapping
     public ResponseEntity<AdsDto> createAds(@RequestBody AdsDto adsDto) {
         AdsDto createdAds = adsService.createAds(adsDto);
+
+        PointHistoryDto pointHistoryDto = new PointHistoryDto();
+        pointHistoryDto.setUserId(createdAds.getUserId());
+        pointHistoryDto.setDiff(-createdAds.getAdsCost()); // 광고 비용만큼 차감하므로 -를 붙입니다.
+        pointHistoryDto.setDescription("광고 신청 비용: " + createdAds.getAdsCost());
+
+        // 포인트 차감 후, 남은 포인트가 0 이하가 되는 경우 에러를 반환하도록 합니다.
+        if(!pointHistoryService.putNewPointHistory(pointHistoryDto)) {
+            throw new RuntimeException("Insufficient points for ad creation.");
+        }
         return ResponseEntity.ok(createdAds);
     }
 
