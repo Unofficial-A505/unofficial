@@ -49,9 +49,10 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, pos
     return(
       <div className={styles.commentContainer}>
         <div className={styles.commentTopbar}>
-          <div>
-            <span className={styles.commentTitle}>9기 구미</span>
-            <span className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} />15분 전</span>
+          <div className={styles.commentTitle}>
+            <span className={styles.recommentGenLocalInfo}>{comment.gen}기 {comment.local}</span>
+            {comment.nickName ? <span className={styles.recommentnickName}>{comment.nickName}</span> : <span className={styles.recommentnickName}>익명</span>}
+            <span className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} />{comment.createTime?.slice(0, 10)}</span>
           </div>
         </div>
   

@@ -11,7 +11,6 @@ import { BsArrowReturnRight } from '@react-icons/all-files/bs/BsArrowReturnRight
 export default function RecommentsView({ recomment }){
   const [ updateState, setupdateState ] = useState(false)
   const updatereContent = useRef()
-  console.log(updateState)
   
   if (!updateState) {
 
