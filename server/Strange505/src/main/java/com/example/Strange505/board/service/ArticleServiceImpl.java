@@ -1,6 +1,7 @@
 package com.example.Strange505.board.service;
 
 import com.example.Strange505.board.domain.Article;
+import com.example.Strange505.board.domain.ArticleLike;
 import com.example.Strange505.board.domain.Board;
 import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.board.dto.ArticleResponseDto;
@@ -47,6 +48,21 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Article getArticleById(Long id) {
         return articleRepository.findById(id).orElseThrow(() -> new NoResultException("게시글을 찾을 수 없습니다."));
+    }
+
+    @Override
+    public boolean checkUser(Long id, String email) {
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new NoResultException("게시글이 존재하지 않습니다."));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NoResultException("사용자가 존재하지 않습니다."));
+
+        if (user.getId() == article.getUser().getId()) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     @Override

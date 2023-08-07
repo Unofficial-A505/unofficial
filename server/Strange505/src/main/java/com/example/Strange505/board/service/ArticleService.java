@@ -9,6 +9,8 @@ public interface ArticleService {
 
     Article createArticle(ArticleRequestDto articleDTO, String email);
 
+    boolean checkUser(Long id, String email);
+
     Article getArticleById(Long id);
 
     Page<Article> getAllArticles(Pageable pageable);
