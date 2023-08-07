@@ -13,7 +13,9 @@ public class BestArticleResponseDto {
 
     private String title;
     private Integer likes;
+    private Integer views;
     private Integer gen;
     private String local;
     private Long boardId;
+    private String boardName;
 }
