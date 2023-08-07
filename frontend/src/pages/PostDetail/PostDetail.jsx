@@ -30,12 +30,15 @@ import { boardArticlesAll } from '../../api/boards'
 import { postDetailApi, postDeleteApi, postRecommendInputApi } from '../../api/posts'
 import { postCommentsApi, postCommentCreateApi, postCommentUpdateApi, postCommentDeleteApi } from '../../api/comments'
 
+import customAxios from '../../util/customAxios'
+
 // API import
 export default function PostDetail() {
   const navigate = useNavigate();
-  const { boardTitleFromUrl } = useParams();
-  const [ boardTitle, setBoardTitle ] = useState('')
+  // const { boardTitleFromUrl } = useParams();
+  const { boardId } = useParams();
   const { postId } = useParams();
+  const [ boardTitle, setBoardTitle ] = useState('')
   const [ postDetail, setpostDetail ] = useState({})
   const [ createcomment, setcreateComment] = useState("");
   const [ comments, setComments ] = useState([])

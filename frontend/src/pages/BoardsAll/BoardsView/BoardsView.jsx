@@ -4,8 +4,11 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { boardArticlesAll } from "../../../api/boards"
 import PostsView from "../../../components/PostView/PostView";
 
+import customAxios from '../../../util/customAxios'
+
 export default function BoardsView() {
   const [ posts, setPosts ] = useState(null);
+  const { state : boardTitle } = useLocation();
   let { boardId } = useParams();
   const navigate = useNavigate();
   console.log('boardId', boardId)
@@ -13,7 +16,7 @@ export default function BoardsView() {
   useEffect(() => {
     customAxios({
       method: "get",
-      url: `/api/articles/board/${id}`,
+      url: `/api/articles/board/${boardId}`,
       // headers: {
       // }
     })
