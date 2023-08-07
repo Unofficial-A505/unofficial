@@ -45,7 +45,6 @@ export default function PostDetail() {
   const [ commentnickName, setcommentnickName] = useState("")
   const [ currboardPosts, setcurrboardPosts ] = useState([])
   const [ recommendedState, setrecommendedState ] = useState(false)
-  const commentElement = useRef(null);
 
   // 댓글 가져오기
   const getComment = () => {
@@ -135,9 +134,6 @@ export default function PostDetail() {
     .then(() => getComment())
     .catch((err) => console.log(err));
   };
-
-  const username = "9기 서울";
-  const timeago = "21분 전";
 
   const createTime = postDetail.createTime
   const updateTime = postDetail.modifyTime

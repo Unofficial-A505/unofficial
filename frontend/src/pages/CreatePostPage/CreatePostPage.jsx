@@ -63,7 +63,6 @@ const QuillContainer = () => {
       selectLocalImage();
 
       window.scrollTo({ top: 0, behavior: "smooth" });
-      console.log('currboardName', currboardName)
     });
     }, [imageList]);
 
@@ -99,11 +98,8 @@ const QuillContainer = () => {
   }
 
   function sendformData () {
-    const title = TitleElement.current.value;
     let content = quillElement.current.editor.root.innerHTML;
-    if (!title) {
-      alert('제목을 입력하세요!')
-    } else if (content == '<p><br></p>') {
+    if (content == '<p><br></p>') {
       alert('내용을 입력하세요!')}
     else {
       return new Promise(function(resolve, reject) {
@@ -140,14 +136,15 @@ const QuillContainer = () => {
           } 
         })
         Promise.all(imagePromises)
-        .then(() => resolve(content, title))
+        .then(() => resolve(content))
         .catch((err) => reject(err));
       })
     }
   }
 
-  function sendPost(content, title) {
+  function sendPost(content) {
     return new Promise(function(resolve, reject){
+      const title = TitleElement.current.value;
       const boardName = currboardName;
       const nickName = nickNameInput
       console.log('send Post', title, content, currboardName, nickNameInput);
