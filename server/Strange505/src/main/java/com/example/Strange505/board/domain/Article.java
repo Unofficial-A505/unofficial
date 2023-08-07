@@ -44,7 +44,7 @@ public class Article {
     @OneToOne(mappedBy = "article")
     private BestArticle bestArticle;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "article")
     private List<Comment> comments;
 
     private Integer likes;
