@@ -6,19 +6,34 @@ function ServerTime() {
   const [time, setTime] = useState(new Date());
   const location = useLocation();
 
-  useEffect(() => {
+  const fetchTime = () => {
     fetch("https://worldtimeapi.org/api/timezone/asia/seoul", {
       cache: "no-store",
     })
       .then((response) => response.json())
       .then((data) => new Date(data.datetime))
       .then((date) => setTime(date));
+  };
+
+  useEffect(() => {
+    fetchTime();
 
     const intervalId = setInterval(() => {
       setTime((prevTime) => new Date(prevTime.getTime() + 1000));
     }, 1000);
 
-    return () => clearInterval(intervalId);
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        fetchTime();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      clearInterval(intervalId);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, [location]);
 
   const formatTime = (date) => {
