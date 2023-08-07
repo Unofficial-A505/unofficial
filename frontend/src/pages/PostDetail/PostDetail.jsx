@@ -26,7 +26,7 @@ import { IoChatboxOutline } from "@react-icons/all-files/io5/IoChatboxOutline";
 // 조회수 아이콘
 import { AiOutlineEye } from "@react-icons/all-files/ai/AiOutlineEye";
 
-import { boardArticlesAll } from '../../api/boards'
+import { boardsArticles } from '../../api/boards'
 import { postDetailApi, postDeleteApi, postRecommendInputApi } from '../../api/posts'
 import { postCommentsApi, postCommentCreateApi, postCommentUpdateApi, postCommentDeleteApi } from '../../api/comments'
 
@@ -35,7 +35,6 @@ import customAxios from '../../util/customAxios'
 // API import
 export default function PostDetail() {
   const navigate = useNavigate();
-  // const { boardTitleFromUrl } = useParams();
   const { boardId } = useParams();
   const { postId } = useParams();
   const [ boardTitle, setBoardTitle ] = useState('')
@@ -44,7 +43,7 @@ export default function PostDetail() {
   const [ comments, setComments ] = useState([])
   const [ commentsInfo, setCommentsInfo ] = useState({})
   const [ commentnickName, setcommentnickName] = useState("")
-  const [ articleList, setarticleList ] = useState([]);
+  const [ currboardPosts, setcurrboardPosts ] = useState([])
   const [ recommendedState, setrecommendedState ] = useState(false)
   const commentElement = useRef(null);
 
@@ -65,29 +64,23 @@ export default function PostDetail() {
   };
 
   useEffect(() => {
-    customAxios({
-      method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/articles/${postId}`,
-    })
-      .then((res) => {
-        setpostDetail(res.data)
-        setBoardTitle(res.data.boardName)
-      })
-      .catch((err) => console.log(err));
-
-      window.scrollTo({ top: 0, behavior: "smooth" });
 
     // 게시글 상세정보 가져오기
     postDetailApi(postId)
-    .then((res) => setpostDetail(res))
-    .catch((err) => console.log(err));
+    .then((res) => {
+      setpostDetail(res);
+      setBoardTitle(res.boardName);
+    }).catch((err) => console.log(err));
 
     window.scrollTo({ top: 0, behavior: "smooth" });
     getComment();
 
+    // 현재 board 게시글
+    boardsArticles(boardId)
+    .then((res) => setcurrboardPosts(res))
+
     return () => {  
-      console.log('unmounted');
-      console.log('comments', comments);}
+      console.log('unmounted');}
     }, [postId]);
     
   // 게시글 삭제
@@ -295,7 +288,7 @@ export default function PostDetail() {
               <IoIosArrowForward />
             </button>
           </div>
-          <BoardView posts={articleList}/>
+          <BoardView posts={currboardPosts}/>
         </span>
 
         <span className={styles.sideviewContainer}>

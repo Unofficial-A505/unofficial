@@ -63,6 +63,7 @@ const QuillContainer = () => {
       selectLocalImage();
 
       window.scrollTo({ top: 0, behavior: "smooth" });
+      console.log('currboardName', currboardName)
     });
     }, [imageList]);
 
@@ -98,49 +99,55 @@ const QuillContainer = () => {
   }
 
   function sendformData () {
+    const title = TitleElement.current.value;
     let content = quillElement.current.editor.root.innerHTML;
-    return new Promise(function(resolve, reject) {
-      // let content = quillElement.current.editor.root.innerHTML;
-      console.log(imageList)
-      const imagePromises = []
-  
-      //글 등록하는 현재 content에 존재하는 image만 formData에 싣기
-      imageList.forEach((image) => {
-        let regexOne = new RegExp(`${image.url}`)
-        let imageString = String(regexOne)
-        imageString = imageString.replace(/\\/g, '')
+    if (!title) {
+      alert('제목을 입력하세요!')
+    } else if (content == '<p><br></p>') {
+      alert('내용을 입력하세요!')}
+    else {
+      return new Promise(function(resolve, reject) {
+        // let content = quillElement.current.editor.root.innerHTML;
+        console.log(imageList)
+        const imagePromises = []
     
-        const imageChecked = content.match(regexOne)
+        //글 등록하는 현재 content에 존재하는 image만 formData에 싣기
+        imageList.forEach((image) => {
+          let regexOne = new RegExp(`${image.url}`)
+          let imageString = String(regexOne)
+          imageString = imageString.replace(/\\/g, '')
+      
+          const imageChecked = content.match(regexOne)
+      
+          if (imageChecked) {
+            // formData에 해당 이미지 싣기 
+            const formData = new FormData();
+            formData.append("uploadFile", image.file);
     
-        if (imageChecked) {
-          // formData에 해당 이미지 싣기 
-          const formData = new FormData();
-          formData.append("uploadFile", image.file);
+            const promise = postImageApi(formData)
+            .then((res) => {
+              console.log('image', res.url)
+              console.log("success");
+              const uploadPath = res.data;
+              content = content.replace(regexOne, `${uploadPath}`)
+              console.log('change source', content)
+              // quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${uploadPath}`);
+              
+              window.URL.revokeObjectURL(image.url)
+            }).catch((err) => console.log(err));
   
-          const promise = postImageApi(formData)
-          .then((res) => {
-            console.log('image', res.url)
-            console.log("success");
-            const uploadPath = res.data;
-            content = content.replace(regexOne, `${uploadPath}`)
-            console.log('change source', content)
-            // quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${uploadPath}`);
-            
-            window.URL.revokeObjectURL(image.url)
-          }).catch((err) => console.log(err));
-
-          imagePromises.push(promise)
-        } 
+            imagePromises.push(promise)
+          } 
+        })
+        Promise.all(imagePromises)
+        .then(() => resolve(content, title))
+        .catch((err) => reject(err));
       })
-      Promise.all(imagePromises)
-      .then(() => resolve(content))
-      .catch((err) => reject(err));
-    })
+    }
   }
 
-  function sendPost(content) {
+  function sendPost(content, title) {
     return new Promise(function(resolve, reject){
-      const title = TitleElement.current.value;
       const boardName = currboardName;
       const nickName = nickNameInput
       console.log('send Post', title, content, currboardName, nickNameInput);
