@@ -15,7 +15,6 @@ import BoardSearchView from "./pages/BoardsAll/BoardSearchView/BoardSearchView";
 
 import PostDetail from "./pages/PostDetail/PostDetail";
 import PostUpdate from "./pages/PostUpdate/PostUpdate";
-// import CreatePostPage from './pages/CreatePostPage/CreatePostPage'
 import SearchView from "./pages/SearchView/SearchView";
 
 import MypageUser from "./pages/MyPage/MypageUser/MypageUser";
@@ -34,7 +33,6 @@ import Management from "./pages/MyPage/Management/Management";
 import AddAdvPage from "./pages/MyPage/MypageAdver/AddAdvPage";
 
 import CreatePostPage from "./pages/CreatePostPage/QuillContainer";
-// import CreatePostPage from './pages/CreatePostPage/CreatePost'
 
 import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
@@ -43,6 +41,7 @@ import WebRTC from "./pages/WebRtcPage/WebRtcPage";
 const router = createBrowserRouter([
   {
     path: "/web-rtc",
+    title: "WebRTC",
     element: <WebRTC />,
   },
   {
@@ -51,6 +50,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/signup",
+    title: "회원가입",
     element: <Signup />,
     children: [
       {
@@ -73,16 +73,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
+        title: "언오피셜",
         element: <MainPage />,
       },
       {
         path: "user/advertisement/form",
+        title: "광고신청",
         element: <AddAdvPage />,
       },
       {
         // path: ':userId',
         path: "user",
         element: <MyPage />,
+        title: "마이페이지",
         children: [
           {
             path: "",
@@ -116,6 +119,7 @@ const router = createBrowserRouter([
       },
       {
         path: "boards",
+        title: "게시판",
         element: <BoardsAll />,
         children: [
           { path: ":boardTitle", element: <BoardsView /> },
