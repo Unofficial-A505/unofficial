@@ -12,7 +12,7 @@ export default function BoardSearchView() {
   const navigate = useNavigate();
   const { boardId } = useParams();
   const { keyword } = useParams();
-  const { state : currboardName } = useLocation();
+  const [ currboardName, setcurrboardName ] = useState('')
   const [ searchResults, setsearchResults ] = useState([]);
 
   useEffect(() => {
@@ -21,11 +21,12 @@ export default function BoardSearchView() {
     .then((res) => {
       console.log('search success', res);
       setsearchResults(res)
+      setcurrboardName(res[0].boardName)
     }).catch((err) => console.log(err));
 
     return () => {  
       console.log('unmounted')}
-  }, []);
+  }, [currboardName]);
 
   return (
     <div>
