@@ -44,7 +44,7 @@ public class Article {
     @OneToOne(mappedBy = "article")
     private BestArticle bestArticle;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "article")
     private List<Comment> comments;
 
     private Integer likes;
@@ -53,7 +53,7 @@ public class Article {
     private LocalDateTime modifyTime;
 
     // 삭제 상태 변수
-    private boolean isRemoved = false;
+    private Boolean isRemoved = false;
 
     public static Article createArticle(ArticleRequestDto dto, User user, Board board) {
         Article article = new Article();
@@ -75,6 +75,10 @@ public class Article {
         this.content = dto.getContent();
         this.nickName = dto.getNickName();
         this.board = board;
+    }
+
+    public void remove() {
+        this.isRemoved = true;
     }
 
     public void addView() {

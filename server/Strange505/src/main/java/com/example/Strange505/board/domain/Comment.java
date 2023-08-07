@@ -45,7 +45,7 @@ public class Comment {
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
     // 삭제 상태 변수
-    private boolean isRemoved = false;
+    private Boolean isRemoved = false;
 
     public void addChild(Comment child) {
         children.add(child);
@@ -77,7 +77,7 @@ public class Comment {
     //모든 자식 댓글이 삭제되었는지 판단
     private boolean isAllChildRemoved() {
         return getChildren().stream()
-                .map(Comment::isRemoved)//지워졌는지 여부로 바꾼다
+                .map(Comment::getIsRemoved)//지워졌는지 여부로 바꾼다
                 .filter(isDelete -> !isDelete)//지워졌으면 true, 안지워졌으면 false이다. 따라서 filter에 걸러지는 것은 false인 녀석들이고, 있다면 false를 없다면 orElse를 통해 true를 반환한다.
                 .findAny()
                 //지워지지 않은게 하나라도 있다면 false를 반환

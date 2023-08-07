@@ -54,17 +54,4 @@ public class ArticleLikeServiceImpl implements ArticleLikeService {
         }
 
     }
-
-//    @Override
-//    public void cancel(ArticleLikeRequestDto dto) {
-//        Article article = articleRepository.findById(dto.getArticleId())
-//                .orElseThrow(() -> new NoResultException("게시글이 존재하지 않습니다."));
-//        User user = userRepository.findById(dto.getUserId())
-//                .orElseThrow(() -> new NoResultException("사용자가 존재하지 않습니다."));
-//        ArticleLike articleLike = articleLikeRepository.findByArticleAndUser(article, user)
-//                .orElseThrow(() -> new NoResultException());
-//
-//        articleLikeRepository.delete(articleLike);
-//        articleRepository.subLikeCount(article);
-//    }
 }
