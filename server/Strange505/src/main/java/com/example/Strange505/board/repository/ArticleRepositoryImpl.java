@@ -28,6 +28,7 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
                 .where(eqBoard(boardId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(article.id.desc())
                 .fetch();
 
         Long count = queryFactory
@@ -73,6 +74,7 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
                 .where(article.user.id.eq(userId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(article.id.desc())
                 .fetch();
 
         Long count = queryFactory
@@ -91,6 +93,7 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
                 .selectFrom(article)
                 .from(article)
                 .where(article.board.id.eq(boardId))
+                .orderBy(article.id.desc())
                 .fetch();
 
         Long count = queryFactory
@@ -108,6 +111,7 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
                 .selectFrom(article)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(article.id.desc())
                 .fetch();
 
         Long count = queryFactory
