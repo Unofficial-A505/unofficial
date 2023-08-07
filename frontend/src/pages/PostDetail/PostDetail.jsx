@@ -52,7 +52,7 @@ export default function PostDetail() {
   const getComment = () => {
     customAxios({
       method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/comments/article/${postId}`,
+      url: `/api/comments/article/${postId}`,
       // headers: {
       //   Authorization: `Token ${this.$store.state.token}`,
       // }
@@ -65,27 +65,15 @@ export default function PostDetail() {
   };
 
   useEffect(() => {
-    customAxios({
-      method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/articles/${postId}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
-    })
-      .then((res) => {
-        console.log('detail', res.data);
-        setpostDetail(res.data)
-        // setTitle(res.data.title);
-        // setContent(res.data.content);
-        setBoardTitle(res.data.boardName)
-      })
-      .catch((err) => console.log(err));
 
       window.scrollTo({ top: 0, behavior: "smooth" });
 
     // 게시글 상세정보 가져오기
     postDetailApi(postId)
-    .then((res) => setpostDetail(res))
+    .then((res) =>{ 
+      setpostDetail(res)
+      setBoardTitle(res.boardName)
+    })
     .catch((err) => console.log(err));
 
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -166,7 +154,7 @@ export default function PostDetail() {
             <span className={styles.boardTitle}>{postDetail.boardName}</span>
             <button
               className={styles.grayoutbutton}
-              onClick={() => navigate(`/boards/${boardTitle}`, { state : postDetail.boardId })}
+              onClick={() => navigate(`/boards/${postDetail.boardId}`, { state : postDetail.boardId })}
             >
               <IoIosArrowBack />
               목록으로 돌아가기
@@ -289,14 +277,14 @@ export default function PostDetail() {
           <div className={styles.moreTopbar}>
             <button
               className={styles.buttonlayoutDel}
-              onClick={() => navigate(`/boards/${boardTitle}`, { state : postDetail.boardId })}
+              onClick={() => navigate(`/boards/${postDetail.boardId}`, { state : postDetail.boardId })}
             >
               <span className={styles.boardmoreTitleA}>{postDetail.boardName}</span>
               <span className={styles.boardmoreTitleB}>글 더 보기</span>
             </button>
             <button
               className={styles.grayoutbutton}
-              onClick={() => navigate(`/boards/${boardTitle}`, { state : postDetail.boardId })}
+              onClick={() => navigate(`/boards/${postDetail.boardId}`, { state : postDetail.boardId })}
             >
               목록 보기
               <IoIosArrowForward />
