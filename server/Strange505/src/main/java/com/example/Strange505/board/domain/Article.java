@@ -77,6 +77,10 @@ public class Article {
         this.board = board;
     }
 
+    public void remove() {
+        this.isRemoved = true;
+    }
+
     public void addView() {
         this.views++;
     }

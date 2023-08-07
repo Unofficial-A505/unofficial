@@ -180,8 +180,9 @@ public class ArticleServiceImpl implements ArticleService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
         Article article = articleRepository.findById(id).orElseThrow(() -> new NoResultException("게시글을 찾을 수 없습니다."));
         if (user.getId() == article.getUser().getId()) {
-            List<String> images = imageService.parsingArticle(article.getContent());
-            imageService.deleteImages(images);
+//            List<String> images = imageService.parsingArticle(article.getContent());
+//            imageService.deleteImages(images);
+            article.remove();
         } else {
             throw new NotAuthorException("작성자만 삭제 가능합니다.");
         }
