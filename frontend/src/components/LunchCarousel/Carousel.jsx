@@ -20,11 +20,15 @@ export default function Carroussel(props) {
   }, [props.offset, props.showArrows, props.cards]);
 
   const moveForward = () => {
-    setGoToSlide((goToSlide + 1) % cards.length);
+    if (cards.length) {
+      setGoToSlide((goToSlide + 1) % cards.length);
+    }  
   };
 
   const moveBackward = () => {
-    setGoToSlide((goToSlide - 1 + cards.length) % cards.length);
+    if (cards.length) {
+      setGoToSlide((goToSlide - 1 + cards.length) % cards.length);
+    }  
   };
 
   return (

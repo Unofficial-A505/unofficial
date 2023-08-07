@@ -80,13 +80,8 @@
   font-weight: 400;
   line-height: 100%; /* 7px */
 }
-.adverMessage {
-  margin: 1rem 0 0 0;
-  color: #000;
-  font-size: 0.8rem;
-}
 .adverButton {
-  color: #034BB9;
+  margin-top: 1rem;
   font-weight: 500;
 }
 .adverButton:hover {
@@ -101,6 +96,9 @@
   background-color: transparent;
   border: 0;
 }
+.mymileButton:hover {
+  cursor: pointer;
+}
 .mymileIcon {
   margin: 4px 2px 0 0;
 }
@@ -111,6 +109,9 @@
   display: flex;
   border: 0;
   background-color: transparent;
+}
+.myButton:hover {
+  cursor: pointer;
 }
 .myIcon {
   margin: 4px 2px 0 0;

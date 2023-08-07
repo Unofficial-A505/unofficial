@@ -1,29 +1,31 @@
 import styles from "./BoardsAll.module.css";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, Outlet} from "react-router-dom";
+import { useNavigate, useParams, Outlet } from "react-router-dom";
 
 import AdHorizontal from "../../components/AdHorizontal/AdHorizontal";
-import TopSpace from "../../components/TopSpace/TopSpace";
 
 import { FiSearch } from "@react-icons/all-files/fi/FiSearch";
 import { CgAddR } from "@react-icons/all-files/cg/CgAddR";
 
-import { bestPostsApi, boardNamesApi } from "../../api/boards"
+import { bestPostsApi, boardNamesApi } from "../../api/boards";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import useDocumentTitle from "../../useDocumentTitle";
 
 export default function BoardsAll() {
-  const [ boardNames, setboardNames ] = useState([]);
-  const [ currboardName, setcurrboardName ] = useState('');
+  useDocumentTitle("게시판");
+
+  const [boardNames, setboardNames] = useState([]);
+  const [currboardName, setcurrboardName] = useState("");
   const { boardId } = useParams();
-  const [ keywordAll, setKeywordAll ] = useState("");
-  const [ keywordBoard, setKeywordBoard ] = useState("");
-  const [ bestPostlist, setbestPostlist ] = useState([]);
-  
+  const [keywordAll, setKeywordAll] = useState("");
+  const [keywordBoard, setKeywordBoard] = useState("");
+  const [bestPostlist, setbestPostlist] = useState([]);
+
   const boardsearchMessage = `${currboardName}에서 찾고싶은 게시글의 키워드를 검색`;
-  
+
   const navigate = useNavigate();
 
   const settings = {
@@ -41,29 +43,32 @@ export default function BoardsAll() {
   useEffect(() => {
     // best 게시글 api
     bestPostsApi
-    .then((res) => {
-      console.log('best', res)
-      setbestPostlist(res);
-    }).catch((err) => console.log(err));
-   
+      .then((res) => {
+        console.log("best", res);
+        setbestPostlist(res);
+      })
+      .catch((err) => console.log(err));
+
     // boards Title api
     boardNamesApi
-    .then((res) => {
-      setboardNames(res)
-      res.forEach((board) => {
-        if (board.id == boardId) {
-          setcurrboardName(board.name)}})
-    }).catch((err) => console.log(err))
+      .then((res) => {
+        setboardNames(res);
+        res.forEach((board) => {
+          if (board.id === boardId) {
+            setcurrboardName(board.name);
+          }
+        });
+      })
+      .catch((err) => console.log(err));
 
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    return () => {  
-      console.log('unmounted')
-     }}, [boardId || boardNames]);
+    return () => {
+      console.log("unmounted");
+    };
+  }, [boardId || boardNames]);
 
-
-
-  return(
+  return (
     <div>
       <div className={styles.advContainer}>
         <AdHorizontal />
@@ -88,7 +93,7 @@ export default function BoardsAll() {
             >
               <FiSearch />
             </button>
-          </div> 
+          </div>
         </form>
 
         <div className={styles.boardsallBestContainer}>
@@ -96,8 +101,11 @@ export default function BoardsAll() {
           <div className={styles.boardsallBestBox}>
             <Slider {...settings}>
               {bestPostlist.map((data, index) => (
-                <div key={index} className={styles.bestContentContainer}><span className={styles.bestContent}>{data.boardName}</span><span>{data.title}</span></div>
-                ))}
+                <div key={index} className={styles.bestContentContainer}>
+                  <span className={styles.bestContent}>{data.boardName}</span>
+                  <span>{data.title}</span>
+                </div>
+              ))}
             </Slider>
           </div>
         </div>
@@ -108,14 +116,16 @@ export default function BoardsAll() {
           <div>
             {boardNames.map((board, index) => (
               <button
-              key={index}
-              className={
-                board.id == boardId
-                ? styles.boardtabSelected
-                : styles.boardtab
-              }
-                onClick={() => navigate(`/boards/${board.id}`, { state: board.name })}
-                >
+                key={index}
+                className={
+                  board.id == boardId
+                    ? styles.boardtabSelected
+                    : styles.boardtab
+                }
+                onClick={() =>
+                  navigate(`/boards/${board.id}`, { state: board.name })
+                }
+              >
                 {board.name}
               </button>
             ))}
@@ -123,7 +133,9 @@ export default function BoardsAll() {
           <div className={styles.postcreateContainer}>
             <button
               className={styles.createpageButton}
-              onClick={() => navigate(`/boards/${boardId}/create`, {state : currboardName })}
+              onClick={() =>
+                navigate(`/boards/${boardId}/create`, { state: currboardName })
+              }
             >
               <CgAddR className={styles.createpageIcon} size="20" />새 글 작성
             </button>
@@ -133,55 +145,56 @@ export default function BoardsAll() {
         <div className={styles.boardsPostsContainer}>
           <Outlet />
         </div>
-      
+
         <div className={styles.advContainer}>
           <AdHorizontal />
         </div>
 
         <div className={styles.boardBottomBar}>
-        <form className={styles.searchboxhere}>
-          <p>{currboardName} 검색</p>
-          <div className={styles.searchInputBox}>
-            <input
-              className={styles.search}
-              id={styles.here}
-              type="text"
-              placeholder={boardsearchMessage}
-              onChange={(e) => {
-                setKeywordBoard(e.target.value);
-              }}
-            />
-            <button
-              className={styles.searchbutton}
-              onClick={() => {
-                navigate(`/boards/${boardId}/search/${keywordBoard}`, { state : currboardName });
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            >
-              <FiSearch />
-            </button>
-          </div>
-        </form>
+          <form className={styles.searchboxhere}>
+            <p>{currboardName} 검색</p>
+            <div className={styles.searchInputBox}>
+              <input
+                className={styles.search}
+                id={styles.here}
+                type="text"
+                placeholder={boardsearchMessage}
+                onChange={(e) => {
+                  setKeywordBoard(e.target.value);
+                }}
+              />
+              <button
+                className={styles.searchbutton}
+                onClick={() => {
+                  navigate(`/boards/${boardId}/search/${keywordBoard}`, {
+                    state: currboardName,
+                  });
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
+                <FiSearch />
+              </button>
+            </div>
+          </form>
 
-        <nav className={styles.pagination} aria-label="...">
-          <ul className="pagination pagination-sm">
-            <li className="page-item active" aria-current="page">
-              <span className="page-link">1</span>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                2
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                3
-              </a>
-            </li>
-          </ul>
-        </nav>
+          <nav className={styles.pagination} aria-label="...">
+            <ul className="pagination pagination-sm">
+              <li className="page-item active" aria-current="page">
+                <span className="page-link">1</span>
+              </li>
+              <li className="page-item">
+                <a className="page-link" href="#">
+                  2
+                </a>
+              </li>
+              <li className="page-item">
+                <a className="page-link" href="#">
+                  3
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
-
       </div>
     </div>
   );
