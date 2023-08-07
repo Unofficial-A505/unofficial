@@ -17,7 +17,7 @@ export default function BoardView({ posts, searchView, keyword }){
 
   return(
     <div>
-      {posts.map((post, index) => (
+      {props.posts.map((post, index) => (
         <div key={index}>
           <PostView post={post} searchView={searchView} keyword={keyword}/>
         </div>
