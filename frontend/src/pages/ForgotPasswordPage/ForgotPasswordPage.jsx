@@ -1,8 +1,11 @@
 import styles from "./ForgotPasswordPage.module.css";
 import { useState } from "react";
 import axios from "axios";
+import useDocumentTitle from "./../../useDocumentTitle";
 
 const ForgotPasswordPage = () => {
+  useDocumentTitle("비밀번호 찾기");
+
   const [isComplete, setIsComplete] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [selectedLocal, setSelectedLocal] = useState("");
