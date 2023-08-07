@@ -52,7 +52,7 @@ export default function BoardsAll() {
       .then((res) => {
         setboardNames(res);
         res.forEach((board) => {
-          if (board.id === boardId) {
+          if (board.id+'' === boardId) {
             setcurrboardName(board.name);
           }
         });
