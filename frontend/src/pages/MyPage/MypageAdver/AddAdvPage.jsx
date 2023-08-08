@@ -124,7 +124,7 @@ export default function AddAdvPage() {
     }
     if (value < 0) {
       alert("음수는 불가능 합니다.");
-      event.target.value = 0;
+      event.target.value = 1;
       return;
     }
     setDuration(value);
@@ -164,7 +164,10 @@ export default function AddAdvPage() {
         );
         return; // Return early to stop the rest of the function
       }
-
+      if (duration === "0" || duration === 0) {
+        alert("광고 기간은 0일일 수 없습니다.");
+        return; // Return early to stop the rest of the function
+      }
       const uploadedImagePath = await uploadToServer();
       let endDate = new Date();
       endDate.setDate(endDate.getDate() + parseInt(duration) + 1);
