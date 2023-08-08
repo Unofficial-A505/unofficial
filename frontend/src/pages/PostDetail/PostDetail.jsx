@@ -171,7 +171,7 @@ export default function PostDetail() {
             <button
               className={styles.grayoutbutton}
               onClick={() =>
-                navigate(`/boards/${boardTitle}`, { state: postDetail.boardId })
+                navigate(`/boards/${postDetail.boardId}`, { state: postDetail.boardId })
               }
             >
               <IoIosArrowBack />
@@ -326,9 +326,6 @@ export default function PostDetail() {
             <button
               className={styles.grayoutbutton}
               onClick={() => navigate(`/boards/${postDetail.boardId}`, { state : postDetail.boardId })}
-              onClick={() =>
-                navigate(`/boards/${boardTitle}`, { state: postDetail.boardId })
-              }
             >
               목록 보기
               <IoIosArrowForward />
