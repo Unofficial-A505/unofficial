@@ -164,7 +164,7 @@ public class CommentServiceImpl implements CommentService {
                         c.getArticle().getBoard().getId()));
             }
         }
-        Page<MypageCommentResponseDto> result = new PageImpl<>(list);
+        Page<MypageCommentResponseDto> result = new PageImpl<>(list, pageable, repoList.getTotalElements());
         return result;
     }
 
