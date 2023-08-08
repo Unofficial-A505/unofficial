@@ -36,7 +36,6 @@ import useDocumentTitle from "../../useDocumentTitle";
 // API import
 export default function PostDetail() {
   const navigate = useNavigate();
-  const setDocumentTitle = useDocumentTitle();
 
   const { boardId } = useParams();
   const { postId } = useParams();
@@ -51,14 +50,14 @@ export default function PostDetail() {
   const [recommendedState, setrecommendedState] = useState(false);
   const commentElement = useRef(null);
 
+  // 탭 제목 설정하기
+  useDocumentTitle(boardTitle);
+
   // 댓글 가져오기
   const getComment = () => {
     customAxios({
       method: "get",
       url: `/api/comments/article/${postId}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
     })
       .then((res) => {
         setComments(res.data.content);
@@ -76,7 +75,6 @@ export default function PostDetail() {
     .then((res) =>{ 
       setpostDetail(res)
       setBoardTitle(res.boardName)
-      setDocumentTitle(res.boardName)
     })
     .catch((err) => console.log(err));
 

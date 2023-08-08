@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { setLocal, setGen } from './../../store/signupSlice'
 
 
-export default function Signup1(){
+export default function Signup1() {
 
   let [selectedLocal, setSelectedLocal] = useState('')
   let [selectedGen, setSelectedGen] = useState('')
@@ -27,14 +27,14 @@ export default function Signup1(){
     navigate('register')
   }
 
-  return(
-    <div id={styles.container}>
+  return (
+    <form id={styles.container} onSubmit={handleSubmit} >
       <h2>언오피셜 회원가입</h2>
       <p className='my-0'>언오피셜 계정으로 <b>점심식단, 자유게시판</b>등</p>
       <p className='my-0'>다양한 교육생 서비스를 모두 이용하실 수 있습니다.</p>
       <br />
       <h2>선택</h2>
-      <p className='mt-0 mb-3' style={{color:'red'}}>선택한 지역과 기수는 이후 변경이 불가합니다.</p>
+      <p className='mt-0 mb-3' style={{ color: 'red' }}>선택한 지역과 기수는 이후 변경이 불가합니다.</p>
       <div className="mb-2">
         <label className="form-label mb-0">지역</label>
         <div />
@@ -64,7 +64,7 @@ export default function Signup1(){
           <option value="10">10기</option>
         </select>
       </div>
-      <input type="submit" value="다음" onClick={handleSubmit} />
-    </div>
+      <input type="submit" value="다음" />
+    </form>
   )
 }
