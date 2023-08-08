@@ -18,4 +18,5 @@ public class BestArticleResponseDto {
     private String local;
     private Long boardId;
     private String boardName;
+    private Long articleId;
 }

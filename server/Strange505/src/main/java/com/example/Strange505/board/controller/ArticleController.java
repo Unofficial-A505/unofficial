@@ -10,6 +10,8 @@ import com.example.Strange505.board.service.ArticleService;
 import com.example.Strange505.dto.PageResponseDto;
 import com.example.Strange505.file.service.S3UploaderService;
 import com.example.Strange505.user.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,6 +32,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/articles")
 @RequiredArgsConstructor
+@Tag(name = "[@Tag] 게시글 컨트롤러")
 public class ArticleController {
 
     private final ArticleService articleService;
@@ -37,6 +40,7 @@ public class ArticleController {
     private final AuthService authService;
     private final ArticleLikeService articleLikeService;
 
+    @Operation(summary = "게시글 등록")
     @PostMapping
     public ResponseEntity<?> registerArticle(@RequestBody ArticleRequestDto dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -45,6 +49,7 @@ public class ArticleController {
 
     }
 
+    @Operation(summary = "게시글 수정")
     @PutMapping("/{id}")
     public ResponseEntity<?> modifyArticle(@RequestBody ArticleRequestDto dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -52,6 +57,7 @@ public class ArticleController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @Operation(summary = "게시글 삭제")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> removeArticle(@PathVariable Long id) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -59,6 +65,7 @@ public class ArticleController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @Operation(summary = "게시글 아이디로 조회")
     @GetMapping("/{id}")
     public ResponseEntity<ArticleResponseDto> getArticle(@PathVariable Long id, HttpServletRequest req, HttpServletResponse res) {
         // 조회수 증가
@@ -68,6 +75,7 @@ public class ArticleController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
+    @Operation(summary = "모든 게시글 조회")
     @GetMapping
     public ResponseEntity<PageResponseDto<ArticleResponseDto>> getAllArticles(Pageable pageable) {
         Page<ArticleResponseDto> responseDtoList = articleService.getAllArticles(pageable);
@@ -83,6 +91,7 @@ public class ArticleController {
         return new ResponseEntity<>(new PageResponseDto<>(pageInfo, contents), HttpStatus.OK);
     }
 
+    @Operation(summary = "제목과 내용에 키워드가 포함된 게시글 조회")
     @GetMapping("/search")
     public ResponseEntity<PageResponseDto<ArticleResponseDto>> getArticlesByTitleAndContent(@RequestParam String keyword, @RequestParam Long boardId, Pageable pageable) {
         Page<ArticleResponseDto> responseDtoList = articleService.getArticlesByTitleAndContent(keyword, boardId, pageable);
@@ -97,6 +106,7 @@ public class ArticleController {
         return new ResponseEntity<>(new PageResponseDto<>(pageInfo, contents), HttpStatus.OK);
     }
 
+    @Operation(summary = "게시글 작성자로 조회")
     @GetMapping("/user")
     public ResponseEntity<PageResponseDto<ArticleResponseDto>> getArticlesByUser(Pageable pageable) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -112,6 +122,7 @@ public class ArticleController {
         return new ResponseEntity<>(new PageResponseDto<>(pageInfo, contents), HttpStatus.OK);
     }
 
+    @Operation(summary = "게시글이 등록된 게시판 종류에 따라 조회")
     @GetMapping("/board/{boardId}")
     public ResponseEntity<PageResponseDto<ArticleResponseDto>> getArticlesByBoard(@PathVariable Long boardId, Pageable pageable) {
         Page<ArticleResponseDto> responseDtoList = articleService.getArticlesByBoard(boardId, pageable);
@@ -127,6 +138,7 @@ public class ArticleController {
         return new ResponseEntity<>(new PageResponseDto<>(pageInfo, contents), HttpStatus.OK);
     }
 
+    @Operation(summary = "게시글 조회 시 조회수 증가")
     private void addViewCount(Long id, HttpServletRequest req, HttpServletResponse res) {
         Cookie oldCookie = null;
 

@@ -19,7 +19,7 @@ export default function BoardView({ posts, searchView, keyword, myBoard, boardId
     <div>
       {posts.map((post, index) => (
         <div key={index}>
-          <PostView post={post} searchView={searchView} keyword={keyword} myBoard={myBoard} boardId={boardId}/>
+          <PostView post={post} boardId={post.boardId} searchView={searchView} keyword={keyword} myBoard={myBoard}/>
         </div>
       ))}
     </div>

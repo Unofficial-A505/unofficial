@@ -172,7 +172,7 @@ public class CommentServiceImpl implements CommentService {
                         c.getArticle().getBoard().getId()));
             }
         }
-        Page<MypageCommentResponseDto> result = new PageImpl<>(list);
+        Page<MypageCommentResponseDto> result = new PageImpl<>(list, pageable, repoList.getTotalElements());
         return result;
     }
 
@@ -180,11 +180,11 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public CommentResponseDto updateComment(Long id, CommentRequestDto dto, String email) {
         User user = userRepository.findByEmail(email).orElseThrow();
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("Comment not found"));
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("해당 댓글이 존재하지 않습니다."));
         if (user.getId() == comment.getUser().getId()) {
             comment.update(dto.getContent(), LocalDateTime.now());
-            Comment save = commentRepository.save(comment);
-            return new CommentResponseDto(save);
+            Comment modifiedComment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("해당 댓글이 존재하지 않습니다."));;
+            return new CommentResponseDto(modifiedComment);
         } else {
             throw new NotAuthorException("작성자만 삭제 가능합니다.");
         }
@@ -211,7 +211,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public void addPoint(Long userId) {
-        PointHistoryDto pointHistoryDto = new PointHistoryDto(10, "게시글 작성 적립", userId);
+        PointHistoryDto pointHistoryDto = new PointHistoryDto(5, "댓글 작성 적립", userId);
         pointHistoryService.putNewPointHistory(pointHistoryDto);
     }
 }

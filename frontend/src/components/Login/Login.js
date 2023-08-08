@@ -44,7 +44,7 @@ export default function Login({ setModalOpen }) {
       dispatch(setAuthUserEmail(userEmail));
       dispatch(setAccessToken(response.headers.authorization.split(" ")[1]));
       localStorage.setItem('REFRESH_TOKEN', response.headers.refresh_token);
-      setModalOpen(false)
+      window.location.reload() // 로그인 후 새로고침
     }
     catch (err) {
       console.log(err)
@@ -70,12 +70,12 @@ export default function Login({ setModalOpen }) {
             <p className='mb-0'>지금 <b className='fs-6 fw-bold text-dark'>언오피셜</b>을 시작하세요!</p>
           </div>
         </div>
-        <form>
+        <form onSubmit={login}>
           <div>
             <input type="email" className="form-control mb-1" placeholder="이메일" onChange={onEmailHandler} />
             <input type="password" className="form-control" placeholder="비밀번호" autoComplete="off" onChange={onPasswordHandler} />
           </div>
-          <input className="mt-3" type="submit" value="로그인" onClick={login} />
+          <input type="submit" className="mt-3" value="로그인" />
         </form>
         <div className='mt-3' style={{ margin: '0 auto' }}>
           <span>언오피셜 처음이신가요?&nbsp;&nbsp;</span>

@@ -32,7 +32,11 @@ public class CommentResponseDto implements Serializable {
     public CommentResponseDto(Comment comment) {
         this.content = comment.getContent();
         this.articleId = comment.getArticle().getId();
-        this.parentId = comment.getParent().getId();
+        if (comment.getParent() == null) {
+            this.parentId = null;
+        } else {
+            this.parentId = comment.getParent().getId();
+        }
         this.nickName = comment.getNickName();
         this.createTime = comment.getCreateTime();
         this.modifyTime = comment.getModifyTime();

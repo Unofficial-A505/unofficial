@@ -37,7 +37,6 @@ import useDocumentTitle from "../../useDocumentTitle";
 // API import
 export default function PostDetail() {
   const navigate = useNavigate();
-  const setDocumentTitle = useDocumentTitle();
 
   const { boardId } = useParams();
   const { postId } = useParams();
@@ -51,7 +50,10 @@ export default function PostDetail() {
   const [articleList, setarticleList] = useState([]);
   const [recommendedState, setrecommendedState] = useState(null);
   const commentElement = useRef(null);
-  
+
+  // 탭 제목 설정하기
+  useDocumentTitle(boardTitle);
+
   // 댓글 가져오기
   const getComment = () => {
     customAxios({
@@ -76,7 +78,6 @@ export default function PostDetail() {
     .then((res) =>{ 
       setpostDetail(res)
       setBoardTitle(res.boardName)
-      // console.log(res)
     })
     .catch((err) => console.log(err));
 
@@ -187,7 +188,7 @@ export default function PostDetail() {
             <button
               className={styles.grayoutbutton}
               onClick={() =>
-                navigate(`/boards/${boardTitle}`, { state: postDetail.boardId })
+                navigate(`/boards/${postDetail.boardId}`, { state: postDetail.boardId })
               }
             >
               <IoIosArrowBack />
@@ -336,7 +337,7 @@ export default function PostDetail() {
             <button
               className={styles.buttonlayoutDel}
               onClick={() =>
-                navigate(`/boards/${boardTitle}`, { state: postDetail.boardId })
+                navigate(`/boards/${postDetail.boardId}`, { state: postDetail.boardId })
               }
             >
               <span className={styles.boardmoreTitleA}>

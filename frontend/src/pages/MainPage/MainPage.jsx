@@ -22,8 +22,13 @@ export default function MainPage() {
 
   useEffect(() => {
     bestPostsApi
-    .then((res) => setbestPosts(res))
-    .catch((err) => console.log(err))
+      .then((res) => {
+        setbestPosts(res.map((obj)=>{
+          obj.id = obj.articleId
+          return obj
+        }))
+      })
+      .catch((err) => console.log(err))
   }, [])
   useDocumentTitle("언오피셜");
 
@@ -60,7 +65,7 @@ export default function MainPage() {
             Best 게시글
             <FaCrown className={styles.bestIcons} />
           </div>
-          <BoardView posts={bestPosts}/>
+          <BoardView posts={bestPosts} myBoard={true}/>
         </div>
         <div className={styles.middleRightContainer}>
           <WeatherinfoApi />

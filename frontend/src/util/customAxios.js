@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from "../store/store";
+import { setAccessToken, setAuthUserEmail } from "../store/loginSlice";
 
 const customAxios = axios.create({
   baseURL: `${process.env.REACT_APP_SERVER}`,
@@ -29,7 +30,7 @@ customAxios.interceptors.response.use(
     console.log(error);
     const originalRequest = error.config;
     if (
-      (error.response?.status === 403 || error.response?.status === 401) &&
+      (error.response?.status === 404 || error.response?.status === 401) &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
@@ -40,7 +41,13 @@ customAxios.interceptors.response.use(
         `${process.env.REACT_APP_SERVER}/api/auth/reissue`,
         { params: {} },
         { headers: { REFRESH_TOKEN: refreshToken } }
-      );
+      ).catch(()=> {
+        alert("로그인 만료")
+        store.dispatch(setAccessToken(""))
+        store.dispatch(setAuthUserEmail(""))
+        localStorage.setItem("REFRESH_TOKEN","")
+        window.document.location.href("/")
+      });
       if (res.status === 201) {
         store.dispatch({
           type: "UPDATE_ACCESS_TOKEN",

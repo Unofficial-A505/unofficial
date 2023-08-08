@@ -23,12 +23,14 @@
 
 .postContentContainer {
   width: 90%;
+  overflow-x: auto;
 }
 
 /* post, comment 비율 */
 .postContainer {
   text-align: start;
   margin: 0 45px;
+  overflow-x: auto;
 }
 
 .postTopbar {

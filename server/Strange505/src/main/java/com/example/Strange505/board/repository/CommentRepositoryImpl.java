@@ -48,6 +48,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .where(comment.isRemoved.isFalse())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(comment.id.desc())
                 .fetch();
 
         Long count = queryFactory
