@@ -162,8 +162,7 @@ export default function BoardsAll() {
               <button
                 className={styles.searchbutton}
                 onClick={() => {
-                  navigate(`/boards/${boardId}/search/${keywordBoard}`, {
-                  });
+                  navigate(`/boards/${boardId}/search/${keywordBoard}`);
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
               >

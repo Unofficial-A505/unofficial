@@ -104,47 +104,43 @@ const QuillContainer = () => {
 
   function sendformData() {
     let content = quillElement.current.editor.root.innerHTML;
-    if (content == '<p><br></p>') {
-      alert('내용을 입력하세요!')}
-    else {
-      return new Promise(function(resolve, reject) {
-        // let content = quillElement.current.editor.root.innerHTML;
-        console.log(imageList)
-        const imagePromises = []
-    
-        //글 등록하는 현재 content에 존재하는 image만 formData에 싣기
-        imageList.forEach((image) => {
-          let regexOne = new RegExp(`${image.url}`)
-          let imageString = String(regexOne)
-          imageString = imageString.replace(/\\/g, '')
-      
-          const imageChecked = content.match(regexOne)
-      
-          if (imageChecked) {
-            // formData에 해당 이미지 싣기 
-            const formData = new FormData();
-            formData.append("uploadFile", image.file);
-    
-            const promise = postImageApi(formData)
-            .then((res) => {
-              console.log('image', res.url)
-              console.log("success");
-              const uploadPath = res.data;
-              content = content.replace(regexOne, `${uploadPath}`)
-              console.log('change source', content)
-              // quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${uploadPath}`);
-              
-              window.URL.revokeObjectURL(image.url)
-            }).catch((err) => console.log(err));
+    return new Promise(function(resolve, reject) {
+      // let content = quillElement.current.editor.root.innerHTML;
+      console.log(imageList)
+      const imagePromises = []
   
-            imagePromises.push(promise)
-          } 
-        })
-        Promise.all(imagePromises)
-        .then(() => resolve(content))
-        .catch((err) => reject(err));
+      //글 등록하는 현재 content에 존재하는 image만 formData에 싣기
+      imageList.forEach((image) => {
+        let regexOne = new RegExp(`${image.url}`)
+        let imageString = String(regexOne)
+        imageString = imageString.replace(/\\/g, '')
+    
+        const imageChecked = content.match(regexOne)
+    
+        if (imageChecked) {
+          // formData에 해당 이미지 싣기 
+          const formData = new FormData();
+          formData.append("uploadFile", image.file);
+  
+          const promise = postImageApi(formData)
+          .then((res) => {
+            console.log('image', res.url)
+            console.log("success");
+            const uploadPath = res.data;
+            content = content.replace(regexOne, `${uploadPath}`)
+            console.log('change source', content)
+            // quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${uploadPath}`);
+            
+            window.URL.revokeObjectURL(image.url)
+          }).catch((err) => console.log(err));
+
+          imagePromises.push(promise)
+        } 
       })
-    }
+      Promise.all(imagePromises)
+      .then(() => resolve(content))
+      .catch((err) => reject(err));
+    })
   }
 
   function sendPost(content) {
@@ -162,24 +158,33 @@ const QuillContainer = () => {
     });
   }
 
-  async function createPost() {
-    const title = TitleElement.current.value;
-    if (title) {
+  const createRequest = () => {
+    const titleTest = TitleElement.current.value;
+    let contentTest = quillElement.current.editor.root.innerHTML;
+    console.log(contentTest)
+    if (!titleTest) {
       alert('제목을 입력해주세요!')
-    } else 
-      try {
-        setIsLoading(true); // 로딩 시작
-        const content = await sendformData();
-        console.log("sendformData completed");
-  
-        await sendPost(content);
-        console.log("sendPost completed");
-      } catch (err) {
-        console.error("Error in createPost:", err);
-      } finally {
-        setIsLoading(false); // 로딩 종료
-      }
+    } else if (contentTest == '<p><br></p>') {
+      alert('내용을 입력하세요!')
+    } else {
+      createPost()
     }
+  }
+
+  async function createPost() {
+    try {
+      setIsLoading(true); // 로딩 시작
+      const content = await sendformData();
+      console.log("sendformData completed");
+
+      await sendPost(content);
+      console.log("sendPost completed");
+    } catch (err) {
+      console.error("Error in createPost:", err);
+    } finally {
+      setIsLoading(false); // 로딩 종료
+    }
+  }
 
   // 이외 함수들      
   const handleCancel = () => {
@@ -197,7 +202,7 @@ const QuillContainer = () => {
             <p className={styles.boardTitle}>{currboardName}</p>
             <p>새 글 작성</p>
           </h3>
-          <button className="btn" id={styles.createsubmitbutton} onClick={createPost} disabled={isLoading}>
+          <button className="btn" id={styles.createsubmitbutton} onClick={createRequest} disabled={isLoading}>
             게시하기
           </button>
         </div>
@@ -236,7 +241,7 @@ const QuillContainer = () => {
             <IoIosArrowBack />
             목록으로 돌아가기
           </button>
-          <button className="btn" id={styles.createsubmitbutton} onClick={createPost} disabled={isLoading}>
+          <button className="btn" id={styles.createsubmitbutton} onClick={createRequest}>
             게시하기
           </button>
         </div>
