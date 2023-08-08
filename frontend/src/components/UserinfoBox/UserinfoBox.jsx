@@ -16,8 +16,12 @@ export default function UserinfoBox() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [userInfo, setUserInfo] = useState({});
   const [isAuth, setIsAuth] = useState(null);
+  const [userInfo, setUserInfo] = useState({});
+  const [userGen, setUserGen] = useState(null);
+  const [userLocal, setUserLocal] = useState(null);
+  const [userPoint, setUserPoint] = useState("내 포인트");
+
   const authUser = useSelector((state) => state.authUser);
 
   useEffect(() => {
@@ -27,14 +31,21 @@ export default function UserinfoBox() {
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const response = await customAxios.get("api/users/user");
+        const response = await customAxios.get("/api/users/user");
         setUserInfo(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error("Error fetching user role", error);
       }
     };
     getUserData();
   }, []);
+
+  useEffect(() => {
+    setUserLocal(userInfo.local);
+    setUserGen(userInfo.gen);
+    setUserPoint(userInfo.point);
+  }, [userInfo]);
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -101,8 +112,7 @@ export default function UserinfoBox() {
               className={styles.secondmypage}
               onClick={() => navigate("/user/password")}
             >
-              SSAFY{" "}
-              {userInfo.length ? `${userInfo.local} ${userInfo.gen}기` : null}
+              SSAFY {userLocal} {userGen}기
             </span>
             <span className={styles.secondhelloMessage}>
               님의 이야기를 들려주세요
@@ -123,9 +133,7 @@ export default function UserinfoBox() {
             onClick={() => navigate("/user/advertisement/mymile")}
           >
             <RiDatabase2Line className={styles.mymileIcon} />
-            <p className={styles.mileageTotal}>
-              {userInfo.length ? `${userInfo.point}` : "내 포인트"}
-            </p>
+            <p className={styles.mileageTotal}>{userPoint}</p>
           </p>
           <div className={styles.mypostsAndcomments}>
             <p
@@ -133,7 +141,7 @@ export default function UserinfoBox() {
               onClick={() => navigate("/user/activity/myposts")}
             >
               <BsFileEarmarkText className={styles.myIcon} />
-              <p>내 게시글&nbsp;</p>
+              <p className="me-2">내 게시글</p>
             </p>
             <p
               className={styles.myButton}
