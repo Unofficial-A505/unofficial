@@ -203,7 +203,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public void addPoint(Long userId) {
-        PointHistoryDto pointHistoryDto = new PointHistoryDto(5, "게시글 작성 적립", userId);
+        PointHistoryDto pointHistoryDto = new PointHistoryDto(5, "댓글 작성 적립", userId);
         pointHistoryService.putNewPointHistory(pointHistoryDto);
     }
 }
