@@ -2,6 +2,7 @@ package com.example.Strange505.user.controller;
 
 import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.dto.RequestUserDto;
+import com.example.Strange505.user.dto.UserDTO;
 import com.example.Strange505.user.service.AuthService;
 import com.example.Strange505.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,8 @@ public class UserController {
     private final AuthService authService;
 
     @GetMapping
-    public ResponseEntity<List<User>> getUsers() {
-        List<User> users = userService.getUsers();
+    public ResponseEntity<List<UserDTO>> getUsers() {
+        List<UserDTO> users = userService.getUsers();
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
@@ -45,6 +46,13 @@ public class UserController {
 
         int point = ((HashMap<String,Integer>)data).get("point");
         userService.pointAdd(point);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PostMapping("/drop")
+    public ResponseEntity withdraw(@RequestBody Object data) {
+        String password = ((HashMap<String,String>)data).get("password");
+        userService.withdrawUser(password);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

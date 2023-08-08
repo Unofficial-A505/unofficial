@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @Builder
 public class CommentRequestDto {
 
-//    private Long userId;
     private Long id;
     private Long articleId;
     private String content;
     private Long parentId;
+    private String nickName;
 }

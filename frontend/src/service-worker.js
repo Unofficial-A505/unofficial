@@ -40,7 +40,10 @@ registerRoute(
     if (url.pathname.match(fileExtensionRegexp)) {
       return false;
     } // Return true to signal that we want to use the handler.
-
+    // If the url is for index.html, skip.
+    if (url.pathname === '/index.html') {
+      return false;
+    }
     return true;
   },
   createHandlerBoundToURL(process.env.PUBLIC_URL + '/index.html')

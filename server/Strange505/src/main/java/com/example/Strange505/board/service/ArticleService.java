@@ -2,28 +2,31 @@ package com.example.Strange505.board.service;
 
 import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.dto.ArticleRequestDto;
+import com.example.Strange505.board.dto.ArticleResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 public interface ArticleService {
 
-    Article createArticle(ArticleRequestDto articleDTO, String email);
+    ArticleResponseDto createArticle(ArticleRequestDto articleDTO, String email);
 
-    Article getArticleById(Long id);
+    boolean checkUser(Long id, String email);
 
-    Page<Article> getAllArticles(Pageable pageable);
+    ArticleResponseDto getArticleById(Long id, String email);
 
-    Page<Article> getArticlesByBoard(Long boardId, Pageable pageable);
+    Page<ArticleResponseDto> getAllArticles(Pageable pageable);
 
-    Page<Article> getArticlesByTitleAndContent(String keyword, Long boardId, Pageable pageable);
+    Page<ArticleResponseDto> getArticlesByBoard(Long boardId, Pageable pageable);
 
-    Page<Article> getArticlesByUser(String email, Pageable pageable);
+    Page<ArticleResponseDto> getArticlesByTitleAndContent(String keyword, Long boardId, Pageable pageable);
 
-    void updateArticle(Long id, ArticleRequestDto dto, String email);
+    Page<ArticleResponseDto> getArticlesByUser(String email, Pageable pageable);
+
+    void updateArticle(ArticleRequestDto dto, String email);
 
     void deleteArticle(Long id, String email);
 
     void addViewCount(Long id);
+
+    void addPoint(Long userId);
 }

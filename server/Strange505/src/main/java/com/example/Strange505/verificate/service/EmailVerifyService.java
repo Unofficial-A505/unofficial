@@ -78,7 +78,12 @@ public class EmailVerifyService {
 
 
     public Result<Boolean> verifyEmail(String email) throws Exception {
-        if (userRepository.findByEmail(email).orElse(null) != null) {
+
+        User user = userRepository.findByEmail(email).orElse(null);
+        if (user != null) {
+            if (user.is_withdraw()) {
+                return Result.success(null);
+            }
             return Result.fail("이미 존재하는 회원 입니다.");
         }
         if (emailRepository.findByEmail(email).orElse(null) != null) {

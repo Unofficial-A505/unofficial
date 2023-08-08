@@ -1,24 +1,30 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import main_logo from "./../../assets/images/main_logo.png";
 import styles from "./NavBar.module.css";
 import Swal from 'sweetalert2';
+import Suggestion from "../Suggestion/Suggestion";
 
 export default function NavBar() {
   const navigate = useNavigate();
-  const handleClick = () => {
-    Swal.fire({
-      title: '공사중',
-      text: '죄송합니다. 아직 업데이트 중입니다.',
-      imageUrl: 'https://505bucket.s3.ap-northeast-2.amazonaws.com/static/Starnge505_alert2.png',
-      imageWidth: 400,
-      imageHeight: 200,
-      imageAlt: 'Custom image',
-    })
-  }
+  const [modalShow, setModalShow] = useState(false);
+
+  const handleClose = () => setModalShow(false);
+  const handleShow = () => setModalShow(true);
+  // const handleClick = () => {
+  //   Swal.fire({
+  //     title: '공사중',
+  //     text: '죄송합니다. 아직 업데이트 중입니다.',
+  //     imageUrl: 'https://505bucket.s3.ap-northeast-2.amazonaws.com/static/Starnge505_alert2.png',
+  //     imageWidth: 400,
+  //     imageHeight: 200,
+  //     imageAlt: 'Custom image',
+  //   })
+  // }
   const DEBUGRTC = () => {
     Swal.fire({
-      title: '작동중',
+      title: '공사중',
       text: '죄송합니다. 아직 업데이트 중입니다.',
       imageUrl: 'https://505bucket.s3.ap-northeast-2.amazonaws.com/static/Starnge505_alert2.png',
       imageWidth: 400,
@@ -33,14 +39,14 @@ export default function NavBar() {
         <button
           className={styles.tab}
           onClick={() => {
-            navigate("/boards/자유게시판");
+            navigate("/boards/1");
           }}
         >
           게시판
         </button>
       </li>
       <li className="nav-item">
-        <button className={styles.tab} onClick={handleClick}>건의하기</button>
+        <button className={styles.tab} onClick={handleShow}>건의하기</button>
       </li>
       <li className="nav-item">
         <button className={styles.tab} onClick={DEBUGRTC}>디버깅</button>
@@ -50,7 +56,8 @@ export default function NavBar() {
 
   return (
     <div>
-      <nav className="navbar navbar-expand-sm">
+      {/* <nav className="navbar navbar-expand-sm"> */}
+      <nav className="navbar navbar-expand">
         <div className={`container-fluid ${styles.container}`}>
           <a className="navbar-brand" style={{ padding: "10px" }} href="/">
             <img src={main_logo} alt="main_logo" width={150} style={{marginBottom:'5px'}} />
@@ -91,6 +98,7 @@ export default function NavBar() {
           <MenuItems />
         </div>
       </div>
+      <Suggestion show={modalShow} handleClose={handleClose} />
     </div>
   );
 }

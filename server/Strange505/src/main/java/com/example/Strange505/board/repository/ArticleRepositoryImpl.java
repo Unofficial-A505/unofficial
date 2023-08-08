@@ -24,12 +24,23 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
     public Page<Article> searchByTitleAndContent(String keyword, Long boardId, Pageable pageable) {
         List<Article> result = queryFactory
                 .selectFrom(article)
-                .where(eqBoard(boardId).and(titleCheck(keyword).or(contentCheck(keyword))))
+                .where(titleCheck(keyword).or(contentCheck(keyword)))
+                .where(eqBoard(boardId))
+                .where(article.isRemoved.isFalse())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(article.id.desc())
                 .fetch();
 
-        return new PageImpl<>(result, pageable, result.size());
+        Long count = queryFactory
+                .select(article.count())
+                .from(article)
+                .where(titleCheck(keyword).or(contentCheck(keyword)))
+                .where(eqBoard(boardId))
+                .where(article.isRemoved.isFalse())
+                .fetchOne();
+
+        return new PageImpl<>(result, pageable, count);
     }
 
     private BooleanExpression titleCheck(String title) {
@@ -63,11 +74,20 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
         List<Article> result = queryFactory
                 .selectFrom(article)
                 .where(article.user.id.eq(userId))
+                .where(article.isRemoved.isFalse())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(article.id.desc())
                 .fetch();
 
-        return new PageImpl<>(result, pageable, result.size());
+        Long count = queryFactory
+                .select(article.count())
+                .from(article)
+                .where(article.user.id.eq(userId))
+                .where(article.isRemoved.isFalse())
+                .fetchOne();
+
+        return new PageImpl<>(result, pageable, count);
     }
 
     @Override
@@ -77,18 +97,37 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
                 .selectFrom(article)
                 .from(article)
                 .where(article.board.id.eq(boardId))
+                .where(article.isRemoved.isFalse())
+                .orderBy(article.id.desc())
                 .fetch();
 
-        return new PageImpl<>(result, pageable, result.size());
+        Long count = queryFactory
+                .select(article.count())
+                .from(article)
+                .where(article.board.id.eq(boardId))
+                .where(article.isRemoved.isFalse())
+                .fetchOne();
+
+        return new PageImpl<>(result, pageable, count);
     }
 
     @Override
     public Page<Article> searchAllArticles(Pageable pageable) {
         List<Article> result = queryFactory
                 .selectFrom(article)
+                .where(article.isRemoved.isFalse())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(article.id.desc())
                 .fetch();
 
-        return new PageImpl<>(result, pageable, result.size());
+        Long count = queryFactory
+                .select(article.count())
+                .from(article)
+                .where(article.isRemoved.isFalse())
+                .fetchOne();
+
+        return new PageImpl<>(result, pageable, count);
     }
 
     @Override

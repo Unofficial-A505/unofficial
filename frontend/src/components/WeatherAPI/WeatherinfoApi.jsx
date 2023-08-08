@@ -8,8 +8,8 @@ import Slider from "react-slick";
 export default function WeatherWidget() {
   const cities = ["Seoul", "Daejeon", "Gumi", "Gwangju", "Busan"];
   const api_key = "be3211008c87f453651f5f04faa61375";
-  const [weatherData, setWeatherData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [ weatherData, setWeatherData ] = useState([]);
+  const [ loading, setLoading ] = useState(true);
 
   useEffect(() => {
     const fetchWeatherData = async () => {
@@ -101,7 +101,13 @@ const WeatherCard = ({ data }) => {
       <div className={styles.downContainer}>
         {[1, 2, 3].map((idx) => {
           return (
-            <Forecast times={times} images={images} temps={temps} idx={idx} />
+            <Forecast
+              times={times}
+              images={images}
+              temps={temps}
+              idx={idx}
+              key={idx}
+            />
           );
         })}
       </div>

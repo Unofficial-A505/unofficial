@@ -77,7 +77,7 @@ deploy-react: # This job runs in the deploy stage.
     - npm install
     - npm install --save-dev @babel/plugin-proposal-private-property-in-object
     - npm run build
-    - docker build -t $IMAGE_NAME .
+    - docker build -t $IMAGE_NAME --build-arg env=prod .
     - docker stop $NAME || true
     - docker rm $NAME || true
     - docker run -d --restart always --network ubuntu_default --ip 172.18.0.52 -e TZ=Asia/Seoul --name $NAME $IMAGE_NAME
@@ -133,8 +133,8 @@ deploy-react-dev: # This job runs in the deploy stage.
     - cd frontend
     - npm install
     - npm install --save-dev @babel/plugin-proposal-private-property-in-object
-    - npm run build
-    - docker build -t $IMAGE_NAME .
+    - npm run build:dev
+    - docker build -t $IMAGE_NAME --build-arg env=qa .
     - docker stop $NAME || true
     - docker rm $NAME || true
     - docker run -d --restart always --network ubuntu_default --ip 172.18.0.101 -e TZ=Asia/Seoul --name $NAME $IMAGE_NAME

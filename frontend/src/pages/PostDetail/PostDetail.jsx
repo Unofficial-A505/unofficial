@@ -1,17 +1,14 @@
 import styles from "./PostDetail.module.css";
-import axios from "axios";
 
 import { useState, useEffect, useDebugValue, useRef } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { useParams, useNavigate, redirect, Navigate } from "react-router-dom";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 
 import BoardView from "../../components/BoardView/BoardView";
 import CommentView from "../../components/CommentView/CommentView";
 import BestpostsWidget from "../../components/BestpostsWidget/BestpostsWidget";
-import EduGrantButton from "../../components/EduGrantButton/EduGrantsButton";
+import ServerTime from "../../components/ServerTime/ServerTime";
 
 import TopSpace from "../../components/TopSpace/TopSpace";
-import customAxios from "../../util/customAxios";
 
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
@@ -26,180 +23,141 @@ import { HiOutlinePencilAlt } from "@react-icons/all-files/hi/HiOutlinePencilAlt
 import { HiOutlineSpeakerphone } from "@react-icons/all-files/hi/HiOutlineSpeakerphone";
 // 말풍선 아이콘
 import { IoChatboxOutline } from "@react-icons/all-files/io5/IoChatboxOutline";
+// 조회수 아이콘
+import { AiOutlineEye } from "@react-icons/all-files/ai/AiOutlineEye";
+
+import { boardsArticles } from '../../api/boards'
+import { postDetailApi, postDeleteApi, postRecommendInputApi } from '../../api/posts'
+import { postCommentsApi, postCommentCreateApi, postCommentUpdateApi, postCommentDeleteApi } from '../../api/comments'
+
+import customAxios from "../../util/customAxios";
+import useDocumentTitle from "../../useDocumentTitle";
 
 // API import
 export default function PostDetail() {
   const navigate = useNavigate();
-  const { boardTitle } = useParams();
+
+  const { boardId } = useParams();
   const { postId } = useParams();
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [ createcomment, setcreateComment] = useState("");
-  const [ comments, setComments ] = useState([])
-  const [ recommendedState, setrecommendedState ] = useState(false)
-  console.log('지금 코멘트', comments)
+  const [boardTitle, setBoardTitle] = useState("");
+  const [postDetail, setpostDetail] = useState({});
+  const [createcomment, setcreateComment] = useState("");
+  const [comments, setComments] = useState([]);
+  const [commentsInfo, setCommentsInfo] = useState({});
+  const [commentnickName, setcommentnickName] = useState("");
+  const [currboardPosts, setcurrboardPosts] = useState([]);
+  const [articleList, setarticleList] = useState([]);
+  const [recommendedState, setrecommendedState] = useState(false);
   const commentElement = useRef(null);
 
+  // 탭 제목 설정하기
+  useDocumentTitle(boardTitle);
+
+  // 댓글 가져오기
   const getComment = () => {
     customAxios({
       method: "get",
       url: `/api/comments/article/${postId}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
     })
       .then((res) => {
-        console.log("comments", res.data);
-        setComments(res.data);
+        setComments(res.data.content);
+        setCommentsInfo(res.data);
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    customAxios({
-      method: "get",
-      url: `/api/articles/${postId}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    // 게시글 상세정보 가져오기
+    postDetailApi(postId)
+    .then((res) =>{ 
+      setpostDetail(res)
+      setBoardTitle(res.boardName)
     })
-      .then((res) => {
-        console.log(res.data);
-        setTitle(res.data.title);
-        setContent(res.data.content);
+    .catch((err) => console.log(err));
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    getComment();
+
+    // 현재 board 게시글
+    boardsArticles(boardId)
+    .then((res) => setcurrboardPosts(res))
+
+    return () => {  
+      console.log('unmounted');}
+    }, [postId]);
+    
+  // 게시글 삭제
+  const postDelete = () => {
+    postDeleteApi(postId)
+      .then(() => {
+        navigate(`/boards/${boardId}`);
       })
-      .catch((err) => console.log(err));
-
-      window.scrollTo({ top: 0, behavior: "smooth" });
-
-      getComment(); 
-      return () => {  
-        console.log('unmounted')}
-      }, [postId]);
-
-  // const { isLoading, error, data: hello } = useQuery(
-  //   ['hello', postId ], () =>
-  //     axios({
-  //     method: "get",
-  //     url: `http://127.0.0.1:8000/api/v1/articles/${postId}/`,
-  //     // headers: {
-  //     //   Authorization: `Token ${this.$store.state.token}`,
-  //     // }
-  //     })
-  //     .then((res) => res.data)
-  //     .catch((err) => console.log(err))
-  //   );
-
-const commentCreate = () => {
-  const content = createcomment
-  const parentId = 0;
-  const articleId = postId;
-  console.log(content)
-  customAxios({
-    method: "post",
-    url: `/api/comments`,
-    data: { articleId, content, parentId },
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
-    })
-    .then((res) => {
-      console.log("댓글 불러오기!!!")
-      console.log(res);
-      // commentElement.current.value = ''
-      setcreateComment("")
-      getComment();
-    })
       .catch((err) => console.log(err));
   };
 
+  // 게시글 추천
+  const postRecommendedInput = () => {
+    const articleId = postId;
+    postRecommendInputApi(articleId)
+      .then(() => {
+        if (!recommendedState) {
+          postDetail.likes += 1;
+        } else {
+          postDetail.likes -= 1;
+        }
+        setrecommendedState((prev) => !prev);
+      })
+      .catch((res) => console.log(res));
+  };
+
+  // 댓글 생성
+  const commentCreate = () => {
+    let text = document.querySelector("textarea").value;
+    text = text.replaceAll(/(\n|\r\n)/g, "<br>");
+
+    if (!commentnickName) {
+      alert("댓글 닉네임을 입력해주세요!");
+    } else if (!createcomment) {
+      alert("댓글을 입력해주세요!");
+    } else {
+      const content = createcomment;
+      const parentId = 0;
+      const articleId = postId;
+      const nickName = commentnickName;
+
+      postCommentCreateApi(articleId, content, parentId, nickName)
+        .then(() => getComment())
+        .catch((err) => console.log(err));
+    }
+  };
+
+  // 댓글 수정
   const commentUpdate = (updateComment, id) => {
-    const content = updateComment
+    let text = document.querySelector(".textarea").value;
+    text = text.replaceAll(/(\n|\r\n)/g, "<br>");
+
+    const content = updateComment;
     const parentId = 0;
     const articleId = postId;
-    console.log(content)
-    customAxios({
-      method: "put",
-      url: `/api/comments/${id}`,
-      data: { id, articleId, content, parentId },
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
-      })
-      .then((res) => {
-        console.log(res);
-        getComment();
-      })
-      .catch((err) => console.log(err))
-    }
-
-  const CommentDelete = (id) => {
-    customAxios({
-      method: "delete",
-      url: `/api/comments/${id}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
-      })
-      .then((res) => {
-        console.log(res);
-        getComment();
-      })
+    postCommentUpdateApi(id, articleId, content, parentId)
+      .then(() => getComment())
       .catch((err) => console.log(err));
   };
 
-  const postDelete = () => {
-    console.log('post delete request')
-    axios({
-      method: "delete",
-      url: `https://unofficial.kr/api/articles/${postId}`,
-      headers: {
-        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTA1NzE4NjcsInN1YiI6ImFjY2Vzcy10b2tlbiIsImh0dHBzOi8vbG9jYWxob3N0OjgwODAiOnRydWUsInVzZXJfaWQiOjIsInJvbGUiOiJST0xFX1VTRVIifQ.YOofxvS5cyC4WHNgQo1CqA77wwUd2fSLJTw01ubAlU8i2M7XSWoSSPcDWy7kLadmAFt2ZzcbqmX2h904Y4USYA`,
-      }
-      })
-      .then((res) => {
-        console.log(res);
-        navigate(`/boards/${boardTitle}`)
-      })
+  // 댓글 삭제
+  const CommentDelete = (id) => {
+    postCommentDeleteApi(id)
+      .then(() => getComment())
       .catch((err) => console.log(err));
-    };
+  };
 
-  const postRecommendedInput = () => {
-    console.log('postRecommendedInput')
-    customAxios({
-      method: "post",
-      url: `/api/ads/uploadForArticle`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
-    })
-    .then((res) => {
-      console.log(res)
-      setrecommendedState((prev) => !prev)
-    })
-    .catch((res) => console.log(res))
-  }
-
-  const postRecommendedDelete = () => {
-    console.log('postRecommendedDelete')
-    customAxios({
-      method: "delete",
-      url: `/api/ads/uploadForArticle`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
-    })
-    .then((res) => {
-      console.log(res)
-      setrecommendedState((prev) => !prev)
-    })
-    .catch((res) => console.log(res))
-  }
-
-  const username = "9기 서울";
-  const timeago = "21분 전";
-  const recommended = 37;
-  const commentsNum = 3;
+  const createTime = postDetail.createTime
+  const updateTime = postDetail.modifyTime
+  const createTime_modify = createTime?.slice(0, 10)
+  const updateTime_modify = updateTime?.slice(0, 10)
 
   return (
     <>
@@ -207,10 +165,12 @@ const commentCreate = () => {
       <div className={styles.postdetailallContainer}>
         <span className={styles.postviewContainer}>
           <div className={styles.postTopbar}>
-            <span className={styles.boardTitle}>{boardTitle}</span>
+            <span className={styles.boardTitle}>{postDetail.boardName}</span>
             <button
               className={styles.grayoutbutton}
-              onClick={() => navigate(`/boards/${boardTitle}`)}
+              onClick={() =>
+                navigate(`/boards/${postDetail.boardId}`, { state: postDetail.boardId })
+              }
             >
               <IoIosArrowBack />
               목록으로 돌아가기
@@ -218,37 +178,52 @@ const commentCreate = () => {
           </div>
           <div className={styles.postContainer}>
             <div>
-              <div className={styles.postTitle}>{title}</div>
-              <div className={styles.postusername}>{username}</div>
-              <div className={styles.posttimeago}>
-                <IoRocketOutline className={styles.tabIcon} size="20" />
-                {timeago}
+              <div className={styles.postTitle}>{postDetail.title}</div>
+              <div className={styles.postusername}>
+                {postDetail.nickName === null || postDetail.nickName === ""
+                  ? "익명"
+                  : postDetail.nickName}
+              </div>
+              <div className={styles.dateViews}>
+                <div className={styles.posttimeago}>
+                  <IoRocketOutline className={styles.tabIcon} size="20" />
+                  {createTime_modify}
+                  {createTime_modify !== updateTime_modify &&
+                    ` (수정 : ${updateTime_modify})`}
+                </div>
+                <div className={styles.posttimeago}>
+                  <AiOutlineEye className={styles.tabIcon} size="19" />
+                  {postDetail.views}
+                </div>
               </div>
             </div>
 
             <hr />
             <div className={styles.postcontentContainer}>
-              <div dangerouslySetInnerHTML={{ __html: content }} />
+              <div dangerouslySetInnerHTML={{ __html: postDetail.content }} />
             </div>
 
             <div className={styles.postBottombar}>
-              {!recommendedState ? 
-                <div onClick={postRecommendedInput}>
-                  <FaRegThumbsUp class={styles.tabIcon} size="18" />
-                  {recommended}
-                </div>
-                :
-                <div onClick={postRecommendedDelete}>
-                  <FaRegThumbsUp class={styles.tabIcon} size="18" />
-                  {recommended}
-                </div>
-              }
+              <div onClick={postRecommendedInput}>
+                <FaRegThumbsUp class={styles.tabIcon} size="18" />
+                {postDetail.likes}
+              </div>
               <div className={styles.postupdateBottom}>
-                <div onClick={() => navigate(`/boards/${boardTitle}/${postId}/update`, { state : { title, content }})} className={styles.postupdateBottomtab}>
+                <div
+                  onClick={() =>
+                    navigate(`/boards/${boardId}/${postId}/update`, {
+                      state: postDetail,
+                    })
+                  }
+                  className={styles.postupdateBottomtab}
+                >
                   <HiOutlinePencilAlt size="15" />
                   update
                 </div>
-                <div onClick={postDelete} className={styles.postupdateBottomtab}>
+                <div
+                  onClick={postDelete}
+                  className={styles.postupdateBottomtab}
+                >
                   <IoTrashOutline size="15" />
                   delete
                 </div>
@@ -260,18 +235,20 @@ const commentCreate = () => {
           </div>
           <div className={styles.commentInputContainer}>
             <div className={styles.commentTitle}>
-              <p>댓글 {commentsNum}</p>
+              <p>댓글 {commentsInfo.pageInfo?.totalElements}</p>
             </div>
 
+            <div className={styles.commentnickName}>
+              <div>닉네임</div>
+              <input className={styles.commentnickNameInput} type="text" placeholder="닉네임을 입력하세요" onChange={(e) => setcommentnickName(e.target.value)}/>
+            </div>
             <div className={styles.commentbox}>
               <textarea
                 className={styles.commentInput}
                 type="text"
                 onChange={(e) => {
                   setcreateComment(e.target.value);
-                  console.log(createcomment)
-                 }
-                }
+                 }}
                 placeholder="댓글을 작성해보세요"
               />
               <button className={styles.commentButton} onClick={commentCreate}>
@@ -282,11 +259,16 @@ const commentCreate = () => {
 
           <div className={styles.postContainer}>
             <hr />
-            {comments.map((comment, index) =>
-              <div key={index}> 
-                <CommentView comment={comment} CommentDelete={CommentDelete} commentUpdate={commentUpdate}/>
+            {comments.map((comment, index) => (
+              <div key={index}>
+                <CommentView
+                  comment={comment}
+                  CommentDelete={CommentDelete}
+                  commentUpdate={commentUpdate}
+                  postId={postId}
+                />
               </div>
-            )}
+            ))}
           </div>
           <div>
             <nav className={styles.commentPagination} aria-label="...">
@@ -308,10 +290,10 @@ const commentCreate = () => {
             </nav>
           </div>
 
-          <div className={styles.pageBottomtab}>
+          {/* <div className={styles.pageBottomtab}>
             <button
               className={styles.grayoutbutton}
-              onClick={() => navigate(`/boards/${boardTitle}`)}
+              onClick={() => navigate(`/boards/${boardId}`)}
             >
               <IoIosArrowBack />
               이전글 보기
@@ -323,34 +305,38 @@ const commentCreate = () => {
               다음글 보기
               <IoIosArrowForward />
             </button>
-          </div>
+          </div> */}
 
-          <hr />
+          <br />
 
           <div className={styles.moreTopbar}>
             <button
               className={styles.buttonlayoutDel}
-              onClick={() => navigate(`/boards/${boardTitle}`)}
+              onClick={() =>
+                navigate(`/boards/${boardTitle}`, { state: postDetail.boardId })
+              }
             >
-              <span className={styles.boardmoreTitleA}>{boardTitle}</span>
+              <span className={styles.boardmoreTitleA}>
+                {postDetail.boardName}
+              </span>
               <span className={styles.boardmoreTitleB}>글 더 보기</span>
             </button>
             <button
               className={styles.grayoutbutton}
-              onClick={() => navigate(`/boards/${boardTitle}`)}
+              onClick={() => navigate(`/boards/${postDetail.boardId}`, { state : postDetail.boardId })}
             >
               목록 보기
               <IoIosArrowForward />
             </button>
           </div>
-          <BoardView />
+          <BoardView posts={currboardPosts}/>
         </span>
 
         <span className={styles.sideviewContainer}>
           <div className={styles.sideContentContainer}>
             <div className={styles.sidecontentmiddleBox}>
               <BestpostsWidget />
-              <EduGrantButton />
+              <ServerTime />
             </div>
           </div>
         </span>

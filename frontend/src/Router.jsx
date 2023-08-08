@@ -15,12 +15,11 @@ import BoardSearchView from "./pages/BoardsAll/BoardSearchView/BoardSearchView";
 
 import PostDetail from "./pages/PostDetail/PostDetail";
 import PostUpdate from "./pages/PostUpdate/PostUpdate";
-// import CreatePostPage from './pages/CreatePostPage/CreatePostPage'
 import SearchView from "./pages/SearchView/SearchView";
 
 import MypageUser from "./pages/MyPage/MypageUser/MypageUser";
 import MyChangePassword from "./pages/MyPage/MypageUser/MyChangePassword/MyChangePassword";
-import MySignout from "./pages/MyPage/MypageUser/MySignout/MySignout";
+import MyDeleteAccount from "./pages/MyPage/MypageUser/MyDeleteAccount/MyDeleteAccount";
 
 import MypageActivity from "./pages/MyPage/MypageActivity/MypageActivity";
 import MypostsView from "./pages/MyPage/MypageActivity/MypostsView/MypostsView";
@@ -33,12 +32,12 @@ import MyAdvertisement from "./pages/MyPage/MypageAdver/MyAdvertisement/MyAdvert
 import Management from "./pages/MyPage/Management/Management";
 import AddAdvPage from "./pages/MyPage/MypageAdver/AddAdvPage";
 
-import CreatePostPage from "./pages/CreatePostPage/QuillContainer";
-// import CreatePostPage from './pages/CreatePostPage/CreatePost'
+import CreatePostPage from "./pages/CreatePostPage/CreatePostPage";
 
 import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage"
-import WebRTC from "./pages/WebRtcPage/WebRtcPage"
+import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
+import WebRTC from "./pages/WebRtcPage/WebRtcPage";
+import SuggestionM from "./pages/MyPage/SuggestionM/SuggestionM";
 
 const router = createBrowserRouter([
   {
@@ -71,7 +70,13 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      { path: "", element: <MainPage /> },
+      { path: "",
+        element: <MainPage />,
+      },
+      {
+        path: "user/advertisement/form",
+        element: <AddAdvPage />,
+      },
       {
         // path: ':userId',
         path: "user",
@@ -82,7 +87,7 @@ const router = createBrowserRouter([
             element: <MypageUser />,
             children: [
               { path: "password", element: <MyChangePassword /> },
-              { path: "signout", element: <MySignout /> },
+              { path: "deletion", element: <MyDeleteAccount /> },
             ],
           },
           {
@@ -105,27 +110,28 @@ const router = createBrowserRouter([
           { path: "activity", element: <MypageActivity /> },
           { path: "advertisement", element: <MypageAdver /> },
           { path: "management", element: <Management /> },
+          { path: "suggestion", element: <SuggestionM /> },
         ],
       },
       {
         path: "boards",
         element: <BoardsAll />,
         children: [
-          { path: ":boardTitle", element: <BoardsView /> },
-          { path: ":boardTitle/search/:keyword", element: <BoardSearchView /> },
+          { path: ":boardId", element: <BoardsView /> },
+          { path: ":boardId/search/:keyword", element: <BoardSearchView /> },
         ],
       },
-      { path: "boards/:boardTitle/:postId", element: <PostDetail /> },
+      { path: "boards/:boardId/:postId", element: <PostDetail /> },
       { path: "boards/search/:keyword", element: <SearchView /> },
       {
         path: "forgot-password",
-        element: <ForgotPasswordPage />
+        element: <ForgotPasswordPage />,
       },
     ],
   },
   { path: "/user/advertisement/form", element: <AddAdvPage /> },
-  { path: "boards/:boardTitle/create", element: <CreatePostPage /> },
-  { path: "boards/:boardTitle/:postId/update", element: <PostUpdate /> },
+  { path: "boards/:boardId/create", element: <CreatePostPage /> },
+  { path: "boards/:boardId/:postId/update", element: <PostUpdate /> },
 ]);
 
 export default router;

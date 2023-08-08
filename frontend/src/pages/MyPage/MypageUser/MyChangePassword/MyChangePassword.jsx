@@ -33,7 +33,6 @@ export default function MyChangePassword() {
     setNewPassword2(e.target.value);
     setPasswordMismatch(newPassword1 !== e.target.value);
   };
-  console.log(oldPassword, newPassword1, newPassword2);
   const reset = () => {
     window.location.reload();
   };
@@ -42,7 +41,7 @@ export default function MyChangePassword() {
     let pw = newPassword2;
     let num = pw.search(/[0-9]/g);
     let eng = pw.search(/[a-z]/gi);
-    let spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+    // let spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
 
     if (pw.length < 8 || pw.length > 20) {
       alert("8 ~ 20자리 이내로 입력해주세요.");
@@ -50,7 +49,7 @@ export default function MyChangePassword() {
     } else if (pw.search(/\s/) !== -1) {
       alert("비밀번호는 공백 없이 입력해주세요.");
       return false;
-    } else if (num < 0 || eng < 0 || spe < 0) {
+    } else if (num < 0 || eng < 0) {
       alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
       return false;
     } else if (passwordMismatch) {
@@ -82,17 +81,16 @@ export default function MyChangePassword() {
 
   const requestChangePassword = async (email, oldPassword, newPassword) => {
     try {
-      const response = await customAxios.post("/api/user/password", {
+      const response = await customAxios.post("/api/users/password", {
         email: email,
         oldPassword: oldPassword,
         newPassword: newPassword,
       });
       alert("비밀번호 변경이 완료되었습니다. 다시 로그인 해주시기 바랍니다.");
-      console.log("성공", response);
       logout();
       navigate("/");
     } catch (err) {
-      alert("실패");
+      alert("비밀번호 변경이 실패하였습니다. 다시 시도 해주시기 바랍니다.");
       console.log("실패", err);
       return;
     }
@@ -115,7 +113,7 @@ export default function MyChangePassword() {
         </div>
         <div className={styles.inputContainer}>
           <div className="mb-3 row">
-            <label for="staticEmail" className="col-sm-3 col-form-label">
+            <label htmlFor="staticEmail" className="col-sm-3 col-form-label">
               이메일
             </label>
             <div className="col-sm-9">
@@ -129,40 +127,41 @@ export default function MyChangePassword() {
             </div>
           </div>
           <div className="mb-3 row">
-            <label for="inputPassword" className="col-sm-3 col-form-label">
+            <label htmlFor="inputPassword1" className="col-sm-3 col-form-label">
               기존 비밀번호
             </label>
             <div className="col-sm-9">
               <input
                 type="password"
                 className="form-control"
-                id="inputPassword"
+                id="inputPassword1"
+                autocomplete="off"
                 onChange={onOldPasswordHandler}
               />
             </div>
           </div>
           <div className="mb-3 row">
-            <label for="inputPassword" className="col-sm-3 col-form-label">
+            <label htmlFor="inputPassword2" className="col-sm-3 col-form-label">
               새 비밀번호
             </label>
             <div className="col-sm-9">
               <input
                 type="password"
                 className="form-control"
-                id="inputPassword"
+                id="inputPassword2"
                 onChange={onNewPassword1Handler}
               />
             </div>
           </div>
           <div className="mb-3 row">
-            <label for="inputPassword" className="col-sm-3 col-form-label">
+            <label htmlFor="inputPassword3" className="col-sm-3 col-form-label">
               새 비밀번호 확인
             </label>
             <div className="col-sm-9">
               <input
                 type="password"
                 className="form-control"
-                id="inputPassword"
+                id="inputPassword3"
                 onChange={onNewPassword2Handler}
               />
               {newPassword1 && newPassword2 && passwordMismatch && (

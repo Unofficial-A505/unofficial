@@ -54,10 +54,7 @@ public class ImageServiceImpl implements ImageService {
     public void deleteImageForUpdate(String content, ArticleRequestDto dto) {
         List<String> nowImages = parsingArticle(dto.getContent());
         List<String> preImages = parsingArticle(content);
-        List<String> addImages = dto.getImageList();
-
         if (preImages != null) notUsingImageDelete(preImages, nowImages);
-        if (addImages != null) notUsingImageDelete(addImages, nowImages);
     }
 
     @Override

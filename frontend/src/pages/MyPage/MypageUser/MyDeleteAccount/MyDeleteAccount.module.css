@@ -1,0 +1,106 @@
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  width: 100%;
+  padding: 2rem 3.5rem;
+}
+.myContentContainer {
+  width: 750px;
+  height: 450px;
+  padding: 0.6rem;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.mycontentTitle {
+  display: flex;
+  width: 100%;
+}
+.mypostsTitle {
+  color: #585858;
+  font-weight: 700;
+  margin-right: 10px;
+}
+.smallTitle {
+  height: 28px;
+  margin-top: 17px;
+  color: #757575;
+  font-size: 14px;
+}
+.termsContainer {
+  border: 1px dotted #757575;
+  border-radius: 10px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+.formContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.formContainer button {
+  height: 2.4rem;
+  width: 6rem;
+}
+.inputContainer {
+  display: flex;
+  width: 90%;
+}
+.inputContainer label{
+  line-height: 230%;
+  margin-right: 0.5rem;
+}
+.inputContainer input {
+  width: 75%;
+  height: 2.4rem;
+}
+
+/* 배경을 어둡게 하는 오버레이 */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  /* 배경을 어둡게 설정 */
+  z-index: 99;
+}
+/* 모달창을 화면 중앙. 최상단에 노출 */
+.container {
+  /* 모달창 크기 */
+  width: 450px;
+  height: 400px;
+  /* 최상단 위치 */
+  z-index: 999;
+  /* 중앙 배치 */
+  /* top, bottom, left, right 는 브라우저 기준으로 작동한다. */
+  /* translate는 본인의 크기 기준으로 작동한다. */
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* 모달창 디자인 */
+  border: 1px solid #ededed;
+  border-radius: 8px;
+  padding: 60px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+}
+
+.completeContainer {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.completeContainer button {
+  width: 100px;
+}

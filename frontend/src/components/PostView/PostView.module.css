@@ -1,38 +1,103 @@
 .boardpostContainer{
   width: 95%;
   height: 35px;
-  margin: 0 auto;
+  margin: 5px auto;
 
   display: flex;
   justify-content: space-between;
   border: 1px solid rgba(128, 128, 128, 0.315);
   border-width: 1px 0 0 0 ;
+
+  /* border: 1px dotted red; */
 }
 
-.postContainer {
+.postContainerA {
   display: flex;
   margin: 8px 0 0 0;
+
+  width: 60%;
+
+  /* border: 1px dotted red; */
+}
+
+.postContainerB {
+  display: flex;
+  margin: 8px 0 0 0;
+  width: 40%;
+  text-align: right;
+
+  /* border: 1px dotted red; */
 }
 
 .postTitle {
+  text-align: start;
+  /* border: 1px dotted red; */
+  width: 90%;
+
+  /* width 넘어가는 글자들 ... 처리*/
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+
   cursor: pointer;
   margin: 0 12px 0 0;
 
   color: #000;
-  font-family: Inter;
-  font-size: 13px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+}
+
+.postTitle:hover {
+  font-weight: 500;
+
+  text-decoration: underline;
+  text-underline-position: under;
 }
 
 .postContent {
   margin: 0 12px 0 0;
 
   color: #757575;
-  font-family: Inter;
-  font-size: 11.224px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  /* border: 1px dotted gray; */
+}
+
+#boardName {
+  width: 100px;
+  text-align: start;
+}
+
+#postId {
+  width: 40px;
+  text-align: start;
+}
+
+.postIcon {
+  margin: 0 4px 4px 0;
+}
+
+#postcreatTime {
+  text-align: right;
+
+  border: 1px dotted red;
+}
+
+#postrecommendBox {
+  width: 15%;
+  text-align: center;
+
+  /* border: 1px aqua dotted; */
+}
+
+#postviewBox {
+  width: 22%;
+  text-align: center;
+
+  /* border: 1px dotted red; */
 }

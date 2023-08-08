@@ -34,7 +34,11 @@ public class Controller {
 	public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
 			throws OpenViduJavaClientException, OpenViduHttpException {
 		SessionProperties properties = SessionProperties.fromJson(params).build();
-		Session session = openvidu.createSession(properties);
+//		Session session = openvidu.getActiveSession((String)params.get("customSessionId"));
+//		if (session == null) {
+//			session = openvidu.createSession(properties);
+//		}
+		Session session = session = openvidu.createSession(properties);
 		return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK);
 	}
 
@@ -48,6 +52,7 @@ public class Controller {
 			@RequestBody(required = false) Map<String, Object> params)
 			throws OpenViduJavaClientException, OpenViduHttpException {
 		Session session = openvidu.getActiveSession(sessionId);
+		System.out.println(session);
 		if (session == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

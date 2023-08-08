@@ -20,3 +20,4 @@ mail:
   base-url : "https://dev.unofficial.kr/verify?verificationCode="
 
 test: qa
+

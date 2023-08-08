@@ -7,12 +7,16 @@ import { IoChatboxOutline } from '@react-icons/all-files/io5/IoChatboxOutline';
 import { IoRocketOutline } from '@react-icons/all-files/io5/IoRocketOutline';
 import { BsArrowReturnRight } from '@react-icons/all-files/bs/BsArrowReturnRight';
 
+import customAxios from "../../util/customAxios";
+
 // 삭제 아이콘
 import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 // 수정 아이콘
 import { HiOutlinePencilAlt } from '@react-icons/all-files/hi/HiOutlinePencilAlt';
 
-export default function CommentView({ comment, CommentDelete, commentUpdate}){
+import RecommentsView from '../RecommentsView/RecommentsView';
+
+export default function CommentView({ comment, CommentDelete, commentUpdate, postId}){
   const commentRecommended = 0
   const comentContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce venenatis velit id justo vulputate eleifend. Integer maximus sapien enim, vel faucibus risus auctor vel. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus hendrerit tincidunt diam sed accumsan. Aenean rhoncus erat et nisi lobortis, nec tincidunt elit finibus. Cras ipsum nulla, egestas non nisl vel, pharetra mollis tellus. Nullam dignissim metus lectus, at faucibus ex lacinia a. Proin tristique augue ut turpis tincidunt lacinia.'
   const [ updateState, setupdateState ] = useState(false)
@@ -20,15 +24,35 @@ export default function CommentView({ comment, CommentDelete, commentUpdate}){
   const [ comments, setComments ] = useState('')
   const [ createComment, setcreateComment ] = useState('')
   const updateContent = useRef('')
-  const { id, content } = comment
+  const { content, id } = comment
+
+  const recommentCreate = () => {
+    const content = comments
+    const parentId = id;
+    const articleId = postId;
+    console.log(content)
+    customAxios({
+      method: "post",
+      url: `${process.env.REACT_APP_SERVER}/api/comments`,
+      data: { articleId, content, parentId },
+      })
+      .then((res) => {
+        console.log("댓글 불러오기!!!")
+        console.log(res);
+        // commentElement.current.value = ''
+        setcreateComment("")
+      })
+        .catch((err) => console.log(err));
+    };
 
   if (!updateState) {
     return(
       <div className={styles.commentContainer}>
         <div className={styles.commentTopbar}>
-          <div>
-            <span className={styles.commentTitle}>9기 구미</span>
-            <span className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} />15분 전</span>
+          <div className={styles.commentTitle}>
+            <span className={styles.recommentGenLocalInfo}>{comment.gen}기 {comment.local}</span>
+            {comment.nickName ? <span className={styles.recommentnickName}>{comment.nickName}</span> : <span className={styles.recommentnickName}>익명</span>}
+            <span className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} />{comment.createTime?.slice(0, 10)}</span>
           </div>
         </div>
   
@@ -39,9 +63,9 @@ export default function CommentView({ comment, CommentDelete, commentUpdate}){
           <div>
             <span className={styles.commentIcons} onClick={() => {
               setupdateState((prev) => !prev);
-              setcreateComment(createComment.content);
+              // setcreateComment(createComment.content);
               }}>
-              <span className={styles.updatetextPosition} ><HiOutlinePencilAlt />수정하기</span></span>
+            <span className={styles.updatetextPosition} ><HiOutlinePencilAlt />수정하기</span></span>
             <span className={styles.commentIcons} onClick={() => {CommentDelete(id)}}><span className={styles.updatetextPosition}><IoTrashOutline />삭제하기</span></span>
           </div>
         </div>
@@ -56,11 +80,15 @@ export default function CommentView({ comment, CommentDelete, commentUpdate}){
               onChange={(e) => setComments(e.target.value)}
               placeholder="대댓글을 작성해보세요"
             />
-            <button className={styles.commentButton}>
+            <button onClick={recommentCreate} className={styles.commentButton}>
               <IoChatboxOutline size="23" />
             </button>
           </div>
         </div>}
+        
+        {comment.children.map((recomment, index) => 
+          <RecommentsView key={index} recomment={recomment}/>
+        )}
 
         <hr />
   
@@ -74,8 +102,6 @@ export default function CommentView({ comment, CommentDelete, commentUpdate}){
             <span className={styles.commentTitle}>9기 구미</span>
             <span className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} />15분 전</span>
           </div>
-          <div>
-          </div>
         </div>
         
         <div className={styles.updateinputContainer}>
@@ -87,11 +113,16 @@ export default function CommentView({ comment, CommentDelete, commentUpdate}){
           <button className={styles.updateButtons} onClick={() => {
             const Content = updateContent.current.value;
             console.log('update content', updateContent.current.value);
-            commentUpdate(Content, id);
+            // commentUpdate(Content, id);
             setupdateState((prev) => !prev);
             }}><HiOutlinePencilAlt className={styles.updateIcons} />수정 완료</button>
           <button className={styles.updateButtons} onClick={() => setupdateState((prev) => !prev)}>취소</button>
         </div>
+        
+        {comment.children.map((recomment, index) => 
+          <RecommentsView key={index} recomment={recomment}/>
+        )}
+
         <hr />
   
       </div>

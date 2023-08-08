@@ -1,51 +1,39 @@
 import styles from "./BoardsView.module.css";
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { boardsArticles } from "../../../api/boards"
 import PostsView from "../../../components/PostView/PostView";
 
+import customAxios from '../../../util/customAxios'
+
 export default function BoardsView() {
-  const [posts, setPosts] = useState([]);
-  let { boardTitle } = useParams();
-  if (!boardTitle) {
-    boardTitle = "자유게시판";
-  }
+  const [ posts, setPosts ] = useState(null);
+  const { state : boardTitle } = useLocation();
+  let { boardId } = useParams();
   const navigate = useNavigate();
+  // console.log('boardId', boardId)
 
   useEffect(() => {
-    axios({
-      method: "get",
-      url: `https://unofficial.kr/api/articles`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
-    })
-      .then((res) => {
-        console.log(res.data);
-        setPosts(res.data);
-      })
-      .catch((err) => console.log(err));
+    boardsArticles(boardId)
+    .then((res) => setPosts(res))
+    .catch((err) => console.log(err));
+
     return () => {
       console.log("unmounted");
     };
-  }, []);
+  }, [boardId]);
 
   if (posts) {
     return (
       <div>
-        {posts.map((post, index) => (
-          <PostsView key={index} boardTitle={boardTitle} post={post} />
-        ))}
+        {
+          posts.map((post, index) => (
+            <PostsView key={index} boardTitle={boardTitle} post={post} boardId={boardId} />
+          ))
+        }
       </div>
     );
   } else {
     return <div>결과가 없습니다.</div>;
   }
 }
-//   return(
-//     <div>
-//       BoardsView
-//       {boardTitle}
-//     </div>
-//   );
-// }

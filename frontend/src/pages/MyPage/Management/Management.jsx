@@ -11,7 +11,8 @@ export default function Management() {
     useEffect(() => {
         customAxios.get('/api/ads/wait')
             .then(response => {
-                setAds(response.data);
+                const sortedAds = response.data.sort((a, b) => b.adsId - a.adsId); // Sort by descending order of adsId
+                setAds(sortedAds);
             })
             .catch(error => {
                 console.error('There was an error!', error);
@@ -47,10 +48,14 @@ export default function Management() {
         <p>광고 승인하기</p>
     </div>
     <div style={containerStyle}>
-    {ads.map(ad => (
+    {ads.map(ad => {
+        let endDate = new Date(ad.endDate);
+        endDate.setDate(endDate.getDate() - 1);
+        const dateString = `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDate()}`;
+        return(
         <div key={ad.adsId}>
             <img src={ad.imagePath} alt="Ad" />
-            <p>광고 ID:{ad.adsId} || 광고 URL: {ad.redirectUrl} || 광고 날짜: {ad.endDate}까지 &nbsp; &nbsp;
+            <p>광고 ID:{ad.adsId} || 광고 URL: {ad.redirectUrl} || 광고 날짜: {dateString}까지 &nbsp; &nbsp;
             {ad.adminConfirmed === "PENDING" && (
                 <>
                     <button onClick={() => approveAd(ad.adsId)} style={{backgroundColor: 'blue'}}>승인</button>&nbsp;
@@ -71,7 +76,8 @@ export default function Management() {
             )}
             </p>
         </div>
-    ))}
+        )
+    })}
     </div>
 </div>
     );

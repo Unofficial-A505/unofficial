@@ -2,15 +2,21 @@ package com.example.Strange505.board.controller;
 
 import com.example.Strange505.board.dto.CommentRequestDto;
 import com.example.Strange505.board.dto.CommentResponseDto;
+import com.example.Strange505.board.dto.MypageCommentResponseDto;
 import com.example.Strange505.board.service.CommentService;
+import com.example.Strange505.dto.PageResponseDto;
 import com.example.Strange505.user.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/comments")
@@ -19,7 +25,7 @@ public class CommentController {
 
     private final CommentService commentService;
     private final AuthService authService;
-    
+
     @PostMapping
     public ResponseEntity<?> registerComment(@RequestBody CommentRequestDto dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -41,22 +47,38 @@ public class CommentController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+
+    @GetMapping("/article/{articleId}")
+    public ResponseEntity<PageResponseDto<CommentResponseDto>> getCommentByArticle(@PathVariable Long articleId, Pageable pageable) {
+
+        Page<CommentResponseDto> list = commentService.getCommentByArticle(articleId, pageable);
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("page", pageable.getPageNumber());
+        pageInfo.put("size", pageable.getPageSize());
+        pageInfo.put("totalElements", list.getTotalElements());
+        pageInfo.put("totalPages", list.getTotalPages());
+
+        return new ResponseEntity<>(new PageResponseDto<>(pageInfo, list.getContent()), HttpStatus.OK);
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<PageResponseDto<MypageCommentResponseDto>> getCommentByUser(Pageable pageable) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Page<MypageCommentResponseDto> list = commentService.getCommentByUser(email, pageable);
+
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("page", pageable.getPageNumber());
+        pageInfo.put("size", pageable.getPageSize());
+        pageInfo.put("totalElements", list.getTotalElements());
+        pageInfo.put("totalPages", list.getTotalPages());
+
+        return new ResponseEntity<>(new PageResponseDto<>(pageInfo, list.getContent()), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<CommentResponseDto> getCommentById(@PathVariable Long id) {
         CommentResponseDto dto = commentService.getCommentById(id);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @GetMapping("/article/{articleId}")
-    public ResponseEntity<List<CommentResponseDto>> getCommentByArticle(@PathVariable Long articleId) {
-        List<CommentResponseDto> list = commentService.getCommentByArticle(articleId);
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
-
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<CommentResponseDto>> getCommentByUser() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<CommentResponseDto> list = commentService.getCommentByUser(email);
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
 }

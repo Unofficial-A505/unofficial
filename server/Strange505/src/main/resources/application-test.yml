@@ -1,9 +1,4 @@
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://unofficial.kr/ssafy_web_db?serverTimezone=Asia/Seoul
-    username: root
-    password: strange505
   data:
     redis:
       host: unofficial.kr
@@ -11,11 +6,14 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        show_sql: true
         default_batch_fetch_size: 1000
         format_sql: true
+        use_sql_comments: true
 
 
 
@@ -40,14 +38,11 @@ file:
   dir: C:\Users\SSAFY\Desktop/file/
 
 mail:
-  base-url : "https://dev.unofficial.kr/verify?verificationCode="
+  base-url : "http://localhost:3000/verify?verificationCode="
 
 decorator:
   datasource:
     p6spy:
       enable-logging: true
-
-OPENVIDU_URL: https://vidu.unofficial.kr
-OPENVIDU_SECRET: STRANGE505
 
 test: test

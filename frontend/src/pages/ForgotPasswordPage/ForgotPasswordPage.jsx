@@ -1,9 +1,12 @@
 import styles from "./ForgotPasswordPage.module.css";
 import { useState } from "react";
 import axios from "axios";
+import useDocumentTitle from "./../../useDocumentTitle";
 
 const ForgotPasswordPage = () => {
-  const [isComplete, setIsComplete] = useState(true);
+  useDocumentTitle("비밀번호 찾기");
+
+  const [isComplete, setIsComplete] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [selectedLocal, setSelectedLocal] = useState("");
   const [selectedGen, setSelectedGen] = useState("");
@@ -46,7 +49,7 @@ const ForgotPasswordPage = () => {
   if (!isComplete) {
     return (
       <div className={styles.forgotPasswordPage}>
-        <form>
+        <form onSubmit={requestNewPassword}>
           <div>
             <h3>비밀번호 찾기</h3>
             <p>
@@ -97,9 +100,7 @@ const ForgotPasswordPage = () => {
               onInput={onEmailHandler}
             />
           </div>
-          <button type="submit" onClick={requestNewPassword}>
-            비밀번호 변경
-          </button>
+          <button type="submit">비밀번호 변경</button>
         </form>
       </div>
     );

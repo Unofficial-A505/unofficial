@@ -3,6 +3,7 @@ package com.example.Strange505.user.service;
 import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.dto.AuthDto;
 import com.example.Strange505.user.dto.RequestUserDto;
+import com.example.Strange505.user.dto.UserDTO;
 import com.example.Strange505.user.exception.NoMatchPasswordException;
 import com.example.Strange505.user.exception.SendEmailFailException;
 import com.example.Strange505.user.repository.UserRepository;
@@ -60,8 +61,18 @@ public class UserService {
         }
     }
 
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> getUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(user -> UserDTO.builder()
+                .is_activated(user.is_activated())
+                .id(user.getId())
+                .email(user.getEmail())
+                .gen(user.getGen())
+                .is_withdraw(user.is_withdraw())
+                .local(user.getLocal())
+                .point(user.getPoint())
+                .role(user.getRole())
+                .build()).toList();
     }
 
     @Transactional
@@ -86,5 +97,15 @@ public class UserService {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("유저 정보가 없습니다."));
         user.pointAdd(point);
+    }
+
+    public void withdrawUser(String password) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User finduser = userRepository.findByEmail(email).orElseThrow();
+
+        if(encoder.matches(password, finduser.getPassword())) {
+            throw new NoMatchPasswordException("비밀번호가 일치하지 않습니다.");
+        }
+        finduser.withdraw();
     }
 }

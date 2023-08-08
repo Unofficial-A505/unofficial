@@ -5,40 +5,23 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import PostView from '../PostView/PostView'
+import customAxios from '../../util/customAxios';
 
-export default function BoardView( ){
-  const [ posts, setPosts ] = useState([]);
+export default function BoardView({ posts, searchView, keyword, myBoard }){
+  if (!posts) { posts = [] }
+
   const [ currentPage, setCurrentPage ] = useState(1);
   const pageSize = 10;
 
   const navigate = useNavigate();
-  const URL = useSelector(state => state.URL.API_URL)
-
-  useEffect(() => {
-
-    axios({
-      method: "get",
-      url: `${URL}api/v1/articles`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
-      })
-      .then((res) => {
-        console.log(res.data);
-        setPosts(res.data.slice(0, 10));
-      })
-      .catch((err) => console.log(err))
-    return () => {  
-      console.log('unmounted')
-     }}, []);
 
   return(
     <div>
       {posts.map((post, index) => (
         <div key={index}>
-          <PostView post={post}/>
+          <PostView post={post} boardId={post.boardId} searchView={searchView} keyword={keyword} myBoard={myBoard}/>
         </div>
       ))}
     </div>
-  );
+  ) 
 }

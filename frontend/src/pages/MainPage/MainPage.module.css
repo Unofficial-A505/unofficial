@@ -45,12 +45,10 @@
   margin-right: 30px;
 }
 .bestBoard {
-  /* width: 720px;
-  margin-right: 0.5rem; */
-  /* width: 660px; */
   width: 920px;
+  margin-top: 10px;
   margin-right: 30px;
-  border: 1px dotted pink;
+  /* border: 1px dotted pink; */
 }
 .bestTitle {
   text-align: start;
@@ -65,5 +63,6 @@
   width: 330px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   /* border: 1px dotted pink; */
 }

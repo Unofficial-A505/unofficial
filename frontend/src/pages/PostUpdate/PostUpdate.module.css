@@ -13,6 +13,17 @@
   margin: 20px 0 0 0;
 }
 
+.topmenuBox {
+  margin: 0 0 0 10px;
+  text-align: start;
+  color: #000;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700px;
+  line-height: normal;
+  display: flex;
+}
+
 .boardTitle {
   color: #034BB9;
   margin: 0 10px 0 0;
@@ -49,6 +60,19 @@
 .editorcontainer {
   margin: 0 auto;
 }
+
+.nicknameContainer {
+  width: 400px;
+  margin: 80px 0 40px 10px;
+}
+
+.nicknametitleBox {
+  margin: 0 10px;
+  width: 50px;
+
+  font-size: 20px;
+  font-weight: 500;
+} 
 
 .undermenu {
   width: 100%;

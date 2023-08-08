@@ -4,7 +4,6 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import Card from "./Card";
 import Carousel from "./Carousel";
-import customAxios from "../../util/customAxios";
 
 export default function LunchCarousel() {
   const [cards, setCards] = useState([]);
@@ -23,26 +22,44 @@ export default function LunchCarousel() {
 
   // 오늘 날짜 가져오기
   const getToday = () => {
-    let today = new Date();
-    today.setHours(today.getHours() + 9);
+    const date = new Date();
 
-    // 주말이면 월요일로 조정
-    if (today.getDay() === 6 || today.getDay() === 0) {
-      const adjust = today.getDay() === 6 ? 2 : 1;
-      today.setDate(today.getDate() + adjust);
+    // TimeZone offset in minutes for Seoul
+    const offset = -9 * 60;
+    const localOffset = date.getTimezoneOffset();
+    const totalOffset = offset - localOffset;
+
+    // Apply the offset to get local Korean time
+    date.setMinutes(date.getMinutes() + totalOffset);
+
+    let day = date.getDay();
+    if (day === 0 || day === 6) {
+      // 0: Sunday, 6: Saturday
+      const daysToMonday = day === 0 ? 1 : 2;
+      date.setDate(date.getDate() + daysToMonday);
     }
 
-    let todayStr = today.toISOString().split("T")[0].replace(/-/g, "");
-    // console.log(todayStr)
-    return todayStr;
-  };
+    const year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let dayOfMonth = date.getDate();
 
+    // "YYYYmmdd" format으로 맞추기 위해 앞에 0 붙이기
+    if (month < 10) {
+      month = "0" + month;
+    }
+    if (dayOfMonth < 10) {
+      dayOfMonth = "0" + dayOfMonth;
+    }
+
+    return `${year}${month}${dayOfMonth}`;
+  };
   // API 호출로 점심메뉴 데이터 가져오기
   const fetchLunchData = async () => {
     try {
       const today = getToday();
-      let response = await customAxios.get(
-        `/api/lunch?date=${today}`
+      // console.log(today);
+      let response = await axios.get(
+        `${process.env.REACT_APP_SERVER}/api/lunch?date=${today}`
       );
       // 중복 데이터 제거
       if (response.data) {
@@ -99,7 +116,7 @@ export default function LunchCarousel() {
         width="95%"
         margin="0 auto"
         offset={1}
-        showArrows={true}
+        showArrows={true ? cards.length > 1 : false}
       />
     </div>
   );

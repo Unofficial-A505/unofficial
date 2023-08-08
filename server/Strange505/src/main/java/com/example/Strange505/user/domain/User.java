@@ -69,4 +69,8 @@ public class User {
     public void activated() {
         this.is_activated = true;
     }
+
+    public void withdraw() {
+        this.is_withdraw = true;
+    }
 }

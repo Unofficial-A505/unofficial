@@ -1,6 +1,7 @@
 .advertiseVer {
-  height: 100%;
+  height: 350px;
   border: 1px rgb(148, 148, 148) dotted;
   border-radius: 5px;
   background-color: rgb(255, 239, 239);
+  position: relative;
 }

@@ -1,0 +1,149 @@
+.recommentContainer {
+  width: 90%;
+  display: flex;
+  margin: 0 0 0 70px;
+
+  /* border: 1px dotted red; */
+}
+
+.commentContainer {
+    width: 100%;
+    text-aligns: right;
+
+    /* border: 1px dotted red; */
+  }
+
+  .recommentContentContainer {
+    width: 100%;
+  }
+  
+  .commentTopbar {
+    margin: 5px 20px;
+    /* width: 270px; */
+    height: 30px;
+  
+    display: flex;
+    /* justify-content: space-between; */
+
+    /* border: 1px dotted red; */
+  }
+  
+  .commentTitle {
+    color: #034BB9;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 450;
+    line-height: normal;
+  }
+
+  .recommentGenLocalInfo {
+    margin: 0 7px 0 0;
+    /* border: 1px dotted red; */
+  }
+
+  .recommentnickName {
+    width: 150px;
+    /* border: 1px dotted red; */
+  }
+  
+  .commentcreateTimeago {
+    display: flex;
+    margin: 0 10px;
+  }
+  
+  /* 수정하기, 삭제하기 아이콘 */
+  .commentIcons {
+    margin: 5px 5px 0 0;
+    cursor: pointer;
+  }
+  
+  /* 수정하기 삭제하기 텍스트 위치 조정*/
+  .updatetextPosition {
+    margin: 30px 13px 0 0;
+  }
+  
+  .commentContent {
+    margin: 12px 20px;
+  }
+  
+  .recommentButton {
+    cursor: pointer;
+  }
+  
+  .commentBottombar {
+    margin: 10px 20px;
+  
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* comment update 상태 스타일링 */
+  .updateinputContainer {
+    width: 100%;
+    margin: 0 auto;
+  
+    border: 0.1rem solid #D9D9D9;
+    border-radius: 0.3rem;
+  }
+  .updateInput {
+    margin: 10px 20px;
+  
+    width: 95%;
+    height: 70px;
+    border: 0;
+  }
+  
+  .commentupdateBottombar {
+    text-align: right;
+  }
+  
+  .updateButtons {
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    margin: 10px 15px 0 0;
+  }
+  
+  .updateIcons {
+    margin: 0 0 5px 0;
+  }
+  
+  textarea::-webkit-scrollbar {
+    width: 4px;  /* 스크롤바의 너비 */
+  }
+  
+  textarea::-webkit-scrollbar-thumb {
+    height: 40%; /* 스크롤바의 길이 */
+    background: #d9d9d96a; /* 스크롤바의 색상 */
+    
+    border-radius: 10px;
+  }
+  
+  textarea::-webkit-scrollbar-track {
+    background: rgba(232, 232, 232, 0.1);  /*스크롤바 뒷 배경 색상*/
+  }
+
+  /* 대댓글 수정하기 삭제하기 박스 */
+  .recommentUnderContainer {
+    text-align: right;
+    
+    height: 20px;
+    margin: 10px 0 8px 0;
+    /* border: 1px dotted aqua; */
+  }
+  
+  /* comment update 상태 스타일링 */
+.updateinputContainer {
+  width: 100%;
+  margin: 0 auto;
+
+  border: 0.1rem solid #D9D9D9;
+  border-radius: 0.3rem;
+}
+.updateInput {
+  margin: 10px 20px;
+
+  width: 95%;
+  height: 70px;
+  border: 0;
+}
