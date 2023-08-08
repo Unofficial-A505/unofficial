@@ -33,8 +33,6 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, get
       postCommentCreateApi(articleId, recomments, id, recommentNickname)
       .then((res) => {
         getComment();
-        console.log("댓글 불러오기!!!")
-        console.log('create-recomment', res);
         document.getElementById('recomment-nickname-input').value = null
         document.getElementById('recomment-input').value = null
 
@@ -121,7 +119,6 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, get
           <button className={styles.updateButtons} onClick={() => {
             const content = updateContent.current.value;
             const nickName = comment.nickName
-            console.log('update content', typeof id,  typeof articleId, typeof content, typeof 0, typeof nickName);
             commentUpdate(id, articleId, content, 0, nickName);
             setupdateState((prev) => !prev);
             }}><HiOutlinePencilAlt className={styles.updateIcons} />수정 완료</button>

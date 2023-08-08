@@ -80,7 +80,6 @@ const QuillContainer = () => {
   function selectLocalImage() {
     const fileInput = document.createElement("input");
     fileInput.setAttribute("type", "file");
-    console.log("input.type " + fileInput.type);
 
     fileInput.click();
 
@@ -106,7 +105,6 @@ const QuillContainer = () => {
     let content = quillElement.current.editor.root.innerHTML;
     return new Promise(function(resolve, reject) {
       // let content = quillElement.current.editor.root.innerHTML;
-      console.log(imageList)
       const imagePromises = []
   
       //글 등록하는 현재 content에 존재하는 image만 formData에 싣기
@@ -124,11 +122,11 @@ const QuillContainer = () => {
   
           const promise = postImageApi(formData)
           .then((res) => {
-            console.log('image', res.url)
-            console.log("success");
+            // console.log('image', res.url)
+            // console.log("success");
             const uploadPath = res.data;
             content = content.replace(regexOne, `${uploadPath}`)
-            console.log('change source', content)
+            // console.log('change source', content)
             // quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${uploadPath}`);
             
             window.URL.revokeObjectURL(image.url)
@@ -148,7 +146,7 @@ const QuillContainer = () => {
       const title = TitleElement.current.value;
       const boardName = currboardName;
       const nickName = nickNameInput;
-      console.log("send Post", title, content, currboardName, nickNameInput);
+      // console.log("send Post", title, content, currboardName, nickNameInput);
 
       postCreateApi(title, content, boardName, nickName)
         .then((res) =>
@@ -161,7 +159,7 @@ const QuillContainer = () => {
   const createRequest = () => {
     const titleTest = TitleElement.current.value;
     let contentTest = quillElement.current.editor.root.innerHTML;
-    console.log(contentTest)
+    // console.log(contentTest)
     if (!titleTest) {
       alert('제목을 입력해주세요!')
     } else if (contentTest == '<p><br></p>') {
@@ -177,10 +175,10 @@ const QuillContainer = () => {
     try {
       setIsLoading(true); // 로딩 시작
       const content = await sendformData();
-      console.log("sendformData completed");
+      // console.log("sendformData completed");
 
       await sendPost(content);
-      console.log("sendPost completed");
+      // console.log("sendPost completed");
     } catch (err) {
       console.error("Error in createPost:", err);
     } finally {

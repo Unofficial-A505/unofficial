@@ -19,8 +19,6 @@ export default function RecommentsView({ recomment, getComment, articleId, paren
     console.log('id', id)
     postCommentDeleteApi(id)
     .then((res) => {
-      console.log(res)
-      console.log('대댓글 삭제 성공!');
       getComment();
     })
     .catch((err) => console.log(err))

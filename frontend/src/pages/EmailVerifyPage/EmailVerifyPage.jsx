@@ -33,7 +33,7 @@ const requestEmailVerification = (code, email) => {
       `${process.env.REACT_APP_SERVER}/api/verify?verificationCode=${code}&email=${email}`
     )
     .then((res) => {
-      console.log(res);
+      // console.log(res);
     })
     .catch((err) => {
       console.log(err);

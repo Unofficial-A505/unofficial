@@ -61,9 +61,6 @@ export default function BoardsAll() {
 
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    return () => {
-      console.log("unmounted");
-    };
   }, [boardId || boardNames]);
 
   return (
