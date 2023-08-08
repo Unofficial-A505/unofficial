@@ -35,7 +35,7 @@ public class ArticleLikeServiceImpl implements ArticleLikeService {
 
         // 이미 좋아요 한 경우 다시 누르면 이미 좋아요 했다고 표시
         // 좋아요 안했다면 추가
-        if (articleLikeRepository.findByArticleAndUser(article.getId(), user.getId())) {
+        if (!articleLikeRepository.findByArticleAndUser(article.getId(), user.getId())) {
 
             ArticleLike articleLike = ArticleLike.builder()
                     .article(article)
