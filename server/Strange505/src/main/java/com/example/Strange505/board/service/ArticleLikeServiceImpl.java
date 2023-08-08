@@ -48,7 +48,7 @@ public class ArticleLikeServiceImpl implements ArticleLikeService {
             articleLikeRepository.save(articleLike);
             articleRepository.addLikeCount(article);
             // 추천수 10 이상이면 베스트 게시글에 저장
-            if (article.getLikes() == 10) {
+            if (article.getLikes() == 1) {
                 bestArticleRepository.save(BestArticle.builder().article(article).build());
             }
         }
