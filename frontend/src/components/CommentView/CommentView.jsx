@@ -54,7 +54,7 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, art
           </div>
         </div>
   
-        <div className={styles.commentContent}>{comment.content}</div>
+        <div className={styles.commentContent}><pre className={styles.contentPretag}>{comment.content}</pre></div>
   
         <div className={styles.commentBottombar}>
           <div className={styles.recommentButton} onClick={() => setrecommentBox((prev) => !prev)}><IoChatboxOutline className={styles.commentIcons}/><span>대댓글</span></div>
@@ -96,9 +96,10 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, art
     return(
       <div className={styles.commentContainer}>
         <div className={styles.commentTopbar}>
-          <div>
-            <span className={styles.commentTitle}>9기 구미</span>
-            <span className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} />15분 전</span>
+          <div className={styles.commentTitle}>
+            <span className={styles.recommentGenLocalInfo}>{comment.gen}기 {comment.local}</span>
+            {comment.nickName ? <span className={styles.recommentnickName}>{comment.nickName}</span> : <span className={styles.recommentnickName}>익명</span>}
+            <span className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} />{comment.createTime?.slice(0, 10)}</span>
           </div>
         </div>
         
@@ -111,7 +112,7 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, art
           <button className={styles.updateButtons} onClick={() => {
             const content = updateContent.current.value;
             const nickName = comment.nickName
-            console.log('update content', id, articleId, content, 0, nickName);
+            console.log('update content', typeof id,  typeof articleId, typeof content, typeof 0, typeof nickName);
             commentUpdate(id, articleId, content, 0, nickName);
             setupdateState((prev) => !prev);
             }}><HiOutlinePencilAlt className={styles.updateIcons} />수정 완료</button>

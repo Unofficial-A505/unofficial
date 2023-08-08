@@ -50,7 +50,7 @@ export default function PostDetail() {
   const [articleList, setarticleList] = useState([]);
   const [recommendedState, setrecommendedState] = useState(false);
   const commentElement = useRef(null);
-
+  
   // 댓글 가져오기
   const getComment = () => {
     customAxios({
@@ -67,6 +67,7 @@ export default function PostDetail() {
       .catch((err) => console.log(err));
   };
 
+  useDocumentTitle(boardTitle);
   useEffect(() => {
 
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -76,7 +77,6 @@ export default function PostDetail() {
     .then((res) =>{ 
       setpostDetail(res)
       setBoardTitle(res.boardName)
-      setDocumentTitle(res.boardName)
       console.log(res)
     })
     .catch((err) => console.log(err));
@@ -119,9 +119,6 @@ export default function PostDetail() {
 
   // 댓글 생성
   const commentCreate = () => {
-    let text = document.querySelector("textarea").value;
-    text = text.replaceAll(/(\n|\r\n)/g, "<br>");
-
     if (!commentnickName) {
       alert("댓글 닉네임을 입력해주세요!");
     } else if (!createcomment) {
@@ -133,25 +130,20 @@ export default function PostDetail() {
       const nickName = commentnickName;
 
       postCommentCreateApi(articleId, content, parentId, nickName)
-        .then(() => getComment())
+        .then(() => {
+          getComment();
+          document.getElementById('comment-nickname-input').value = null
+          document.getElementById('comment-input').value = null
+        })
         .catch((err) => console.log(err));
     }
   };
 
   // 댓글 수정
   const commentUpdate = (id, articleId, content, parentId, nickName) => {
-    let text = document.querySelector("textarea").value;
-    text = text.replaceAll(/(\n|\r\n)/g, "<br>");
-    console.log('update content', typeof id, typeof articleId, typeof content, typeof parentId, typeof nickName);
-    console.log('update content', id, articleId, content, parentId, nickName);
-    // const content = content;
-    // const parentId = 0;
-    // const articleId = postId;
     postCommentUpdateApi(id, articleId, content, parentId, nickName)
       .then(() => {
         getComment();
-        console.log('댓글 수정 완료!!');
-        console.log('comments', comments)
       })
       .catch((err) => console.log(err));
   };
@@ -249,10 +241,11 @@ export default function PostDetail() {
 
             <div className={styles.commentnickName}>
               <div>닉네임</div>
-              <input className={styles.commentnickNameInput} type="text" placeholder="닉네임을 입력하세요" onChange={(e) => setcommentnickName(e.target.value)}/>
+              <input id='comment-nickname-input' className={styles.commentnickNameInput} type="text" placeholder="닉네임을 입력하세요" onChange={(e) => setcommentnickName(e.target.value)}/>
             </div>
             <div className={styles.commentbox}>
               <textarea
+                id='comment-input'
                 className={styles.commentInput}
                 type="text"
                 onChange={(e) => {

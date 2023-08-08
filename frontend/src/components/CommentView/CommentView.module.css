@@ -159,3 +159,9 @@ textarea:focus {
   border-radius: 1rem;
   background-color: transparent;
 }
+
+pre {
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+}
