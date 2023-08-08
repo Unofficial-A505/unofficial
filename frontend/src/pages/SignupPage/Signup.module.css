@@ -94,6 +94,10 @@
 #container input[type=submit]:hover {
     background-color: #034BB9;
 }
+input::placeholder {
+    font-size: 0.8rem;
+}
+
 .complete {
     display: flex;
     flex-direction: column;
