@@ -19,6 +19,7 @@ import useDocumentTitle from "../../useDocumentTitle";
 Quill.register("modules/ImageResize", ImageResize);
 
 const QuillContainer = () => {
+    const [isLoading, setIsLoading] = useState(false);
   useDocumentTitle("게시글 작성");
 
   const navigate = useNavigate();
@@ -163,6 +164,7 @@ const QuillContainer = () => {
 
   async function createPost() {
     try {
+      setIsLoading(true); // 로딩 시작
       const content = await sendformData();
       console.log("sendformData completed");
 
@@ -170,10 +172,12 @@ const QuillContainer = () => {
       console.log("sendPost completed");
     } catch (err) {
       console.error("Error in createPost:", err);
+    } finally {
+      setIsLoading(false); // 로딩 종료
     }
   }
 
-  // 이외 함수들
+  // 이외 함수들      
   const handleCancel = () => {
     navigate(-1);
   };
@@ -189,11 +193,7 @@ const QuillContainer = () => {
             <p className={styles.boardTitle}>{currboardName}</p>
             <p>새 글 작성</p>
           </h3>
-          <button
-            className="btn"
-            id={styles.createsubmitbutton}
-            onClick={createPost}
-          >
+          <button className="btn" id={styles.createsubmitbutton} onClick={createPost} disabled={isLoading}>
             게시하기
           </button>
         </div>
@@ -235,11 +235,7 @@ const QuillContainer = () => {
             <IoIosArrowBack />
             목록으로 돌아가기
           </button>
-          <button
-            className="btn"
-            id={styles.createsubmitbutton}
-            onClick={createPost}
-          >
+          <button className="btn" id={styles.createsubmitbutton} onClick={createPost} disabled={isLoading}>
             게시하기
           </button>
         </div>
