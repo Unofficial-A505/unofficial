@@ -20,7 +20,7 @@ public class BestArticleServiceImpl implements BestArticleService{
 
     @Override
     public List<BestArticleResponseDto> getAllBestArticles() {
-        List<BestArticle> list = bestArticleRepository.findAll();
+        List<BestArticle> list = bestArticleRepository.findTop15ByOrderByIdDesc();
         List<BestArticleResponseDto> result = list.stream().map(findBestArticle ->
                 new BestArticleResponseDto(findBestArticle.getArticle().getTitle(),
                         findBestArticle.getArticle().getLikes(),
@@ -28,7 +28,8 @@ public class BestArticleServiceImpl implements BestArticleService{
                         findBestArticle.getArticle().getUser().getGen(),
                         findBestArticle.getArticle().getUser().getLocal(),
                         findBestArticle.getArticle().getBoard().getId(),
-                        findBestArticle.getArticle().getBoard().getName()))
+                        findBestArticle.getArticle().getBoard().getName(),
+                        findBestArticle.getArticle().getId()))
                 .toList();
         return result;
     }
