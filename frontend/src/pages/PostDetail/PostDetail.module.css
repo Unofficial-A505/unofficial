@@ -23,6 +23,7 @@
 
 .postContentContainer {
   width: 90%;
+  overflow-x: auto;
 }
 
 /* post, comment 비율 */
