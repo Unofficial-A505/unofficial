@@ -18,10 +18,7 @@ export default function UserinfoBox() {
 
   const [isAuth, setIsAuth] = useState(null);
   const [userInfo, setUserInfo] = useState({});
-  const [userGen, setUserGen] = useState(null);
-  const [userLocal, setUserLocal] = useState(null);
-  const [userPoint, setUserPoint] = useState("내 포인트");
-
+  const [modalOpen, setModalOpen] = useState(false);
   const authUser = useSelector((state) => state.authUser);
 
   useEffect(() => {
@@ -33,7 +30,6 @@ export default function UserinfoBox() {
       try {
         const response = await customAxios.get("/api/users/user");
         setUserInfo(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching user role", error);
       }
@@ -41,19 +37,15 @@ export default function UserinfoBox() {
     getUserData();
   }, []);
 
-  useEffect(() => {
-    setUserLocal(userInfo.local);
-    setUserGen(userInfo.gen);
-    setUserPoint(userInfo.point);
-  }, [userInfo]);
-
-  const [modalOpen, setModalOpen] = useState(false);
-
   const logout = () => {
     dispatch(setAccessToken(""));
     dispatch(setAuthUserEmail(""));
     localStorage.removeItem("REFRESH_TOKEN");
     navigate("/");
+  };
+
+  const isEmpty = (obj) => {
+    return !Object.keys(obj).length;
   };
 
   // user정보 없는 상황
@@ -95,8 +87,8 @@ export default function UserinfoBox() {
     // user정보 있는 상황
     return (
       <div className={styles.usercontainer}>
-        <div className={styles.usertopContainer}>
-          <p className={styles.hellomessage}>안녕하세요!</p>
+        <div className={styles.userTopContainer}>
+          <p style={{ color: "#606060" }}>안녕하세요!</p>
           <button
             className={styles.logout}
             style={{ color: "#606060" }}
@@ -106,13 +98,14 @@ export default function UserinfoBox() {
             <AiOutlineLogout />
           </button>
         </div>
-        <div className={styles.usermidContainer}>
-          <div>
+        <div className={styles.userMidContainer}>
+          <div className="mb-3">
             <span
-              className={styles.secondmypage}
+              className={styles.myPage}
               onClick={() => navigate("/user/password")}
             >
-              SSAFY {userLocal} {userGen}기
+              SSAFY{" "}
+              {isEmpty(userInfo) ? "" : `${userInfo.local} ${userInfo.gen}기`}
             </span>
             <span className={styles.secondhelloMessage}>
               님의 이야기를 들려주세요
@@ -120,7 +113,7 @@ export default function UserinfoBox() {
           </div>
           <p
             className={styles.adverButton}
-            style={{ color: "#034BB9" }}
+            style={{ color: "#034BB9", fontSize: "0.9rem" }}
             onClick={() => navigate("/user/advertisement/myadv")}
           >
             광고 신청하기
@@ -128,28 +121,30 @@ export default function UserinfoBox() {
         </div>
 
         <div className={styles.mypageContent}>
-          <p
-            className={styles.mymileButton}
+          <div
+            className={styles.myButton}
             onClick={() => navigate("/user/advertisement/mymile")}
           >
-            <RiDatabase2Line className={styles.mymileIcon} />
-            <p className={styles.mileageTotal}>{userPoint}</p>
-          </p>
-          <div className={styles.mypostsAndcomments}>
-            <p
+            <RiDatabase2Line className={styles.myIcon} />
+            <p className={styles.mileageTotal}>
+              {isEmpty(userInfo) ? "내 포인트" : `${userInfo.point}`}
+            </p>
+          </div>
+          <div className="d-flex">
+            <div
               className={styles.myButton}
               onClick={() => navigate("/user/activity/myposts")}
             >
               <BsFileEarmarkText className={styles.myIcon} />
               <p className="me-2">내 게시글</p>
-            </p>
-            <p
+            </div>
+            <div
               className={styles.myButton}
               onClick={() => navigate("/user/activity/mycomments")}
             >
               <AiOutlineComment className={styles.myIcon} />
               <p>내 댓글</p>
-            </p>
+            </div>
           </div>
         </div>
       </div>

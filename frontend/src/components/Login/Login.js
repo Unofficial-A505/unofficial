@@ -44,7 +44,7 @@ export default function Login({ setModalOpen }) {
       dispatch(setAuthUserEmail(userEmail));
       dispatch(setAccessToken(response.headers.authorization.split(" ")[1]));
       localStorage.setItem('REFRESH_TOKEN', response.headers.refresh_token);
-      setModalOpen(false)
+      window.location.reload() // 로그인 후 새로고침
     }
     catch (err) {
       console.log(err)

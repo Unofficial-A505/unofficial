@@ -39,15 +39,11 @@
   text-decoration: underline;
 }
 
-.usertopContainer {
+.userTopContainer {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.3rem;
 }
-.hellomessage {
-  color: #606060;
-}
-.usertopContainer button{
+.userTopContainer button{
   padding: 5px 10px;
   border: 0;
   border-radius: 15px;
@@ -55,21 +51,25 @@
   border: 1px solid #ebebeb;
   font-size: 0.9rem;
 }
-.usertopContainer button:hover {
+.userTopContainer button:hover {
   background-color: #eeeeee;
 }
-.usermidContainer {
-  text-align: start;
+.userMidContainer {
+  text-align: left;
   margin-bottom: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-.secondmypage {
+.myPage {
   border: 0;
   color: #000;
   font-size: 1rem;
   font-weight: 600;
 }
-.secondmypage:hover {
+.myPage:hover {
   cursor: pointer;
+  text-decoration: underline;
 }
 .secondhelloMessage {
   color: #606060;
@@ -81,8 +81,10 @@
   line-height: 100%; /* 7px */
 }
 .adverButton {
-  margin-top: 1rem;
   font-weight: 500;
+}
+.adverButton:hover {
+  text-decoration: underline;
 }
 .adverButton:hover {
   cursor: pointer;
@@ -91,28 +93,20 @@
   display: flex;
   justify-content: space-between;
 }
-.mymileButton {
-  display: flex;
-  background-color: transparent;
-  border: 0;
-}
-.mymileButton:hover {
-  cursor: pointer;
-}
-.mymileIcon {
-  margin: 4px 2px 0 0;
-}
-.mypostsAndcomments {
-  display: flex;
-}
 .myButton {
   display: flex;
   border: 0;
+  color: #707070;
   background-color: transparent;
 }
 .myButton:hover {
   cursor: pointer;
+  color: #000;
+}
+.myButton p:hover {
+  color: #000;
 }
 .myIcon {
-  margin: 4px 2px 0 0;
+  align-self: center;
+  margin-right: 2px;
 }
