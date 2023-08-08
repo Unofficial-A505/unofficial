@@ -14,8 +14,9 @@ import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
 // 작성 timeago 아이콘
 import { IoRocketOutline } from "@react-icons/all-files/io5/IoRocketOutline";
-// 하얀색 추천 아이콘
+// 추천 아이콘
 import { FaRegThumbsUp } from "@react-icons/all-files/fa/FaRegThumbsUp";
+import { FaThumbsUp } from "@react-icons/all-files/fa/FaThumbsUp";
 // 삭제 아이콘
 import { IoTrashOutline } from "@react-icons/all-files/io5/IoTrashOutline";
 // 수정 아이콘
@@ -48,7 +49,7 @@ export default function PostDetail() {
   const [commentnickName, setcommentnickName] = useState("");
   const [currboardPosts, setcurrboardPosts] = useState([]);
   const [articleList, setarticleList] = useState([]);
-  const [recommendedState, setrecommendedState] = useState(false);
+  const [recommendedState, setrecommendedState] = useState(null);
   const commentElement = useRef(null);
   
   // 댓글 가져오기
@@ -56,20 +57,18 @@ export default function PostDetail() {
     customAxios({
       method: "get",
       url: `/api/comments/article/${postId}`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
     })
       .then((res) => {
         setComments(res.data.content);
         setCommentsInfo(res.data);
+
+        console.log(res.data.content)
       })
       .catch((err) => console.log(err));
   };
 
   useDocumentTitle(boardTitle);
   useEffect(() => {
-
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     // 게시글 상세정보 가져오기
@@ -91,7 +90,12 @@ export default function PostDetail() {
 
     return () => {  
       console.log('unmounted');}
-    }, [postId]);
+    }, [ postId ]);
+  
+  useEffect(() => {
+    setrecommendedState(!postDetail.isLiked)
+    console.log('isLiked', postDetail.isLiked)
+  }, [postDetail])
     
   // 게시글 삭제
   const postDelete = () => {
@@ -104,24 +108,32 @@ export default function PostDetail() {
 
   // 게시글 추천
   const postRecommendedInput = () => {
-    const articleId = postId;
-    postRecommendInputApi(articleId)
-      .then(() => {
-        if (!recommendedState) {
-          postDetail.likes += 1;
-        } else {
-          postDetail.likes -= 1;
-        }
-        setrecommendedState((prev) => !prev);
-      })
-      .catch((res) => console.log(res));
+    if (!recommendedState) {
+      if (window.confirm("해당 게시글을 추천하시겠습니까?")) {
+        const articleId = postId;
+  
+        postRecommendInputApi(articleId)
+        .then(() => {
+          if (!recommendedState) {
+            postDetail.likes += 1;
+          } else {
+            postDetail.likes -= 1;
+          }
+          setrecommendedState((prev) => !prev);
+          console.log(recommendedState)
+          console.log('recommended success !!!!!!!')
+          alert('추천 완료!')
+        })
+        .catch((res) => console.log(res));
+      } else {
+
+      }
+    }
   };
 
   // 댓글 생성
   const commentCreate = () => {
-    if (!commentnickName) {
-      alert("댓글 닉네임을 입력해주세요!");
-    } else if (!createcomment) {
+    if (!createcomment) {
       alert("댓글을 입력해주세요!");
     } else {
       const content = createcomment;
@@ -181,9 +193,7 @@ export default function PostDetail() {
             <div>
               <div className={styles.postTitle}>{postDetail.title}</div>
               <div className={styles.postusername}>
-                {postDetail.nickName === null || postDetail.nickName === ""
-                  ? "익명"
-                  : postDetail.nickName}
+                {!postDetail.nickName ? "익명" : postDetail.nickName}
               </div>
               <div className={styles.dateViews}>
                 <div className={styles.posttimeago}>
@@ -205,15 +215,18 @@ export default function PostDetail() {
             </div>
 
             <div className={styles.postBottombar}>
-              <div onClick={postRecommendedInput}>
-                <FaRegThumbsUp class={styles.tabIcon} size="18" />
+              <div onClick={postRecommendedInput} className={styles.tabthumbIcon}>
+                {!recommendedState ? <FaThumbsUp className={styles.tabupIcon} />
+                : <FaRegThumbsUp className={styles.tabregupIcon} />}
                 {postDetail.likes}
               </div>
+
+              {postDetail.isUser &&
               <div className={styles.postupdateBottom}>
                 <div
                   onClick={() =>
                     navigate(`/boards/${boardId}/${postId}/update`, {
-                      state: postDetail,
+                      state: postDetail
                     })
                   }
                   className={styles.postupdateBottomtab}
@@ -229,8 +242,9 @@ export default function PostDetail() {
                   delete
                 </div>
                 {/* <div className={styles.postupdateBottomtab}><HiOutlineSpeakerphone />공지로 설정하기</div> */}
+                </div>}
+              
               </div>
-            </div>
 
             <hr />
           </div>

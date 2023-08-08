@@ -31,13 +31,13 @@ export default function BoardsAll() {
   const settings = {
     // dots: false,
     infinite: true,
-    // vertical: true, // 세로 방향으로 슬라이드
+    vertical: true, // 세로 방향으로 슬라이드
     // verticalSwiping: true, // 세로 방향으로 슬라이드 스와이프
     speed: 500,
     slidesToShow: 1, // 한 번에 보여줄 아이템 개수
     slidesToScroll: 1, // 스크롤시 이동할 아이템 개수
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 1800,
   };
 
   useEffect(() => {

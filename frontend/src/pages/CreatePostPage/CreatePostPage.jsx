@@ -163,19 +163,23 @@ const QuillContainer = () => {
   }
 
   async function createPost() {
-    try {
-      setIsLoading(true); // 로딩 시작
-      const content = await sendformData();
-      console.log("sendformData completed");
-
-      await sendPost(content);
-      console.log("sendPost completed");
-    } catch (err) {
-      console.error("Error in createPost:", err);
-    } finally {
-      setIsLoading(false); // 로딩 종료
+    const title = TitleElement.current.value;
+    if (title) {
+      alert('제목을 입력해주세요!')
+    } else 
+      try {
+        setIsLoading(true); // 로딩 시작
+        const content = await sendformData();
+        console.log("sendformData completed");
+  
+        await sendPost(content);
+        console.log("sendPost completed");
+      } catch (err) {
+        console.error("Error in createPost:", err);
+      } finally {
+        setIsLoading(false); // 로딩 종료
+      }
     }
-  }
 
   // 이외 함수들      
   const handleCancel = () => {
@@ -223,10 +227,7 @@ const QuillContainer = () => {
           <span className={styles.nicknametitleBox}>닉네임</span>
           <input
             type="text"
-            onChange={(e) => {
-              setnickName(e.target.value);
-              console.log(nickNameInput);
-            }}
+            onChange={(e) => setnickName(e.target.value)}
             placeholder="닉네임을 입력하세요"
           />
         </div>
