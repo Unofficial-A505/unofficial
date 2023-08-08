@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "../store/store";
-import { setAccessToken, setAuthUserEmail } from "../../store/loginSlice";
+import { setAccessToken, setAuthUserEmail } from "../store/loginSlice";
 
 const customAxios = axios.create({
   baseURL: `${process.env.REACT_APP_SERVER}`,
@@ -46,7 +46,7 @@ customAxios.interceptors.response.use(
         store.dispatch(setAccessToken(""))
         store.dispatch(setAuthUserEmail(""))
         localStorage.setItem("REFRESH_TOKEN","")
-        location.href("/")
+        window.document.location.href("/")
       });
       if (res.status === 201) {
         store.dispatch({
