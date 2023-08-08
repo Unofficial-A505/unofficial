@@ -313,7 +313,7 @@ export default function PostDetail() {
             <button
               className={styles.buttonlayoutDel}
               onClick={() =>
-                navigate(`/boards/${boardTitle}`, { state: postDetail.boardId })
+                navigate(`/boards/${postDetail.boardId}`, { state: postDetail.boardId })
               }
             >
               <span className={styles.boardmoreTitleA}>
