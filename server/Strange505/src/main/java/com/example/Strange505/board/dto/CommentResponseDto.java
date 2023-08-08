@@ -1,6 +1,7 @@
 package com.example.Strange505.board.dto;
 
 import com.example.Strange505.board.domain.Comment;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.io.Serializable;
@@ -22,7 +23,9 @@ public class CommentResponseDto implements Serializable {
     private Integer gen;
     private String local;
     private Boolean isUser;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime modifyTime;
     private List<CommentResponseDto> children;
 
