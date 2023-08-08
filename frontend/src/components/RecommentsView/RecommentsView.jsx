@@ -8,9 +8,31 @@ import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 import { HiOutlinePencilAlt } from '@react-icons/all-files/hi/HiOutlinePencilAlt';
 import { BsArrowReturnRight } from '@react-icons/all-files/bs/BsArrowReturnRight';
 
-export default function RecommentsView({ recomment }){
+import { postCommentDeleteApi, postCommentUpdateApi } from '../../api/comments'
+
+export default function RecommentsView({ recomment, getComment, articleId, parentId }){
   const [ updateState, setupdateState ] = useState(false)
-  const updatereContent = useRef()
+  const [ updatereComment, setupdatereComment ] = useState("")
+
+  // 대댓글 삭제
+  const recommentDelete = (id) => {
+    console.log('id', id)
+    postCommentDeleteApi(id)
+    .then((res) => {
+      getComment();
+    })
+    .catch((err) => console.log(err))
+  }
+
+  const recommentUpdate = (id) => {
+    const content = updatereComment
+    const nickName = recomment.nickName
+    postCommentUpdateApi(id, articleId, content, parentId, nickName)
+    .then((res) => {
+      getComment();
+      setupdateState((prev) => !prev)
+    }).catch((err) => console.log(err))
+  }
   
   if (!updateState) {
 
@@ -33,12 +55,9 @@ export default function RecommentsView({ recomment }){
           <div className={styles.commentContent}>{recomment.content}</div>
   
           <div className={styles.recommentUnderContainer}>
-            <span className={styles.commentIcons} onClick={() => {
-              // setupdateState((prev) => !prev);
-              // setcreateComment(createComment.content);
-              }}> 
+            <span className={styles.commentIcons}> 
               <span className={styles.updatetextPosition} onClick={() => setupdateState((prev) => !prev)}><HiOutlinePencilAlt />수정하기</span></span>
-            <span className={styles.commentIcons}><span className={styles.updatetextPosition}><IoTrashOutline />삭제하기</span></span>
+            <span className={styles.commentIcons} onClick={() => recommentDelete(recomment.id)}><span className={styles.updatetextPosition}><IoTrashOutline />삭제하기</span></span>
           </div>
         </div>
       
@@ -63,12 +82,12 @@ export default function RecommentsView({ recomment }){
             </div>
     
             <div className={styles.updateinputContainer}>
-              <textarea  className={styles.updateInput} type="text" defaultValue={recomment.content} ref={updatereContent}/>
+              <textarea  className={styles.updateInput} type="text" defaultValue={recomment.content} onChange={(e) => setupdatereComment(e.target.value)}/>
             </div>
     
             <div className={styles.recommentUnderContainer}>
               <span className={styles.commentIcons}> 
-              <span className={styles.updatetextPosition} onClick={() => setupdateState((prev) => !prev)}><HiOutlinePencilAlt/>수정 완료</span></span>
+              <span className={styles.updatetextPosition} onClick={() => recommentUpdate(recomment.id)}><HiOutlinePencilAlt/>수정 완료</span></span>
               <span className={styles.commentIcons} onClick={() => setupdateState((prev) => !prev)}><span className={styles.updatetextPosition} >취소</span></span>
             </div>
           </div>

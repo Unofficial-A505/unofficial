@@ -57,7 +57,6 @@ export default function LunchCarousel() {
   const fetchLunchData = async () => {
     try {
       const today = getToday();
-      // console.log(today);
       let response = await axios.get(
         `${process.env.REACT_APP_SERVER}/api/lunch?date=${today}`
       );
