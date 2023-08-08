@@ -13,7 +13,7 @@ import { HiOutlinePencilAlt } from '@react-icons/all-files/hi/HiOutlinePencilAlt
 
 import RecommentsView from '../RecommentsView/RecommentsView';
 
-import { postCommentCreateApi, postCommentUpdateApi } from '../../api/comments'
+import { postCommentCreateApi } from '../../api/comments'
 
 export default function CommentView({ comment, CommentDelete, commentUpdate, getComment, articleId}){
   const [ updateState, setupdateState ] = useState(false)
@@ -27,7 +27,9 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, get
   const recommentCreate = () => {
     if (!recomments) {
       alert('댓글을 입력해주세요!')
-    } else {
+    } else if (!recommentNickname) {
+      alert("닉네임을 입력해주세요!")
+    }else {
       postCommentCreateApi(articleId, recomments, id, recommentNickname)
       .then((res) => {
         getComment();

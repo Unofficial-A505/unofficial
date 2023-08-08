@@ -62,7 +62,7 @@ export default function PostDetail() {
         setComments(res.data.content);
         setCommentsInfo(res.data);
 
-        console.log(res.data.content)
+        console.log(res.data.content.length)
       })
       .catch((err) => console.log(err));
   };
@@ -138,6 +138,8 @@ export default function PostDetail() {
   const commentCreate = () => {
     if (!createcomment) {
       alert("댓글을 입력해주세요!");
+    } else if (!commentnickName) {
+      alert("닉네임을 입력해주세요!")
     } else {
       const content = createcomment;
       const parentId = 0;
@@ -253,7 +255,8 @@ export default function PostDetail() {
           </div>
           <div className={styles.commentInputContainer}>
             <div className={styles.commentTitle}>
-              <p>댓글 {commentsInfo.pageInfo?.totalElements}</p>
+              <p>댓글 {comments?.length}</p>
+              {/* <p>댓글 {commentsInfo.pageInfo?.totalElements}</p> */}
             </div>
 
             <div className={styles.commentnickName}>

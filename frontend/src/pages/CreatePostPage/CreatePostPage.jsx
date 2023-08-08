@@ -166,6 +166,8 @@ const QuillContainer = () => {
       alert('제목을 입력해주세요!')
     } else if (contentTest == '<p><br></p>') {
       alert('내용을 입력하세요!')
+    } else if (!nickNameInput) {
+      alert('닉네임을 입력하세요!')
     } else {
       createPost()
     }
