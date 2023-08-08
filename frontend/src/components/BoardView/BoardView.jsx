@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import PostView from '../PostView/PostView'
 import customAxios from '../../util/customAxios';
 
-export default function BoardView({ posts, searchView, keyword, myBoard }){
+export default function BoardView({ posts, searchView, keyword, myBoard, boardId }){
   if (!posts) { posts = [] }
 
   const [ currentPage, setCurrentPage ] = useState(1);

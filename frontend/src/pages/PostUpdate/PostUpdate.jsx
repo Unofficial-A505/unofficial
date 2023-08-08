@@ -27,9 +27,10 @@ const PostUpdate = () => {
   const { boardId } = useParams();
   const { postId } = useParams();
   const { state : postDetail } = useLocation(); 
+  const [isLoading, setIsLoading] = useState(false);
   
   // const [value, setValue] = useState("");
-  const [ nickNameInput, setnickName ] = useState('');
+  // const [ nickNameInput, setnickName ] = useState('');
   const TitleElement = useRef(null);
   const quillElement = useRef(null);
   const [ imageList, setimageList ] = useState([])
@@ -70,12 +71,14 @@ const PostUpdate = () => {
   ];
 
   useEffect(() => {
+    const delta = quillElement.current.editor.clipboard.convert(postDetail.content)
+    quillElement.current.editor.setContents(delta, 'silent')
+  }, [])
+
+  useEffect(() => {
     quillElement.current.editor
       .getModule("toolbar")
       .addHandler("image", function() {selectLocalImage();});
-
-      const delta = quillElement.current.editor.clipboard.convert(postDetail.content)
-      quillElement.current.editor.setContents(delta, 'silent')
 
       window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -94,7 +97,7 @@ const PostUpdate = () => {
   function selectLocalImage() {
     const fileInput = document.createElement("input");
     fileInput.setAttribute("type", "file");
-    console.log("input.type " + fileInput.type);
+    // console.log("input.type " + fileInput.type);
 
     fileInput.click();
 
@@ -105,7 +108,11 @@ const PostUpdate = () => {
       const fileURL = window.URL.createObjectURL(e.target.files[0]);
       const file = fileInput.files[0];
       const Image = Quill.import("formats/image");
+      // console.log('image file', fileURL, file)
       Image.sanitize = (fileURL) => fileURL;
+      // console.log('fileURL', fileURL)
+
+      // const range = quillElement.current.editor.getSelection();
       quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${fileURL}`);
 
 
@@ -122,7 +129,7 @@ const PostUpdate = () => {
     else {
       return new Promise(function(resolve, reject) {
         // let content = quillElement.current.editor.root.innerHTML;
-        console.log(imageList)
+        // console.log(imageList)
         const imagePromises = []
     
         //글 등록하는 현재 content에 존재하는 image만 formData에 싣기
@@ -140,11 +147,11 @@ const PostUpdate = () => {
     
             const promise = postImageApi(formData)
             .then((res) => {
-              console.log('image', res.url)
-              console.log("success");
+              // console.log('image', res.url)
+              // console.log("success");
               const uploadPath = res.data;
               content = content.replace(regexOne, `${uploadPath}`)
-              console.log('change source', content)
+              // console.log('change source', content)
               // quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${uploadPath}`);
               
               window.URL.revokeObjectURL(image.url)
@@ -165,7 +172,7 @@ const PostUpdate = () => {
     return new Promise(function(resolve, reject){
       const title = TitleElement.current.value;
       const boardName = postDetail.boardName;
-      const nickName = nickNameInput;
+      const nickName = postDetail.nickName
       const id = postId;
     
       postUpdateApi(postId, id, title, content, boardName, nickName)
@@ -174,20 +181,39 @@ const PostUpdate = () => {
     })
   }
 
+  const updateRequest = () => {
+    const titleTest = TitleElement.current.value;
+    let contentTest = quillElement.current.editor.root.innerHTML;
+    // console.log(contentTest)
+    if (!titleTest) {
+      alert('제목을 입력해주세요!')
+    } else if (contentTest == '<p><br></p>') {
+      alert('내용을 입력하세요!')
+    } else {
+      updatePost()
+    }
+  }
+
   // 글 수정 PUT 요청 (sendformData -> sendPost)
   async function updatePost() {
-    try {
-      const content = await sendformData();
-      console.log("sendformData completed");
-
-      await sendPost(content);
-      console.log("sendPost completed");
-    }  catch (err) {
-      console.error("Error in createPost:", err);
+    const title = TitleElement.current.value;
+    if (!title) {
+      alert('제목을 입력해주세요!')
+    } else {
+      try {
+        setIsLoading(true);
+        const content = await sendformData();
+        // console.log("sendformData completed");
+        await sendPost(content);
+        // console.log("sendPost completed");
+      }  catch (err) {
+        console.error("Error in createPost:", err);
+      } finally {
+        setIsLoading(false); // 로딩 종료
+      }
     }
   }
    
-
   // 이외 함수들
   const handleCancel = () => {
     navigate(-1);
@@ -203,7 +229,7 @@ const PostUpdate = () => {
             <p className={styles.boardTitle}>{postDetail.boardName}</p>
             <p>글 수정</p>
             </h3>
-          <button onClick={updatePost} className="btn" id={styles.createsubmitbutton}>
+          <button onClick={updateRequest} className="btn" id={styles.createsubmitbutton}>
             등록하기
           </button>
         </div>
@@ -233,7 +259,9 @@ const PostUpdate = () => {
 
         <div className={styles.nicknameContainer}>
           <span className={styles.nicknametitleBox}>닉네임</span>
-          <input type="text" onChange={(e) => {setnickName(e.target.value); console.log(nickNameInput)}} placeholder='닉네임을 입력하세요'/>
+          <span className={styles.nicknametitleBox}>
+          {!postDetail.nickName ? "익명" : postDetail.nickName}
+          </span>
         </div>
 
         <div className={styles.undermenu}>
@@ -244,7 +272,8 @@ const PostUpdate = () => {
           <button
             className="btn"
             id={styles.createsubmitbutton}
-            onClick={updatePost}
+            onClick={updateRequest}
+            disabled={isLoading}
           >
             등록하기
           </button>

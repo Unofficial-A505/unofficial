@@ -91,7 +91,21 @@
   margin: 0 10px;
 }
 
+/* .tabthumbIcon {
+  transition: color 2s;
+} */
+
 .tabIcon {
+  margin: 0 8px 4px 0;
+  cursor: pointer;
+}
+
+.tabupIcon {
+  margin: 0 8px 4px 0;
+  cursor: pointer;
+}
+
+.tabregupIcon {
   margin: 0 8px 4px 0;
   cursor: pointer;
 }

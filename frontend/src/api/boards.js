@@ -32,7 +32,7 @@ const boardsArticles = (boardId) => customAxios({
 const searchViewApi = (keyword, boardId) => customAxios({
   method: "get",
   url: `/api/articles/search?keyword=${keyword}&boardId=${boardId}`,
-}).then((res) => res.data.content)
+}).then((res) => res)
 
 
 export { bestPostsApi, boardNamesApi, boardArticlesAll, boardsArticles, searchViewApi }

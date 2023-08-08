@@ -18,13 +18,10 @@ export default function BestpostsWidget(){
         url: `${process.env.REACT_APP_SERVER}/api/best`,
       })
       .then((res) => {
-        console.log('best', res.data);
         setPosts(res.data.slice(0, 10));
       })
       .catch((err) => console.log(err))
-    return () => {  
-      console.log('unmounted')
-     }}, []);
+    }, []);
 
   return(
     <div className={styles.bestpostwidgetContainer}>

@@ -39,7 +39,7 @@ const ForgotPasswordPage = () => {
         }
       );
       setIsComplete(true);
-      console.log(response);
+      // console.log(response);
     } catch (err) {
       alert("입력하신 정보를 확인해주세요.");
       return;

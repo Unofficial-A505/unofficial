@@ -13,7 +13,7 @@ import java.util.List;
 public interface CommentService {
     void createComment(CommentRequestDto requestDto, String email);
     CommentResponseDto getCommentById(Long id);
-    Page<CommentResponseDto> getCommentByArticle(Long articleId, Pageable pageable);
+    Page<CommentResponseDto> getCommentByArticle(Long articleId, String email, Pageable pageable);
     Page<MypageCommentResponseDto> getCommentByUser(String email, Pageable pageable);
     CommentResponseDto updateComment(Long id, CommentRequestDto requestDto, String email);
     void deleteComment(Long id, String email);

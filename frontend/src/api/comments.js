@@ -15,10 +15,10 @@ const postCommentCreateApi = (articleId, content, parentId, nickName) => customA
 })
 
 // 게시글별 댓글 수정
-const postCommentUpdateApi = (id, articleId, content, parentId) => customAxios({
+const postCommentUpdateApi = (id, articleId, content, parentId, nickName) => customAxios({
   method: "put",
   url: `/api/comments/${id}`,
-  data: { id, articleId, content, parentId },
+  data: { id, articleId, content, parentId, nickName },
 })
 
 // 게시글별 댓글 삭제

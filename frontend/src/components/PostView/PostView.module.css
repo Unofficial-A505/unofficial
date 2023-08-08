@@ -23,7 +23,7 @@
 .postContainerB {
   display: flex;
   margin: 8px 0 0 0;
-  width: 40%;
+  width: 25%;
   text-align: right;
 
   /* border: 1px dotted red; */
@@ -85,7 +85,7 @@
 #postcreatTime {
   text-align: right;
 
-  border: 1px dotted red;
+  /* border: 1px dotted red; */
 }
 
 #postrecommendBox {
@@ -96,7 +96,7 @@
 }
 
 #postviewBox {
-  width: 22%;
+  /* width: 25%; */
   text-align: center;
 
   /* border: 1px dotted red; */
