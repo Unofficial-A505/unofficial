@@ -14,11 +14,8 @@ export default function BestpostsWidget(){
 
   useEffect(() => {
     customAxios({
-      method: "get",
-      url: `${process.env.REACT_APP_SERVER}/api/best`,
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
+        method: "get",
+        url: `${process.env.REACT_APP_SERVER}/api/best`,
       })
       .then((res) => {
         console.log('best', res.data);
@@ -35,8 +32,8 @@ export default function BestpostsWidget(){
       <div className={styles.bestpostsContainer}>
         {posts.map((post, index) => 
           <div key={index} className={styles.bestpostContents}>
-            <span className={styles.bestboardTitles} onClick={() => {navigate(`/boards/boardId`)}}>boardName</span>
-            <span title={post.title} className={styles.bestcontentTitles} onClick={() => navigate(`/boards/자유게시판/${post.id}`)}>{post.title}</span>
+            <span className={styles.bestboardTitles} onClick={() => {navigate(`/boards/${post.boardId}`)}}>{post.boardName}</span>
+            <span title={post.title} className={styles.bestcontentTitles} onClick={() => navigate(`/boards/${post.boardId}/${post.articleId}`)}>{post.title}</span>
           </div>
         )}
       </div>  
