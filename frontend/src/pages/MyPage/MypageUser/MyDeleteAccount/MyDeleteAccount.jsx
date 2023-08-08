@@ -152,7 +152,7 @@ function Drop({ setModalOpen, setDropComplete, userEmail }) {
       <div className={styles.container}>
         <img src={main_logo} alt="언오피셜 로고" width={160} />
         <p>정말 탈퇴하시겠습니까?</p>
-        <form classNamess="row">
+        <form classNamess="row" onSubmit={handleSubmit}>
           <input
             type="text"
             disabled
@@ -177,11 +177,7 @@ function Drop({ setModalOpen, setDropComplete, userEmail }) {
           >
             돌아가기
           </button>
-          <button
-            type="button"
-            className="btn btn-danger"
-            onClick={handleSubmit}
-          >
+          <button type="submit" className="btn btn-danger">
             탈퇴하기
           </button>
         </div>

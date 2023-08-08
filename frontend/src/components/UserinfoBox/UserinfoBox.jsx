@@ -41,6 +41,7 @@ export default function UserinfoBox() {
     dispatch(setAccessToken(""));
     dispatch(setAuthUserEmail(""));
     localStorage.removeItem("REFRESH_TOKEN");
+    window.location.reload();
     navigate("/");
   };
 

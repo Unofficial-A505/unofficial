@@ -108,7 +108,8 @@ export default function Signup2() {
     return true
   }
   // 최종 제출 오류 확인
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
     if (isDuplicate) {
       alert('이메일을 확인해 주세요.')

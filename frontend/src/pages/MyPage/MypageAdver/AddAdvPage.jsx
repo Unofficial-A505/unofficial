@@ -206,8 +206,11 @@ export default function AddAdvPage() {
             />
           </div>
           <div className={styles.image_preview_container}>
-            {preview && <img src={preview} alt="Preview" />}
-            <p>제한 크기 : 5MB, 920 X 120px ( .jpg / .gif / .png / .jpeg )</p>
+            {preview ? (
+              <img src={preview} alt="Preview" />
+            ) : (
+              <p>제한 크기 : 5MB, 920 X 120px ( .jpg / .gif / .png / .jpeg )</p>
+            )}
           </div>
 
           <div className="row g-3 align-items-center mb-1">
