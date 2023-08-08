@@ -27,8 +27,9 @@ const PostUpdate = () => {
   const { boardId } = useParams();
   const { postId } = useParams();
   const { state : postDetail } = useLocation(); 
+  const [isLoading, setIsLoading] = useState(false);
   
-  const [value, setValue] = useState("");
+  // const [value, setValue] = useState("");
   // const [ nickNameInput, setnickName ] = useState('');
   const TitleElement = useRef(null);
   const quillElement = useRef(null);
@@ -180,6 +181,19 @@ const PostUpdate = () => {
     })
   }
 
+  const updateRequest = () => {
+    const titleTest = TitleElement.current.value;
+    let contentTest = quillElement.current.editor.root.innerHTML;
+    console.log(contentTest)
+    if (!titleTest) {
+      alert('제목을 입력해주세요!')
+    } else if (contentTest == '<p><br></p>') {
+      alert('내용을 입력하세요!')
+    } else {
+      updatePost()
+    }
+  }
+
   // 글 수정 PUT 요청 (sendformData -> sendPost)
   async function updatePost() {
     const title = TitleElement.current.value;
@@ -187,12 +201,15 @@ const PostUpdate = () => {
       alert('제목을 입력해주세요!')
     } else {
       try {
+        setIsLoading(true);
         const content = await sendformData();
         console.log("sendformData completed");
         await sendPost(content);
         console.log("sendPost completed");
       }  catch (err) {
         console.error("Error in createPost:", err);
+      } finally {
+        setIsLoading(false); // 로딩 종료
       }
     }
   }
@@ -212,7 +229,7 @@ const PostUpdate = () => {
             <p className={styles.boardTitle}>{postDetail.boardName}</p>
             <p>글 수정</p>
             </h3>
-          <button onClick={updatePost} className="btn" id={styles.createsubmitbutton}>
+          <button onClick={updateRequest} className="btn" id={styles.createsubmitbutton}>
             등록하기
           </button>
         </div>
@@ -255,7 +272,8 @@ const PostUpdate = () => {
           <button
             className="btn"
             id={styles.createsubmitbutton}
-            onClick={updatePost}
+            onClick={updateRequest}
+            disabled={isLoading}
           >
             등록하기
           </button>

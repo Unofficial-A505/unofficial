@@ -95,6 +95,9 @@ export default function PostDetail() {
   useEffect(() => {
     setrecommendedState(!postDetail.isLiked)
     console.log('isLiked', postDetail.isLiked)
+
+    document.getElementById('comment-nickname-input').value = null
+    document.getElementById('comment-input').value = null
   }, [postDetail])
     
   // 게시글 삭제
