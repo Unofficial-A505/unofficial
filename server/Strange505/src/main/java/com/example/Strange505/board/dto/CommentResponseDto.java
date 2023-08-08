@@ -21,6 +21,7 @@ public class CommentResponseDto implements Serializable {
     private String nickName;
     private Integer gen;
     private String local;
+    private Boolean isUser;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
     private List<CommentResponseDto> children;

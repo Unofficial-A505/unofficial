@@ -101,36 +101,44 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Page<CommentResponseDto> getCommentByArticle(Long articleId, Pageable pageable) {
-
+    public Page<CommentResponseDto> getCommentByArticle(Long articleId, String email, Pageable pageable) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
         Page<Comment> repoList = commentRepository.searchByArticle(articleId, pageable);
         List<CommentResponseDto> list = new ArrayList<>();
         for (Comment c :
                 repoList) {
-            checkParent(c, list);
+            checkParent(c, user, list);
         }
 
-        Page<CommentResponseDto> result = new PageImpl<>(list);
+        Page<CommentResponseDto> result = new PageImpl<>(list, pageable, list.size());
         return result;
     }
 
-    private void checkParent(Comment c, List<CommentResponseDto> list) {
+    public boolean checkUser(Long commentUserId, Long userId) {
+        if (userId == commentUserId) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void checkParent(Comment c, User currUser, List<CommentResponseDto> list) {
         if (c.getParent() == null) {
 
             List<CommentResponseDto> reComment = c.getChildren().stream().map(comment -> new CommentResponseDto(
                     comment.getId(),
-//                    comment.getUser().getId(),
-                    comment.getArticle().getId(), comment.getContent(), null,
+                    comment.getArticle().getId(), comment.getContent(), c.getId(),
                     comment.getNickName(),
                     comment.getUser().getGen(), comment.getUser().getLocal(),
+                    checkUser(comment.getUser().getId(), currUser.getId()),
                     comment.getCreateTime(), comment.getModifyTime(), null)).toList();
 
             list.add(new CommentResponseDto(
                     c.getId(),
-//                    c.getUser().getId(),
                     c.getArticle().getId(), c.getContent(), null,
                     c.getNickName(),
                     c.getUser().getGen(), c.getUser().getLocal(),
+                    checkUser(c.getUser().getId(), currUser.getId()),
                     c.getCreateTime(), c.getModifyTime(), reComment));
         }
     }
