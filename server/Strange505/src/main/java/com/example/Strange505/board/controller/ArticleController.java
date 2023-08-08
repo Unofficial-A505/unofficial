@@ -5,6 +5,7 @@ import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.board.dto.ArticleResponseDto;
 import com.example.Strange505.board.dto.ImageForm;
+import com.example.Strange505.board.service.ArticleLikeService;
 import com.example.Strange505.board.service.ArticleService;
 import com.example.Strange505.dto.PageResponseDto;
 import com.example.Strange505.file.service.S3UploaderService;
@@ -34,23 +35,12 @@ public class ArticleController {
     private final ArticleService articleService;
     private final S3UploaderService s3Uploader;
     private final AuthService authService;
+    private final ArticleLikeService articleLikeService;
 
     @PostMapping
     public ResponseEntity<?> registerArticle(@RequestBody ArticleRequestDto dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        Article article = articleService.createArticle(dto, email);
-        ArticleResponseDto responseDto = ArticleResponseDto.builder()
-                .id(article.getId())
-                .title(article.getTitle())
-                .content(article.getContent())
-                .boardName(article.getBoard().getName())
-                .boardId(article.getBoard().getId())
-                .nickName(article.getNickName())
-                .gen(article.getUser().getGen())
-                .local(article.getUser().getLocal())
-                .createTime(article.getCreateTime())
-                .modifyTime(article.getModifyTime())
-                .build();
+        ArticleResponseDto responseDto = articleService.createArticle(dto, email);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
 
     }
@@ -71,41 +61,23 @@ public class ArticleController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ArticleResponseDto> getArticle(@PathVariable Long id, HttpServletRequest req, HttpServletResponse res) {
+        // 조회수 증가
         addViewCount(id, req, res);
-        Article article = articleService.getArticleById(id);
-        ArticleResponseDto dto = ArticleResponseDto.builder()
-                .id(article.getId())
-                .title(article.getTitle())
-                .content(article.getContent())
-                .boardName(article.getBoard().getName())
-                .boardId(article.getBoard().getId())
-                .nickName(article.getNickName())
-                .gen(article.getUser().getGen())
-                .local(article.getUser().getLocal())
-                .likes(article.getLikes())
-                .views(article.getViews())
-                .createTime(article.getCreateTime())
-                .modifyTime(article.getModifyTime())
-                .build();
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        ArticleResponseDto responseDto = articleService.getArticleById(id, email);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<PageResponseDto<ArticleResponseDto>> getAllArticles(Pageable pageable) {
-        Page<Article> articles = articleService.getAllArticles(pageable);
-        Page<ArticleResponseDto> articleResponseDtoList = articles.map(findArticle ->
-                new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
-                        findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
-                        findArticle.getLikes(), findArticle.getViews(),
-                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(),
-                        findArticle.getCreateTime(), findArticle.getModifyTime()));
+        Page<ArticleResponseDto> responseDtoList = articleService.getAllArticles(pageable);
 
         Map<String, Object> pageInfo = new HashMap<>();
         pageInfo.put("page", pageable.getPageNumber());
         pageInfo.put("size", pageable.getPageSize());
-        pageInfo.put("totalElements", articleResponseDtoList.getTotalElements());
-        pageInfo.put("totalPages", articleResponseDtoList.getTotalPages());
-        List<ArticleResponseDto> contents = articleResponseDtoList.getContent();
+        pageInfo.put("totalElements", responseDtoList.getTotalElements());
+        pageInfo.put("totalPages", responseDtoList.getTotalPages());
+        List<ArticleResponseDto> contents = responseDtoList.getContent();
 
 
         return new ResponseEntity<>(new PageResponseDto<>(pageInfo, contents), HttpStatus.OK);
@@ -113,21 +85,14 @@ public class ArticleController {
 
     @GetMapping("/search")
     public ResponseEntity<PageResponseDto<ArticleResponseDto>> getArticlesByTitleAndContent(@RequestParam String keyword, @RequestParam Long boardId, Pageable pageable) {
-        Page<Article> articles = articleService.getArticlesByTitleAndContent(keyword, boardId, pageable);
-        Page<ArticleResponseDto> articleResponseDtoList = articles.map(findArticle ->
-                new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
-                        findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
-                        findArticle.getLikes(), findArticle.getViews(),
-                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(),
-                        findArticle.getCreateTime(), findArticle.getModifyTime()));
+        Page<ArticleResponseDto> responseDtoList = articleService.getArticlesByTitleAndContent(keyword, boardId, pageable);
 
         Map<String, Object> pageInfo = new HashMap<>();
         pageInfo.put("page", pageable.getPageNumber());
         pageInfo.put("size", pageable.getPageSize());
-        pageInfo.put("totalElements", articleResponseDtoList.getTotalElements());
-        pageInfo.put("totalPages", articleResponseDtoList.getTotalPages());
-        List<ArticleResponseDto> contents = articleResponseDtoList.getContent();
-
+        pageInfo.put("totalElements", responseDtoList.getTotalElements());
+        pageInfo.put("totalPages", responseDtoList.getTotalPages());
+        List<ArticleResponseDto> contents = responseDtoList.getContent();
 
         return new ResponseEntity<>(new PageResponseDto<>(pageInfo, contents), HttpStatus.OK);
     }
@@ -135,41 +100,28 @@ public class ArticleController {
     @GetMapping("/user")
     public ResponseEntity<PageResponseDto<ArticleResponseDto>> getArticlesByUser(Pageable pageable) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        Page<Article> articles = articleService.getArticlesByUser(email, pageable);
-        Page<ArticleResponseDto> articleResponseDtoList = articles.map(findArticle ->
-                new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
-                        findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
-                        findArticle.getLikes(), findArticle.getViews(),
-                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(),
-                        findArticle.getCreateTime(), findArticle.getModifyTime()));
+        Page<ArticleResponseDto> responseDtoList = articleService.getArticlesByUser(email, pageable);
+
         Map<String, Object> pageInfo = new HashMap<>();
         pageInfo.put("page", pageable.getPageNumber());
         pageInfo.put("size", pageable.getPageSize());
-        pageInfo.put("totalElements", articleResponseDtoList.getTotalElements());
-        pageInfo.put("totalPages", articleResponseDtoList.getTotalPages());
-        List<ArticleResponseDto> contents = articleResponseDtoList.getContent();
-
+        pageInfo.put("totalElements", responseDtoList.getTotalElements());
+        pageInfo.put("totalPages", responseDtoList.getTotalPages());
+        List<ArticleResponseDto> contents = responseDtoList.getContent();
 
         return new ResponseEntity<>(new PageResponseDto<>(pageInfo, contents), HttpStatus.OK);
     }
 
     @GetMapping("/board/{boardId}")
     public ResponseEntity<PageResponseDto<ArticleResponseDto>> getArticlesByBoard(@PathVariable Long boardId, Pageable pageable) {
-        Page<Article> articles = articleService.getArticlesByBoard(boardId, pageable);
-
-        Page<ArticleResponseDto> articleResponseDtoList = articles.map(findArticle ->
-                new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
-                        findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
-                        findArticle.getLikes(), findArticle.getViews(),
-                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(),
-                        findArticle.getCreateTime(), findArticle.getModifyTime()));
+        Page<ArticleResponseDto> responseDtoList = articleService.getArticlesByBoard(boardId, pageable);
 
         Map<String, Object> pageInfo = new HashMap<>();
         pageInfo.put("page", pageable.getPageNumber());
         pageInfo.put("size", pageable.getPageSize());
-        pageInfo.put("totalElements", articleResponseDtoList.getTotalElements());
-        pageInfo.put("totalPages", articleResponseDtoList.getTotalPages());
-        List<ArticleResponseDto> contents = articleResponseDtoList.getContent();
+        pageInfo.put("totalElements", responseDtoList.getTotalElements());
+        pageInfo.put("totalPages", responseDtoList.getTotalPages());
+        List<ArticleResponseDto> contents = responseDtoList.getContent();
 
 
         return new ResponseEntity<>(new PageResponseDto<>(pageInfo, contents), HttpStatus.OK);
@@ -230,27 +182,4 @@ public class ArticleController {
 
         return ResponseEntity.ok(imageUrl);
     }
-
-//    @PostMapping("/images")
-////    public ResponseEntity<Boolean> saveImage(@RequestPart List<MultipartFile> files, @RequestParam Long articleId) throws IOException {
-//    public ResponseEntity<Boolean> saveImage(@ModelAttribute ImageForm form) throws IOException {
-//        List<MultipartFile> files = form.getUploadFile();
-//        System.out.println(files);
-//        // 실제 디렉토리에 파일 저장
-//        List<UploadFile> attachFile = fileStore.storeFiles(files);
-//        // DB에 데이터 저장
-////        attachFile.stream().forEach(file -> imageService.saveImage(file, articleId));
-//        return ResponseEntity.status(HttpStatus.OK).build();
-//    }
-
-//    @GetMapping("/images/{articleId}")
-//    public ResponseEntity<List<String>> getImagePaths(@PathVariable String articleId) {
-//        List<String> result = imageService.getPathsByArticle(Long.parseLong(articleId));
-//        return ResponseEntity.status(HttpStatus.OK).body(result);
-//    }
-//
-//    @GetMapping("/image/{filename}")
-//    public Resource downLoadImage(@PathVariable String filename) throws MalformedURLException {
-//        return new UrlResource("file:" + fileStore.getFullPath(filename));
-//    }
 }

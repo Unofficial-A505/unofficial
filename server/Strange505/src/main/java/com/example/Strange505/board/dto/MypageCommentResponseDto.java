@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @ToString
-public class CommentResponseDto implements Serializable {
+public class MypageCommentResponseDto implements Serializable {
 
     private Long id;
     private Long articleId;
@@ -23,14 +23,9 @@ public class CommentResponseDto implements Serializable {
     private String local;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
-    private List<CommentResponseDto> children;
+    private List<MypageCommentResponseDto> children;
+    private String articleTitle;
+    private String boardName;
+    private Long boardId;
 
-    public CommentResponseDto(Comment comment) {
-        this.content = comment.getContent();
-        this.articleId = comment.getArticle().getId();
-        this.parentId = comment.getParent().getId();
-        this.nickName = comment.getNickName();
-        this.createTime = comment.getCreateTime();
-        this.modifyTime = comment.getModifyTime();
-    }
 }

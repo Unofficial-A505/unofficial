@@ -17,5 +17,4 @@ public class ArticleRequestDto {
     private String content;
     private String boardName;
     private String nickName;
-    private List<String> ImageList;
 }

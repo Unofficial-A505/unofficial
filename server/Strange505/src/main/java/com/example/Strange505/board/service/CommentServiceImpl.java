@@ -4,10 +4,13 @@ import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.domain.Comment;
 import com.example.Strange505.board.dto.CommentRequestDto;
 import com.example.Strange505.board.dto.CommentResponseDto;
+import com.example.Strange505.board.dto.MypageCommentResponseDto;
 import com.example.Strange505.board.exception.NoResultException;
 import com.example.Strange505.board.exception.NotAuthorException;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.CommentRepository;
+import com.example.Strange505.pointHistory.dto.PointHistoryDto;
+import com.example.Strange505.pointHistory.service.PointHistoryService;
 import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +34,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
+    private final PointHistoryService pointHistoryService;
 
     @Override
     @Transactional
@@ -47,6 +51,7 @@ public class CommentServiceImpl implements CommentService {
                     .createTime(LocalDateTime.now())
                     .user(user)
                     .nickName(dto.getNickName())
+                    .isRemoved(false)
                     .build();
         } else {
             comment = Comment.builder()
@@ -56,10 +61,12 @@ public class CommentServiceImpl implements CommentService {
                     .parent(parent)
                     .user(user)
                     .nickName(dto.getNickName())
+                    .isRemoved(false)
                     .build();
             parent.addChild(comment);
         }
         commentRepository.save(comment);
+        addPoint(user.getId());
     }
 
     @Override
@@ -67,10 +74,13 @@ public class CommentServiceImpl implements CommentService {
 
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new RuntimeException("Comment not found"));
         Comment parent = comment.getParent();
+        // 삭제된 댓글이라면
+        if (comment.getIsRemoved()) {
+            return null;
+        }
 
         if (parent == null) {
             return CommentResponseDto.builder()
-//                    .userId(comment.getUser().getId())
                     .articleId(comment.getArticle().getId())
                     .content(comment.getContent())
                     .parentId(null)
@@ -80,7 +90,6 @@ public class CommentServiceImpl implements CommentService {
                     .build();
         } else {
             return CommentResponseDto.builder()
-//                    .userId(comment.getUser().getId())
                     .articleId(comment.getArticle().getId())
                     .content(comment.getContent())
                     .parentId(comment.getParent().getId())
@@ -127,31 +136,35 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Page<CommentResponseDto> getCommentByUser(String email, Pageable pageable) {
+    public Page<MypageCommentResponseDto> getCommentByUser(String email, Pageable pageable) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
         Page<Comment> repoList = commentRepository.searchByUser(user.getId(), pageable);
-        List<CommentResponseDto> list = new ArrayList<>();
+        List<MypageCommentResponseDto> list = new ArrayList<>();
         for (Comment c :
                 repoList) {
             if (c.getParent() == null) {
-                list.add(new CommentResponseDto(
+                list.add(new MypageCommentResponseDto(
                         c.getId(),
-//                        c.getUser().getId(),
                         c.getArticle().getId(), c.getContent(),
                         null, c.getNickName(),
                         c.getUser().getGen(), c.getUser().getLocal(),
-                        c.getCreateTime(), c.getModifyTime(), null));
+                        c.getCreateTime(), c.getModifyTime(), null,
+                        c.getArticle().getTitle(),
+                        c.getArticle().getBoard().getName(),
+                        c.getArticle().getBoard().getId()));
             } else {
-                list.add(new CommentResponseDto(
+                list.add(new MypageCommentResponseDto(
                         c.getId(),
-//                        c.getUser().getId(),
                         c.getArticle().getId(), c.getContent(),
                         c.getParent().getId(), c.getNickName(),
                         c.getUser().getGen(), c.getUser().getLocal(),
-                        c.getCreateTime(), c.getModifyTime(), null));
+                        c.getCreateTime(), c.getModifyTime(), null,
+                        c.getArticle().getTitle(),
+                        c.getArticle().getBoard().getName(),
+                        c.getArticle().getBoard().getId()));
             }
         }
-        Page<CommentResponseDto> result = new PageImpl<>(list);
+        Page<MypageCommentResponseDto> result = new PageImpl<>(list);
         return result;
     }
 
@@ -179,9 +192,18 @@ public class CommentServiceImpl implements CommentService {
             comment.remove();
             List<Comment> removableCommentList = comment.findRemovableList();
             log.info("removeList = {}", removableCommentList);
-            commentRepository.deleteAll(removableCommentList);
+            for (Comment c: removableCommentList) {
+                c.remove();
+            }
         } else {
             throw new NotAuthorException("작성자만 삭제 가능합니다.");
         }
+    }
+
+    @Override
+    @Transactional
+    public void addPoint(Long userId) {
+        PointHistoryDto pointHistoryDto = new PointHistoryDto(10, "게시글 작성 적립", userId);
+        pointHistoryService.putNewPointHistory(pointHistoryDto);
     }
 }

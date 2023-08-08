@@ -76,6 +76,7 @@
 .commentContentsContainer {
   /* border: 1px dotted aqua; */
   margin: 20px 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.315);
 }
 
 .dateContainer {
@@ -90,26 +91,34 @@
 
 .commentContainer {
   height: 45%;
-  width: 95%;
+  width: 70%;
   margin: 10px auto;
 
   /* border: 1px dotted red; */
 }
 
 .postContainer {
+  display: flex;
   height: 30%;
 }
+ 
+#nickName {
+  width: 100%;
+  justify-content: space-between;
+}
 
+/* #createTime {
+
+}  */
 
 /* myPosyView */
 .boardpostContainer{
-  width: 95%;
+  width: 20%;
   height: 35px;
   margin: 5PX auto;
 
   display: flex;
   justify-content: space-between;
-  border: 1px solid rgba(128, 128, 128, 0.315);
   border-width: 1px 0 0 0 ;
 }
 
@@ -138,4 +147,8 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+}
+
+.commentInd {
+  display: flex;
 }

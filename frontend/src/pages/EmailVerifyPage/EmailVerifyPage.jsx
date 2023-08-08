@@ -1,13 +1,15 @@
 import styles from "./EmailVerifyPage.module.css";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import useDocumentTitle from "../../useDocumentTitle";
 
 const EmailVerifyPage = () => {
+  useDocumentTitle("이메일 인증 완료");
+
   let query = useQuery();
   let verificationCode = query.get("verificationCode");
   let userEmail = query.get("email");
-  // console.log(verificationCode);
-  // console.log(userEmail);
+
   requestEmailVerification(verificationCode, userEmail);
 
   return (

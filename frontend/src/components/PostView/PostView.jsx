@@ -3,7 +3,7 @@ import styles from "./PostView.module.css";
 import { useNavigate } from "react-router-dom";
 import { FaRegThumbsUp } from "@react-icons/all-files/fa/FaRegThumbsUp";
 
-export default function PostView({ post, boardId, searchView, keyword }) {
+export default function PostView({ post, boardId, searchView, keyword, myBoard }) {
   const navigate = useNavigate();
 
   const createTime = post.createTime
@@ -15,8 +15,8 @@ export default function PostView({ post, boardId, searchView, keyword }) {
     <>
       <div className={styles.boardpostContainer}>
         <div className={styles.postContainerA}>
-          <div className={styles.postContent} id={styles.boardName}>
-            {post.id}
+          <div className={styles.postContent} id={myBoard?styles.boardName:styles.postId}>
+            {myBoard?post.boardName:post.id}
           </div>
 
           {!searchView ?
@@ -33,7 +33,7 @@ export default function PostView({ post, boardId, searchView, keyword }) {
 
         </div>
         <div className={styles.postContainerB}>
-          <div className={styles.postContent}>{createTime_modify} (수정 : {updateTime_modify})</div>
+          <div className={styles.postContent}>{createTime_modify}</div>
           <div className={styles.postContent} id={styles.postrecommendBox}><FaRegThumbsUp className={styles.postIcon}/>{post.likes}</div>
           <div className={styles.postContent} id={styles.postviewBox}>조회수 {post.views}</div>
         </div>

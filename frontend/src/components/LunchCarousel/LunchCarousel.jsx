@@ -116,7 +116,7 @@ export default function LunchCarousel() {
         width="95%"
         margin="0 auto"
         offset={1}
-        showArrows={true}
+        showArrows={true ? cards.length > 1 : false}
       />
     </div>
   );

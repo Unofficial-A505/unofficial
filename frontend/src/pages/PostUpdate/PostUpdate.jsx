@@ -1,9 +1,7 @@
 import styles from "./PostUpdate.module.css";
-import axios from "axios";
 
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import styled from "styled-components";
 
 import Quill from "quill";
 import ReactQuill from "react-quill";
@@ -15,31 +13,26 @@ import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 import TopSpace from "../../components/TopSpace/TopSpace";
 import Footer from "../../components/Footer/Footer";
 import NavBar from "../../components/NavBar/NavBar";
-import customAxios from "../../util/customAxios";
+
+import { postUpdateApi, postImageApi } from "../../api/posts"
+
+import useDocumentTitle from "../../useDocumentTitle";
 
 Quill.register("modules/ImageResize", ImageResize);
 
-const Title = styled.h3`
-    margin: 0 0 0 10px;
-    text-align: start;
-    color: #000;s
-    font-family: Inter;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 700px;
-    line-height: normal;
-    display: flex;
-    `;
 const PostUpdate = () => {
+  useDocumentTitle("게시글 수정");
+
   const navigate = useNavigate();
   const { boardId } = useParams();
   const { postId } = useParams();
-  const [value, setValue] = useState("");
-  // const [ updatetitle, setupdateTitle ] = useState("");
+  const { state : postDetail } = useLocation(); 
+  
+  // const [value, setValue] = useState("");
+  const [ nickNameInput, setnickName ] = useState('');
   const TitleElement = useRef(null);
   const quillElement = useRef(null);
-
-  const { state : postDetail } = useLocation(); 
+  const [ imageList, setimageList ] = useState([])
 
   const modules = {
     toolbar: {
@@ -79,24 +72,23 @@ const PostUpdate = () => {
   useEffect(() => {
     quillElement.current.editor
       .getModule("toolbar")
-      .addHandler("image", function () {
-        selectLocalImage();
-      });
+      .addHandler("image", function() {selectLocalImage();});
 
       const delta = quillElement.current.editor.clipboard.convert(postDetail.content)
       quillElement.current.editor.setContents(delta, 'silent')
 
-  }, []);
+      window.scrollTo({ top: 0, behavior: "smooth" });
 
-  const onChangeValue = (e) => {
-    setValue(e);
-    console.log(e);
-  };
+  }, [imageList]);
 
-  // const changetitleValue = (e) => {
-  //   setupdateTitle(e);
-  //   console.log("title", e);
+  // const onChangeValue = (e) => {
+  //   setValue(e);
+  //   console.log(e);
   // };
+
+  const changeImageList = (url, file) => {
+    setimageList([...imageList, { url, file }]);
+  }
 
   // 이미지 url 추출 함수
   function selectLocalImage() {
@@ -109,69 +101,92 @@ const PostUpdate = () => {
     fileInput.addEventListener("change", function (e) {
       // change 이벤트로 input 값이 바뀌면 실행
       e.preventDefault();
-      const formData = new FormData();
+      // editor에 새로운 이미지 삽입
+      const fileURL = window.URL.createObjectURL(e.target.files[0]);
       const file = fileInput.files[0];
-      formData.append("uploadFile", file);
-      console.log("file", file);
-      console.log(formData);
+      const Image = Quill.import("formats/image");
+      Image.sanitize = (fileURL) => fileURL;
+      quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${fileURL}`);
 
-      customAxios({
-        method: "post",
-        url: `${process.env.REACT_APP_SERVER}/api/ads/uploadForArticle`,
-        data: formData,
-        headers: { "Content-Type": "multipart/form-data",
-                    // Authorization: `Token ${this.$store.state.token}` 
-                  },
 
-      })
-        .then((res) => {
-          console.log(res.data);
-          console.log("success");
-          console.log(typeof res.data);
-          // const range = this.quill.getSelection(); // 사용자가 선택한 에디터 범위
-          // // uploadPath에 역슬래시(\) 때문에 경로가 제대로 인식되지 않는 것을 슬래시(/)로 변환
-          // res.data = res.data.replace(/\\/g, '/');
-          const uploadPath = res.data;
-          // quillInstance.current.insertEmbed(range.index, 'image', "/board/display?fileName=" + res.uploadPath +"/"+ res.uuid +"_"+ res.fileName);
-          quillElement.current.editor.insertEmbed(
-            quillElement.current.editor.root,
-            "image",
-            `${uploadPath}`
-          );
-        })
-        .catch((err) => console.log(err));
+      // 이미지 로컬 url 및 formData 담을 file ImageList에 담기
+      changeImageList(fileURL, file);
     });
   }
 
-  const updatePost = () => {
-    const title = TitleElement.current.value;
-    const content = quillElement.current.editor.root.innerHTML;
-    const boardName = boardId;
-    const id = postId;
-    console.log(title, content, boardId);
-
-    customAxios({
-      method: "put",
-      url: `${process.env.REACT_APP_SERVER}/api/articles/${postId}`,
-      // url: `http://70.12.247.35:8080/files/articleTest`,
-      data: {
-        id,
-        boardName,
-        title,
-        content,
-      },
-      // headers: {
-      //   Authorization: `Token ${this.$store.state.token}`,
-      // }
-    })
-      .then((res) => {
-        navigate(`/boards/${boardId}/${postId}`, { replace: true });
-        console.log(res.data);
+  // 새로 첨부된 이미지 formData에 담아서 전송
+  function sendformData () {
+    let content = quillElement.current.editor.root.innerHTML;
+    if (content == '<p><br></p>') {
+      alert('내용을 입력하세요!')}
+    else {
+      return new Promise(function(resolve, reject) {
+        // let content = quillElement.current.editor.root.innerHTML;
+        console.log(imageList)
+        const imagePromises = []
+    
+        //글 등록하는 현재 content에 존재하는 image만 formData에 싣기
+        imageList.forEach((image) => {
+          let regexOne = new RegExp(`${image.url}`)
+          let imageString = String(regexOne)
+          imageString = imageString.replace(/\\/g, '')
+      
+          const imageChecked = content.match(regexOne)
+      
+          if (imageChecked) {
+            // formData에 해당 이미지 싣기 
+            const formData = new FormData();
+            formData.append("uploadFile", image.file);
+    
+            const promise = postImageApi(formData)
+            .then((res) => {
+              console.log('image', res.url)
+              console.log("success");
+              const uploadPath = res.data;
+              content = content.replace(regexOne, `${uploadPath}`)
+              console.log('change source', content)
+              // quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${uploadPath}`);
+              
+              window.URL.revokeObjectURL(image.url)
+            }).catch((err) => console.log(err));
+  
+            imagePromises.push(promise)
+          } 
+        })
+        Promise.all(imagePromises)
+        .then(() => resolve(content))
+        .catch((err) => reject(err));
       })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+    }
+  }
+
+  // content 수정한 내용 수정하는 PUT 요청
+  function sendPost(content) {
+    return new Promise(function(resolve, reject){
+      const title = TitleElement.current.value;
+      const boardName = postDetail.boardName;
+      const nickName = nickNameInput;
+      const id = postId;
+    
+      postUpdateApi(postId, id, title, content, boardName, nickName)
+      .then(() => navigate(`/boards/${boardId}/${postId}`, { replace: true }) )
+      .catch((err) => console.log(err))
+    })
+  }
+
+  // 글 수정 PUT 요청 (sendformData -> sendPost)
+  async function updatePost() {
+    try {
+      const content = await sendformData();
+      console.log("sendformData completed");
+
+      await sendPost(content);
+      console.log("sendPost completed");
+    }  catch (err) {
+      console.error("Error in createPost:", err);
+    }
+  }
+   
 
   // 이외 함수들
   const handleCancel = () => {
@@ -184,10 +199,10 @@ const PostUpdate = () => {
       <NavBar />
       <div className={styles.craetecontainer}>
         <div className={styles.upmenu}>
-          <Title>
-            <p className={styles.boardTitle}>{boardId}}</p>
+          <h3 className={styles.topmenuBox}>
+            <p className={styles.boardTitle}>{postDetail.boardName}</p>
             <p>글 수정</p>
-          </Title>
+            </h3>
           <button onClick={updatePost} className="btn" id={styles.createsubmitbutton}>
             등록하기
           </button>
@@ -205,8 +220,8 @@ const PostUpdate = () => {
 
         <ReactQuill
           id="react-quill"
-          value={value}
-          onChange={onChangeValue}
+          // value={value}
+          // onChange={onChangeValue}
           modules={modules}
           formats={formats}
           selection={{ start: 0, end: 0 }}
@@ -215,6 +230,11 @@ const PostUpdate = () => {
           ref={quillElement}
           // dangerouslySetInnerHTML={{ __html: content }}
         />
+
+        <div className={styles.nicknameContainer}>
+          <span className={styles.nicknametitleBox}>닉네임</span>
+          <input type="text" onChange={(e) => {setnickName(e.target.value); console.log(nickNameInput)}} placeholder='닉네임을 입력하세요'/>
+        </div>
 
         <div className={styles.undermenu}>
           <button className={styles.grayoutbutton} onClick={handleCancel}>
@@ -230,7 +250,9 @@ const PostUpdate = () => {
           </button>
         </div>
       </div>
-      <div className={styles.footerContainer}><Footer /></div>
+      <div className={styles.footerContainer}>
+        <Footer />
+      </div>
     </div>
   );
 };
