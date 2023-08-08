@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from './Signup.module.css'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -67,7 +68,6 @@ export default function Signup2() {
     axios
       .post(`${process.env.REACT_APP_SERVER}/api/verify`, { email: userEmail })
       .then((res) => {
-        console.log(res)
         if (res.status === 200) {
           setDuplicationMent(<p style={{ color: 'green' }}>사용 가능한 이메일입니다.</p>)
           setIsDuplicate(false)
@@ -76,7 +76,7 @@ export default function Signup2() {
       .catch((err) => {
         console.log(err)
 
-        if (err.response.data.message) {
+        if (err.response && err.response.data.message) {
           setDuplicationMent(<p style={{ color: 'red' }}>{err.response.data.message}</p>)
         } else {
           setDuplicationMent(<p style={{ color: 'red' }}>오류가 발생했습니다. 잠시 후 다시 시도해주세요.</p>)
@@ -125,17 +125,15 @@ export default function Signup2() {
   }
 
   return (
-    <div id={styles.container}>
-
+    <form id={styles.container} onSubmit={handleSubmit}>
       <h2>언오피셜 회원가입</h2>
       <p className='my-0'>언오피셜 계정으로 <b>점심식단, 자유게시판</b>등</p>
       <p className='my-0'>다양한 교육생 서비스를 모두 이용하실 수 있습니다.</p>
       <br />
       <h2>등록</h2>
       <p className='mb-3' style={{ color: 'red' }}>에듀싸피 계정과 동일한 이메일 주소로 가입해주세요.</p>
-
       <div className="mb-1">
-        <label for="exampleInputEmail" className="form-label">이메일 주소</label>
+        <label htmlFor="exampleInputEmail" className="form-label">이메일 주소</label>
         <div className="input-group">
           <input type="email" className="form-control" id="exampleInputEmail" onChange={handleEmailChange} onInput={handleEmailValid} />
           <button className="btn btn-outline-secondary" type="button" onClick={doubleCheck}>중복확인</button>
@@ -143,19 +141,17 @@ export default function Signup2() {
         {userEmail && !emailValid && <p style={{ color: 'red' }}>올바른 이메일 주소를 입력해주세요.</p>}
         {duplicationMent}
       </div>
-
       <div className="mb-1">
-        <label for="exampleInputPassword1" className="form-label">비밀번호</label>
-        <input type="password" className="form-control" id="exampleInputPassword1" onChange={handlePasswordChange1} />
+        <label htmlFor="exampleInputPassword1" className="form-label">비밀번호</label>
+        <input type="password" className="form-control" id="exampleInputPassword1" autoComplete="false" onChange={handlePasswordChange1} />
       </div>
       <div className="mb-4">
-        <label for="exampleInputPassword2" className="form-label">비밀번호 확인</label>
-        <input type="password" className="form-control" id="exampleInputPassword2" onChange={handlePasswordChange2} />
+        <label htmlFor="exampleInputPassword2" className="form-label">비밀번호 확인</label>
+        <input type="password" className="form-control" id="exampleInputPassword2" autoComplete="false" onChange={handlePasswordChange2} />
         {userPassword1 && userPassword2 && passwordMismatch
           && <p style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</p>}
       </div>
-
-      <input type="submit" value="다음" onClick={handleSubmit} />
-    </div>
+      <input type="submit" value="다음" />
+    </form>
   )
 }

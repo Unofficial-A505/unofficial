@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -11,7 +12,6 @@ export default function Signup3() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    console.log(user)
     if (!user.email) {
       navigate('/signup')
     }
@@ -41,7 +41,7 @@ export default function Signup3() {
         alert('잠시 후 다시 시도해주세요.')
         console.log(err)
       })
-  } 
+  }
 
   return (
     <div className={styles.complete}>
@@ -51,7 +51,7 @@ export default function Signup3() {
       <p>이메일 인증을 위한 메일이 발송 되었습니다.</p>
       <p>회원가입 완료를 위한 이메일 인증을 진행 해 주세요.</p>
       <div className='mb-4' />
-      <p className='text-dark' style={{ fontSize: '1rem'}}>이메일 주소 : {user.email}</p>
+      <p className='text-dark' style={{ fontSize: '1rem' }}>이메일 주소 : {user.email}</p>
       <div className='mb-4' />
       <p className='mb-0'>'이메일을 받지 못하셨나요?.</p>
       <button className='mt-2' onClick={resendEmail}>이메일 다시 보내기</button>
