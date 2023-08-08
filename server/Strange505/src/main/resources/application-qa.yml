@@ -20,3 +20,8 @@ mail:
   base-url : "https://dev.unofficial.kr/verify?verificationCode="
 
 test: qa
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    use-root-path: true
