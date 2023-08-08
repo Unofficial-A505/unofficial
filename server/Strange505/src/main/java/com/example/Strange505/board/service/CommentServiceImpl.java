@@ -110,7 +110,7 @@ public class CommentServiceImpl implements CommentService {
             checkParent(c, user, list);
         }
 
-        Page<CommentResponseDto> result = new PageImpl<>(list, pageable, list.size());
+        Page<CommentResponseDto> result = new PageImpl<>(list, pageable, repoList.getTotalElements());
         return result;
     }
 
