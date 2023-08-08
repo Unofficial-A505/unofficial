@@ -30,6 +30,7 @@
 .postContainer {
   text-align: start;
   margin: 0 45px;
+  overflow-x: auto;
 }
 
 .postTopbar {
