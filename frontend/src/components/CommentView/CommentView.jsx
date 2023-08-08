@@ -16,9 +16,7 @@ import { HiOutlinePencilAlt } from '@react-icons/all-files/hi/HiOutlinePencilAlt
 
 import RecommentsView from '../RecommentsView/RecommentsView';
 
-export default function CommentView({ comment, CommentDelete, commentUpdate, postId}){
-  const commentRecommended = 0
-  const comentContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce venenatis velit id justo vulputate eleifend. Integer maximus sapien enim, vel faucibus risus auctor vel. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus hendrerit tincidunt diam sed accumsan. Aenean rhoncus erat et nisi lobortis, nec tincidunt elit finibus. Cras ipsum nulla, egestas non nisl vel, pharetra mollis tellus. Nullam dignissim metus lectus, at faucibus ex lacinia a. Proin tristique augue ut turpis tincidunt lacinia.'
+export default function CommentView({ comment, CommentDelete, commentUpdate, articleId}){
   const [ updateState, setupdateState ] = useState(false)
   const [ recommentBox, setrecommentBox ] = useState(false)
   const [ comments, setComments ] = useState('')
@@ -29,7 +27,7 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, pos
   const recommentCreate = () => {
     const content = comments
     const parentId = id;
-    const articleId = postId;
+    const articleId = articleId
     console.log(content)
     customAxios({
       method: "post",
@@ -78,7 +76,7 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, pos
               className={styles.commentInput}
               type="text"
               onChange={(e) => setComments(e.target.value)}
-              placeholder="대댓글을 작성해보세요"
+              placeholder="댓글을 작성해보세요"
             />
             <button onClick={recommentCreate} className={styles.commentButton}>
               <IoChatboxOutline size="23" />
@@ -111,9 +109,10 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, pos
   
         <div className={styles.commentupdateBottombar}>
           <button className={styles.updateButtons} onClick={() => {
-            const Content = updateContent.current.value;
-            console.log('update content', updateContent.current.value);
-            // commentUpdate(Content, id);
+            const content = updateContent.current.value;
+            const nickName = comment.nickName
+            console.log('update content', id, articleId, content, 0, nickName);
+            commentUpdate(id, articleId, content, 0, nickName);
             setupdateState((prev) => !prev);
             }}><HiOutlinePencilAlt className={styles.updateIcons} />수정 완료</button>
           <button className={styles.updateButtons} onClick={() => setupdateState((prev) => !prev)}>취소</button>

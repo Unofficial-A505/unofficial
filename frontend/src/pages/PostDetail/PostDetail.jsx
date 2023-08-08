@@ -77,6 +77,7 @@ export default function PostDetail() {
       setpostDetail(res)
       setBoardTitle(res.boardName)
       setDocumentTitle(res.boardName)
+      console.log(res)
     })
     .catch((err) => console.log(err));
 
@@ -86,6 +87,7 @@ export default function PostDetail() {
     // 현재 board 게시글
     boardsArticles(boardId)
     .then((res) => setcurrboardPosts(res))
+    .catch((err) => console.log(err));
 
     return () => {  
       console.log('unmounted');}
@@ -137,15 +139,20 @@ export default function PostDetail() {
   };
 
   // 댓글 수정
-  const commentUpdate = (updateComment, id) => {
-    let text = document.querySelector(".textarea").value;
+  const commentUpdate = (id, articleId, content, parentId, nickName) => {
+    let text = document.querySelector("textarea").value;
     text = text.replaceAll(/(\n|\r\n)/g, "<br>");
-
-    const content = updateComment;
-    const parentId = 0;
-    const articleId = postId;
-    postCommentUpdateApi(id, articleId, content, parentId)
-      .then(() => getComment())
+    console.log('update content', typeof id, typeof articleId, typeof content, typeof parentId, typeof nickName);
+    console.log('update content', id, articleId, content, parentId, nickName);
+    // const content = content;
+    // const parentId = 0;
+    // const articleId = postId;
+    postCommentUpdateApi(id, articleId, content, parentId, nickName)
+      .then(() => {
+        getComment();
+        console.log('댓글 수정 완료!!');
+        console.log('comments', comments)
+      })
       .catch((err) => console.log(err));
   };
 
@@ -267,7 +274,7 @@ export default function PostDetail() {
                   comment={comment}
                   CommentDelete={CommentDelete}
                   commentUpdate={commentUpdate}
-                  postId={postId}
+                  articleId={postId}
                 />
               </div>
             ))}
@@ -326,15 +333,12 @@ export default function PostDetail() {
             <button
               className={styles.grayoutbutton}
               onClick={() => navigate(`/boards/${postDetail.boardId}`, { state : postDetail.boardId })}
-              onClick={() =>
-                navigate(`/boards/${boardTitle}`, { state: postDetail.boardId })
-              }
             >
               목록 보기
               <IoIosArrowForward />
             </button>
           </div>
-          <BoardView posts={currboardPosts}/>
+          <BoardView posts={currboardPosts} boardId={boardId}/>
         </span>
 
         <span className={styles.sideviewContainer}>
