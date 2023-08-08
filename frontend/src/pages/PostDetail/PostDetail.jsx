@@ -281,6 +281,7 @@ export default function PostDetail() {
                   comment={comment}
                   CommentDelete={CommentDelete}
                   commentUpdate={commentUpdate}
+                  getComment = {getComment}
                   articleId={postId}
                 />
               </div>

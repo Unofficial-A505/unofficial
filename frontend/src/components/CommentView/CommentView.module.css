@@ -105,6 +105,11 @@ textarea::-webkit-scrollbar-track {
 }
 
 /* 대댓글 */
+/* 대댓글 전체 container */
+.recommentBoxContainer {
+  margin: 20px 0 0 0;
+}
+
 .reCommentContainer {
   width: 90%;
   /* padding: 0 0 0 30px; */
@@ -112,6 +117,23 @@ textarea::-webkit-scrollbar-track {
 
   display: flex;
   /* border: 1px dotted aqua; */
+}
+
+.recommentNicknameBox {
+  width: 90%;
+  margin: 0 auto;
+  height: 35px;
+  /* border: 1px dotted red; */
+}
+
+.recommentNickname {
+  width: 50px;
+  margin: 0 10px 0 0;
+}
+
+.recommentNicknameInput {
+  border: 2px solid #D9D9D9;
+  border-radius: 0.3rem;
 }
 
 .recommentEnter {
@@ -147,6 +169,10 @@ textarea::-webkit-scrollbar-track {
 }
 
 textarea:focus {
+  outline: none;
+}
+
+input:focus {
   outline: none;
 }
 

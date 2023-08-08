@@ -1,13 +1,10 @@
 import styles from './CommentView.module.css'
-import axios from 'axios';
 import { useState, useRef } from 'react';
 
 import { FaRegThumbsUp } from '@react-icons/all-files/fa/FaRegThumbsUp';
 import { IoChatboxOutline } from '@react-icons/all-files/io5/IoChatboxOutline';
 import { IoRocketOutline } from '@react-icons/all-files/io5/IoRocketOutline';
 import { BsArrowReturnRight } from '@react-icons/all-files/bs/BsArrowReturnRight';
-
-import customAxios from "../../util/customAxios";
 
 // 삭제 아이콘
 import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
@@ -16,32 +13,35 @@ import { HiOutlinePencilAlt } from '@react-icons/all-files/hi/HiOutlinePencilAlt
 
 import RecommentsView from '../RecommentsView/RecommentsView';
 
-export default function CommentView({ comment, CommentDelete, commentUpdate, articleId}){
+import { postCommentCreateApi, postCommentUpdateApi } from '../../api/comments'
+
+export default function CommentView({ comment, CommentDelete, commentUpdate, getComment, articleId}){
   const [ updateState, setupdateState ] = useState(false)
   const [ recommentBox, setrecommentBox ] = useState(false)
-  const [ comments, setComments ] = useState('')
-  const [ createComment, setcreateComment ] = useState('')
+  const [ recomments, setreComments ] = useState('')
+  const [ recommentNickname, setrecommentNickname ] = useState('')
   const updateContent = useRef('')
-  const { content, id } = comment
+  const { id } = comment
 
+  // 대댓글 생성
   const recommentCreate = () => {
-    const content = comments
-    const parentId = id;
-    const articleId = articleId
-    console.log(content)
-    customAxios({
-      method: "post",
-      url: `${process.env.REACT_APP_SERVER}/api/comments`,
-      data: { articleId, content, parentId },
-      })
+    if (!recomments) {
+      alert('댓글을 입력해주세요!')
+    } else {
+      postCommentCreateApi(articleId, recomments, id, recommentNickname)
       .then((res) => {
+        getComment();
         console.log("댓글 불러오기!!!")
-        console.log(res);
-        // commentElement.current.value = ''
-        setcreateComment("")
+        console.log('create-recomment', res);
+        document.getElementById('recomment-nickname-input').value = null
+        document.getElementById('recomment-input').value = null
+
+        setrecommentBox((prev) => !prev)
       })
         .catch((err) => console.log(err));
-    };
+      };
+    }
+
 
   if (!updateState) {
     return(
@@ -69,23 +69,30 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, art
         </div>
 
         {recommentBox &&
-        <div className={styles.reCommentContainer}>
-          <div className={styles.recommentEnter}><BsArrowReturnRight /></div>
-          <div className={styles.commentbox}>
-            <textarea
-              className={styles.commentInput}
-              type="text"
-              onChange={(e) => setComments(e.target.value)}
-              placeholder="댓글을 작성해보세요"
-            />
-            <button onClick={recommentCreate} className={styles.commentButton}>
-              <IoChatboxOutline size="23" />
-            </button>
+        <div className={styles.recommentBoxContainer}>
+          <div className={styles.recommentNicknameBox}>
+            <span className={styles.recommentNickname}>닉네임</span>
+            <input className={styles.recommentNicknameInput} id="recomment-nickname-input" type="text" placeholder="닉네임을 입력하세요" onChange={(e) => setrecommentNickname(e.target.value)}/>
+          </div>
+          <div className={styles.reCommentContainer}>
+            <div className={styles.recommentEnter}><BsArrowReturnRight /></div>
+            <div className={styles.commentbox}>
+              <textarea
+                className={styles.commentInput}
+                type="text"
+                id = "recomment-input"
+                onChange={(e) => setreComments(e.target.value)}
+                placeholder="댓글을 작성해보세요"
+              />
+              <button onClick={recommentCreate} className={styles.commentButton}>
+                <IoChatboxOutline size="23" />
+              </button>
+            </div>
           </div>
         </div>}
         
         {comment.children.map((recomment, index) => 
-          <RecommentsView key={index} recomment={recomment}/>
+          <RecommentsView key={index} recomment={recomment} parentId={comment.id} getComment={getComment} articleId={articleId}/>
         )}
 
         <hr />

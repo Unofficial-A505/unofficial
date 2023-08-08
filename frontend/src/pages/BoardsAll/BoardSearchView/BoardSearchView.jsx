@@ -20,13 +20,13 @@ export default function BoardSearchView() {
     searchViewApi(keyword, boardId)
     .then((res) => {
       console.log('search success', res);
-      setsearchResults(res)
+      setsearchResults(res.data.content)
       setcurrboardName(res[0].boardName)
     }).catch((err) => console.log(err));
 
     return () => {  
       console.log('unmounted')}
-  }, [currboardName]);
+  }, []);
 
   return (
     <div>
