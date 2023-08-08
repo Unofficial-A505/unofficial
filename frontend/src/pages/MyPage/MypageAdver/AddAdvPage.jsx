@@ -116,6 +116,12 @@ export default function AddAdvPage() {
 
   const onDurationChange = (event) => {
     const value = event.target.value;
+    // Check if the input value is not a positive integer
+    if (!/^\d+$/.test(value)) {
+      alert("정수만 입력 가능합니다.");
+      event.target.value = duration;  // revert to the previous duration value
+      return;
+    }
     if (value < 0) {
       alert("음수는 불가능 합니다.");
       event.target.value = 0;
