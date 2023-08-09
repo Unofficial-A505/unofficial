@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from "./MyPage.module.css";
 import React, { useState, useEffect } from "react";
 import TopSpace from "../../components/TopSpace/TopSpace";
@@ -32,7 +33,7 @@ export default function MyPage() {
   const path = location.pathname;
   const isActiveActivity = path.includes("activity");
   const isActiveAdvertisement = path.includes("advertisement");
-  const isManagement = path.includes("management");  //관리자
+  const isManagement = path.includes("management"); //관리자
   const isSuggestion = path.includes("suggestion");
   const [role, setRole] = useState(null);
 
@@ -57,16 +58,22 @@ export default function MyPage() {
     activeTab = "관리자"; // 관리자
   } else if (isSuggestion) {
     activeTab = "건의함"; // 건의함
-  }else {
+  } else {
     activeTab = "정보";
   }
 
   const logout = () => {
+    customAxios
+      .get("api/auth/logout")
+      .then(() => {})
+      .catch((error) => {
+        console.error("Logout failed:", error);
+      });
     dispatch(setAccessToken(""));
     dispatch(setAuthUserEmail(""));
     localStorage.removeItem("REFRESH_TOKEN");
-    navigate("/");
     window.location.reload();
+    navigate("/");
   };
 
   return (
@@ -129,8 +136,8 @@ export default function MyPage() {
                   <p>광고 승인 및 취소(관리자)</p>
                 </div>
               )}
-              {role === 'ADMIN' && (
-                  <div
+              {role === "ADMIN" && (
+                <div
                   className={styles.navTab}
                   onClick={() => navigate("suggestion")}
                   style={
@@ -142,7 +149,7 @@ export default function MyPage() {
                   <RiAdvertisementLine className="me-2" size={20} />
                   <p>건의함(관리자)</p>
                 </div>
-                )}
+              )}
             </div>
           </nav>
           <div className={styles.logoutTab} onClick={logout}>

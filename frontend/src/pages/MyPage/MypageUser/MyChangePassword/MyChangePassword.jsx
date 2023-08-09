@@ -97,9 +97,17 @@ export default function MyChangePassword() {
   };
 
   const logout = () => {
+    customAxios
+      .get("api/auth/logout")
+      .then(() => {})
+      .catch((error) => {
+        console.error("Logout failed:", error);
+      });
     dispatch(setAccessToken(""));
     dispatch(setAuthUserEmail(""));
     localStorage.removeItem("REFRESH_TOKEN");
+    window.location.reload();
+    navigate("/");
   };
 
   return (

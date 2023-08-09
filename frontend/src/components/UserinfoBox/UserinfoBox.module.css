@@ -1,4 +1,4 @@
-.usercontainer {
+.loginContainer {
   height: 9.4rem;
   border-radius: 5px;
   box-shadow: 0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04);
@@ -7,7 +7,7 @@
   flex-direction: column;
   justify-content: space-between;
 }
-.usercontainer p {
+.loginContainer p {
   color: #606060;
   font-size: 0.8rem;
   margin-bottom: 0;
@@ -39,14 +39,32 @@
   text-decoration: underline;
 }
 
-.userTopContainer {
+.userContainer {
+  height: 9.4rem;
+  border-radius: 5px;
+  box-shadow: 0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0, 0, 0, .04);
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
+.userContainer p {
+  color: #606060;
+  font-size: 0.8rem;
+  margin-bottom: 0;
+}
+.userTopContainer {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  padding-bottom: 0.5rem;
+}
 .userTopContainer button{
-  padding: 5px 10px;
+  padding: 5px 12px;
   border: 0;
-  border-radius: 15px;
+  height: 2rem;
+  border-radius: 1rem;
   background-color: #fff;
   border: 1px solid #ebebeb;
   font-size: 0.9rem;
@@ -55,10 +73,7 @@
   background-color: #eeeeee;
 }
 .userMidContainer {
-  text-align: left;
-  margin-bottom: 0.3rem;
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
 }
 .myPage {
@@ -71,30 +86,37 @@
   cursor: pointer;
   text-decoration: underline;
 }
-.secondhelloMessage {
+.helloMessage {
   color: #606060;
   font-feature-settings: 'clig' off, 'liga' off;
   font-family: Source Sans Pro;
   font-size: 0.8rem;
   font-style: normal;
   font-weight: 400;
-  line-height: 100%; /* 7px */
+  line-height: 100%;
 }
-.adverButton {
-  font-weight: 500;
+.userPointButton {
+  display: flex;
+  color: #034BB9;
 }
-.adverButton:hover {
-  text-decoration: underline;
+.userPointButton p {
+  color: #034BB9;
+  font-weight: bold;
 }
-.adverButton:hover {
+.userPointButton:hover {
   cursor: pointer;
 }
-.mypageContent {
+.userBottomContainer {
+  flex: 1;
+  border-top: 1px solid #e3e5e8;
   display: flex;
   justify-content: space-between;
+  background-color: #faf9ff;
 }
 .myButton {
+  flex: 1;
   display: flex;
+  justify-content: center;
   border: 0;
   color: #707070;
   background-color: transparent;

@@ -44,9 +44,7 @@
 /* 제목 */
 .mycontentTop {
   width: 94%;
-  /* border: 1px dotted red; */
-  margin: 0 0 15px 20px;
-
+  margin: 0 0 0 15px;
   display: flex;
   justify-content: space-between;
 }

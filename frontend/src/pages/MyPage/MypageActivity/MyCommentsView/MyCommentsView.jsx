@@ -1,28 +1,28 @@
-import styles from './MyCommentsView.module.css'
+import styles from "./MyCommentsView.module.css";
 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
-import { useEffect, useState } from 'react';
-import { PaginationControl } from 'react-bootstrap-pagination-control';
-import customAxios from '../../../../util/customAxios';
+import { useEffect, useState } from "react";
+import { PaginationControl } from "react-bootstrap-pagination-control";
+import customAxios from "../../../../util/customAxios";
 
 export default function MyCommentsView() {
-  const date = 100
   const navigate = useNavigate();
-  const [comments, setComments] = useState([])
+  const [comments, setComments] = useState([]);
   const [page, setPage] = useState(1);
-  const [pageInfo, setPageInfo] = useState({})
-  const hoursToAdd = 9
+  const [pageInfo, setPageInfo] = useState({});
+  const hoursToAdd = 9;
   const size = 4;
 
   useEffect(() => {
-    customAxios.get(`/api/comments/user?size=${size}&page=${page - 1}`)
+    customAxios
+      .get(`/api/comments/user?size=${size}&page=${page - 1}`)
       .then((res) => {
         // console.log(res.data)
-        setComments(res.data.content)
-        setPageInfo(res.data.pageInfo)
-      })
-  }, [page])
+        setComments(res.data.content);
+        setPageInfo(res.data.pageInfo);
+      });
+  }, [page]);
 
   const formatDate = function (timestamp) {
     const inputDate = new Date(timestamp);
@@ -37,8 +37,6 @@ export default function MyCommentsView() {
     return `${year}.${month}.${day}`;
   };
 
-
-
   return (
     <div className={styles.contentContainer}>
       <div className={styles.welcomeContainer}>
@@ -48,45 +46,75 @@ export default function MyCommentsView() {
         <div className={styles.mycontentTop}>
           <div className={styles.mycontentTitle}>
             <h2 className={styles.mypostsTitle}>내 댓글 보기</h2>
-            <p className={styles.smallTitle}>내가 작성한 댓글을 모아볼 수 있습니다.</p>
+            <p className={styles.smallTitle}>
+              내가 작성한 댓글을 모아볼 수 있습니다.
+            </p>
           </div>
           {/* <p style={{ color: '#282828' }}>가입한지 <span style={{ color: '#034BB9', fontSize: '1.2rem', fontWeight: '600' }}>+{date}일</span></p> */}
         </div>
 
-        <hr />
         <div className={styles.CommentsContainer}>
-          {comments.map((comment, index) => (
-            <div className={styles.commentContentsContainer} key={index} onClick={() =>navigate(`/boards/${ comment.boardId}/${comment.articleId}`)}>
-              <div className={styles.postContainer}>
-                <div className={styles.postContent} id={styles.boardName}>{comment.boardName}</div>
-                <div className={styles.postTitle}>{comment.articleTitle}</div>
-              </div>
+          {!comments.length ? (
+            <p className="ms-3 mt-4">아직 작성한 댓글이 없습니다.</p>
+          ) : (
+            <>
+              <hr />
+              {comments.map((comment, index) => (
+                <div
+                  key={index}
+                  className={styles.commentContentsContainer}
+                  onClick={() =>
+                    navigate(`/boards/${comment.boardId}/${comment.articleId}`)
+                  }
+                >
+                  <div className={styles.postContainer}>
+                    <div className={styles.postContent} id={styles.boardName}>
+                      {comment.boardName}
+                    </div>
+                    <div className={styles.postTitle}>
+                      {comment.articleTitle}
+                    </div>
+                  </div>
 
-              <div className={styles.commentInd}>
-                <div className={styles.commentContainer}>
-                  {comment.content}
-                </div>
-                <div className={styles.boardpostContainer}>
-                  <div className={styles.postContainer} id={styles.nickName}>
-                    <div className={styles.postContent} >{comment.nickName}</div>
-                    <div className={styles.postContent} >{formatDate(comment.createTime)}</div>
+                  <div className={styles.commentInd}>
+                    <div className={styles.commentContainer}>
+                      {comment.content}
+                    </div>
+                    <div className={styles.boardpostContainer}>
+                      <div
+                        className={styles.postContainer}
+                        id={styles.nickName}
+                      >
+                        <div className={styles.postContent}>
+                          {comment.nickName}
+                        </div>
+                        <div className={styles.postContent}>
+                          {formatDate(comment.createTime)}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              ))}
+            </>
+          )}
+        </div>
+        <div
+          style={{ width: "100%" }}
+          className="d-flex justify-content-center"
+        >
+          <PaginationControl
+            page={page}
+            between={4}
+            total={pageInfo.totalElements}
+            limit={pageInfo.size}
+            changePage={(page) => {
+              setPage(page);
+            }}
+            ellipsis={1}
+          />
         </div>
       </div>
-      <PaginationControl
-        page={page}
-        between={4}
-        total={pageInfo.totalElements}
-        limit={pageInfo.size}
-        changePage={(page) => {
-          setPage(page);
-        }}
-        ellipsis={1}
-      />
     </div>
   );
 }

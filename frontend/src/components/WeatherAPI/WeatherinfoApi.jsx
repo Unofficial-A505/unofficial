@@ -22,9 +22,10 @@ export default function WeatherWidget() {
   const getWeather = async (city) => {
     try {
       const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/forecast?appid=${api_key}&q=${city}&units=metric&lang=kr`
+        `https://api.openweathermap.org/data/2.5/forecast?appid=${api_key}&q=${city}&units=metric&lang=kr&cnt=5`
       );
       setLoading(false);
+      
       return response.data;
     } catch (error) {
       console.error("날씨 정보를 가져오는데 실패했습니다.", error);
