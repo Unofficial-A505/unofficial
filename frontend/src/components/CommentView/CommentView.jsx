@@ -69,8 +69,8 @@ export default function CommentView({ comment, commentUpdate, getComment, articl
       <div className={styles.commentContainer}>
         <div className={styles.commentTopbar}>
           <div className={styles.commentTitle}>
-            <span className={styles.recommentGenLocalInfo}>{comment.gen}기 {comment.local}</span>
-            {comment.nickName ? <span className={styles.recommentnickName}>{comment.nickName}</span> : <span className={styles.recommentnickName}>익명</span>}
+            <span className={styles.commentGenLocalInfo}>{comment.gen}기 {comment.local}</span>
+            <span className={styles.commentNickName}>{comment.nickName}</span>
             <span className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} />{format(comment.createTime, 'ko')}</span>
           </div>
         </div>
@@ -81,12 +81,14 @@ export default function CommentView({ comment, commentUpdate, getComment, articl
           <div className={styles.recommentButton} onClick={() => setrecommentBox((prev) => !prev)}><IoChatboxOutline className={styles.commentIcons}/><span>대댓글</span></div>
           {isUser && 
           <div>
-            <span className={styles.commentIcons} onClick={() => {
+            <span 
+            className={styles.updatetextPosition}
+            onClick={() => {
               setupdateState((prev) => !prev);
               // setcreateComment(createComment.content);
               }}>
-            <span className={styles.updatetextPosition} ><HiOutlinePencilAlt />수정하기</span></span>
-            <span className={styles.commentIcons} onClick={() => {CommentDelete(id)}}><span className={styles.updatetextPosition}><IoTrashOutline />삭제하기</span></span>
+            <HiOutlinePencilAlt className={styles.commentIcons}/>수정하기</span>
+            <span onClick={() => {CommentDelete(id)}} className={styles.updatetextPosition}><IoTrashOutline className={styles.commentIcons}/>삭제하기</span>
           </div>
           }
           

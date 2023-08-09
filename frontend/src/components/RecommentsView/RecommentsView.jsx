@@ -56,7 +56,7 @@ export default function RecommentsView({ recomment, getComment, articleId, paren
             <div className={styles.commentTopbar}>
               <div className={styles.commentTitle}>
                 <span className={styles.recommentGenLocalInfo}>{recomment.gen}기 {recomment.local}</span>
-                {recomment.nickName ? <span className={styles.recommentnickName}>{recomment.nickName}</span> : <span className={styles.recommentnickName}>익명</span>}
+                <span className={styles.recommentnickName}>{recomment.nickName}</span>
               </div>
               <div className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} /><div>{format(recomment.createTime, 'ko')}</div></div>
             </div>
@@ -66,9 +66,8 @@ export default function RecommentsView({ recomment, getComment, articleId, paren
 
           {isUser && 
           <div className={styles.recommentUnderContainer}>
-            <span className={styles.commentIcons}> 
-              <span className={styles.updatetextPosition} onClick={() => setupdateState((prev) => !prev)}><HiOutlinePencilAlt />수정하기</span></span>
-            <span className={styles.commentIcons} onClick={() => recommentDelete(recomment.id)}><span className={styles.updatetextPosition}><IoTrashOutline />삭제하기</span></span>
+            <span className={styles.updatetextPosition} onClick={() => setupdateState((prev) => !prev)}><HiOutlinePencilAlt className={styles.commentbottomIcons}/>수정하기</span>
+            <span className={styles.updatetextPosition} onClick={() => recommentDelete(recomment.id)}><IoTrashOutline className={styles.commentbottomIcons}/>삭제하기</span>
           </div>
           }
         </div>
