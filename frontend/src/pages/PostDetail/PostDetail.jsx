@@ -87,6 +87,8 @@ export default function PostDetail() {
       .then((res) => {
         setpostDetail(res);
         setBoardTitle(res.boardName);
+        
+        console.log(res)
       })
       .catch((err) => console.log(err));
 
@@ -104,8 +106,8 @@ export default function PostDetail() {
   }, [postId]);
 
   useEffect(() => {
-    setrecommendedState(!postDetail.isLiked);
-    // console.log('isLiked', postDetail.isLiked)
+    setrecommendedState(postDetail.isLiked);
+    console.log('isLiked', postDetail.isLiked)
 
     document.getElementById("comment-nickname-input").value = null;
     document.getElementById("comment-input").value = null;
@@ -139,8 +141,9 @@ export default function PostDetail() {
             alert("추천 완료!");
           })
           .catch((res) => console.log(res));
-      } else {
       }
+    } else {
+      alert('이미 추천한 게시글입니다!')
     }
   };
 
@@ -244,7 +247,7 @@ export default function PostDetail() {
                 onClick={postRecommendedInput}
                 className={styles.tabthumbIcon}
               >
-                {!recommendedState ? (
+                {recommendedState ? (
                   <FaThumbsUp className={styles.tabupIcon} />
                 ) : (
                   <FaRegThumbsUp className={styles.tabregupIcon} />

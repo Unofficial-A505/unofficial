@@ -3,6 +3,11 @@ import styles from "./PostView.module.css";
 import { useNavigate } from "react-router-dom";
 import { FaRegThumbsUp } from "@react-icons/all-files/fa/FaRegThumbsUp";
 
+import {format, register } from 'timeago.js' //임포트하기 register 한국어 선택
+import koLocale from 'timeago.js/lib/lang/ko' //한국어 선택
+
+register('ko', koLocale)
+
 export default function PostView({ post, boardId, searchView, keyword, myBoard }) {
   const navigate = useNavigate();
 
@@ -33,9 +38,9 @@ export default function PostView({ post, boardId, searchView, keyword, myBoard }
 
         </div>
         <div className={styles.postContainerB}>
-          <div className={styles.postContent}>{createTime_modify}</div>
-          <div className={styles.postContent} id={styles.postrecommendBox}><FaRegThumbsUp className={styles.postIcon}/>{post.likes}</div>
-          <div className={styles.postContent} id={styles.postviewBox}>조회수 {post.views}</div>
+          <div className={styles.postContent} id={myBoard?styles.postcreateBoxsmall:styles.postcreateBox}>{format(post.createTime, 'ko')}</div>
+          <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}><FaRegThumbsUp className={styles.postIcon}/>{post.likes}</div>
+          <div className={styles.postContent} id={myBoard?styles.postviewBoxsmall:styles.postviewBox}>조회수 {post.views}</div>
         </div>
       </div>
     </>

@@ -1,11 +1,8 @@
 import styles from './BoardView.module.css'
-import axios from 'axios';
-import { useEffect, useState, useParams } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 import PostView from '../PostView/PostView'
-import customAxios from '../../util/customAxios';
 
 export default function BoardView({ posts, searchView, keyword, myBoard, boardId }){
   if (!posts) { posts = [] }

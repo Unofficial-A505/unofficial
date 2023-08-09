@@ -4,8 +4,6 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { boardsArticles } from "../../../api/boards"
 import PostsView from "../../../components/PostView/PostView";
 
-import customAxios from '../../../util/customAxios'
-
 export default function BoardsView() {
   const [ posts, setPosts ] = useState(null);
   const { state : boardTitle } = useLocation();
