@@ -16,6 +16,7 @@ import RecommentsView from '../RecommentsView/RecommentsView';
 import { postCommentCreateApi } from '../../api/comments'
 
 export default function CommentView({ comment, CommentDelete, commentUpdate, getComment, articleId}){
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [ updateState, setupdateState ] = useState(false)
   const [ recommentBox, setrecommentBox ] = useState(false)
   const [ recomments, setreComments ] = useState('')
@@ -30,13 +31,17 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, get
     } else if (!recommentNickname) {
       alert("닉네임을 입력해주세요!")
     }else {
+      setIsButtonDisabled(true)
       postCommentCreateApi(articleId, recomments, id, recommentNickname)
-      .then((res) => {
+      .then(() => {
         getComment();
         document.getElementById('recomment-nickname-input').value = null
         document.getElementById('recomment-input').value = null
 
+        setreComments("")
+        setrecommentNickname("")
         setrecommentBox((prev) => !prev)
+        setIsButtonDisabled(false)
       })
         .catch((err) => console.log(err));
       };
@@ -84,7 +89,7 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, get
                 onChange={(e) => setreComments(e.target.value)}
                 placeholder="댓글을 작성해보세요"
               />
-              <button onClick={recommentCreate} className={styles.commentButton}>
+              <button onClick={recommentCreate} className={styles.commentButton} disabled={isButtonDisabled}>
                 <IoChatboxOutline size="23" />
               </button>
             </div>

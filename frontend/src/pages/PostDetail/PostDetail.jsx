@@ -49,6 +49,8 @@ export default function PostDetail() {
 
   const { boardId } = useParams();
   const { postId } = useParams();
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [boardTitle, setBoardTitle] = useState("");
   const [postDetail, setpostDetail] = useState({});
   const [createcomment, setcreateComment] = useState("");
@@ -56,9 +58,7 @@ export default function PostDetail() {
   const [commentsInfo, setCommentsInfo] = useState({});
   const [commentnickName, setcommentnickName] = useState("");
   const [currboardPosts, setcurrboardPosts] = useState([]);
-  const [articleList, setarticleList] = useState([]);
   const [recommendedState, setrecommendedState] = useState(null);
-  const commentElement = useRef(null);
 
   // 탭 제목 설정하기
   useDocumentTitle(boardTitle);
@@ -145,24 +145,32 @@ export default function PostDetail() {
   };
 
   // 댓글 생성
-  const commentCreate = () => {
+  const commentCreate = async () => {
     if (!createcomment) {
       alert("댓글을 입력해주세요!");
     } else if (!commentnickName) {
       alert("닉네임을 입력해주세요!");
     } else {
+      setIsButtonDisabled(true)
+      console.log('isbuttonDisabled state', isButtonDisabled)
       const content = createcomment;
       const parentId = 0;
       const articleId = postId;
       const nickName = commentnickName;
 
-      postCommentCreateApi(articleId, content, parentId, nickName)
-        .then(() => {
-          getComment();
-          document.getElementById("comment-nickname-input").value = null;
-          document.getElementById("comment-input").value = null;
-        })
-        .catch((err) => console.log(err));
+      try {
+        await postCommentCreateApi(articleId, content, parentId, nickName);
+        await getComment();
+  
+        document.getElementById("comment-nickname-input").value = null;
+        document.getElementById("comment-input").value = null;
+        setcreateComment("")
+        setcommentnickName("")
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsButtonDisabled(false);
+      }
     }
   };
 
@@ -302,7 +310,7 @@ export default function PostDetail() {
                 }}
                 placeholder="댓글을 작성해보세요"
               />
-              <button className={styles.commentButton} onClick={commentCreate}>
+              <button className={styles.commentButton} onClick={commentCreate} disabled={isButtonDisabled}>
                 <IoChatboxOutline size="23" />
               </button>
             </div>

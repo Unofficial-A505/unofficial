@@ -30,6 +30,8 @@ export default function RecommentsView({ recomment, getComment, articleId, paren
     postCommentUpdateApi(id, articleId, content, parentId, nickName)
     .then((res) => {
       getComment();
+
+      setupdatereComment("")
       setupdateState((prev) => !prev)
     }).catch((err) => console.log(err))
   }
