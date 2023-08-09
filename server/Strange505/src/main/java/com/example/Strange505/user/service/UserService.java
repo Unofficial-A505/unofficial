@@ -64,11 +64,12 @@ public class UserService {
     public List<UserDTO> getUsers() {
         List<User> users = userRepository.findAll();
         return users.stream().map(user -> UserDTO.builder()
-                .is_activated(user.is_activated())
+                .is_activated(user.getIs_activated())
                 .id(user.getId())
                 .email(user.getEmail())
                 .gen(user.getGen())
-                .is_withdraw(user.is_withdraw())
+                .withdrawalDate(user.getWithdrawalDate())
+                .createDate(user.getCreateDate())
                 .local(user.getLocal())
                 .point(user.getPoint())
                 .role(user.getRole())
@@ -99,11 +100,12 @@ public class UserService {
         user.pointAdd(point);
     }
 
+    @Transactional
     public void withdrawUser(String password) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User finduser = userRepository.findByEmail(email).orElseThrow();
 
-        if(encoder.matches(password, finduser.getPassword())) {
+        if(!encoder.matches(password, finduser.getPassword())) {
             throw new NoMatchPasswordException("비밀번호가 일치하지 않습니다.");
         }
         finduser.withdraw();
