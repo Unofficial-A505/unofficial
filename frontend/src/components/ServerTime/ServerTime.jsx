@@ -38,7 +38,8 @@ function ServerTime() {
 
   const formatTime = (date) => {
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
+    const dates = date.getDate().toString().padStart(2, "0");
+    const day = date.getDay();
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const seconds = date.getSeconds().toString().padStart(2, "0");
@@ -51,7 +52,7 @@ function ServerTime() {
     if (hours >= "08" && hours < "18") {
       const now = date.getTime();
       const endOfDay = new Date(date);
-      endOfDay.setHours(18, 0, 0); // Set the end of day to 18:00:00
+      endOfDay.setHours(18, 0, 0);
       const diff = endOfDay.getTime() - now;
       const remainingHours = Math.floor(diff / (1000 * 60 * 60))
         .toString()
@@ -62,18 +63,19 @@ function ServerTime() {
       const remainingSeconds = Math.floor((diff / 1000) % 60)
         .toString()
         .padStart(2, "0");
+      
       remainingTime = `${remainingHours}:${remainingMinutes}:${remainingSeconds}`;
     }
 
     return (
       <div className={styles.serverTime}>
         <p>
-          {month}월 {day}일
+          {month}월 {dates}일
         </p>
         <h2 style={redText}>
           {hours}:{minutes}:{seconds}
         </h2>
-        {remainingTime && (
+        {remainingTime && day !== 0 && day !== 6 && (
           <p>
             퇴실까지{" "}
             <span style={closingTime ? { color: "red" } : { color: "#034BB9" }}>

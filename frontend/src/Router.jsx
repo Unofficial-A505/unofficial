@@ -41,15 +41,15 @@ import SuggestionM from "./pages/MyPage/SuggestionM/SuggestionM";
 
 const router = createBrowserRouter([
   {
-    path: "/web-rtc",
+    path: "web-rtc",
     element: <WebRTC />,
   },
   {
-    path: "/verify",
+    path: "verify",
     element: <EmailVerifyPage />,
   },
   {
-    path: "/signup",
+    path: "signup",
     element: <Signup />,
     children: [
       {
@@ -67,7 +67,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/",
+    path: "",
     element: <App />,
     children: [
       { path: "",
@@ -78,7 +78,6 @@ const router = createBrowserRouter([
         element: <AddAdvPage />,
       },
       {
-        // path: ':userId',
         path: "user",
         element: <MyPage />,
         children: [
@@ -129,7 +128,7 @@ const router = createBrowserRouter([
       },
     ],
   },
-  { path: "/user/advertisement/form", element: <AddAdvPage /> },
+  { path: "user/advertisement/form", element: <AddAdvPage /> },
   { path: "boards/:boardId/create", element: <CreatePostPage /> },
   { path: "boards/:boardId/:postId/update", element: <PostUpdate /> },
 ]);

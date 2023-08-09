@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import styles from "./AddAdvPage.module.css";
 import customAxios from "../../../util/customAxios";
@@ -119,7 +120,7 @@ export default function AddAdvPage() {
     // Check if the input value is not a positive integer
     if (!/^\d+$/.test(value)) {
       alert("정수만 입력 가능합니다.");
-      event.target.value = duration;  // revert to the previous duration value
+      event.target.value = duration; // revert to the previous duration value
       return;
     }
     if (value < 0) {
@@ -222,7 +223,7 @@ export default function AddAdvPage() {
             )}
           </div>
 
-          <div className="row g-3 align-items-center mb-1">
+          <div className="row g-3 align-items-center mb-2">
             <div className="col-auto">
               <label for="inputAddress" className="col-form-label">
                 연결하는 주소
@@ -232,14 +233,14 @@ export default function AddAdvPage() {
               <input
                 type="text"
                 id="inputAddress"
-                className="form-control form-control-sm"
-                placeholder="ex) https://www.naver.com"
+                className="form-control form-control"
+                placeholder="(선택)  ex) https://www.naver.com"
                 onChange={onRedirectUrlChange}
               />
             </div>
           </div>
 
-          <div className="row g-3 align-items-center mb-1">
+          <div className="row g-3 align-items-center mb-2">
             <div className="col-auto">
               <label for="advDays" className="col-form-label">
                 광고 기간 (일)
@@ -249,14 +250,14 @@ export default function AddAdvPage() {
               <input
                 type="text"
                 id="advDays"
-                className="form-control form-control-sm"
-                placeholder="ex) 3"
+                className="form-control form-control"
+                placeholder="(필수)  ex) 3"
                 onChange={onDurationChange}
               />
             </div>
           </div>
 
-          <div className="row g-3 align-items-center mb-1">
+          <div className="row g-3 align-items-center mb-2">
             <div className="col-auto">
               <label for="myMileage" className="col-form-label">
                 나의 마일리지
@@ -266,7 +267,7 @@ export default function AddAdvPage() {
               <input
                 type="text"
                 id="myMileage"
-                className="form-control form-control-sm"
+                className="form-control form-control"
                 value={userPoint}
                 disabled
                 readOnly
@@ -284,7 +285,7 @@ export default function AddAdvPage() {
               <input
                 type="text"
                 id="myMileage"
-                className="form-control form-control-sm"
+                className="form-control form-control"
                 value={adsCost}
                 disabled
                 readOnly
