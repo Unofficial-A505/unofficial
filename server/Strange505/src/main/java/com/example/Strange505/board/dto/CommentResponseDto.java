@@ -23,6 +23,7 @@ public class CommentResponseDto implements Serializable {
     private Integer gen;
     private String local;
     private Boolean isUser;
+    private Integer orderId;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createTime;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")

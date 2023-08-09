@@ -110,10 +110,8 @@ public class CommentServiceImpl implements CommentService {
         Page<Comment> repoList = commentRepository.searchByArticle(articleId, pageable);
         List<CommentResponseDto> list = new ArrayList<>();
 
-        for (Comment c :
-                repoList) {
-            System.out.println(c.getContent());
-            checkParent(c, user, list);
+        for (int i = 0; i < repoList.getTotalElements(); i++) {
+            checkParent(repoList.toList().get(i), i, user, list);
         }
 
         Map<String, Object> pageInfo = new HashMap<>();
@@ -133,24 +131,51 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
-    private void checkParent(Comment c, User currUser, List<CommentResponseDto> list) {
+    private void checkParent(Comment c, int i, User currUser, List<CommentResponseDto> list) {
         if (c.getParent() == null) {
+//            List<CommentResponseDto> reComment = c.getChildren().stream().map(comment -> new CommentResponseDto(
+//                    comment.getId(),
+//                    comment.getArticle().getId(), comment.getContent(), c.getId(),
+//                    comment.getNickName(),
+//                    comment.getUser().getGen(), comment.getUser().getLocal(),
+//                    checkUser(comment.getUser().getId(), currUser.getId()),
+//                    comment.getCreateTime(), comment.getModifyTime(), null)).toList();
+//
+//            list.add(new CommentResponseDto(
+//                    c.getId(),
+//                    c.getArticle().getId(), c.getContent(), null,
+//                    c.getNickName(),
+//                    c.getUser().getGen(), c.getUser().getLocal(),
+//                    checkUser(c.getUser().getId(), currUser.getId()),
+//                    c.getCreateTime(), c.getModifyTime(), reComment));
 
-            List<CommentResponseDto> reComment = c.getChildren().stream().map(comment -> new CommentResponseDto(
-                    comment.getId(),
-                    comment.getArticle().getId(), comment.getContent(), c.getId(),
-                    comment.getNickName(),
-                    comment.getUser().getGen(), comment.getUser().getLocal(),
-                    checkUser(comment.getUser().getId(), currUser.getId()),
-                    comment.getCreateTime(), comment.getModifyTime(), null)).toList();
+            list.add(CommentResponseDto.builder()
+                    .id(c.getId())
+                    .articleId(c.getArticle().getId())
+                    .content(c.getContent())
+                    .parentId(null)
+                    .nickName(c.getNickName())
+                    .gen(c.getUser().getGen())
+                    .local(c.getUser().getLocal())
+                    .isUser(checkUser(c.getUser().getId(), currUser.getId()))
+                    .orderId(i * 1000)
+                    .createTime(c.getCreateTime())
+                    .modifyTime(c.getModifyTime())
+                    .build());
 
-            list.add(new CommentResponseDto(
-                    c.getId(),
-                    c.getArticle().getId(), c.getContent(), null,
-                    c.getNickName(),
-                    c.getUser().getGen(), c.getUser().getLocal(),
-                    checkUser(c.getUser().getId(), currUser.getId()),
-                    c.getCreateTime(), c.getModifyTime(), reComment));
+        } else {
+            list.add(CommentResponseDto.builder()
+                    .id(c.getId())
+                    .articleId(c.getArticle().getId())
+                    .content(c.getContent())
+                    .parentId(null)
+                    .nickName(c.getNickName())
+                    .gen(c.getUser().getGen())
+                    .local(c.getUser().getLocal())
+                    .isUser(checkUser(c.getUser().getId(), currUser.getId()))
+                    .createTime(c.getCreateTime())
+                    .modifyTime(c.getModifyTime())
+                    .build());
         }
     }
 
@@ -194,7 +219,8 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("해당 댓글이 존재하지 않습니다."));
         if (user.getId() == comment.getUser().getId() || user.getRole() == Role.ADMIN) {
             comment.update(dto.getContent(), LocalDateTime.now());
-            Comment modifiedComment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("해당 댓글이 존재하지 않습니다."));;
+            Comment modifiedComment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("해당 댓글이 존재하지 않습니다."));
+            ;
             return new CommentResponseDto(modifiedComment);
         } else {
             throw new NotAuthorException("작성자만 삭제 가능합니다.");
@@ -211,7 +237,7 @@ public class CommentServiceImpl implements CommentService {
             comment.remove();
             List<Comment> removableCommentList = comment.findRemovableList();
             log.info("removeList = {}", removableCommentList);
-            for (Comment c: removableCommentList) {
+            for (Comment c : removableCommentList) {
                 c.remove();
             }
         } else {
