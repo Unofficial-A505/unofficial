@@ -189,15 +189,6 @@ export default function PostDetail() {
       .catch((err) => console.log(err));
   };
 
-  // 댓글 삭제
-  const CommentDelete = (id) => {
-    if (window.confirm("게시글을 삭제하시겠습니까?")) {
-      postCommentDeleteApi(id)
-      .then(() => getComment())
-      .catch((err) => console.log(err));
-    }
-  };
-
   // const createTime = postDetail.createTime;
   // const updateTime = postDetail.modifyTime;
   // const createTime_modify = createTime?.slice(0, 10);
@@ -328,7 +319,6 @@ export default function PostDetail() {
               <div key={index}>
                 <CommentView
                   comment={comment}
-                  CommentDelete={CommentDelete}
                   commentUpdate={commentUpdate}
                   getComment={getComment}
                   articleId={postId}

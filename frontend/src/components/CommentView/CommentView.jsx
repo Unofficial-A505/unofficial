@@ -11,21 +11,35 @@ import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 import { HiOutlinePencilAlt } from '@react-icons/all-files/hi/HiOutlinePencilAlt';
 
 import RecommentsView from '../RecommentsView/RecommentsView';
-import { postCommentCreateApi } from '../../api/comments'
+import { postCommentCreateApi, postCommentDeleteApi } from '../../api/comments'
 
 import {format, register } from 'timeago.js' //임포트하기 register 한국어 선택
 import koLocale from 'timeago.js/lib/lang/ko' //한국어 선택
 
 register('ko', koLocale)
 
-export default function CommentView({ comment, CommentDelete, commentUpdate, getComment, articleId}){
+export default function CommentView({ comment, commentUpdate, getComment, articleId}){
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [ updateState, setupdateState ] = useState(false)
   const [ recommentBox, setrecommentBox ] = useState(false)
   const [ recomments, setreComments ] = useState('')
   const [ recommentNickname, setrecommentNickname ] = useState('')
   const updateContent = useRef('')
-  const { id, isUser } = comment
+  const { id, isUser, children } = comment
+
+  // 댓글 삭제
+  const CommentDelete = (id) => {
+    if (window.confirm("댓글을 삭제하시겠습니까?")) {
+      console.log(children)
+      if (children) {
+        alert('대댓글이 존재해 댓글을 삭제할 수 없습니다!')
+      } else {
+        postCommentDeleteApi(id)
+        .then(() => getComment())
+        .catch((err) => console.log(err));
+      }
+    }
+  };
 
   // 대댓글 생성
   const recommentCreate = () => {
