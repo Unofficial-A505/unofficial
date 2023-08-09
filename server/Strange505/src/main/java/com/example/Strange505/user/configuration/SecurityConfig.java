@@ -68,6 +68,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/lunch").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/best").permitAll()
+                .requestMatchers("/api/verify/**").permitAll()
                 .requestMatchers("/api/users").hasRole("ADMIN")
                 .anyRequest().authenticated()
 
