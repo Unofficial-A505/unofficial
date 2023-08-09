@@ -43,6 +43,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
         return Math.toIntExact(queryFactory.select(comment.count())
                 .from(comment)
                 .where(comment.article.id.eq(articleId))
+                .where(comment.isRemoved.isFalse())
                 .fetchFirst());
     }
 
