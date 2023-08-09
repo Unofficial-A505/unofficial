@@ -52,7 +52,7 @@ export default function RecommentsView({ recomment, getComment, articleId, paren
             </div>
           </div>
   
-          <div className={styles.commentContent}>{recomment.content}</div>
+          <div className={styles.commentContent}><pre>{recomment.content}</pre></div>
   
           <div className={styles.recommentUnderContainer}>
             <span className={styles.commentIcons}> 
