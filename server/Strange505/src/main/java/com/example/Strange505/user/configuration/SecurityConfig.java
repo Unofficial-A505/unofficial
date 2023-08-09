@@ -65,8 +65,9 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeRequests() // '인증'이 필요하다
-                .requestMatchers("/api/lunch").permitAll() // 마이페이지 인증 필요
+                .requestMatchers("/api/lunch").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/best").permitAll()
                 .requestMatchers("/api/users").hasRole("ADMIN")
                 .anyRequest().authenticated()
 
