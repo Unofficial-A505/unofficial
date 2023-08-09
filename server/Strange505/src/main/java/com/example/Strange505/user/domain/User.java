@@ -6,6 +6,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity(name = "users")
 @Getter
@@ -29,20 +31,21 @@ public class User {
     private String local;
 
     @Column(nullable = false)
-    private int gen;
+    private Integer gen;
 
     private String verification;
 
-    private int point;
+    private Integer point;
     // 이메일 인증이 끝난 사람
-    private boolean is_activated;
-    // 탈퇴 여부
-    private boolean is_withdraw;
+    private Boolean is_activated;
+
+    private LocalDateTime createDate;
+
+    private LocalDateTime withdrawalDate;
 
     // == 생성 메서드 == //
     public static User registerUser(AuthDto.SignupDto signupDto) {
         User user = new User();
-
         user.email = signupDto.getEmail();
         user.password = signupDto.getPassword();
         user.role = Role.USER;
@@ -50,8 +53,9 @@ public class User {
         user.gen = signupDto.getGen();
         user.point = 0;
         user.is_activated = false;
-        user.is_withdraw = false;
         user.verification = signupDto.getVerification();
+        user.createDate = LocalDateTime.now();
+        user.withdrawalDate = null;
         return user;
     }
 
@@ -71,6 +75,7 @@ public class User {
     }
 
     public void withdraw() {
-        this.is_withdraw = true;
+        this.withdrawalDate = LocalDateTime.now();
+        this.email = this.email + UUID.randomUUID().toString();
     }
 }

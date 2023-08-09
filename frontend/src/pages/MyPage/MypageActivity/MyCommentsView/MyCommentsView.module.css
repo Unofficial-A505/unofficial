@@ -75,6 +75,7 @@
 
 .commentContentsContainer {
   /* border: 1px dotted aqua; */
+  cursor: pointer;
   margin: 20px 0;
   border-bottom: 1px solid rgba(128, 128, 128, 0.315);
 }

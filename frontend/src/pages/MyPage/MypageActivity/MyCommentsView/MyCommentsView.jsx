@@ -2,8 +2,7 @@ import styles from './MyCommentsView.module.css'
 
 import { useNavigate } from 'react-router-dom'
 
-import BoardView from '../../../../components/BoardView/BoardView'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PaginationControl } from 'react-bootstrap-pagination-control';
 import customAxios from '../../../../util/customAxios';
 
@@ -16,10 +15,10 @@ export default function MyCommentsView() {
   const hoursToAdd = 9
   const size = 4;
 
-  useState(() => {
+  useEffect(() => {
     customAxios.get(`/api/comments/user?size=${size}&page=${page - 1}`)
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         setComments(res.data.content)
         setPageInfo(res.data.pageInfo)
       })
@@ -39,6 +38,7 @@ export default function MyCommentsView() {
   };
 
 
+
   return (
     <div className={styles.contentContainer}>
       <div className={styles.welcomeContainer}>
@@ -56,7 +56,7 @@ export default function MyCommentsView() {
         <hr />
         <div className={styles.CommentsContainer}>
           {comments.map((comment, index) => (
-            <div className={styles.commentContentsContainer} key={index}>
+            <div className={styles.commentContentsContainer} key={index} onClick={() =>navigate(`/boards/${ comment.boardId}/${comment.articleId}`)}>
               <div className={styles.postContainer}>
                 <div className={styles.postContent} id={styles.boardName}>{comment.boardName}</div>
                 <div className={styles.postTitle}>{comment.articleTitle}</div>

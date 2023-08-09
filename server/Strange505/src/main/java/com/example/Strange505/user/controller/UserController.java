@@ -29,9 +29,9 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<User> getUser(@RequestHeader("Authorization") String accessToken) {
+    public ResponseEntity<UserDTO> getUser(@RequestHeader("Authorization") String accessToken) {
         Long id = authService.extractID(accessToken);
-        User findUser = userService.getUserById(id);
+        UserDTO findUser = userService.getUserById(id);
         return ResponseEntity.status(HttpStatus.OK).body(findUser);
     }
 

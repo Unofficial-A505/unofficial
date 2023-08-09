@@ -17,10 +17,7 @@ export default function BoardsView() {
     boardsArticles(boardId)
     .then((res) => setPosts(res))
     .catch((err) => console.log(err));
-
-    return () => {
-      console.log("unmounted");
-    };
+    
   }, [boardId]);
 
   if (posts) {

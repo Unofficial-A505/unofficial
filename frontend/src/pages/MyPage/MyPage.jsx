@@ -66,6 +66,7 @@ export default function MyPage() {
     dispatch(setAuthUserEmail(""));
     localStorage.removeItem("REFRESH_TOKEN");
     navigate("/");
+    window.location.reload();
   };
 
   return (

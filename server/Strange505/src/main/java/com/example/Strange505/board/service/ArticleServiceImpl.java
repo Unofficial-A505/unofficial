@@ -73,10 +73,7 @@ public class ArticleServiceImpl implements ArticleService {
                 .orElseThrow(() -> new NoResultException("사용자가 존재하지 않습니다."));
         boolean isUserThisArticle = checkUser(id, email);
         // 이 글에 들어온 사용자가 좋아요를 했는지 반환
-        boolean isLikedThisArticle = false;
-        if(articleLikeRepository.findByArticleAndUser(article, user) != null) {
-            isLikedThisArticle = true;
-        }
+        boolean isLikedThisArticle = articleLikeRepository.findByArticleAndUser(article.getId(), user.getId());
 
         ArticleResponseDto responseDto = ArticleResponseDto.builder()
                 .id(article.getId())

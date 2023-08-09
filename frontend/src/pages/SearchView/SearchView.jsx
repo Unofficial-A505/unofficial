@@ -43,14 +43,14 @@ export default function SearchView() {
     // 전체게시판에서 게시글 검색
     searchViewApi(keyword, 0)
       .then((res) => {
-        console.log("search success", res);
+        // console.log("search success", res);
         setsearchResults(res);
       })
       .catch((err) => console.log(err));
 
     bestPostsApi()
       .then((res) => {
-        console.log("best", res);
+        // console.log("best", res);
         setbestPostlist(res);
       })
       .catch((err) => console.log(err));

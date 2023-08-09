@@ -60,3 +60,8 @@ OPENVIDU_URL: https://ec2.unofficial.kr/
 OPENVIDU_SECRET: STRANGE505
 
 main: main
+
+springdoc:
+  swagger-ui:
+    path: /api/swagger-ui.html
+    use-root-path: true

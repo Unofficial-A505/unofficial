@@ -17,7 +17,9 @@ export default function Signup1() {
   const handleGenChange = (event) => {
     setSelectedGen(event.target.value);
   }
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
     if (!selectedLocal || !selectedGen) {
       alert('지역과 기수를 선택해주세요.')
     }

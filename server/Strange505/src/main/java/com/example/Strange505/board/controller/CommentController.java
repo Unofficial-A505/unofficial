@@ -50,15 +50,11 @@ public class CommentController {
 
     @GetMapping("/article/{articleId}")
     public ResponseEntity<PageResponseDto<CommentResponseDto>> getCommentByArticle(@PathVariable Long articleId, Pageable pageable) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        PageResponseDto<CommentResponseDto> response = commentService.getCommentByArticle(articleId, email, pageable);
 
-        Page<CommentResponseDto> list = commentService.getCommentByArticle(articleId, pageable);
-        Map<String, Object> pageInfo = new HashMap<>();
-        pageInfo.put("page", pageable.getPageNumber());
-        pageInfo.put("size", pageable.getPageSize());
-        pageInfo.put("totalElements", list.getTotalElements());
-        pageInfo.put("totalPages", list.getTotalPages());
 
-        return new ResponseEntity<>(new PageResponseDto<>(pageInfo, list.getContent()), HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/user")

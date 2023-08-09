@@ -21,7 +21,3 @@ mail:
 
 test: qa
 
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
-    use-root-path: true

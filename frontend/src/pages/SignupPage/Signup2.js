@@ -108,7 +108,8 @@ export default function Signup2() {
     return true
   }
   // 최종 제출 오류 확인
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
     if (isDuplicate) {
       alert('이메일을 확인해 주세요.')
@@ -135,7 +136,7 @@ export default function Signup2() {
       <div className="mb-1">
         <label htmlFor="exampleInputEmail" className="form-label">이메일 주소</label>
         <div className="input-group">
-          <input type="email" className="form-control" id="exampleInputEmail" onChange={handleEmailChange} onInput={handleEmailValid} />
+          <input type="email" className="form-control" id="exampleInputEmail" placeholder="에듀싸피 이메일 (필수)" onChange={handleEmailChange} onInput={handleEmailValid} />
           <button className="btn btn-outline-secondary" type="button" onClick={doubleCheck}>중복확인</button>
         </div>
         {userEmail && !emailValid && <p style={{ color: 'red' }}>올바른 이메일 주소를 입력해주세요.</p>}
@@ -143,7 +144,7 @@ export default function Signup2() {
       </div>
       <div className="mb-1">
         <label htmlFor="exampleInputPassword1" className="form-label">비밀번호</label>
-        <input type="password" className="form-control" id="exampleInputPassword1" autoComplete="false" onChange={handlePasswordChange1} />
+        <input type="password" className="form-control" id="exampleInputPassword1" autoComplete="false" placeholder="8자 이상 영문/숫자 사용 (필수)" onChange={handlePasswordChange1} />
       </div>
       <div className="mb-4">
         <label htmlFor="exampleInputPassword2" className="form-label">비밀번호 확인</label>

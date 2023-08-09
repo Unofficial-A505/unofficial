@@ -33,13 +33,10 @@ public class ArticleLikeServiceImpl implements ArticleLikeService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NoResultException("사용자가 존재하지 않습니다."));
 
-        // 이미 좋아요 한 경우 다시 누르면 좋아요 취소
-        if (articleLikeRepository.findByArticleAndUser(article, user).isPresent()) {
-            ArticleLike articleLike = articleLikeRepository.findByArticleAndUser(article, user)
-                    .orElseThrow(() -> new NoResultException());
-            articleLikeRepository.delete(articleLike);
-            articleRepository.subLikeCount(article);
-        } else {
+        // 이미 좋아요 한 경우 다시 누르면 이미 좋아요 했다고 표시
+        // 좋아요 안했다면 추가
+        if (!articleLikeRepository.findByArticleAndUser(article.getId(), user.getId())) {
+
             ArticleLike articleLike = ArticleLike.builder()
                     .article(article)
                     .user(user)

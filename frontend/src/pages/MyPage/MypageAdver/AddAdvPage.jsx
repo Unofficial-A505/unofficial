@@ -101,7 +101,7 @@ export default function AddAdvPage() {
         return customAxios.post("/api/ads/upload", formData);
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         return res.data;
       })
       .catch((err) => {
@@ -116,9 +116,15 @@ export default function AddAdvPage() {
 
   const onDurationChange = (event) => {
     const value = event.target.value;
+    // Check if the input value is not a positive integer
+    if (!/^\d+$/.test(value)) {
+      alert("정수만 입력 가능합니다.");
+      event.target.value = duration;  // revert to the previous duration value
+      return;
+    }
     if (value < 0) {
       alert("음수는 불가능 합니다.");
-      event.target.value = 0;
+      event.target.value = 1;
       return;
     }
     setDuration(value);
@@ -158,7 +164,10 @@ export default function AddAdvPage() {
         );
         return; // Return early to stop the rest of the function
       }
-
+      if (duration === "0" || duration === 0) {
+        alert("광고 기간은 0일일 수 없습니다.");
+        return; // Return early to stop the rest of the function
+      }
       const uploadedImagePath = await uploadToServer();
       let endDate = new Date();
       endDate.setDate(endDate.getDate() + parseInt(duration) + 1);
@@ -206,8 +215,11 @@ export default function AddAdvPage() {
             />
           </div>
           <div className={styles.image_preview_container}>
-            {preview && <img src={preview} alt="Preview" />}
-            <p>제한 크기 : 5MB, 920 X 120px ( .jpg / .gif / .png / .jpeg )</p>
+            {preview ? (
+              <img src={preview} alt="Preview" />
+            ) : (
+              <p>제한 크기 : 5MB, 920 X 120px ( .jpg / .gif / .png / .jpeg )</p>
+            )}
           </div>
 
           <div className="row g-3 align-items-center mb-1">

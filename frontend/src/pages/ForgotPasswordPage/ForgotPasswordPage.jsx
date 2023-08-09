@@ -39,7 +39,7 @@ const ForgotPasswordPage = () => {
         }
       );
       setIsComplete(true);
-      console.log(response);
+      // console.log(response);
     } catch (err) {
       alert("입력하신 정보를 확인해주세요.");
       return;
@@ -49,7 +49,7 @@ const ForgotPasswordPage = () => {
   if (!isComplete) {
     return (
       <div className={styles.forgotPasswordPage}>
-        <form>
+        <form onSubmit={requestNewPassword}>
           <div>
             <h3>비밀번호 찾기</h3>
             <p>
@@ -100,9 +100,7 @@ const ForgotPasswordPage = () => {
               onInput={onEmailHandler}
             />
           </div>
-          <button type="submit" onClick={requestNewPassword}>
-            비밀번호 변경
-          </button>
+          <button type="submit">비밀번호 변경</button>
         </form>
       </div>
     );
