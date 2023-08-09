@@ -45,20 +45,19 @@ export default function BoardsAll() {
     bestPostsApi
     .then((res) => {
       setbestPostlist(res);
-      console.log('best', res)
     }).catch((err) => console.log(err));
    
     // boards Title api
-    boardNamesApi
-      .then((res) => {
-        setboardNames(res);
-        res.forEach((board) => {
-          if (board.id+'' === boardId) {
-            setcurrboardName(board.name);
-          }
-        });
-      })
-      .catch((err) => console.log(err));
+    boardNamesApi()
+    .then((res) => {
+    console.log('boards' ,res);
+    setboardNames(res.data);
+    res.data.forEach((board) => {
+      if (board.id+'' === boardId) {
+        setcurrboardName(board.name);
+      }
+    }) })
+    .catch((err) => console.log(err));
 
     window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -169,7 +168,7 @@ export default function BoardsAll() {
             </div>
           </form>
 
-          <nav className={styles.pagination} aria-label="...">
+          {/* <nav className={styles.pagination} aria-label="...">
             <ul className="pagination pagination-sm">
               <li className="page-item active" aria-current="page">
                 <span className="page-link">1</span>
@@ -185,7 +184,7 @@ export default function BoardsAll() {
                 </a>
               </li>
             </ul>
-          </nav>
+          </nav> */}
         </div>
       </div>
     </div>

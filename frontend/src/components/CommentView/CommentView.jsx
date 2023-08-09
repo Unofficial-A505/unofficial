@@ -30,9 +30,8 @@ export default function CommentView({ comment, commentUpdate, getComment, articl
   // 댓글 삭제
   const CommentDelete = (id) => {
     if (window.confirm("댓글을 삭제하시겠습니까?")) {
-      console.log(children)
-      if (children) {
-        alert('대댓글이 존재해 댓글을 삭제할 수 없습니다!')
+      if (children.length) {
+        alert("대댓글이 존재해 댓글을 삭제할 수 없습니다!")
       } else {
         postCommentDeleteApi(id)
         .then(() => getComment())

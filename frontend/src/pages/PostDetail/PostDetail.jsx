@@ -100,7 +100,7 @@ export default function PostDetail() {
 
     // 현재 board 게시글
     boardsArticles(boardId)
-      .then((res) => setcurrboardPosts(res))
+      .then((res) => setcurrboardPosts(res.content))
       .catch((err) => console.log(err));
 
     return () => {
