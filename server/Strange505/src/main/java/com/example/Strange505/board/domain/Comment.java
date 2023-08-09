@@ -54,7 +54,6 @@ public class Comment {
 
     public void remove() {
         this.isRemoved = true;
-        this.content = "삭제된 댓글입니다.";
     }
 
     public List<Comment> findRemovableList() {
