@@ -73,7 +73,7 @@ export default function PostDetail() {
         setComments(res.data.content);
         setCommentsInfo(res.data);
 
-        // console.log(res.data.content.length)
+        console.log(res.data)
       })
       .catch((err) => console.log(err));
   };
@@ -87,8 +87,6 @@ export default function PostDetail() {
       .then((res) => {
         setpostDetail(res);
         setBoardTitle(res.boardName);
-        
-        console.log(res)
       })
       .catch((err) => console.log(err));
 
@@ -107,8 +105,6 @@ export default function PostDetail() {
 
   useEffect(() => {
     setrecommendedState(postDetail.isLiked);
-    console.log('isLiked', postDetail.isLiked)
-
     document.getElementById("comment-nickname-input").value = null;
     document.getElementById("comment-input").value = null;
   }, [postDetail]);

@@ -13,6 +13,7 @@ import { postCommentDeleteApi, postCommentUpdateApi } from '../../api/comments'
 export default function RecommentsView({ recomment, getComment, articleId, parentId }){
   const [ updateState, setupdateState ] = useState(false)
   const [ updatereComment, setupdatereComment ] = useState("")
+  const { isUser } = recomment
 
   // 대댓글 삭제
   const recommentDelete = (id) => {
@@ -55,12 +56,14 @@ export default function RecommentsView({ recomment, getComment, articleId, paren
           </div>
   
           <div className={styles.commentContent}><pre>{recomment.content}</pre></div>
-  
+
+          {isUser && 
           <div className={styles.recommentUnderContainer}>
             <span className={styles.commentIcons}> 
               <span className={styles.updatetextPosition} onClick={() => setupdateState((prev) => !prev)}><HiOutlinePencilAlt />수정하기</span></span>
             <span className={styles.commentIcons} onClick={() => recommentDelete(recomment.id)}><span className={styles.updatetextPosition}><IoTrashOutline />삭제하기</span></span>
           </div>
+          }
         </div>
       
       </div>

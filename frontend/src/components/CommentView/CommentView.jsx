@@ -22,7 +22,7 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, get
   const [ recomments, setreComments ] = useState('')
   const [ recommentNickname, setrecommentNickname ] = useState('')
   const updateContent = useRef('')
-  const { id } = comment
+  const { id, isUser } = comment
 
   // 대댓글 생성
   const recommentCreate = () => {
@@ -63,6 +63,7 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, get
   
         <div className={styles.commentBottombar}>
           <div className={styles.recommentButton} onClick={() => setrecommentBox((prev) => !prev)}><IoChatboxOutline className={styles.commentIcons}/><span>대댓글</span></div>
+          {isUser && 
           <div>
             <span className={styles.commentIcons} onClick={() => {
               setupdateState((prev) => !prev);
@@ -71,6 +72,8 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, get
             <span className={styles.updatetextPosition} ><HiOutlinePencilAlt />수정하기</span></span>
             <span className={styles.commentIcons} onClick={() => {CommentDelete(id)}}><span className={styles.updatetextPosition}><IoTrashOutline />삭제하기</span></span>
           </div>
+          }
+          
         </div>
 
         {recommentBox &&

@@ -82,6 +82,10 @@
   /* border: 1px dotted red;  */
 }
 
+.bestContentContainer:hover {
+  cursor: pointer;
+}
+
 div .slick-list {
   height: 32px;
 }
@@ -103,6 +107,13 @@ div .slick-list {
   font-weight: 400;
   line-height: normal;
 } 
+
+.bestContentTitle:hover {
+  font-weight: 500;
+
+  text-decoration: underline;
+  text-underline-position: under;
+}
 
 /* 광고 container */
 .advContainer {

@@ -35,7 +35,7 @@ export default function MypostsView(){
             <h2 className={styles.mypostsTitle}>내 게시글 보기</h2>
             <p className={styles.smallTitle}>내가 작성한 게시물을 모아볼 수 있습니다.</p>
           </div>
-          <p style={{color:'#282828'}}>가입한지 <span style={{color:'#034BB9', fontSize:'1.2rem', fontWeight:'600'}}>+{ date }일</span></p>
+          {/* <p style={{color:'#282828'}}>가입한지 <span style={{color:'#034BB9', fontSize:'1.2rem', fontWeight:'600'}}>+{ date }일</span></p> */}
         </div>
         <BoardView posts={myPosts} myBoard={true}/>
       </div>

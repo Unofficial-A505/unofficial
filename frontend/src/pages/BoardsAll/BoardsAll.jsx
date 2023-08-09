@@ -45,6 +45,7 @@ export default function BoardsAll() {
     bestPostsApi
     .then((res) => {
       setbestPostlist(res);
+      console.log('best', res)
     }).catch((err) => console.log(err));
    
     // boards Title api
@@ -96,9 +97,9 @@ export default function BoardsAll() {
           <div className={styles.boardsallBestBox}>
             <Slider {...settings} className={styles.bestContentContainer}>
               {bestPostlist.map((data, index) => (
-                <div key={index} className={styles.bestContentContainer}>
+                <div key={index} className={styles.bestContentContainer} onClick={() => navigate(`/boards/${data.boardId}/${data.articleId}`)}>
                   <span className={styles.bestContent}>{data.boardName}</span>
-                  <span>{data.title}</span>
+                  <span className={styles.bestContentTitle}>{data.title}</span>
                 </div>
               ))}
             </Slider>
