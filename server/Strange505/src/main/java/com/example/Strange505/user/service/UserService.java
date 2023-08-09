@@ -29,8 +29,21 @@ public class UserService {
     private final BCryptPasswordEncoder encoder;
     private final EmailVerifyService emailVerifyService;
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id).get();
+    public UserDTO getUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 유저 입니다."));
+        UserDTO dto = UserDTO.builder()
+                .createDate(user.getCreateDate())
+                .withdrawalDate(user.getWithdrawalDate())
+                .id(user.getId())
+                .role(user.getRole())
+                .email(user.getEmail())
+                .is_activated(user.getIs_activated())
+                .gen(user.getGen())
+                .local(user.getLocal())
+                .point(user.getPoint())
+                .verification(user.getVerification())
+                .build();
+        return dto;
     }
 
     public User getUserByEmail(String email) {
