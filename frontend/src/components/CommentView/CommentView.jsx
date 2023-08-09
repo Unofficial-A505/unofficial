@@ -5,15 +5,18 @@ import { FaRegThumbsUp } from '@react-icons/all-files/fa/FaRegThumbsUp';
 import { IoChatboxOutline } from '@react-icons/all-files/io5/IoChatboxOutline';
 import { IoRocketOutline } from '@react-icons/all-files/io5/IoRocketOutline';
 import { BsArrowReturnRight } from '@react-icons/all-files/bs/BsArrowReturnRight';
-
 // 삭제 아이콘
 import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 // 수정 아이콘
 import { HiOutlinePencilAlt } from '@react-icons/all-files/hi/HiOutlinePencilAlt';
 
 import RecommentsView from '../RecommentsView/RecommentsView';
-
 import { postCommentCreateApi } from '../../api/comments'
+
+import {format, register } from 'timeago.js' //임포트하기 register 한국어 선택
+import koLocale from 'timeago.js/lib/lang/ko' //한국어 선택
+
+register('ko', koLocale)
 
 export default function CommentView({ comment, CommentDelete, commentUpdate, getComment, articleId}){
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -55,7 +58,7 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, get
           <div className={styles.commentTitle}>
             <span className={styles.recommentGenLocalInfo}>{comment.gen}기 {comment.local}</span>
             {comment.nickName ? <span className={styles.recommentnickName}>{comment.nickName}</span> : <span className={styles.recommentnickName}>익명</span>}
-            <span className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} />{comment.createTime?.slice(0, 10)}</span>
+            <span className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} />{format(comment.createTime, 'ko')}</span>
           </div>
         </div>
   

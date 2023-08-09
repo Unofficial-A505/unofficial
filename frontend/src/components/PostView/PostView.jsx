@@ -11,10 +11,10 @@ register('ko', koLocale)
 export default function PostView({ post, boardId, searchView, keyword, myBoard }) {
   const navigate = useNavigate();
 
-  const createTime = post.createTime
-  const updateTime = post.modifyTime
-  const createTime_modify = createTime?.slice(0, 10)
-  const updateTime_modify = updateTime?.slice(0, 10)
+  // const createTime = post.createTime
+  // const updateTime = post.modifyTime
+  // const createTime_modify = createTime?.slice(0, 10)
+  // const updateTime_modify = updateTime?.slice(0, 10)
 
   return (
     <>

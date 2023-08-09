@@ -43,6 +43,11 @@ import {
 import customAxios from "../../util/customAxios";
 import useDocumentTitle from "../../useDocumentTitle";
 
+import {format, register } from 'timeago.js' //임포트하기 register 한국어 선택
+import koLocale from 'timeago.js/lib/lang/ko' //한국어 선택
+
+register('ko', koLocale)
+
 // API import
 export default function PostDetail() {
   const navigate = useNavigate();
@@ -111,11 +116,13 @@ export default function PostDetail() {
 
   // 게시글 삭제
   const postDelete = () => {
+    if (window.confirm("게시글을 삭제하시겠습니까?")) {
     postDeleteApi(postId)
       .then(() => {
         navigate(`/boards/${boardId}`);
       })
       .catch((err) => console.log(err));
+    }
   };
 
   // 게시글 추천
@@ -184,15 +191,17 @@ export default function PostDetail() {
 
   // 댓글 삭제
   const CommentDelete = (id) => {
-    postCommentDeleteApi(id)
+    if (window.confirm("게시글을 삭제하시겠습니까?")) {
+      postCommentDeleteApi(id)
       .then(() => getComment())
       .catch((err) => console.log(err));
+    }
   };
 
-  const createTime = postDetail.createTime;
-  const updateTime = postDetail.modifyTime;
-  const createTime_modify = createTime?.slice(0, 10);
-  const updateTime_modify = updateTime?.slice(0, 10);
+  // const createTime = postDetail.createTime;
+  // const updateTime = postDetail.modifyTime;
+  // const createTime_modify = createTime?.slice(0, 10);
+  // const updateTime_modify = updateTime?.slice(0, 10);
 
   return (
     <>
@@ -222,9 +231,7 @@ export default function PostDetail() {
               <div className={styles.dateViews}>
                 <div className={styles.posttimeago}>
                   <IoRocketOutline className={styles.tabIcon} size="20" />
-                  {createTime_modify}
-                  {createTime_modify !== updateTime_modify &&
-                    ` (수정 : ${updateTime_modify})`}
+                  {format(postDetail.createTime, 'ko')}
                 </div>
                 <div className={styles.posttimeago}>
                   <AiOutlineEye className={styles.tabIcon} size="19" />
