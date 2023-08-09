@@ -15,6 +15,7 @@ import com.example.Strange505.board.repository.CommentRepository;
 import com.example.Strange505.file.service.ImageService;
 import com.example.Strange505.pointHistory.dto.PointHistoryDto;
 import com.example.Strange505.pointHistory.service.PointHistoryService;
+import com.example.Strange505.user.domain.Role;
 import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -193,7 +194,7 @@ public class ArticleServiceImpl implements ArticleService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
         Board board = boardRepository.findByName(dto.getBoardName()).orElseThrow(() -> new NoResultException("게시판을 찾을 수 없습니다."));
         Article article = articleRepository.findById(dto.getId()).orElseThrow(() -> new NoResultException("게시글을 찾을 수 없습니다."));
-        if (user.getId() == article.getUser().getId()) {
+        if (user.getId() == article.getUser().getId() || user.getRole() == Role.ADMIN) {
             imageService.deleteImageForUpdate(article.getContent(), dto);
             article.updateArticle(dto, board);
         } else {
@@ -206,7 +207,7 @@ public class ArticleServiceImpl implements ArticleService {
     public void deleteArticle(Long id, String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
         Article article = articleRepository.findById(id).orElseThrow(() -> new NoResultException("게시글을 찾을 수 없습니다."));
-        if (user.getId() == article.getUser().getId()) {
+        if (user.getId() == article.getUser().getId() || user.getRole() == Role.ADMIN) {
 //            List<String> images = imageService.parsingArticle(article.getContent());
 //            imageService.deleteImages(images);
             article.remove();
