@@ -8,10 +8,10 @@ const bestPostsApi =  customAxios({
 
 
 // boardName 리스트
-const boardNamesApi = () => customAxios({
+const boardNamesApi = customAxios({
   method: "get",
   url: `/api/boards`,
-}).then((res) => res)
+}).then((res) => res.data)
 
 
 // 전체 board 게시글

@@ -18,7 +18,6 @@ export default function BoardsView() {
   useEffect(() => {
     boardsArticles(boardId, currPage, 20)
     .then((res) => {
-      console.log('hello', res)
       setPosts(res.content);
       setPageInfo(res.pageInfo)
       setcurrPage(res.pageInfo.page)

@@ -77,8 +77,6 @@ export default function PostDetail() {
       .then((res) => {
         setComments(res.data.content);
         setCommentsInfo(res.data);
-
-        console.log(res.data)
       })
       .catch((err) => console.log(err));
   };

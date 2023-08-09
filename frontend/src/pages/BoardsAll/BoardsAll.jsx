@@ -48,11 +48,10 @@ export default function BoardsAll() {
     }).catch((err) => console.log(err));
    
     // boards Title api
-    boardNamesApi()
+    boardNamesApi
     .then((res) => {
-    console.log('boards' ,res);
-    setboardNames(res.data);
-    res.data.forEach((board) => {
+    setboardNames(res);
+    res.forEach((board) => {
       if (board.id+'' === boardId) {
         setcurrboardName(board.name);
       }

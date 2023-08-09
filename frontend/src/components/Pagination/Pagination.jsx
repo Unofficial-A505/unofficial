@@ -11,8 +11,8 @@ export default function Pagination({totalPages, paginate, currPage}) {
     <nav className={styles.paginationContainer}>
       <div className={styles.paginationNumsContainer}>
         {pageNumbers.map(num => 
-          <div className={num===currPage?styles.paginationNumBoxcurr:styles.paginationNumBox} key={num}>
-            <a className={styles.paginationNum} onClick={() => paginate(num-1)} href="#">{num}</a>
+          <div className={num==currPage?styles.paginationNumBoxcurr:styles.paginationNumBox} key={num}>
+            <a className={num==currPage?styles.paginationNumcurr:styles.paginationNum} onClick={() => paginate(num-1)} href="#">{num}</a>
           </div>  
         )}
       </div>
