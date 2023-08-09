@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -18,12 +20,15 @@ public class UserDTO {
 
     private String local;
 
-    private int gen;
+    private Integer gen;
 
     private String verification;
 
-    private int point;
+    private Integer point;
     private boolean is_activated;
-    private boolean is_withdraw;
+
+    private LocalDateTime withdrawalDate;
+
+    private LocalDateTime createDate;
 
 }
