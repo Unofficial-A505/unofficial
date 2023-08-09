@@ -61,6 +61,11 @@
   /* border: 1px dotted red; */
   width: 500px;
   text-align: start;
+
+  /* width 넘어가는 글자들 ... 처리*/
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .bestbannerTitle {
@@ -75,6 +80,10 @@
 .bestContentContainer {
   height: 32px;
   /* border: 1px dotted red;  */
+}
+
+.bestContentContainer:hover {
+  cursor: pointer;
 }
 
 div .slick-list {
@@ -98,6 +107,13 @@ div .slick-list {
   font-weight: 400;
   line-height: normal;
 } 
+
+.bestContentTitle:hover {
+  font-weight: 500;
+
+  text-decoration: underline;
+  text-underline-position: under;
+}
 
 /* 광고 container */
 .advContainer {

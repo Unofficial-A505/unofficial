@@ -96,9 +96,9 @@ export default function BoardsAll() {
           <div className={styles.boardsallBestBox}>
             <Slider {...settings} className={styles.bestContentContainer}>
               {bestPostlist.map((data, index) => (
-                <div key={index} className={styles.bestContentContainer}>
+                <div key={index} className={styles.bestContentContainer} onClick={() => navigate(`/boards/${data.boardId}/${data.articleId}`)}>
                   <span className={styles.bestContent}>{data.boardName}</span>
-                  <span>{data.title}</span>
+                  <span className={styles.bestContentTitle}>{data.title}</span>
                 </div>
               ))}
             </Slider>
@@ -168,7 +168,7 @@ export default function BoardsAll() {
             </div>
           </form>
 
-          <nav className={styles.pagination} aria-label="...">
+          {/* <nav className={styles.pagination} aria-label="...">
             <ul className="pagination pagination-sm">
               <li className="page-item active" aria-current="page">
                 <span className="page-link">1</span>
@@ -184,7 +184,7 @@ export default function BoardsAll() {
                 </a>
               </li>
             </ul>
-          </nav>
+          </nav> */}
         </div>
       </div>
     </div>

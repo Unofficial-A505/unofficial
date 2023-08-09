@@ -22,10 +22,10 @@ const boardArticlesAll = () => customAxios({
 
 
 // 각 board 별 게시글
-const boardsArticles = (boardId) => customAxios({
+const boardsArticles = (boardId, currPage, size) => customAxios({
   method: "get",
-  url: `/api/articles/board/${boardId}`,
-}).then((res) => res.data.content)
+  url: `/api/articles/board/${boardId}?page=${currPage}&size=${size}`,
+}).then((res) => res.data)
 
 
 // 게시글 키워드 검색 (전체 & 게시판 별)

@@ -5,23 +5,40 @@ import { FaRegThumbsUp } from '@react-icons/all-files/fa/FaRegThumbsUp';
 import { IoChatboxOutline } from '@react-icons/all-files/io5/IoChatboxOutline';
 import { IoRocketOutline } from '@react-icons/all-files/io5/IoRocketOutline';
 import { BsArrowReturnRight } from '@react-icons/all-files/bs/BsArrowReturnRight';
-
 // 삭제 아이콘
 import { IoTrashOutline } from '@react-icons/all-files/io5/IoTrashOutline';
 // 수정 아이콘
 import { HiOutlinePencilAlt } from '@react-icons/all-files/hi/HiOutlinePencilAlt';
 
 import RecommentsView from '../RecommentsView/RecommentsView';
+import { postCommentCreateApi, postCommentDeleteApi } from '../../api/comments'
 
-import { postCommentCreateApi } from '../../api/comments'
+import {format, register } from 'timeago.js' //임포트하기 register 한국어 선택
+import koLocale from 'timeago.js/lib/lang/ko' //한국어 선택
 
-export default function CommentView({ comment, CommentDelete, commentUpdate, getComment, articleId}){
+register('ko', koLocale)
+
+export default function CommentView({ comment, commentUpdate, getComment, articleId}){
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [ updateState, setupdateState ] = useState(false)
   const [ recommentBox, setrecommentBox ] = useState(false)
   const [ recomments, setreComments ] = useState('')
   const [ recommentNickname, setrecommentNickname ] = useState('')
   const updateContent = useRef('')
-  const { id } = comment
+  const { id, isUser, children } = comment
+
+  // 댓글 삭제
+  const CommentDelete = (id) => {
+    if (window.confirm("댓글을 삭제하시겠습니까?")) {
+      if (children.length) {
+        alert("대댓글이 존재해 댓글을 삭제할 수 없습니다!")
+      } else {
+        postCommentDeleteApi(id)
+        .then(() => getComment())
+        .catch((err) => console.log(err));
+      }
+    }
+  };
 
   // 대댓글 생성
   const recommentCreate = () => {
@@ -30,13 +47,17 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, get
     } else if (!recommentNickname) {
       alert("닉네임을 입력해주세요!")
     }else {
+      setIsButtonDisabled(true)
       postCommentCreateApi(articleId, recomments, id, recommentNickname)
-      .then((res) => {
+      .then(() => {
         getComment();
         document.getElementById('recomment-nickname-input').value = null
         document.getElementById('recomment-input').value = null
 
+        setreComments("")
+        setrecommentNickname("")
         setrecommentBox((prev) => !prev)
+        setIsButtonDisabled(false)
       })
         .catch((err) => console.log(err));
       };
@@ -50,7 +71,7 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, get
           <div className={styles.commentTitle}>
             <span className={styles.recommentGenLocalInfo}>{comment.gen}기 {comment.local}</span>
             {comment.nickName ? <span className={styles.recommentnickName}>{comment.nickName}</span> : <span className={styles.recommentnickName}>익명</span>}
-            <span className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} />{comment.createTime?.slice(0, 10)}</span>
+            <span className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} />{format(comment.createTime, 'ko')}</span>
           </div>
         </div>
   
@@ -58,6 +79,7 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, get
   
         <div className={styles.commentBottombar}>
           <div className={styles.recommentButton} onClick={() => setrecommentBox((prev) => !prev)}><IoChatboxOutline className={styles.commentIcons}/><span>대댓글</span></div>
+          {isUser && 
           <div>
             <span className={styles.commentIcons} onClick={() => {
               setupdateState((prev) => !prev);
@@ -66,6 +88,8 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, get
             <span className={styles.updatetextPosition} ><HiOutlinePencilAlt />수정하기</span></span>
             <span className={styles.commentIcons} onClick={() => {CommentDelete(id)}}><span className={styles.updatetextPosition}><IoTrashOutline />삭제하기</span></span>
           </div>
+          }
+          
         </div>
 
         {recommentBox &&
@@ -84,7 +108,7 @@ export default function CommentView({ comment, CommentDelete, commentUpdate, get
                 onChange={(e) => setreComments(e.target.value)}
                 placeholder="댓글을 작성해보세요"
               />
-              <button onClick={recommentCreate} className={styles.commentButton}>
+              <button onClick={recommentCreate} className={styles.commentButton} disabled={isButtonDisabled}>
                 <IoChatboxOutline size="23" />
               </button>
             </div>

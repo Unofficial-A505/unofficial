@@ -10,18 +10,26 @@ import { BsArrowReturnRight } from '@react-icons/all-files/bs/BsArrowReturnRight
 
 import { postCommentDeleteApi, postCommentUpdateApi } from '../../api/comments'
 
+import {format, register } from 'timeago.js' //임포트하기 register 한국어 선택
+import koLocale from 'timeago.js/lib/lang/ko' //한국어 선택
+
+register('ko', koLocale)
+
 export default function RecommentsView({ recomment, getComment, articleId, parentId }){
   const [ updateState, setupdateState ] = useState(false)
   const [ updatereComment, setupdatereComment ] = useState("")
+  const { isUser } = recomment
 
   // 대댓글 삭제
   const recommentDelete = (id) => {
-    console.log('id', id)
-    postCommentDeleteApi(id)
-    .then((res) => {
-      getComment();
-    })
-    .catch((err) => console.log(err))
+    if (window.confirm("댓글을 삭제하시겠습니까?")) {
+      console.log('id', id)
+      postCommentDeleteApi(id)
+      .then(() => {
+        getComment();
+      })
+      .catch((err) => console.log(err))
+    }
   }
 
   const recommentUpdate = (id) => {
@@ -30,6 +38,8 @@ export default function RecommentsView({ recomment, getComment, articleId, paren
     postCommentUpdateApi(id, articleId, content, parentId, nickName)
     .then((res) => {
       getComment();
+
+      setupdatereComment("")
       setupdateState((prev) => !prev)
     }).catch((err) => console.log(err))
   }
@@ -48,17 +58,19 @@ export default function RecommentsView({ recomment, getComment, articleId, paren
                 <span className={styles.recommentGenLocalInfo}>{recomment.gen}기 {recomment.local}</span>
                 {recomment.nickName ? <span className={styles.recommentnickName}>{recomment.nickName}</span> : <span className={styles.recommentnickName}>익명</span>}
               </div>
-              <div className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} /><div>{recomment.createTime?.slice(0, 10)}</div></div>
+              <div className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} /><div>{format(recomment.createTime, 'ko')}</div></div>
             </div>
           </div>
   
-          <div className={styles.commentContent}>{recomment.content}</div>
-  
+          <div className={styles.commentContent}><pre>{recomment.content}</pre></div>
+
+          {isUser && 
           <div className={styles.recommentUnderContainer}>
             <span className={styles.commentIcons}> 
               <span className={styles.updatetextPosition} onClick={() => setupdateState((prev) => !prev)}><HiOutlinePencilAlt />수정하기</span></span>
             <span className={styles.commentIcons} onClick={() => recommentDelete(recomment.id)}><span className={styles.updatetextPosition}><IoTrashOutline />삭제하기</span></span>
           </div>
+          }
         </div>
       
       </div>

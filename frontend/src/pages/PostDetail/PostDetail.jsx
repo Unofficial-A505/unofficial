@@ -43,12 +43,19 @@ import {
 import customAxios from "../../util/customAxios";
 import useDocumentTitle from "../../useDocumentTitle";
 
+import {format, register } from 'timeago.js' //임포트하기 register 한국어 선택
+import koLocale from 'timeago.js/lib/lang/ko' //한국어 선택
+
+register('ko', koLocale)
+
 // API import
 export default function PostDetail() {
   const navigate = useNavigate();
 
   const { boardId } = useParams();
   const { postId } = useParams();
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [boardTitle, setBoardTitle] = useState("");
   const [postDetail, setpostDetail] = useState({});
   const [createcomment, setcreateComment] = useState("");
@@ -56,9 +63,7 @@ export default function PostDetail() {
   const [commentsInfo, setCommentsInfo] = useState({});
   const [commentnickName, setcommentnickName] = useState("");
   const [currboardPosts, setcurrboardPosts] = useState([]);
-  const [articleList, setarticleList] = useState([]);
   const [recommendedState, setrecommendedState] = useState(null);
-  const commentElement = useRef(null);
 
   // 탭 제목 설정하기
   useDocumentTitle(boardTitle);
@@ -72,8 +77,6 @@ export default function PostDetail() {
       .then((res) => {
         setComments(res.data.content);
         setCommentsInfo(res.data);
-
-        // console.log(res.data.content.length)
       })
       .catch((err) => console.log(err));
   };
@@ -95,7 +98,7 @@ export default function PostDetail() {
 
     // 현재 board 게시글
     boardsArticles(boardId)
-      .then((res) => setcurrboardPosts(res))
+      .then((res) => setcurrboardPosts(res.content))
       .catch((err) => console.log(err));
 
     return () => {
@@ -104,20 +107,20 @@ export default function PostDetail() {
   }, [postId]);
 
   useEffect(() => {
-    setrecommendedState(!postDetail.isLiked);
-    // console.log('isLiked', postDetail.isLiked)
-
+    setrecommendedState(postDetail.isLiked);
     document.getElementById("comment-nickname-input").value = null;
     document.getElementById("comment-input").value = null;
   }, [postDetail]);
 
   // 게시글 삭제
   const postDelete = () => {
+    if (window.confirm("게시글을 삭제하시겠습니까?")) {
     postDeleteApi(postId)
       .then(() => {
         navigate(`/boards/${boardId}`);
       })
       .catch((err) => console.log(err));
+    }
   };
 
   // 게시글 추천
@@ -139,30 +142,39 @@ export default function PostDetail() {
             alert("추천 완료!");
           })
           .catch((res) => console.log(res));
-      } else {
       }
+    } else {
+      alert('이미 추천한 게시글입니다!')
     }
   };
 
   // 댓글 생성
-  const commentCreate = () => {
+  const commentCreate = async () => {
     if (!createcomment) {
       alert("댓글을 입력해주세요!");
     } else if (!commentnickName) {
       alert("닉네임을 입력해주세요!");
     } else {
+      setIsButtonDisabled(true)
+      console.log('isbuttonDisabled state', isButtonDisabled)
       const content = createcomment;
       const parentId = 0;
       const articleId = postId;
       const nickName = commentnickName;
 
-      postCommentCreateApi(articleId, content, parentId, nickName)
-        .then(() => {
-          getComment();
-          document.getElementById("comment-nickname-input").value = null;
-          document.getElementById("comment-input").value = null;
-        })
-        .catch((err) => console.log(err));
+      try {
+        await postCommentCreateApi(articleId, content, parentId, nickName);
+        await getComment();
+  
+        document.getElementById("comment-nickname-input").value = null;
+        document.getElementById("comment-input").value = null;
+        setcreateComment("")
+        setcommentnickName("")
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsButtonDisabled(false);
+      }
     }
   };
 
@@ -175,17 +187,10 @@ export default function PostDetail() {
       .catch((err) => console.log(err));
   };
 
-  // 댓글 삭제
-  const CommentDelete = (id) => {
-    postCommentDeleteApi(id)
-      .then(() => getComment())
-      .catch((err) => console.log(err));
-  };
-
-  const createTime = postDetail.createTime;
-  const updateTime = postDetail.modifyTime;
-  const createTime_modify = createTime?.slice(0, 10);
-  const updateTime_modify = updateTime?.slice(0, 10);
+  // const createTime = postDetail.createTime;
+  // const updateTime = postDetail.modifyTime;
+  // const createTime_modify = createTime?.slice(0, 10);
+  // const updateTime_modify = updateTime?.slice(0, 10);
 
   return (
     <>
@@ -215,9 +220,7 @@ export default function PostDetail() {
               <div className={styles.dateViews}>
                 <div className={styles.posttimeago}>
                   <IoRocketOutline className={styles.tabIcon} size="20" />
-                  {createTime_modify}
-                  {createTime_modify !== updateTime_modify &&
-                    ` (수정 : ${updateTime_modify})`}
+                  {format(postDetail.createTime, 'ko')}
                 </div>
                 <div className={styles.posttimeago}>
                   <AiOutlineEye className={styles.tabIcon} size="19" />
@@ -236,7 +239,7 @@ export default function PostDetail() {
                 onClick={postRecommendedInput}
                 className={styles.tabthumbIcon}
               >
-                {!recommendedState ? (
+                {recommendedState ? (
                   <FaThumbsUp className={styles.tabupIcon} />
                 ) : (
                   <FaRegThumbsUp className={styles.tabregupIcon} />
@@ -302,7 +305,7 @@ export default function PostDetail() {
                 }}
                 placeholder="댓글을 작성해보세요"
               />
-              <button className={styles.commentButton} onClick={commentCreate}>
+              <button className={styles.commentButton} onClick={commentCreate} disabled={isButtonDisabled}>
                 <IoChatboxOutline size="23" />
               </button>
             </div>
@@ -314,7 +317,6 @@ export default function PostDetail() {
               <div key={index}>
                 <CommentView
                   comment={comment}
-                  CommentDelete={CommentDelete}
                   commentUpdate={commentUpdate}
                   getComment={getComment}
                   articleId={postId}

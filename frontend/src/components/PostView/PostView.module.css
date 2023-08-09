@@ -23,7 +23,7 @@
 .postContainerB {
   display: flex;
   margin: 8px 0 0 0;
-  width: 25%;
+  width: 23%;
   text-align: right;
 
   /* border: 1px dotted red; */
@@ -95,9 +95,51 @@
   /* border: 1px aqua dotted; */
 }
 
+#postcreateBox {
+  width: 85px;
+  text-align: center;
+  font-size: 12px;
+
+  /* border: 1px aqua dotted; */
+}
+
+#postcreateBoxsmall {
+  width: 85px;
+  text-align: center;
+  font-size: 12px;
+
+  /* border: 1px aqua dotted; */
+}
+
+#postrecommendBoxsmall {
+  width: 50px;
+  text-align: center;
+  font-size: 12px;
+
+  /* border: 1px aqua dotted; */
+}
+
 #postviewBox {
   /* width: 25%; */
   text-align: center;
+
+  /* width 넘어가는 글자들 ... 처리*/
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+
+  /* border: 1px dotted red; */
+}
+
+#postviewBoxsmall {
+  width: 110px;
+  text-align: start;
+  font-size: 12px;
+
+  /* width 넘어가는 글자들 ... 처리*/
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 
   /* border: 1px dotted red; */
 }
