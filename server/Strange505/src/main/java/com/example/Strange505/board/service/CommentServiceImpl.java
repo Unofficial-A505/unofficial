@@ -12,6 +12,7 @@ import com.example.Strange505.board.repository.CommentRepository;
 import com.example.Strange505.dto.PageResponseDto;
 import com.example.Strange505.pointHistory.dto.PointHistoryDto;
 import com.example.Strange505.pointHistory.service.PointHistoryService;
+import com.example.Strange505.user.domain.Role;
 import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -191,7 +192,7 @@ public class CommentServiceImpl implements CommentService {
     public CommentResponseDto updateComment(Long id, CommentRequestDto dto, String email) {
         User user = userRepository.findByEmail(email).orElseThrow();
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("해당 댓글이 존재하지 않습니다."));
-        if (user.getId() == comment.getUser().getId()) {
+        if (user.getId() == comment.getUser().getId() || user.getRole() == Role.ADMIN) {
             comment.update(dto.getContent(), LocalDateTime.now());
             Comment modifiedComment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("해당 댓글이 존재하지 않습니다."));;
             return new CommentResponseDto(modifiedComment);
@@ -206,7 +207,7 @@ public class CommentServiceImpl implements CommentService {
     public void deleteComment(Long id, String email) {
         User user = userRepository.findByEmail(email).orElseThrow();
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("Comment not found"));
-        if (user.getId() == comment.getUser().getId()) {
+        if (user.getId() == comment.getUser().getId() || user.getRole() == Role.ADMIN) {
             comment.remove();
             List<Comment> removableCommentList = comment.findRemovableList();
             log.info("removeList = {}", removableCommentList);

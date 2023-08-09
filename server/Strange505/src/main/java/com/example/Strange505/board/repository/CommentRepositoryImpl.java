@@ -24,7 +24,6 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
         List<Comment> result = queryFactory.select(comment)
                 .from(comment)
                 .where(comment.article.id.eq(articleId))
-                .where(comment.isRemoved.isFalse())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -33,10 +32,19 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .select(comment.count())
                 .from(comment)
                 .where(comment.article.id.eq(articleId))
-                .where(comment.isRemoved.isFalse())
                 .fetchOne();
 
         return new PageImpl<>(result, pageable, count);
+    }
+
+    @Override
+    public Integer getCountByArticle(Long articleId) {
+        QComment comment = QComment.comment;
+        return Math.toIntExact(queryFactory.select(comment.count())
+                .from(comment)
+                .where(comment.article.id.eq(articleId))
+                .where(comment.isRemoved.isFalse())
+                .fetchFirst());
     }
 
     @Override
