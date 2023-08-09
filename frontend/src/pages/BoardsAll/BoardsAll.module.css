@@ -61,6 +61,11 @@
   /* border: 1px dotted red; */
   width: 500px;
   text-align: start;
+
+  /* width 넘어가는 글자들 ... 처리*/
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .bestbannerTitle {
