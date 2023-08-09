@@ -1,21 +1,21 @@
 import customAxios from "../util/customAxios";
 
 // best 게시글
-const bestPostsApi =  customAxios({
+const bestPostsApi = () => customAxios({
   method: "get",
   url: `/api/best`,
 }).then((res) => res.data)
 
 
 // boardName 리스트
-const boardNamesApi = customAxios({
+const boardNamesApi = () => customAxios({
   method: "get",
   url: `/api/boards`,
 }).then((res) => res.data)
 
 
 // 전체 board 게시글
-const boardArticlesAll = customAxios({
+const boardArticlesAll = () => customAxios({
   method: "get",
   url: `/api/articles`,
 }).then((res) => res.data.content)
