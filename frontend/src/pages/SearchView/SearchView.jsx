@@ -48,7 +48,7 @@ export default function SearchView() {
       })
       .catch((err) => console.log(err));
 
-    bestPostsApi
+    bestPostsApi()
       .then((res) => {
         // console.log("best", res);
         setbestPostlist(res);
@@ -56,7 +56,7 @@ export default function SearchView() {
       .catch((err) => console.log(err));
 
     // boards Title api
-    boardNamesApi
+    boardNamesApi()
       .then((res) => {
         setboardNames(res);
       })

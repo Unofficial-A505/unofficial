@@ -2,6 +2,7 @@ package com.example.Strange505.board.controller;
 
 
 import com.example.Strange505.board.domain.Article;
+import com.example.Strange505.board.dto.ArticleListResponseDto;
 import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.board.dto.ArticleResponseDto;
 import com.example.Strange505.board.dto.ImageForm;
@@ -77,15 +78,15 @@ public class ArticleController {
 
     @Operation(summary = "모든 게시글 조회")
     @GetMapping
-    public ResponseEntity<PageResponseDto<ArticleResponseDto>> getAllArticles(Pageable pageable) {
-        Page<ArticleResponseDto> responseDtoList = articleService.getAllArticles(pageable);
+    public ResponseEntity<PageResponseDto<ArticleListResponseDto>> getAllArticles(Pageable pageable) {
+        Page<ArticleListResponseDto> responseDtoList = articleService.getAllArticles(pageable);
 
         Map<String, Object> pageInfo = new HashMap<>();
         pageInfo.put("page", pageable.getPageNumber());
         pageInfo.put("size", pageable.getPageSize());
         pageInfo.put("totalElements", responseDtoList.getTotalElements());
         pageInfo.put("totalPages", responseDtoList.getTotalPages());
-        List<ArticleResponseDto> contents = responseDtoList.getContent();
+        List<ArticleListResponseDto> contents = responseDtoList.getContent();
 
 
         return new ResponseEntity<>(new PageResponseDto<>(pageInfo, contents), HttpStatus.OK);
@@ -93,46 +94,46 @@ public class ArticleController {
 
     @Operation(summary = "제목과 내용에 키워드가 포함된 게시글 조회")
     @GetMapping("/search")
-    public ResponseEntity<PageResponseDto<ArticleResponseDto>> getArticlesByTitleAndContent(@RequestParam String keyword, @RequestParam Long boardId, Pageable pageable) {
-        Page<ArticleResponseDto> responseDtoList = articleService.getArticlesByTitleAndContent(keyword, boardId, pageable);
+    public ResponseEntity<PageResponseDto<ArticleListResponseDto>> getArticlesByTitleAndContent(@RequestParam String keyword, @RequestParam Long boardId, Pageable pageable) {
+        Page<ArticleListResponseDto> responseDtoList = articleService.getArticlesByTitleAndContent(keyword, boardId, pageable);
 
         Map<String, Object> pageInfo = new HashMap<>();
         pageInfo.put("page", pageable.getPageNumber());
         pageInfo.put("size", pageable.getPageSize());
         pageInfo.put("totalElements", responseDtoList.getTotalElements());
         pageInfo.put("totalPages", responseDtoList.getTotalPages());
-        List<ArticleResponseDto> contents = responseDtoList.getContent();
+        List<ArticleListResponseDto> contents = responseDtoList.getContent();
 
         return new ResponseEntity<>(new PageResponseDto<>(pageInfo, contents), HttpStatus.OK);
     }
 
     @Operation(summary = "게시글 작성자로 조회")
     @GetMapping("/user")
-    public ResponseEntity<PageResponseDto<ArticleResponseDto>> getArticlesByUser(Pageable pageable) {
+    public ResponseEntity<PageResponseDto<ArticleListResponseDto>> getArticlesByUser(Pageable pageable) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        Page<ArticleResponseDto> responseDtoList = articleService.getArticlesByUser(email, pageable);
+        Page<ArticleListResponseDto> responseDtoList = articleService.getArticlesByUser(email, pageable);
 
         Map<String, Object> pageInfo = new HashMap<>();
         pageInfo.put("page", pageable.getPageNumber());
         pageInfo.put("size", pageable.getPageSize());
         pageInfo.put("totalElements", responseDtoList.getTotalElements());
         pageInfo.put("totalPages", responseDtoList.getTotalPages());
-        List<ArticleResponseDto> contents = responseDtoList.getContent();
+        List<ArticleListResponseDto> contents = responseDtoList.getContent();
 
         return new ResponseEntity<>(new PageResponseDto<>(pageInfo, contents), HttpStatus.OK);
     }
 
     @Operation(summary = "게시글이 등록된 게시판 종류에 따라 조회")
     @GetMapping("/board/{boardId}")
-    public ResponseEntity<PageResponseDto<ArticleResponseDto>> getArticlesByBoard(@PathVariable Long boardId, Pageable pageable) {
-        Page<ArticleResponseDto> responseDtoList = articleService.getArticlesByBoard(boardId, pageable);
+    public ResponseEntity<PageResponseDto<ArticleListResponseDto>> getArticlesByBoard(@PathVariable Long boardId, Pageable pageable) {
+        Page<ArticleListResponseDto> responseDtoList = articleService.getArticlesByBoard(boardId, pageable);
 
         Map<String, Object> pageInfo = new HashMap<>();
         pageInfo.put("page", pageable.getPageNumber());
         pageInfo.put("size", pageable.getPageSize());
         pageInfo.put("totalElements", responseDtoList.getTotalElements());
         pageInfo.put("totalPages", responseDtoList.getTotalPages());
-        List<ArticleResponseDto> contents = responseDtoList.getContent();
+        List<ArticleListResponseDto> contents = responseDtoList.getContent();
 
 
         return new ResponseEntity<>(new PageResponseDto<>(pageInfo, contents), HttpStatus.OK);

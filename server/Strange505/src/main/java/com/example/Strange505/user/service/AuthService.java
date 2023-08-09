@@ -40,11 +40,11 @@ public class AuthService {
                 .authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        if (!userService.getUserByEmail(loginDto.getEmail()).is_activated()) {
+        if (!userService.getUserByEmail(loginDto.getEmail()).getIs_activated()) {
             throw new NotActivatedException("이메일 인증이 이루어 지지 않았습니다.");
         }
 
-        if (userService.getUserByEmail(loginDto.getEmail()).is_withdraw()) {
+        if (userService.getUserByEmail(loginDto.getEmail()).getWithdrawalDate() != null) {
             throw new NotActivatedException("탈퇴한 회원입니다.");
         }
 

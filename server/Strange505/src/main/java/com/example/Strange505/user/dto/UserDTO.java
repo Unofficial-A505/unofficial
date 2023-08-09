@@ -1,9 +1,12 @@
 package com.example.Strange505.user.dto;
 
 import com.example.Strange505.user.domain.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -18,12 +21,15 @@ public class UserDTO {
 
     private String local;
 
-    private int gen;
+    private Integer gen;
 
     private String verification;
 
-    private int point;
+    private Integer point;
     private boolean is_activated;
-    private boolean is_withdraw;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime createDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime withdrawalDate;
 
 }

@@ -3,6 +3,7 @@ package com.example.Strange505.board.service;
 import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.domain.ArticleLike;
 import com.example.Strange505.board.domain.Board;
+import com.example.Strange505.board.dto.ArticleListResponseDto;
 import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.board.dto.ArticleResponseDto;
 import com.example.Strange505.board.exception.NoResultException;
@@ -10,9 +11,11 @@ import com.example.Strange505.board.exception.NotAuthorException;
 import com.example.Strange505.board.repository.ArticleLikeRepository;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.BoardRepository;
+import com.example.Strange505.board.repository.CommentRepository;
 import com.example.Strange505.file.service.ImageService;
 import com.example.Strange505.pointHistory.dto.PointHistoryDto;
 import com.example.Strange505.pointHistory.service.PointHistoryService;
+import com.example.Strange505.user.domain.Role;
 import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +40,7 @@ public class ArticleServiceImpl implements ArticleService {
     private final UserRepository userRepository;
     private final ImageService imageService;
     private final PointHistoryService pointHistoryService;
+    private final CommentRepository commentRepository;
 
     @Override
     @Transactional
@@ -110,31 +114,40 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Page<ArticleResponseDto> getAllArticles(Pageable pageable) {
+    public Page<ArticleListResponseDto> getAllArticles(Pageable pageable) {
         Page<Article> articles = articleRepository.searchAllArticles(pageable);
-        Page<ArticleResponseDto> responseDtoList = articles.map(findArticle ->
-                new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
-                        findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
-                        findArticle.getLikes(), findArticle.getViews(),
-                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(), null, null,
+        Page<ArticleListResponseDto> responseDtoList = articles.map(findArticle ->
+                new ArticleListResponseDto(
+                        findArticle.getId(),
+                        findArticle.getTitle(),
+                        findArticle.getBoard().getName(),
+                        findArticle.getBoard().getId(),
+                        findArticle.getLikes(),
+                        findArticle.getViews(),
+                        commentRepository.getCountByArticle(findArticle.getId()),
                         findArticle.getCreateTime(), findArticle.getModifyTime()));
         return responseDtoList;
     }
 
     @Override
-    public Page<ArticleResponseDto> getArticlesByBoard(Long boardId, Pageable pageable) {
+    public Page<ArticleListResponseDto> getArticlesByBoard(Long boardId, Pageable pageable) {
         Page<Article> articles = articleRepository.searchByBoard(boardId, pageable);
-        Page<ArticleResponseDto> responseDtoList = articles.map(findArticle ->
-                new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
-                        findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
-                        findArticle.getLikes(), findArticle.getViews(),
-                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(), null, null,
-                        findArticle.getCreateTime(), findArticle.getModifyTime()));
+        Page<ArticleListResponseDto> responseDtoList = articles.map(findArticle ->
+                new ArticleListResponseDto(
+                        findArticle.getId(),
+                        findArticle.getTitle(),
+                        findArticle.getBoard().getName(),
+                        findArticle.getBoard().getId(),
+                        findArticle.getLikes(),
+                        findArticle.getViews(),
+                        commentRepository.getCountByArticle(findArticle.getId()),
+                        findArticle.getCreateTime(), findArticle.getModifyTime()
+                ));
         return responseDtoList;
     }
 
     @Override
-    public Page<ArticleResponseDto> getArticlesByTitleAndContent(String keyword, Long boardId, Pageable pageable) {
+    public Page<ArticleListResponseDto> getArticlesByTitleAndContent(String keyword, Long boardId, Pageable pageable) {
 
         Board findBoard = boardRepository.findById(boardId).orElse(null);
 
@@ -143,25 +156,35 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         Page<Article> articles = articleRepository.searchByTitleAndContent(keyword, boardId, pageable);
-        Page<ArticleResponseDto> responseDtoList = articles.map(findArticle ->
-                new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
-                        findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
-                        findArticle.getLikes(), findArticle.getViews(),
-                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(), null, null,
-                        findArticle.getCreateTime(), findArticle.getModifyTime()));
+        Page<ArticleListResponseDto> responseDtoList = articles.map(findArticle ->
+                new ArticleListResponseDto(
+                        findArticle.getId(),
+                        findArticle.getTitle(),
+                        findArticle.getBoard().getName(),
+                        findArticle.getBoard().getId(),
+                        findArticle.getLikes(),
+                        findArticle.getViews(),
+                        commentRepository.getCountByArticle(findArticle.getId()),
+                        findArticle.getCreateTime(), findArticle.getModifyTime()
+                ));
         return responseDtoList;
     }
     @Override
-    public Page<ArticleResponseDto> getArticlesByUser(String email, Pageable pageable) {
+    public Page<ArticleListResponseDto> getArticlesByUser(String email, Pageable pageable) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
         Long userId = user.getId();
         Page<Article> articles = articleRepository.searchByUser(userId, pageable);
-        Page<ArticleResponseDto> responseDtoList = articles.map(findArticle ->
-                new ArticleResponseDto(findArticle.getId(), findArticle.getTitle(), findArticle.getContent(),
-                        findArticle.getBoard().getName(), findArticle.getBoard().getId(), findArticle.getNickName(),
-                        findArticle.getLikes(), findArticle.getViews(),
-                        findArticle.getUser().getGen(), findArticle.getUser().getLocal(), null, null,
-                        findArticle.getCreateTime(), findArticle.getModifyTime()));
+        Page<ArticleListResponseDto> responseDtoList = articles.map(findArticle ->
+                new ArticleListResponseDto(
+                        findArticle.getId(),
+                        findArticle.getTitle(),
+                        findArticle.getBoard().getName(),
+                        findArticle.getBoard().getId(),
+                        findArticle.getLikes(),
+                        findArticle.getViews(),
+                        commentRepository.getCountByArticle(findArticle.getId()),
+                        findArticle.getCreateTime(), findArticle.getModifyTime()
+                ));
         return responseDtoList;
     }
 
@@ -171,7 +194,7 @@ public class ArticleServiceImpl implements ArticleService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
         Board board = boardRepository.findByName(dto.getBoardName()).orElseThrow(() -> new NoResultException("게시판을 찾을 수 없습니다."));
         Article article = articleRepository.findById(dto.getId()).orElseThrow(() -> new NoResultException("게시글을 찾을 수 없습니다."));
-        if (user.getId() == article.getUser().getId()) {
+        if (user.getId() == article.getUser().getId() || user.getRole() == Role.ADMIN) {
             imageService.deleteImageForUpdate(article.getContent(), dto);
             article.updateArticle(dto, board);
         } else {
@@ -184,7 +207,7 @@ public class ArticleServiceImpl implements ArticleService {
     public void deleteArticle(Long id, String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
         Article article = articleRepository.findById(id).orElseThrow(() -> new NoResultException("게시글을 찾을 수 없습니다."));
-        if (user.getId() == article.getUser().getId()) {
+        if (user.getId() == article.getUser().getId() || user.getRole() == Role.ADMIN) {
 //            List<String> images = imageService.parsingArticle(article.getContent());
 //            imageService.deleteImages(images);
             article.remove();

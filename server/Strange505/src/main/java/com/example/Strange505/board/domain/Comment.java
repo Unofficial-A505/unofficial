@@ -54,6 +54,7 @@ public class Comment {
 
     public void remove() {
         this.isRemoved = true;
+        this.content = "삭제된 댓글입니다.";
     }
 
     public List<Comment> findRemovableList() {
@@ -63,10 +64,8 @@ public class Comment {
                     result.add(this);
                 },
                 () -> {//댓글인 경우
-                    if (isAllChildRemoved()) { // 자식 댓글이 다 지워진 경우
+                    if (isAllChildRemoved()) { // 자식 댓글이 다 지워진 경우만 삭제 가능하도록
                         result.add(this);
-                    } else {
-                        this.content = "삭제된 댓글입니다.";
                     }
                 }
         );

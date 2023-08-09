@@ -21,7 +21,7 @@ export default function MainPage() {
   const [ bestPosts, setbestPosts ] = useState("")
 
   useEffect(() => {
-    bestPostsApi
+    bestPostsApi()
       .then((res) => {
         setbestPosts(res.map((obj)=>{
           obj.id = obj.articleId

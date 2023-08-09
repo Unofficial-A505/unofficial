@@ -42,21 +42,22 @@ export default function BoardsAll() {
 
   useEffect(() => {
     // best 게시글 api
-    bestPostsApi
+    bestPostsApi()
     .then((res) => {
       setbestPostlist(res);
     }).catch((err) => console.log(err));
    
     // boards Title api
-    boardNamesApi
-    .then((res) => {
-    setboardNames(res);
-    res.forEach((board) => {
-      if (board.id+'' === boardId) {
-        setcurrboardName(board.name);
-      }
-    }) })
-    .catch((err) => console.log(err));
+    boardNamesApi()
+      .then((res) => {
+        setboardNames(res);
+        res.forEach((board) => {
+          if (board.id+'' === boardId) {
+            setcurrboardName(board.name);
+          }
+        });
+      })
+      .catch((err) => console.log(err));
 
     window.scrollTo({ top: 0, behavior: "smooth" });
 
