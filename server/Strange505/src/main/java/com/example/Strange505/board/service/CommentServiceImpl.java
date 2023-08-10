@@ -156,7 +156,7 @@ public class CommentServiceImpl implements CommentService {
                     .build());
 
             // 자식 댓글(대댓글)
-            List<CommentResponseDto> reComment = c.getChildren().stream().map(comment -> new CommentResponseDto(
+            List<CommentResponseDto> reComment = c.getChildren().stream().filter(child -> child.getIsRemoved() == false).map(comment -> new CommentResponseDto(
                     comment.getId(),
                     comment.getArticle().getId(), comment.getContent(), c.getId(),
                     comment.getNickName(),
