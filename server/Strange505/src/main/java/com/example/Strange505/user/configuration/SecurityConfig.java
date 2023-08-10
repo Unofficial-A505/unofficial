@@ -69,6 +69,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/best").permitAll()
                 .requestMatchers("/api/verify/**").permitAll()
+                .requestMatchers("/api/ads/active").permitAll()
                 .requestMatchers("/api/users").hasRole("ADMIN")
                 .anyRequest().authenticated()
 
