@@ -156,7 +156,7 @@ public class CommentServiceImpl implements CommentService {
                     .build());
 
             // 자식 댓글(대댓글)
-            List<CommentResponseDto> reComment = c.getChildren().stream().map(comment -> new CommentResponseDto(
+            List<CommentResponseDto> reComment = c.getChildren().stream().filter(child -> child.getIsRemoved() == false).map(comment -> new CommentResponseDto(
                     comment.getId(),
                     comment.getArticle().getId(), comment.getContent(), c.getId(),
                     comment.getNickName(),
@@ -230,9 +230,13 @@ public class CommentServiceImpl implements CommentService {
             List<Comment> removableCommentList = comment.findRemovableList();
             if (removableCommentList.size() == 0) {  // 삭제할 댓글이 없는 경우 = 부모 삭제하려는데 자식이 있는 경우
                 throw new CanNotDeleteException("대댓글이 존재하므로 삭제할 수 없습니다.");
-            } else {
+            } else {  // 자식 없는 부모거나, 자식인 경우
                 for (Comment c : removableCommentList) {
                     c.remove();
+                    if (c.getParent() != null) {  // 자식인 경우
+                        Comment parent = c.getParent();
+                        parent.removeChild(c); // 부모의 자식 리스트에서 삭제
+                    }
                 }
             }
         } else { // 권한이 없는 경우

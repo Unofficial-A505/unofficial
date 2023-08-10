@@ -32,7 +32,7 @@
 }
 
 .search {
-  width: 95%;;
+  width: 95%;
   margin: 0 auto;
 
   font-size: 0.9rem;
@@ -50,7 +50,7 @@
 
   border: 1px solid #75757579;
   border-radius: 1rem;
-  background-color: #f6f7f8
+  background-color: #f6f7f8;
 }
 
 .boardsallBestBox {
@@ -86,7 +86,7 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-} 
+}
 
 /* 검색 결과창 전체 컨테이너 */
 .searchcontentContainer {
@@ -104,7 +104,7 @@
 }
 
 .boardTitle {
-  color: #034BB9;
+  color: #034bb9;
   margin: 0 10px 0 0;
   font-size: 25px;
   font-weight: 700;
@@ -120,7 +120,7 @@
   border: 0;
   background-color: transparent;
 
-  color: rgba(117, 117, 117, 0.80);
+  color: rgba(117, 117, 117, 0.8);
   font-family: Inter;
   font-size: 17.537px;
   font-style: normal;
@@ -131,21 +131,21 @@
   position: absolute;
   right: 20px;
   top: 16%;
-  
+
   border: 0;
   border-radius: 1rem;
   background-color: transparent;
 }
 
 .searchbutton:hover {
-  background-color: rgba(208, 208, 208, 0.264);        
+  background-color: rgba(208, 208, 208, 0.264);
 }
 
 .searchbuttonIcon {
   position: absolute;
   right: 20px;
   top: 30%;
-  
+
   border: 0;
   border-radius: 1rem;
   background-color: transparent;
@@ -176,7 +176,7 @@
 
 /* 게시판 탭 (자유게시판, 비밀게시판, 9기게시판 etc...) */
 
-.boardcontainer{
+.boardcontainer {
   width: 1200px;
   margin: 0 auto;
   /* border: 1px dotted green; */
@@ -204,9 +204,14 @@
 }
 
 .boardtab:hover {
-  color: #034BB9;
+  color: #034bb9;
   font-size: 20px;
   font-weight: 700;
   text-decoration: underline;
   text-underline-position: under;
+}
+
+.noSearchSentence {
+  font-size: 25px;
+  text-align: center;
 }

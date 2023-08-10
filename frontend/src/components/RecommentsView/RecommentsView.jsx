@@ -48,7 +48,6 @@ export default function RecommentsView({ recomment, getComment, articleId, paren
 
     return(
     <>
-      <hr />
       <div className={styles.recommentContainer}>
         <div className={styles.recommentEnter}><BsArrowReturnRight /></div>
         <div className={styles.recommentContentContainer}>
@@ -73,12 +72,12 @@ export default function RecommentsView({ recomment, getComment, articleId, paren
         </div>
       
       </div>
+      <hr />
     </>
     );
   } else {
     return (
       <>
-        <hr />
         <div className={styles.recommentContainer}>
           <div className={styles.recommentEnter}><BsArrowReturnRight /></div>
           <div className={styles.recommentContentContainer}>
@@ -88,7 +87,7 @@ export default function RecommentsView({ recomment, getComment, articleId, paren
                   <span className={styles.recommentGenLocalInfo}>{recomment.gen}기 {recomment.local}</span>
                   {recomment.nickName ? <span className={styles.recommentnickName}>{recomment.nickName}</span> : <span className={styles.recommentnickName}>익명</span>}
                 </div>
-                <div className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} /><div>{recomment.createTime?.slice(0, 10)}</div></div>
+                {/* <div className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} /><div>{recomment.createTime?.slice(0, 10)}</div></div> */}
               </div>
             </div>
     
@@ -104,6 +103,7 @@ export default function RecommentsView({ recomment, getComment, articleId, paren
           </div>
         
         </div>
+        <hr />
       </>
     )
   }

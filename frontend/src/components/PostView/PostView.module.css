@@ -2,11 +2,12 @@
   width: 95%;
   height: 35px;
   margin: 5px auto;
+  /* padding: 0 0 2px 0; */
 
   display: flex;
   justify-content: space-between;
   border: 1px solid rgba(128, 128, 128, 0.315);
-  border-width: 1px 0 0 0 ;
+  border-width: 0 0 1px 0 ;
 
   /* border: 1px dotted red; */
 }
@@ -22,8 +23,9 @@
 
 .postContainerB {
   display: flex;
+  justify-content: space-between;
   margin: 8px 0 0 0;
-  width: 23%;
+  width: 36.5%;
   text-align: right;
 
   /* border: 1px dotted red; */
@@ -47,6 +49,10 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
 }
 
 .postTitle:hover {
@@ -57,7 +63,7 @@
 }
 
 .postContent {
-  margin: 0 12px 0 0;
+  margin: 0 0 0 0;
 
   color: #757575;
   font-size: 14px;
@@ -89,16 +95,25 @@
 }
 
 #postrecommendBox {
-  width: 15%;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+
+  width: 60px;
   text-align: center;
 
   /* border: 1px aqua dotted; */
 }
 
 #postcreateBox {
-  width: 85px;
+  width: 75px;
+  padding: 0 3px 0 0;
   text-align: center;
   font-size: 12px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   /* border: 1px aqua dotted; */
 }
@@ -112,7 +127,7 @@
 }
 
 #postrecommendBoxsmall {
-  width: 50px;
+  width: 60px;
   text-align: center;
   font-size: 12px;
 
@@ -120,7 +135,7 @@
 }
 
 #postviewBox {
-  /* width: 25%; */
+  width: 70px;
   text-align: center;
 
   /* width 넘어가는 글자들 ... 처리*/
