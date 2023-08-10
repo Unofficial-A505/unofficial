@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import Card from "./Card";
 import Carousel from "./Carousel";
 
-export default function LunchCarousel() {
+export default function LunchCarousel({userLocal}) {
   const [cards, setCards] = useState([]);
   const [lunchData, setLunchData] = useState([]);
 

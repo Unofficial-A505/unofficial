@@ -16,19 +16,38 @@ import { FaCrown } from "@react-icons/all-files/fa/FaCrown";
 
 import { useEffect, useState } from 'react';
 import { bestPostsApi } from '../../api/boards'
+import { useDispatch, useSelector } from "react-redux";
+import customAxios from "../../util/customAxios";
 
 export default function MainPage() {
-  const [ bestPosts, setbestPosts ] = useState("")
+  const [bestPosts, setbestPosts] = useState("")
+  const dispatch = useDispatch()
+  const authUser = useSelector((state) => state.authUser)
+
+  const getUserData = async () => {
+    try {
+      const response = await customAxios.get("/api/users/user");
+      setUserInfo(response.data);
+    } catch (error) {
+      console.error("Error fetching user role", error);
+    }
+  };
+  
+  const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
     bestPostsApi()
       .then((res) => {
-        setbestPosts(res.map((obj)=>{
+        setbestPosts(res.map((obj) => {
           obj.id = obj.articleId
           return obj
         }))
       })
       .catch((err) => console.log(err))
+
+    if (authUser.accessToken) {
+      getUserData();
+    }
   }, [])
   useDocumentTitle("언오피셜");
 
@@ -38,11 +57,11 @@ export default function MainPage() {
       <TopSpace />
       <div className={styles.topContainer}>
         <div className={styles.topLeftContainer}>
-          <LunchCarousel />
+          <LunchCarousel userLocal={userInfo?.local}/>
         </div>
         <div className={styles.topRightContainer}>
           <div className={styles.userMainContainer}>
-            <UserinfoBox />
+            <UserinfoBox userInfo={userInfo} />
           </div>
           <div className={styles.bannerContainer}>
             <EduGrantsButton />
@@ -65,10 +84,10 @@ export default function MainPage() {
             Best 게시글
             <FaCrown className={styles.bestIcons} />
           </div>
-          <BoardView posts={bestPosts} myBoard={true}/>
+          <BoardView posts={bestPosts} myBoard={true} />
         </div>
         <div className={styles.middleRightContainer}>
-          <WeatherinfoApi />
+          <WeatherinfoApi userLocal={userInfo?.local}/>
           <AdVertical />
         </div>
       </div>
