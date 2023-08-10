@@ -1,6 +1,5 @@
 package com.example.Strange505.user.configuration;
 
-
 import com.example.Strange505.user.security.JwtAccessDeniedHandler;
 import com.example.Strange505.user.security.JwtAuthenticationEntryPoint;
 import com.example.Strange505.user.security.JwtAuthenticationFilter;
@@ -70,6 +69,10 @@ public class SecurityConfig {
                 .requestMatchers("/api/best").permitAll()
                 .requestMatchers("/api/verify/**").permitAll()
                 .requestMatchers("/api/ads/active").permitAll()
+                .requestMatchers("/api/swagger-ui/**").permitAll()
+                .requestMatchers("/api/swagger-ui").permitAll()
+                .requestMatchers("/v3/api-docs/swagger-config").permitAll()
+                .requestMatchers("/v3/api-docs").permitAll()
                 .requestMatchers("/api/users").hasRole("ADMIN")
                 .anyRequest().authenticated()
 
