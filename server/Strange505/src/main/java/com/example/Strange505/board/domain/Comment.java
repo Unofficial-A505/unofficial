@@ -3,6 +3,7 @@ package com.example.Strange505.board.domain;
 import com.example.Strange505.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -54,6 +55,9 @@ public class Comment {
 
     public void remove() {
         this.isRemoved = true;
+        if (this.parent != null) { // 자식 댓글이라면 부모 댓글의 자식리스트에서 제외하기
+            this.parent.children.remove(this);
+        }
     }
 
     public List<Comment> findRemovableList() {
