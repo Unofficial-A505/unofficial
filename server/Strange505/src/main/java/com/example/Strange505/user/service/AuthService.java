@@ -62,6 +62,9 @@ public class AuthService {
     public AuthDto.TokenDto reissue(String requestAccessTokenInHeader, String requestRefreshToken) {
         String requestAccessToken = resolveToken(requestAccessTokenInHeader);
 
+        System.out.println("requestRefreshToken "+requestRefreshToken);
+        System.out.println("requestAccessToken "+requestAccessToken);
+
         Authentication authentication = jwtTokenProvider.getAuthentication(requestAccessToken);
         String principal = getPrincipal(requestAccessToken);
 
