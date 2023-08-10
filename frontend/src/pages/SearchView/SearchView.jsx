@@ -141,7 +141,10 @@ export default function SearchView() {
             게시판으로 돌아가기
           </button>
         </div>
-
+        {console.log(searchResults.length)}
+        {searchResults.length == 0 && (
+          <div className={styles.noSearchSentence}>검색된 결과가 없습니다.</div>
+        )}
         <div className={styles.searchcontentBox}>
           <SearchContent searchResults={searchResults} keyword={keyword} />
         </div>
