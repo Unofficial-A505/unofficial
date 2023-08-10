@@ -146,7 +146,7 @@ public class JwtTokenProvider implements InitializingBean {
     public boolean validateAccessToken(String accessToken) {
         try {
             if (redisService.getValues(accessToken) != null // NPE 방지
-                    && redisService.getValues(accessToken).equals("logout")) { // 로그아웃 했을 경우
+                   /* && redisService.getValues(accessToken).equals("logout") */) { // 로그아웃 했을 경우
                 return false;
             }
             Jwts.parserBuilder()
