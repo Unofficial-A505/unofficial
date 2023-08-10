@@ -6,6 +6,7 @@ import PostView from '../PostView/PostView'
 
 export default function BoardView({ posts, searchView, keyword, myBoard, boardId }){
   if (!posts) { posts = [] }
+  console.log('best posts', posts)
 
   const [ currentPage, setCurrentPage ] = useState(1);
   const pageSize = 10;

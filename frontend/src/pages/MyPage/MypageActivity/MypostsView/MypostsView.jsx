@@ -1,6 +1,7 @@
 import styles from "./MypostsView.module.css";
 
 import BoardView from "../../../../components/BoardView/BoardView";
+import PostTypeTitleBar from "../../../../components/PostTypeTitleBar/PostTypeTitleBar";
 import { useEffect, useState } from "react";
 import customAxios from "../../../../util/customAxios";
 import { PaginationControl } from "react-bootstrap-pagination-control";
@@ -35,6 +36,7 @@ export default function MypostsView() {
           </div>
           {/* <p style={{color:'#282828'}}>가입한지 <span style={{color:'#034BB9', fontSize:'1.2rem', fontWeight:'600'}}>+{ date }일</span></p> */}
         </div>
+        <PostTypeTitleBar />
         {!myPosts.length ? (
           <p className="ms-3 mt-4">아직 작성한 게시글이 없습니다.</p>
         ) : (

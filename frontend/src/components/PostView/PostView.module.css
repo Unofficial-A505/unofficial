@@ -41,6 +41,16 @@
   /* border: 1px dotted red; */
 }
 
+.postContainerD {
+  display: flex;
+  justify-content: space-between;
+  margin: 8PX 18px 0 0;
+  width: 26.5%;
+  text-align: right;
+
+  /* border: 1px dotted red; */
+}
+
 .posttitleBox {
   display: flex;
 }
@@ -159,7 +169,7 @@
   text-align: center;
   font-size: 12px;
 
-  /* border: 1px aqua dotted; */
+  border: 1px aqua dotted;
 }
 
 #postrecommendBoxsmall {
@@ -167,7 +177,7 @@
   text-align: center;
   font-size: 12px;
 
-  /* border: 1px aqua dotted; */
+  border: 1px aqua dotted;
 }
 
 #postviewBox {
@@ -184,8 +194,8 @@
 }
 
 #postviewBoxsmall {
-  width: 110px;
-  text-align: start;
+  width: 50px;
+  text-align: center;
   font-size: 12px;
 
   /* width 넘어가는 글자들 ... 처리*/
@@ -193,7 +203,7 @@
   overflow: hidden;
   white-space: nowrap;
 
-  /* border: 1px dotted red; */
+  border: 1px dotted red;
 }
 
 #postviewBoxSearch {
