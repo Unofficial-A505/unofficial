@@ -38,10 +38,12 @@ export default function PostView({ post, boardId, searchView, keyword, myBoard }
 
         </div>
         <div className={styles.postContainerB}>
-          <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}>{post.commentCount}</div>
+          <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}>{post.commentsCount}</div>
           <div className={styles.postContent} id={myBoard?styles.postcreateBoxsmall:styles.postcreateBox}>{myBoard?post.createTime:format(post.createTime, 'ko')}</div>
-          <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}><FaRegThumbsUp className={styles.postIcon}/>{post.likes}</div>
-          <div className={styles.postContent} id={myBoard?styles.postviewBoxsmall:styles.postviewBox}>조회수 {post.views}</div>
+          <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}>
+            {/* <FaRegThumbsUp className={styles.postIcon}/> */}
+            {post.likes}</div>
+          <div className={styles.postContent} id={myBoard?styles.postviewBoxsmall:styles.postviewBox}>{post.views}</div>
         </div>
       </div>
     </>

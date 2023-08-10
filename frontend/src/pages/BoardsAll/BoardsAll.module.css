@@ -184,6 +184,8 @@ div .slick-list {
 .boardsviewContainer {
   width: 1180px;
   display: flex;
+
+  /* border: 1px dotted red; */
 }
 
 .boardcontainer{
@@ -268,7 +270,9 @@ div .slick-list {
 
 /* Content Outlet */
 .boardsPostsContainer {
-  margin: 10px 0 30px 0;
+  margin: 10px 0 15px 0;
+
+  /* border: 1px dotted blue; */
 }
 
 .pagination {

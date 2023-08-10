@@ -29,7 +29,7 @@ export default function BestpostsWidget(){
       <div className={styles.bestpostsContainer}>
         {posts.map((post, index) => 
           <div key={index} className={styles.bestpostContents}>
-            <span className={styles.bestboardTitles} onClick={() => {navigate(`/boards/${post.boardId}`)}}>{post.boardName}</span>
+            <span className={styles.bestboardTitles} onClick={() => {navigate(`/boards/${post.boardId}`)}}>{post.boardName?.slice(0, -3)}</span>
             <span title={post.title} className={styles.bestcontentTitles} onClick={() => navigate(`/boards/${post.boardId}/${post.articleId}`)}>{post.title}</span>
           </div>
         )}

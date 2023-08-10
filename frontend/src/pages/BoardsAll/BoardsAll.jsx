@@ -110,73 +110,73 @@ export default function BoardsAll() {
             </div>
           </div>
           
-            <div className={styles.boardtabContainer}>
-              <div>
-                {boardNames.map((board, index) => (
-                  <button
-                    key={index}
-                    className={
-                      board.id == boardId
-                        ? styles.boardtabSelected
-                        : styles.boardtab
-                    }
-                    onClick={() =>
-                      navigate(`/boards/${board.id}`, { state: board.name })
-                    }
-                  >
-                    {board.name}
-                  </button>
-                ))}
-              </div>
-              <div className={styles.postcreateContainer}>
+          <div className={styles.boardtabContainer}>
+            <div>
+              {boardNames.map((board, index) => (
                 <button
-                  className={styles.createpageButton}
-                  onClick={() => navigate(`/boards/${boardId}/create`, { state : currboardName })}
+                  key={index}
+                  className={
+                    board.id == boardId
+                      ? styles.boardtabSelected
+                      : styles.boardtab
+                  }
+                  onClick={() =>
+                    navigate(`/boards/${board.id}`, { state: board.name })
+                  }
                 >
-                  <CgAddR className={styles.createpageIcon} size="20" />새 글 작성
+                  {board.name}
+                </button>
+              ))}
+            </div>
+            <div className={styles.postcreateContainer}>
+              <button
+                className={styles.createpageButton}
+                onClick={() => navigate(`/boards/${boardId}/create`, { state : currboardName })}
+              >
+                <CgAddR className={styles.createpageIcon} size="20" />새 글 작성
+              </button>
+            </div>
+          </div>
+
+          <div className={styles.boardsPostsContainer}>
+            <Outlet />
+          </div>
+
+          <div className={styles.boardBottomBar}>
+            <form className={styles.searchboxhere}>
+              <p>{currboardName} 검색</p>
+              <div className={styles.searchInputBox}>
+                <input
+                  className={styles.search}
+                  id={styles.here}
+                  type="text"
+                  placeholder={boardsearchMessage}
+                  onChange={(e) => {
+                    setKeywordBoard(e.target.value);
+                  }}
+                />
+                <button
+                  className={styles.searchbutton}
+                  onClick={() => {
+                    navigate(`/boards/${boardId}/search/${keywordBoard}`);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                >
+                  <FiSearch />
                 </button>
               </div>
-            </div>
+            </form>
+          </div>
+        </div>
 
-            <div className={styles.boardsPostsContainer}>
-              <Outlet />
-            </div>
-
-            <div className={styles.boardBottomBar}>
-              <form className={styles.searchboxhere}>
-                <p>{currboardName} 검색</p>
-                <div className={styles.searchInputBox}>
-                  <input
-                    className={styles.search}
-                    id={styles.here}
-                    type="text"
-                    placeholder={boardsearchMessage}
-                    onChange={(e) => {
-                      setKeywordBoard(e.target.value);
-                    }}
-                  />
-                  <button
-                    className={styles.searchbutton}
-                    onClick={() => {
-                      navigate(`/boards/${boardId}/search/${keywordBoard}`);
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-                    }}
-                  >
-                    <FiSearch />
-                  </button>
-                </div>
-              </form>
+        <div className={styles.sideviewContainer}>
+          <div className={styles.sideContentContainer}>
+            <div className={styles.sidecontentmiddleBox}>
+              <BestpostsWidget />
+              <ServerTime />
             </div>
           </div>
-
-          <div className={styles.sideviewContainer}>
-            <div className={styles.sideContentContainer}>
-              <div className={styles.sidecontentmiddleBox}>
-                <BestpostsWidget />
-                <ServerTime />
-              </div>
-            </div>
-          </div>
+        </div>
 
       </div>
 

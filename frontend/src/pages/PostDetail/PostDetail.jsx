@@ -5,8 +5,10 @@ import { useParams, useNavigate, Navigate } from "react-router-dom";
 
 import BoardView from "../../components/BoardView/BoardView";
 import CommentView from "../../components/CommentView/CommentView";
+import RecommentsView from "../../components/RecommentsView/RecommentsView";
 import BestpostsWidget from "../../components/BestpostsWidget/BestpostsWidget";
 import ServerTime from "../../components/ServerTime/ServerTime";
+import PostTypeTitleBar from "../../components/PostTypeTitleBar/PostTypeTitleBar";
 
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
@@ -86,20 +88,21 @@ export default function PostDetail() {
 
     // 게시글 상세정보 가져오기
     postDetailApi(postId)
-      .then((res) => {
-        console.log(res)
-        setpostDetail(res);
-        setBoardTitle(res.boardName);
-      })
-      .catch((err) => console.log(err));
+    .then((res) => {
+      console.log(res)
+      setpostDetail(res);
+      setBoardTitle(res.boardName);
+
+      getComment();
+    })
+    .catch((err) => console.log(err));
 
     window.scrollTo({ top: 0, behavior: "smooth" });
-    getComment();
 
     // 현재 board 게시글
     boardsArticles(boardId)
-      .then((res) => setcurrboardPosts(res.content))
-      .catch((err) => console.log(err));
+    .then((res) => setcurrboardPosts(res.content))
+    .catch((err) => console.log(err));
 
     return () => {
       console.log("unmounted");
@@ -320,16 +323,22 @@ export default function PostDetail() {
 
           <div className={styles.postContainer}>
             <hr />
-            {comments.map((comment, index) => (
-              <div key={index}>
+            {comments.map((comment, index) => {
+              if (!comment.parentId) {
+              return(<div key={index}>
                 <CommentView
                   comment={comment}
                   commentUpdate={commentUpdate}
                   getComment={getComment}
-                  articleId={postId}
                 />
-              </div>
-            ))}
+              </div>);
+           } else {
+            return (<div key={index}>
+              <RecommentsView recomment={comment} parentId={comment.parentId} getComment={getComment} articleId={comment.articleId}/>
+            </div>
+            );
+           }
+           })}
           </div>
           <div>
             <nav className={styles.commentPagination} aria-label="...">
@@ -396,6 +405,7 @@ export default function PostDetail() {
               <IoIosArrowForward />
             </button>
           </div>
+          <PostTypeTitleBar />
           <BoardView posts={currboardPosts} boardId={boardId} />
         </span>
 

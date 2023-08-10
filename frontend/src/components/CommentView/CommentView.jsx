@@ -18,14 +18,14 @@ import koLocale from 'timeago.js/lib/lang/ko' //한국어 선택
 
 register('ko', koLocale)
 
-export default function CommentView({ comment, commentUpdate, getComment, articleId}){
+export default function CommentView({ comment, commentUpdate, getComment}){
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [ updateState, setupdateState ] = useState(false)
   const [ recommentBox, setrecommentBox ] = useState(false)
   const [ recomments, setreComments ] = useState('')
   const [ recommentNickname, setrecommentNickname ] = useState('')
-  const updateContent = useRef('')
-  const { id, isUser, children } = comment
+  const updateContent = useRef('') 
+  const { id, isUser, children, articleId } = comment
 
   // 댓글 삭제
   const CommentDelete = (id) => {
@@ -62,7 +62,6 @@ export default function CommentView({ comment, commentUpdate, getComment, articl
         .catch((err) => console.log(err));
       };
     }
-
 
   if (!updateState) {
     return(
@@ -117,9 +116,9 @@ export default function CommentView({ comment, commentUpdate, getComment, articl
           </div>
         </div>}
         
-        {comment.children.map((recomment, index) => 
+        {/* {comment.children.map((recomment, index) => 
           <RecommentsView key={index} recomment={recomment} parentId={comment.id} getComment={getComment} articleId={articleId}/>
-        )}
+        )} */}
 
         <hr />
   
@@ -132,7 +131,7 @@ export default function CommentView({ comment, commentUpdate, getComment, articl
           <div className={styles.commentTitle}>
             <span className={styles.recommentGenLocalInfo}>{comment.gen}기 {comment.local}</span>
             {comment.nickName ? <span className={styles.recommentnickName}>{comment.nickName}</span> : <span className={styles.recommentnickName}>익명</span>}
-            <span className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} />{comment.createTime?.slice(0, 10)}</span>
+            {/* <span className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} />{comment.createTime?.slice(0, 10)}</span> */}
           </div>
         </div>
         
@@ -151,39 +150,10 @@ export default function CommentView({ comment, commentUpdate, getComment, articl
           <button className={styles.updateButtons} onClick={() => setupdateState((prev) => !prev)}>취소</button>
         </div>
         
-        {comment.children.map((recomment, index) => 
+        {/* {comment.children.map((recomment, index) => 
           <RecommentsView key={index} recomment={recomment}/>
-        )}
-
-        <hr />
+        )} */}
   
       </div>
   )}
 }
-
-// default
-// return(
-//   <div className={styles.commentContainer}>
-//     <div className={styles.commentTopbar}>
-//       <div>
-//         <span className={styles.commentTitle}>9기 구미</span>
-//         <span className={styles.commentcreateTimeago}><IoRocketOutline className={styles.commentIcons} />15분 전</span>
-//       </div>
-//       <div>
-//       </div>
-//     </div>
-
-//     <div className={styles.commentContent}>{comment.content}</div>
-
-//     <div className={styles.commentBottombar}>
-//       <div><IoChatboxOutline className={styles.commentIcons}/><span>대댓글</span></div>
-//       {/* <div><FaRegThumbsUp className={styles.commentIcons}/><span>{commentRecommended}</span></div> */}
-//       <div>
-//         <span className={styles.commentIcons} ><HiOutlinePencilAlt size='20'/></span>
-//         <span className={styles.commentIcons} onClick={CommentDelete}><IoTrashOutline size='20'/></span>
-//       </div>
-//     </div>
-//     <hr />
-
-//   </div>
-// )}

@@ -24,22 +24,29 @@
   height: 45px;
   margin: 0 auto;
 
-
+  cursor: pointer;
   /* border: 1px dotted red; */
+  /* transition: all 5s; */
 }
 
 .paginationNumBox {
   /* flex: 1; */
-  width: 45px;
-  height: 35px;
-  margin: 10px 0 5px 0; 
+  width: 30px;
+  height: 30px;
+  margin: 5px 3px 0 3px; 
   /* margin: 0 auto; */
   /* border: 1px solid red; */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .paginationNum {
   text-decoration: none;
   color: #757575;
+
+  padding: 0 0 3px 0;
 }
 
 .paginationNum:hover {
@@ -48,14 +55,22 @@
 
 /* 현재 선택된 페이지 */
 .paginationNumBoxcurr {
-  /* width: 50px; */
-  height: 45px;
-  margin: 10px 0 0 0; 
-  background-color: black;
-  border: 1px solid red;
+  width: 30px;
+  height: 30px;
+  margin: 5px 3px 0 3px; 
+  background-color: #034BB9;
+  /* border: 1px solid red; */
+  border-radius: 100px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
 }
 
 .paginationNumcurr {
   text-decoration: none;
   color: white;
+
+  padding: 0 0 3px 0;
 }

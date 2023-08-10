@@ -4,6 +4,7 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { boardsArticles } from "../../../api/boards"
 import PostsView from "../../../components/PostView/PostView";
 import Pagination from "../../../components/Pagination/Pagination";
+import PostTypeTitleBar from "../../../components/PostTypeTitleBar/PostTypeTitleBar";
 
 export default function BoardsView() {
   const [ posts, setPosts ] = useState(null);
@@ -38,6 +39,8 @@ export default function BoardsView() {
   if (posts) {
     return (
       <div>
+        <PostTypeTitleBar />
+
         {
         posts.map((post, index) => (
           <PostsView key={index} boardTitle={boardTitle} post={post} boardId={boardId} currPage={currPage} />
@@ -45,7 +48,7 @@ export default function BoardsView() {
         }
 
         <div className={styles.paginationContainer}>
-          <Pagination totalPages={pageInfo.totalPages} paginate={paginate}/>
+          <Pagination totalPages={pageInfo.totalPages} paginate={paginate} currPage={currPage}/>
         </div>
 
       </div>
