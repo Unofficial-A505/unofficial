@@ -44,7 +44,7 @@ customAxios.interceptors.response.use(
         { headers: { 
           REFRESH_TOKEN: refreshToken,
           Authorization: originalRequest.Authorization
-        } }
+        }}
       ).catch(()=> {
         alert("로그인 해주세요")
         store.dispatch(setAccessToken(""))
@@ -57,6 +57,12 @@ customAxios.interceptors.response.use(
           setAccessToken(res.data.accessToken)
         ); // Dispatch an action to update the access token in Redux
         return customAxios(originalRequest);
+      } else {
+        axios.post(process.env.REACT_APP_SERVER+`/api/auth/logout`),
+        { params: {} },
+        { headers: { 
+          Authorization: originalRequest.Authorization
+        }}.catch((err)=>console.log(err))
       }
     }
     return Promise.reject(error);
