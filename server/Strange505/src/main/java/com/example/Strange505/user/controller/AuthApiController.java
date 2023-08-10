@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -78,9 +79,9 @@ public class AuthApiController {
     // 토큰 재발급
     @PostMapping("/reissue")
 //    public ResponseEntity<?> reissue(@CookieValue(name = "refresh-token") String requestRefreshToken,
-    public ResponseEntity<?> reissue(@RequestHeader(name = "Refresh_token") String requestRefreshToken,
-                                     @RequestHeader("Authorization") String requestAccessToken) {
-        System.out.println(requestRefreshToken);
+    public ResponseEntity<?> reissue(@RequestHeader() Map<String, String> headers) {
+        String requestAccessToken = headers.get("authorization");
+        String requestRefreshToken = headers.get("refresh_token");
         AuthDto.TokenDto reissuedTokenDto = authService.reissue(requestAccessToken, requestRefreshToken);
 
         if (reissuedTokenDto != null) { // 토큰 재발급 성공
