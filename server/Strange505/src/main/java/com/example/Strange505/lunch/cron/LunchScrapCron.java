@@ -27,16 +27,28 @@ public class LunchScrapCron {
         List<Lunch> lunches = localScraper.getWeeklyMenu();
         updateMenu(lunches);
 
-        localScraper = new GumiScraper();
-        lunches = localScraper.getWeeklyMenu();
-        updateMenu(lunches);
-
         localScraper = new BusanScraper();
         lunches = localScraper.getWeeklyMenu();
         updateMenu(lunches);
 
+    }
+
+    @Scheduled(cron = "0 0 23 ? * FRI", zone = "Asia/Seoul")
+    public void cronJobNextWeek2() throws Exception {
+        localScraper = new SeoulScraper();
+        List<Lunch> lunches = localScraper.getDailyMenu(DateUtil.getNextMonday(0));
+        updateMenu(lunches);
+
+        localScraper = new GumiScraper();
+        lunches = localScraper.getDailyMenu(DateUtil.getNextMonday(0));
+        updateMenu(lunches);
+
+        localScraper = new BusanScraper();
+        lunches = localScraper.getDailyMenu(DateUtil.getNextMonday(0));
+        updateMenu(lunches);
+
         localScraper = new GwangjuScraper();
-        lunches = localScraper.getWeeklyMenu();
+        lunches = localScraper.getDailyMenu(DateUtil.getNextMonday(0));
         updateMenu(lunches);
 
     }
