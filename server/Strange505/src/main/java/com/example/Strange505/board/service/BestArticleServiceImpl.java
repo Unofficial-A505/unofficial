@@ -3,6 +3,7 @@ package com.example.Strange505.board.service;
 import com.example.Strange505.board.domain.BestArticle;
 import com.example.Strange505.board.dto.BestArticleResponseDto;
 import com.example.Strange505.board.repository.BestArticleRepository;
+import com.example.Strange505.board.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.List;
 public class BestArticleServiceImpl implements BestArticleService{
 
     private final BestArticleRepository bestArticleRepository;
+    private final CommentRepository commentRepository;
 
     @Override
     public List<BestArticleResponseDto> getAllBestArticles() {
@@ -29,7 +31,9 @@ public class BestArticleServiceImpl implements BestArticleService{
                         findBestArticle.getArticle().getUser().getLocal(),
                         findBestArticle.getArticle().getBoard().getId(),
                         findBestArticle.getArticle().getBoard().getName(),
-                        findBestArticle.getArticle().getId()))
+                        findBestArticle.getArticle().getId(),
+                        commentRepository.getCountByArticle(findBestArticle.getArticle().getId()),
+                        findBestArticle.getArticle().getCreateTime()))
                 .toList();
         return result;
     }
