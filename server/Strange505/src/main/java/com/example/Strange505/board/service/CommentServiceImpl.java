@@ -105,7 +105,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public PageResponseDto<CommentResponseDto> getCommentByArticle(Long articleId, String email, Pageable pageable) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
-        Page<Comment> repoList = commentRepository.searchByArticle(articleId, pageable);
+        Page<Comment> repoList = commentRepository.searchByArticle(articleId, pageable); // 삭제된 댓글은 안불러옴!!!
         List<CommentResponseDto> list = new ArrayList<>();
 
         for (Comment c :
@@ -150,6 +150,7 @@ public class CommentServiceImpl implements CommentService {
                     .local(c.getUser().getLocal())
                     .isUser(checkUser(c.getUser().getId(), currUser.getId()))
                     .orderId(c.getId() * 1000L)
+                    .hasChildren(c.getChildren().size() > 0) // 자식 댓글이 있다면 true 반환
                     .createTime(c.getCreateTime())
                     .modifyTime(c.getModifyTime())
                     .build());
@@ -161,7 +162,7 @@ public class CommentServiceImpl implements CommentService {
                     comment.getNickName(),
                     comment.getUser().getGen(), comment.getUser().getLocal(),
                     checkUser(comment.getUser().getId(), currUser.getId()),
-                    0L,
+                    0L, false,
                     comment.getCreateTime(), comment.getModifyTime(), null)).toList();
 
             for (int i = 0; i < reComment.size(); i++) { // 자식댓글, 즉 대댓글이라면 부모댓글 * 1000에 차례대로 1씩 더해짐

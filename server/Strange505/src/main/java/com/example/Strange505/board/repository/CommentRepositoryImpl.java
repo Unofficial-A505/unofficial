@@ -33,6 +33,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .select(comment.count())
                 .from(comment)
                 .where(comment.article.id.eq(articleId))
+                .where(comment.isRemoved.isFalse())
                 .fetchOne();
 
         return new PageImpl<>(result, pageable, count);
