@@ -1,11 +1,19 @@
+.boardsAllContainer {
+  width: 1180px;
+  margin: 0 auto;
+  
+  /* border: 1px dotted red; */
+}
+
 .boardsTopContainer {
   height: 120px;
+  /* border: 1px dotted red; */
 }
 
 /* 전체 검색 박스 */
 .searchboxall {
   display: flex;
-  width: 750px;
+  width: 720px;
   margin: 10px auto;
 }
 
@@ -19,8 +27,8 @@
 
 .searchInputBox {
   position: relative;
-  margin: 0 10px 0 0;
-  width: 600px;
+  margin: 0 20px 0 0;
+  width: 580px;
   /* height: 50px; */
 
   border: 1px solid #757575;
@@ -28,7 +36,7 @@
 }
 
 #all {
-  height: 45px;
+  height: 40px;
 }
 
 .search {
@@ -117,9 +125,9 @@ div .slick-list {
 
 /* 광고 container */
 .advContainer {
-  margin: 30px auto;
+  margin: 35px auto;
 
-  width: 920px;
+  width: 840px;
   height: 120px;
 }
 
@@ -136,7 +144,7 @@ div .slick-list {
 
 #here {
   width: 94%;
-  height: 45px;
+  height: 40px;
 }
 
 .searchboxhere p {
@@ -173,8 +181,13 @@ div .slick-list {
 }
 
 /* board 전체 컨테이너*/
+.boardsviewContainer {
+  width: 1180px;
+  display: flex;
+}
+
 .boardcontainer{
-  width: 1200px;
+  width: 920px;
   margin: 0 auto;
   /* border: 1px dotted green; */
 }
@@ -272,7 +285,28 @@ div .slick-list {
   display: flex;
   justify-content: space-between;
 
-  width: 1176px;
+  width: 820px;
+  margin: 0 auto;
   /* border: 1px dotted gray; */
 }
 
+
+/* 사이드바 */
+.sideviewContainer {
+  position: sticky;
+  width: 260px;
+  /* border: 1px red dotted; */
+}
+
+.sideContentContainer {
+  position: sticky;
+  right: 1%;
+  top: 3%;
+  /* border: 1px dotted violet; */
+}
+
+.sidecontentmiddleBox {
+  width: 260px;
+  margin: 0 auto;
+  /* border: 1px dotted orangered; */
+}

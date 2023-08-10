@@ -1,26 +1,39 @@
 .paginationContainer {
-  width: 500px;
-  height: 50px;  
+  /* width: 500px; */
+
+  /* 변수 정의 */
+  --width: 100px;
+
+  width: var(--width);
+
+  display: flex;
+  height: 45px;  
   margin: 0 auto;
 
-  border: 1px solid #7575752f;
+  border: 1px solid #75757570;
   border-radius: 3rem;
+
+  /* border: 1px dotted red; */
 }
 
 .paginationNumsContainer {
   display: flex;
 
-  width: 400px;
+  /* width: 400px; */
+  width: auto;
   height: 45px;
   margin: 0 auto;
 
-  /* border: 1px dotted aqua; */
+
+  /* border: 1px dotted red; */
 }
 
 .paginationNumBox {
-  width: 50px;
-  height: 45px;
-  margin: 10px 0 0 0; 
+  /* flex: 1; */
+  width: 45px;
+  height: 35px;
+  margin: 10px 0 5px 0; 
+  /* margin: 0 auto; */
   /* border: 1px solid red; */
 }
 
@@ -35,7 +48,7 @@
 
 /* 현재 선택된 페이지 */
 .paginationNumBoxcurr {
-  width: 50px;
+  /* width: 50px; */
   height: 45px;
   margin: 10px 0 0 0; 
   background-color: black;

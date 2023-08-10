@@ -101,7 +101,7 @@
   width: 820px;
   overflow-x: auto;
 
-  border: 1px dotted green;
+  /* border: 1px dotted green; */
 }
 
 .postBottombar {
@@ -268,8 +268,8 @@ textarea:focus {
 
 .sideviewContainer {
   position: sticky;
-  width: 280px;
-  border: 1px red dotted;
+  width: 260px;
+  /* border: 1px red dotted; */
 }
 
 .sideContentContainer {
@@ -280,7 +280,7 @@ textarea:focus {
 }
 
 .sidecontentmiddleBox {
-  width: 280px;
+  width: 260px;
   margin: 0 auto;
   /* border: 1px dotted orangered; */
 }

@@ -1,4 +1,4 @@
-import styles from "./BoardsView.module.css";
+import styles from './BoardsView.module.css';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { boardsArticles } from "../../../api/boards"
@@ -29,6 +29,7 @@ export default function BoardsView() {
   const indexOfFirstPost = indexOfLastPost - postPerPage;
   // const currentPosts = posts?.slice(indexOfFirstPost, indexOfLastPost)
 
+
   const paginate = (pageNum) => {
     console.log('pageNum', pageNum)
     setcurrPage(pageNum)
@@ -42,8 +43,10 @@ export default function BoardsView() {
           <PostsView key={index} boardTitle={boardTitle} post={post} boardId={boardId} currPage={currPage} />
         ))
         }
-      
-        <Pagination totalPages={pageInfo.totalPages} paginate={paginate}/>
+
+        <div className={styles.paginationContainer}>
+          <Pagination totalPages={pageInfo.totalPages} paginate={paginate}/>
+        </div>
 
       </div>
     );
