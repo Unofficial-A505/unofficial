@@ -8,8 +8,6 @@ import CommentView from "../../components/CommentView/CommentView";
 import BestpostsWidget from "../../components/BestpostsWidget/BestpostsWidget";
 import ServerTime from "../../components/ServerTime/ServerTime";
 
-import TopSpace from "../../components/TopSpace/TopSpace";
-
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
 // 작성 timeago 아이콘
@@ -75,6 +73,7 @@ export default function PostDetail() {
       url: `/api/comments/article/${postId}`,
     })
       .then((res) => {
+        console.log('comments', res.data.content)
         setComments(res.data.content);
         setCommentsInfo(res.data);
       })
@@ -88,6 +87,7 @@ export default function PostDetail() {
     // 게시글 상세정보 가져오기
     postDetailApi(postId)
       .then((res) => {
+        console.log(res)
         setpostDetail(res);
         setBoardTitle(res.boardName);
       })
@@ -194,11 +194,16 @@ export default function PostDetail() {
 
   return (
     <>
-      <TopSpace />
       <div className={styles.postdetailallContainer}>
         <span className={styles.postviewContainer}>
+          
           <div className={styles.postTopbar}>
-            <span className={styles.boardTitle}>{postDetail.boardName}</span>
+            <span className={styles.boardTitle}
+            onClick={() =>
+              navigate(`/boards/${postDetail.boardId}`, {
+                state: postDetail.boardId,
+              })
+            }>{postDetail.boardName}</span>
             <button
               className={styles.grayoutbutton}
               onClick={() =>
@@ -211,11 +216,12 @@ export default function PostDetail() {
               목록으로 돌아가기
             </button>
           </div>
+
           <div className={styles.postContainer}>
             <div>
               <div className={styles.postTitle}>{postDetail.title}</div>
               <div className={styles.postusername}>
-                {!postDetail.nickName ? "익명" : postDetail.nickName}
+                <span>{postDetail.local} {postDetail.gen}기</span><span> {postDetail.nickName}</span>
               </div>
               <div className={styles.dateViews}>
                 <div className={styles.posttimeago}>
@@ -257,15 +263,15 @@ export default function PostDetail() {
                     }
                     className={styles.postupdateBottomtab}
                   >
-                    <HiOutlinePencilAlt size="15" />
-                    update
+                    <HiOutlinePencilAlt className={styles.tabupIcon} />
+                    수정하기
                   </div>
                   <div
                     onClick={postDelete}
                     className={styles.postupdateBottomtab}
                   >
-                    <IoTrashOutline size="15" />
-                    delete
+                    <IoTrashOutline className={styles.tabupIcon} />
+                    삭제하기
                   </div>
                   {/* <div className={styles.postupdateBottomtab}><HiOutlineSpeakerphone />공지로 설정하기</div> */}
                 </div>
@@ -274,6 +280,7 @@ export default function PostDetail() {
 
             <hr />
           </div>
+
           <div className={styles.commentInputContainer}>
             <div className={styles.commentTitle}>
               <p>

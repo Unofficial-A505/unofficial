@@ -1,12 +1,14 @@
 .commentContainer {
   width: 100%;
+  /* border: 1px dotted red; */
 }
 
 .commentTopbar {
-  margin: 5px 20px;
+  margin: 5px 20px 15px 20px;
 
   display: flex;
   justify-content: space-between;
+  /* border: 1px dotted red; */
 }
 
 .commentTitle {
@@ -17,45 +19,48 @@
   line-height: normal;
 }
 
-.recommentGenLocalInfo {
-  margin: 0 7px 0 0;
-  /* border: 1px dotted red; */
+.commentGenLocalInfo {
+  margin: 0 6px 0 0;
 }
 
-.recommentnickName {
-  width: 150px;
+.commentnickName {
+  margin: 0 0 3px 0;
   /* border: 1px dotted red; */
 }
 
 .commentcreateTimeago {
-  margin: 0 10px;
+  margin: 0 10px 5px 10px;
   color: #3e3e3e;
+}
+
+.commentContent {
+  margin: 0 20px;
+  /* border: 1px dotted red; */
 }
 
 /* 수정하기, 삭제하기 아이콘 */
 .commentIcons {
-  margin: 10px 5px;
+  margin: 0 4px 3px 0;
   cursor: pointer;
 }
 
 /* 수정하기 삭제하기 텍스트 위치 조정*/
 .updatetextPosition {
-  margin: 30px 0 0 0;
+  margin: 30px 0 0 10px;
+  /* border: 1px dotted red; */
 }
 
-.commentContent {
-  margin: 0 20px;
-}
 
 .recommentButton {
   cursor: pointer;
 }
 
 .commentBottombar {
-  margin: 10px 40px 0 15px;
+  margin: 10px 20px 0 20px;
 
   display: flex;
   justify-content: space-between;
+  /* border: 1px dotted red; */
 }
 
 /* comment update 상태 스타일링 */
@@ -120,9 +125,7 @@ textarea::-webkit-scrollbar-track {
 }
 
 .recommentNicknameBox {
-  width: 90%;
   margin: 0 auto;
-  height: 35px;
   /* border: 1px dotted red; */
 }
 
