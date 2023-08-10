@@ -35,7 +35,9 @@ export default function UserinfoBox() {
         console.error("Error fetching user role", error);
       }
     };
-    getUserData();
+    if (authUser.accessToken) {
+      getUserData();
+    }
   }, []);
 
   const logout = () => {

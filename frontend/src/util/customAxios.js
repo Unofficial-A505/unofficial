@@ -27,10 +27,11 @@ customAxios.interceptors.response.use(
     return response;
   },
   async (error) => {
-    console.log(error);
+    const state = store.getState();
+    console.log("error", error);
     const originalRequest = error.config;
     if (
-      (error.response?.status === 404 || error.response?.status === 401) &&
+      (error.response?.status === 401) &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
@@ -40,19 +41,21 @@ customAxios.interceptors.response.use(
       const res = await axios.post(
         `${process.env.REACT_APP_SERVER}/api/auth/reissue`,
         { params: {} },
-        { headers: { REFRESH_TOKEN: refreshToken } }
+        { headers: { 
+          REFRESH_TOKEN: refreshToken,
+          Authorization: originalRequest.Authorization
+        } }
       ).catch(()=> {
-        alert("로그인 만료")
+        alert("로그인 해주세요")
         store.dispatch(setAccessToken(""))
         store.dispatch(setAuthUserEmail(""))
         localStorage.setItem("REFRESH_TOKEN","")
-        window.document.location.href("/")
+        window.document.location.href="/"
       });
-      if (res.status === 201) {
-        store.dispatch({
-          type: "UPDATE_ACCESS_TOKEN",
-          payload: res.data.accessToken,
-        }); // Dispatch an action to update the access token in Redux
+      if (res.status === 200) {
+        store.dispatch(
+          setAccessToken(res.data.accessToken)
+        ); // Dispatch an action to update the access token in Redux
         return customAxios(originalRequest);
       }
     }

@@ -78,7 +78,7 @@ public class AuthApiController {
     // 토큰 재발급
     @PostMapping("/reissue")
 //    public ResponseEntity<?> reissue(@CookieValue(name = "refresh-token") String requestRefreshToken,
-    public ResponseEntity<?> reissue(@RequestHeader(name = "REFRESH_TOKEN") String requestRefreshToken,
+    public ResponseEntity<?> reissue(@RequestHeader(name = "Refresh_token") String requestRefreshToken,
                                      @RequestHeader("Authorization") String requestAccessToken) {
         System.out.println(requestRefreshToken);
         AuthDto.TokenDto reissuedTokenDto = authService.reissue(requestAccessToken, requestRefreshToken);
