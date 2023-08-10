@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from "./MainPage.module.css";
 import BoardView from "../../components/BoardView/BoardView";
 import UserinfoBox from "../../components/UserinfoBox/UserinfoBox";
@@ -14,15 +15,17 @@ import useDocumentTitle from "../../useDocumentTitle";
 
 import { FaCrown } from "@react-icons/all-files/fa/FaCrown";
 
-import { useEffect, useState } from 'react';
-import { bestPostsApi } from '../../api/boards'
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { bestPostsApi } from "../../api/boards";
+import { useSelector } from "react-redux";
 import customAxios from "../../util/customAxios";
 
 export default function MainPage() {
-  const [bestPosts, setbestPosts] = useState("")
-  const dispatch = useDispatch()
-  const authUser = useSelector((state) => state.authUser)
+  useDocumentTitle("언오피셜");
+
+  const [bestPosts, setbestPosts] = useState("");
+  const authUser = useSelector((state) => state.authUser);
+  const [userInfo, setUserInfo] = useState({});
 
   const getUserData = async () => {
     try {
@@ -32,32 +35,30 @@ export default function MainPage() {
       console.error("Error fetching user role", error);
     }
   };
-  
-  const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
     bestPostsApi()
       .then((res) => {
-        setbestPosts(res.map((obj) => {
-          obj.id = obj.articleId
-          return obj
-        }))
+        setbestPosts(
+          res.map((obj) => {
+            obj.id = obj.articleId;
+            return obj;
+          })
+        );
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
 
     if (authUser.accessToken) {
       getUserData();
     }
-  }, [])
-  useDocumentTitle("언오피셜");
-
+  }, []);
 
   return (
     <section className={styles.mainPage}>
       <TopSpace />
       <div className={styles.topContainer}>
         <div className={styles.topLeftContainer}>
-          <LunchCarousel userLocal={userInfo?.local}/>
+          <LunchCarousel userLocal={userInfo?.local} />
         </div>
         <div className={styles.topRightContainer}>
           <div className={styles.userMainContainer}>
@@ -87,7 +88,7 @@ export default function MainPage() {
           <BoardView posts={bestPosts} myBoard={true} />
         </div>
         <div className={styles.middleRightContainer}>
-          <WeatherinfoApi userLocal={userInfo?.local}/>
+          <WeatherinfoApi userLocal={userInfo?.local} />
           <AdVertical />
         </div>
       </div>

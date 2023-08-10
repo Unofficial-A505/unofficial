@@ -7,15 +7,24 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
 export default function WeatherWidget({userLocal}) {
-  const cities = ["Seoul", "Daejeon", "Gumi", "Gwangju", "Busan"];
+  userLocal = "대전"
+  const locales = {"서울" : "Seoul", "대전":"Daejeon", "구미":"Gumi", "광주":"Gwangju", "부산":"Busan"};
+  let cities = ["Seoul", "Daejeon", "Gumi", "Gwangju", "Busan"];
   const api_key = "be3211008c87f453651f5f04faa61375";
   const [weatherData, setWeatherData] = useState([]);
 
   useEffect(() => {
     fetchWeatherData();
-  }, []);
+  }, [userLocal]);
 
   const fetchWeatherData = async () => {
+    console.log("user의 local은", userLocal)
+    if (userLocal) {
+      while (locales.userLocal!==cities[0]) {
+        cities = cities.slice(1, 4) + [cities[0]]
+      }
+    }
+    console.log(cities)
     const data = await Promise.all(cities.map(getWeather));
     setWeatherData(data);
   };
