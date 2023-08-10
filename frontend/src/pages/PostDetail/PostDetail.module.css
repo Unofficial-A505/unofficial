@@ -227,7 +227,6 @@ textarea:focus {
 /* comment pagination */
 .commentPagination {
   margin: 0 auto;
-  width: 80px;
 }
 
 .pageBottomtab {

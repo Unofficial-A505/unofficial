@@ -1,7 +1,7 @@
 import styles from "./PostDetail.module.css";
 
 import { useState, useEffect, useDebugValue, useRef } from "react";
-import { useParams, useNavigate, Navigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import BoardView from "../../components/BoardView/BoardView";
 import CommentView from "../../components/CommentView/CommentView";
@@ -9,6 +9,7 @@ import RecommentsView from "../../components/RecommentsView/RecommentsView";
 import BestpostsWidget from "../../components/BestpostsWidget/BestpostsWidget";
 import ServerTime from "../../components/ServerTime/ServerTime";
 import PostTypeTitleBar from "../../components/PostTypeTitleBar/PostTypeTitleBar";
+import Pagination from "../../components/Pagination/Pagination";
 
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
@@ -43,13 +44,14 @@ import {
 import customAxios from "../../util/customAxios";
 import useDocumentTitle from "../../useDocumentTitle";
 
-import {format, register } from 'timeago.js' //임포트하기 register 한국어 선택
+import { format, register } from 'timeago.js' //임포트하기 register 한국어 선택
 import koLocale from 'timeago.js/lib/lang/ko' //한국어 선택
 
 register('ko', koLocale)
 
 // API import
 export default function PostDetail() {
+  const { state : currPage } = useLocation();
   const navigate = useNavigate();
 
   const { boardId } = useParams();
@@ -65,6 +67,12 @@ export default function PostDetail() {
   const [currboardPosts, setcurrboardPosts] = useState([]);
   const [recommendedState, setrecommendedState] = useState(null);
 
+  const [currcommentPage, setcurrcommentPage] = useState(0)
+  const [commentPageInfo, setcommentPageInfo] = useState([])
+
+  const [currpostPage, setcurrpostPage] = useState(0)
+  const [pageInfo, setPageInfo] = useState([])
+
   // 탭 제목 설정하기
   useDocumentTitle(boardTitle);
 
@@ -72,18 +80,22 @@ export default function PostDetail() {
   const getComment = () => {
     customAxios({
       method: "get",
-      url: `/api/comments/article/${postId}`,
+      url: `/api/comments/article/${postId}?page=${currcommentPage}&size=${20}`,
     })
       .then((res) => {
-        console.log('comments', res.data.content)
+        console.log('comments', res.data)
         setComments(res.data.content);
         setCommentsInfo(res.data);
+
+        setcommentPageInfo(res.data.pageInfo)
+        setcurrcommentPage(res.data.pageInfo.page)
       })
       .catch((err) => console.log(err));
   };
 
   useDocumentTitle(boardTitle);
   useEffect(() => {
+    setcurrpostPage(currPage)
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     // 게시글 상세정보 가져오기
@@ -92,7 +104,6 @@ export default function PostDetail() {
       console.log(res)
       setpostDetail(res);
       setBoardTitle(res.boardName);
-
       getComment();
     })
     .catch((err) => console.log(err));
@@ -100,20 +111,53 @@ export default function PostDetail() {
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     // 현재 board 게시글
-    boardsArticles(boardId)
-    .then((res) => setcurrboardPosts(res.content))
+    boardsArticles(boardId, currpostPage, 20)
+    .then((res) => {
+      setcurrboardPosts(res.content);
+      setPageInfo(res.pageInfo)
+      setcurrpostPage(res.pageInfo.page)})
     .catch((err) => console.log(err));
+
+    document.getElementById("comment-nickname-input").value = null;
+    document.getElementById("comment-input").value = null;
 
     return () => {
       console.log("unmounted");
     };
-  }, [postId]);
+  }, [postId || currcommentPage]);
 
   useEffect(() => {
     setrecommendedState(postDetail.isLiked);
-    document.getElementById("comment-nickname-input").value = null;
-    document.getElementById("comment-input").value = null;
+
   }, [postDetail]);
+
+  useEffect(() => {
+    boardsArticles(boardId, currpostPage, 20)
+    .then((res) => {
+      setcurrboardPosts(res.content);
+      setPageInfo(res.pageInfo)
+      setcurrpostPage(res.pageInfo.page)})
+    .catch((err) => console.log(err));
+
+    const targetElement = document.getElementById("board-posts-more"); // 스크롤할 요소 선택
+    if (targetElement) {
+      // comment scroll to
+      // console.log('targetElement', targetElement)
+      const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY; // 요소의 상단 위치
+      window.scrollTo({ top: targetPosition, behavior: "smooth" });
+    }}, [currpostPage]);
+
+  useEffect(() => {
+    getComment();
+    const targetElement = document.getElementById("comment-input-box"); // 스크롤할 요소 선택
+    if (targetElement) {
+      // comment scroll to
+      // console.log('targetElement', targetElement)
+      const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY; // 요소의 상단 위치
+      window.scrollTo({ top: targetPosition, behavior: "smooth" });
+    }
+  }, [currcommentPage])
+
 
   // 게시글 삭제
   const postDelete = () => {
@@ -190,6 +234,16 @@ export default function PostDetail() {
       .catch((err) => console.log(err));
   };
 
+  // 게시글 더보기 pagination
+  const postsmorePaginate = (pageNum) => {
+    setcurrpostPage(pageNum)
+    }
+
+  // 댓글 pagination
+  const comentPaginate = (pageNum) => {
+    setcurrcommentPage(pageNum)
+    }
+
   // const createTime = postDetail.createTime;
   // const updateTime = postDetail.modifyTime;
   // const createTime_modify = createTime?.slice(0, 10);
@@ -243,7 +297,7 @@ export default function PostDetail() {
               <div dangerouslySetInnerHTML={{ __html: postDetail.content }} />
             </div>
 
-            <div className={styles.postBottombar}>
+            <div id="comment-input-box" className={styles.postBottombar}>
               <div
                 onClick={postRecommendedInput}
                 className={styles.tabthumbIcon}
@@ -340,24 +394,8 @@ export default function PostDetail() {
            }
            })}
           </div>
-          <div>
-            <nav className={styles.commentPagination} aria-label="...">
-              <ul className="pagination pagination-sm">
-                <li className="page-item active" aria-current="page">
-                  <span className="page-link">1</span>
-                </li>
-                <li>
-                  <a className="page-link" href="#">
-                    2
-                  </a>
-                </li>
-                <li className="page-item">
-                  <a className="page-link" href="#">
-                    3
-                  </a>
-                </li>
-              </ul>
-            </nav>
+          <div id="board-posts-more" className={styles.commentPagination}>
+            <Pagination totalPages={commentPageInfo.totalPages} paginate={comentPaginate} currPage={currcommentPage}/>
           </div>
 
           {/* <div className={styles.pageBottomtab}>
@@ -407,6 +445,7 @@ export default function PostDetail() {
           </div>
           <PostTypeTitleBar />
           <BoardView posts={currboardPosts} boardId={boardId} />
+          <Pagination totalPages={pageInfo.totalPages} paginate={postsmorePaginate} currPage={currpostPage}/>
         </span>
 
         <span className={styles.sideviewContainer}>

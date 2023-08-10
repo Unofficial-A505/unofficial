@@ -2,7 +2,7 @@ import styles from './Pagination.module.css'
 
 export default function Pagination({totalPages, paginate, currPage}) {
   const pageNumbers = []
-  console.log(currPage)
+  console.log(totalPages, currPage)
 
   const paginationLength = totalPages % 10
   const paginationWidth = 100 + 40 * paginationLength

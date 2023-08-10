@@ -13,7 +13,7 @@ export default function BoardsView() {
   const navigate = useNavigate();
   // console.log('boardId', boardId)
   const [currPage, setcurrPage] = useState(0)
-  const [postPerPage, setpostPerPage] = useState(20)
+  // const [postPerPage, setpostPerPage] = useState(20)
   const [pageInfo, setPageInfo] = useState([])
 
   useEffect(() => {
@@ -26,13 +26,12 @@ export default function BoardsView() {
     .catch((err) => console.log(err));    
   }, [currPage || boardId]);
 
-  const indexOfLastPost = currPage * postPerPage;
-  const indexOfFirstPost = indexOfLastPost - postPerPage;
+  // const indexOfLastPost = currPage * postPerPage;
+  // const indexOfFirstPost = indexOfLastPost - postPerPage;
   // const currentPosts = posts?.slice(indexOfFirstPost, indexOfLastPost)
 
 
   const paginate = (pageNum) => {
-    console.log('pageNum', pageNum)
     setcurrPage(pageNum)
     }
 

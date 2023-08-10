@@ -2,7 +2,7 @@
   width: 95%;
   height: 35px;
   margin: 5px auto;
-  padding: 0 0 5px 0;
+  /* padding: 0 0 2px 0; */
 
   display: flex;
   justify-content: space-between;
@@ -50,9 +50,9 @@
   font-weight: 400;
   line-height: normal;
 
-  display: flex;
+  /* display: flex; */
   /* justify-content: center; */
-  align-items: center;
+  /* align-items: center; */
 }
 
 .postTitle:hover {

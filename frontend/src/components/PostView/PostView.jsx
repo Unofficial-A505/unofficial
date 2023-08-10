@@ -8,7 +8,7 @@ import koLocale from 'timeago.js/lib/lang/ko' //한국어 선택
 
 register('ko', koLocale)
 
-export default function PostView({ post, boardId, searchView, keyword, myBoard }) {
+export default function PostView({ post, boardId, searchView, keyword, myBoard, currPage }) {
   const navigate = useNavigate();
 
   const createTime = post.createTime
@@ -26,7 +26,7 @@ export default function PostView({ post, boardId, searchView, keyword, myBoard }
 
           {!searchView ?
           <div title={post.title} className={styles.postTitle}
-            onClick={() => navigate(`/boards/${boardId}/${post.id}`)}>
+            onClick={() => navigate(`/boards/${boardId}/${post.id}`, { state : currPage })}>
             {post.title}
           </div>
           : (<div title={post.title} className={styles.postTitle}
