@@ -80,6 +80,7 @@ public class AuthApiController {
     @PostMapping("/reissue")
 //    public ResponseEntity<?> reissue(@CookieValue(name = "refresh-token") String requestRefreshToken,
     public ResponseEntity<?> reissue(@RequestHeader() Map<String, String> headers) {
+        System.out.println("headers: "+headers);
         String requestAccessToken = headers.get("authorization");
         String requestRefreshToken = headers.get("refresh_token");
         AuthDto.TokenDto reissuedTokenDto = authService.reissue(requestAccessToken, requestRefreshToken);
