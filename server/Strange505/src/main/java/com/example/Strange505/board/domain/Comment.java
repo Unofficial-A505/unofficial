@@ -59,7 +59,7 @@ public class Comment {
     public List<Comment> findRemovableList() {
         List<Comment> result = new ArrayList<>();
         Optional.ofNullable(this.parent).ifPresentOrElse(
-                parentComment -> {//대댓글인 경우 (부모가 존재하는 경우)
+                parentComment -> {//대댓글인 경우
                     result.add(this);
                 },
                 () -> {//댓글인 경우

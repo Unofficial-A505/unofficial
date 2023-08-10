@@ -5,6 +5,7 @@ import com.example.Strange505.board.domain.Comment;
 import com.example.Strange505.board.dto.CommentRequestDto;
 import com.example.Strange505.board.dto.CommentResponseDto;
 import com.example.Strange505.board.dto.MypageCommentResponseDto;
+import com.example.Strange505.board.exception.CanNotDeleteException;
 import com.example.Strange505.board.exception.NoResultException;
 import com.example.Strange505.board.exception.NotAuthorException;
 import com.example.Strange505.board.repository.ArticleRepository;
@@ -115,7 +116,7 @@ public class CommentServiceImpl implements CommentService {
         Collections.sort(list, new Comparator<CommentResponseDto>() {
             @Override
             public int compare(CommentResponseDto s1, CommentResponseDto s2) {
-                return (int)(s1.getOrderId() - s2.getOrderId());
+                return (int) (s1.getOrderId() - s2.getOrderId());
             }
         });
 
@@ -163,7 +164,7 @@ public class CommentServiceImpl implements CommentService {
                     0L,
                     comment.getCreateTime(), comment.getModifyTime(), null)).toList();
 
-            for (int i = 0; i < reComment.size(); i++){ // 자식댓글, 즉 대댓글이라면 부모댓글 * 1000에 차례대로 1씩 더해짐
+            for (int i = 0; i < reComment.size(); i++) { // 자식댓글, 즉 대댓글이라면 부모댓글 * 1000에 차례대로 1씩 더해짐
                 reComment.get(i).setOrderId(reComment.get(i).getParentId() * 1000L + (i + 1));
                 list.add(reComment.get(i));
             }
@@ -212,7 +213,6 @@ public class CommentServiceImpl implements CommentService {
         if (user.getId() == comment.getUser().getId() || user.getRole() == Role.ADMIN) {
             comment.update(dto.getContent(), LocalDateTime.now());
             Comment modifiedComment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("해당 댓글이 존재하지 않습니다."));
-            ;
             return new CommentResponseDto(modifiedComment);
         } else {
             throw new NotAuthorException("작성자만 삭제 가능합니다.");
@@ -225,14 +225,16 @@ public class CommentServiceImpl implements CommentService {
     public void deleteComment(Long id, String email) {
         User user = userRepository.findByEmail(email).orElseThrow();
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("Comment not found"));
-        if (user.getId() == comment.getUser().getId() || user.getRole() == Role.ADMIN) {
-            comment.remove();
+        if (user.getId() == comment.getUser().getId() || user.getRole() == Role.ADMIN) { // 권한이 있는 경우
             List<Comment> removableCommentList = comment.findRemovableList();
-            log.info("removeList = {}", removableCommentList);
-            for (Comment c : removableCommentList) {
-                c.remove();
+            if (removableCommentList.size() == 0) {  // 삭제할 댓글이 없는 경우 = 부모 삭제하려는데 자식이 있는 경우
+                throw new CanNotDeleteException("대댓글이 존재하므로 삭제할 수 없습니다.");
+            } else {
+                for (Comment c : removableCommentList) {
+                    c.remove();
+                }
             }
-        } else {
+        } else { // 권한이 없는 경우
             throw new NotAuthorException("작성자만 삭제 가능합니다.");
         }
     }

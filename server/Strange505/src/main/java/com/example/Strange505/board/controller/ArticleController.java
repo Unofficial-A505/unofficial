@@ -1,7 +1,6 @@
 package com.example.Strange505.board.controller;
 
 
-import com.example.Strange505.board.domain.Article;
 import com.example.Strange505.board.dto.ArticleListResponseDto;
 import com.example.Strange505.board.dto.ArticleRequestDto;
 import com.example.Strange505.board.dto.ArticleResponseDto;
@@ -12,6 +11,8 @@ import com.example.Strange505.dto.PageResponseDto;
 import com.example.Strange505.file.service.S3UploaderService;
 import com.example.Strange505.user.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,7 +34,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/articles")
 @RequiredArgsConstructor
-@Tag(name = "[@Tag] 게시글 컨트롤러")
+@Tag(name = "Article", description = "게시글 API")
 public class ArticleController {
 
     private final ArticleService articleService;
@@ -42,6 +43,10 @@ public class ArticleController {
     private final ArticleLikeService articleLikeService;
 
     @Operation(summary = "게시글 등록")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "게시글 등록에 성공했습니다."),
+            @ApiResponse(responseCode = "500", description = "게시글 등록 과정에서 서버 오류가 발생했습니다."),
+    })
     @PostMapping
     public ResponseEntity<?> registerArticle(@RequestBody ArticleRequestDto dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -52,6 +57,11 @@ public class ArticleController {
 
     @Operation(summary = "게시글 수정")
     @PutMapping("/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "게시글 수정에 성공했습니다."),
+            @ApiResponse(responseCode = "401", description = "작성자가 아니므로 수정할 수 없습니다."),
+            @ApiResponse(responseCode = "500", description = "게시글 수정 과정에서 서버 오류가 발생했습니다."),
+    })
     public ResponseEntity<?> modifyArticle(@RequestBody ArticleRequestDto dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         articleService.updateArticle(dto, email);
@@ -60,6 +70,11 @@ public class ArticleController {
 
     @Operation(summary = "게시글 삭제")
     @DeleteMapping("/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "게시글 삭제에 성공했습니다."),
+            @ApiResponse(responseCode = "401", description = "작성자가 아니므로 삭제할 수 없습니다."),
+            @ApiResponse(responseCode = "500", description = "게시글 삭제 과정에서 서버 오류가 발생했습니다."),
+    })
     public ResponseEntity<?> removeArticle(@PathVariable Long id) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         articleService.deleteArticle(id, email);
@@ -68,6 +83,11 @@ public class ArticleController {
 
     @Operation(summary = "게시글 아이디로 조회")
     @GetMapping("/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "게시글 조회에 성공했습니다."),
+            @ApiResponse(responseCode = "401", description = "회원이 아니므로 조회할 수 없습니다."),
+            @ApiResponse(responseCode = "500", description = "게시글 조회 과정에서 서버 오류가 발생했습니다."),
+    })
     public ResponseEntity<ArticleResponseDto> getArticle(@PathVariable Long id, HttpServletRequest req, HttpServletResponse res) {
         // 조회수 증가
         addViewCount(id, req, res);
@@ -78,6 +98,11 @@ public class ArticleController {
 
     @Operation(summary = "모든 게시글 조회")
     @GetMapping
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "게시글 모두 조회에 성공했습니다."),
+            @ApiResponse(responseCode = "401", description = "회원이 아니므로 조회할 수 없습니다."),
+            @ApiResponse(responseCode = "500", description = "게시글 모두 조회 과정에서 서버 오류가 발생했습니다."),
+    })
     public ResponseEntity<PageResponseDto<ArticleListResponseDto>> getAllArticles(Pageable pageable) {
         Page<ArticleListResponseDto> responseDtoList = articleService.getAllArticles(pageable);
 
@@ -94,6 +119,11 @@ public class ArticleController {
 
     @Operation(summary = "제목과 내용에 키워드가 포함된 게시글 조회")
     @GetMapping("/search")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "게시글 검색에 성공했습니다."),
+            @ApiResponse(responseCode = "401", description = "회원이 아니므로 검색할 수 없습니다."),
+            @ApiResponse(responseCode = "500", description = "게시글 검색 과정에서 서버 오류가 발생했습니다."),
+    })
     public ResponseEntity<PageResponseDto<ArticleListResponseDto>> getArticlesByTitleAndContent(@RequestParam String keyword, @RequestParam Long boardId, Pageable pageable) {
         Page<ArticleListResponseDto> responseDtoList = articleService.getArticlesByTitleAndContent(keyword, boardId, pageable);
 
@@ -109,6 +139,11 @@ public class ArticleController {
 
     @Operation(summary = "게시글 작성자로 조회")
     @GetMapping("/user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "회원이 작성한 게시글 조회에 성공했습니다."),
+            @ApiResponse(responseCode = "401", description = "회원이 아니므로 조회할 수 없습니다."),
+            @ApiResponse(responseCode = "500", description = "회원이 작성한 게시글 조회 과정에서 서버 오류가 발생했습니다."),
+    })
     public ResponseEntity<PageResponseDto<ArticleListResponseDto>> getArticlesByUser(Pageable pageable) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Page<ArticleListResponseDto> responseDtoList = articleService.getArticlesByUser(email, pageable);
@@ -125,6 +160,11 @@ public class ArticleController {
 
     @Operation(summary = "게시글이 등록된 게시판 종류에 따라 조회")
     @GetMapping("/board/{boardId}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "게시판 종류에 따른 게시글 조회에 성공했습니다."),
+            @ApiResponse(responseCode = "401", description = "회원이 아니므로 조회할 수 없습니다."),
+            @ApiResponse(responseCode = "500", description = "게시판 종류에 따른 게시글 조회 과정에서 서버 오류가 발생했습니다."),
+    })
     public ResponseEntity<PageResponseDto<ArticleListResponseDto>> getArticlesByBoard(@PathVariable Long boardId, Pageable pageable) {
         Page<ArticleListResponseDto> responseDtoList = articleService.getArticlesByBoard(boardId, pageable);
 
@@ -171,6 +211,7 @@ public class ArticleController {
 
     @PostMapping("/image")
     @ResponseBody
+    @Operation(summary = "이미지 한 개 업로드")
     public ResponseEntity<String> upload(@ModelAttribute ImageForm form) throws IOException {
         MultipartFile file = form.getUploadFile().get(0);
         String imageUrl = null;
@@ -184,6 +225,7 @@ public class ArticleController {
 
     @PostMapping("/images")
     @ResponseBody
+    @Operation(summary = "이미지 여러 개 업로드")
     public ResponseEntity<List<String>> uploads(@ModelAttribute ImageForm form) throws IOException {
         List<MultipartFile> files = form.getUploadFile();
         List<String> imageUrl = null;
