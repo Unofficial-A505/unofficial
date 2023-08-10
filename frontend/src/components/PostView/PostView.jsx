@@ -28,18 +28,20 @@ export default function PostView({ post, boardId, searchView, keyword, myBoard, 
           {!searchView ?
           <div title={post.title} className={styles.postTitle}
             onClick={() => navigate(`/boards/${boardId}/${post.id}`, { state : currPage })}>
-            {post.title}
+            <span >{post.title}</span>
+            <span className={styles.postrecommendBox}>[{post.commentsCount}]</span>
           </div>
           : (<div title={post.title} className={styles.postTitle}
           onClick={() => navigate(`/boards/${boardId}/${post.id}`)}>
           <span>{post.title.split(keyword)[0]}</span>
           <span style={{ color: "#3F51B5", fontWeight: "550",}}>{keyword}</span>
           <span>{post.title.split(keyword)[1]}</span>
+          <span className={styles.postrecommendBox}>[{post.commentsCount}]</span>
           </div>)}
 
         </div>
         <div className={!searchView?styles.postContainerB:styles.postContainerC}>
-          <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}>{post.commentsCount}</div>
+          {/* <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}>{post.commentsCount}</div> */}
           <div className={styles.postContent} id={myBoard?styles.postcreateBoxsmall:styles.postcreateBox}>{myBoard?post.createTime:format(post.createTime, 'ko')}</div>
           <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}>
             {/* <FaRegThumbsUp className={styles.postIcon}/> */}

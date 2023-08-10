@@ -18,6 +18,7 @@ import Slider from "react-slick";
 import useDocumentTitle from "../../useDocumentTitle";
 
 export default function SearchView() {
+  const searchView = true
   useDocumentTitle("게시글 찾기");
 
   const { keyword } = useParams();
@@ -139,7 +140,7 @@ export default function SearchView() {
         </div>
 
         <div className={styles.searchcontentBox}>
-          <SearchContent searchResults={searchResults} keyword={keyword} />
+          <SearchContent searchResults={searchResults} keyword={keyword} searchView={searchView}/>
         </div>
       </div>
     </div>

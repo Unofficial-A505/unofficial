@@ -9,9 +9,11 @@ import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
 import { searchViewApi } from "../../../api/boards"
 
 export default function BoardSearchView() {
+  const searchView = false
   const navigate = useNavigate();
   const { boardId } = useParams();
   const { keyword } = useParams();
+  // console.log('boardId', boardId)
   const [ currboardName, setcurrboardName ] = useState('')
   const [ searchResults, setsearchResults ] = useState([]);
 
@@ -20,7 +22,7 @@ export default function BoardSearchView() {
     searchViewApi(keyword, boardId)
     .then((res) => {
       console.log(res)
-      setsearchResults(res.data.content)
+      setsearchResults(res)
       setcurrboardName(res[0].boardName)
     }).catch((err) => console.log(err));
 
@@ -34,7 +36,7 @@ export default function BoardSearchView() {
       </div>
         
       <div className={styles.boardscontentTitles}>
-        <SearchContent searchResults={searchResults} keyword={keyword}/>
+        <SearchContent searchResults={searchResults} keyword={keyword} searchView={searchView}/>
       </div>
     </div>
   );
