@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from "./LunchCarousel.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -5,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import Card from "./Card";
 import Carousel from "./Carousel";
 
-export default function LunchCarousel() {
+export default function LunchCarousel({userLocal}) {
   const [cards, setCards] = useState([]);
   const [lunchData, setLunchData] = useState([]);
 
@@ -23,18 +24,15 @@ export default function LunchCarousel() {
   // 오늘 날짜 가져오기
   const getToday = () => {
     const date = new Date();
-
-    // TimeZone offset in minutes for Seoul
     const offset = -9 * 60;
     const localOffset = date.getTimezoneOffset();
     const totalOffset = offset - localOffset;
 
-    // Apply the offset to get local Korean time
     date.setMinutes(date.getMinutes() + totalOffset);
 
     let day = date.getDay();
+
     if (day === 0 || day === 6) {
-      // 0: Sunday, 6: Saturday
       const daysToMonday = day === 0 ? 1 : 2;
       date.setDate(date.getDate() + daysToMonday);
     }
@@ -103,7 +101,14 @@ export default function LunchCarousel() {
         content: <Card lunchZip={data} key={data[0].local} />,
       };
     });
-
+    // userLocal과 일치하는 카드를 가장 앞으로 이동
+    const matchingIndex = newCards.findIndex(
+      (card) => card.content.key === userLocal
+    );
+    if (matchingIndex !== -1) {
+      const matchingCard = newCards.splice(matchingIndex, 1)[0];
+      newCards.unshift(matchingCard);
+    }
     setCards(newCards);
   };
 

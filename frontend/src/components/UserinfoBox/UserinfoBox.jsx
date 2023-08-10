@@ -13,32 +13,17 @@ import { AiOutlineComment } from "@react-icons/all-files/ai/AiOutlineComment";
 import { AiOutlineLogout } from "@react-icons/all-files/ai/AiOutlineLogout";
 import { FaBullhorn } from "@react-icons/all-files/fa/FaBullhorn";
 
-export default function UserinfoBox() {
+export default function UserinfoBox({userInfo}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const authUser = useSelector((state) => state.authUser)
 
   const [isAuth, setIsAuth] = useState(null);
-  const [userInfo, setUserInfo] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
-  const authUser = useSelector((state) => state.authUser);
 
   useEffect(() => {
     setIsAuth(authUser.accessToken);
   }, [authUser]);
-
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const response = await customAxios.get("/api/users/user");
-        setUserInfo(response.data);
-      } catch (error) {
-        console.error("Error fetching user role", error);
-      }
-    };
-    if (authUser.accessToken) {
-      getUserData();
-    }
-  }, []);
 
   const logout = () => {
     customAxios
