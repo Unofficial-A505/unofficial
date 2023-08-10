@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from "./WeatherinfoApi.module.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -8,28 +9,25 @@ import Slider from "react-slick";
 export default function WeatherWidget() {
   const cities = ["Seoul", "Daejeon", "Gumi", "Gwangju", "Busan"];
   const api_key = "be3211008c87f453651f5f04faa61375";
-  const [ weatherData, setWeatherData ] = useState([]);
-  const [ loading, setLoading ] = useState(true);
+  const [weatherData, setWeatherData] = useState([]);
 
   useEffect(() => {
-    const fetchWeatherData = async () => {
-      const data = await Promise.all(cities.map(getWeather));
-      setWeatherData(data);
-    };
     fetchWeatherData();
   }, []);
+
+  const fetchWeatherData = async () => {
+    const data = await Promise.all(cities.map(getWeather));
+    setWeatherData(data);
+  };
 
   const getWeather = async (city) => {
     try {
       const response = await axios.get(
         `https://api.openweathermap.org/data/2.5/forecast?appid=${api_key}&q=${city}&units=metric&lang=kr&cnt=5`
       );
-      setLoading(false);
-      
       return response.data;
     } catch (error) {
       console.error("날씨 정보를 가져오는데 실패했습니다.", error);
-      setLoading(false);
     }
   };
 
@@ -46,8 +44,10 @@ export default function WeatherWidget() {
 
   return (
     <div className={styles.weatherApiContainer}>
-      {loading ? (
-        <div>날씨 정보를 가져오는 중입니다.</div>
+      {!weatherData.length ? (
+        <div className={styles.weatherCardContainer}>
+          <p>날씨 정보를 가져오는 중입니다...</p>
+        </div>
       ) : (
         <Slider {...settings}>
           {weatherData.map((data, index) => (
