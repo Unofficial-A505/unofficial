@@ -25,12 +25,12 @@ export default function CommentView({ comment, commentUpdate, getComment}){
   const [ recomments, setreComments ] = useState('')
   const [ recommentNickname, setrecommentNickname ] = useState('')
   const updateContent = useRef('') 
-  const { id, isUser, children, articleId } = comment
+  const { id, isUser, hasChildren, articleId } = comment
 
   // 댓글 삭제
   const CommentDelete = (id) => {
     if (window.confirm("댓글을 삭제하시겠습니까?")) {
-      if (children.length) {
+      if (hasChildren) {
         alert("대댓글이 존재해 댓글을 삭제할 수 없습니다!")
       } else {
         postCommentDeleteApi(id)

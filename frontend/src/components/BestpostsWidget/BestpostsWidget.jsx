@@ -5,27 +5,37 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { FaCrown } from '@react-icons/all-files/fa/FaCrown';
+import { FiRefreshCw } from '@react-icons/all-files/fi/FiRefreshCw';
 import customAxios from '../../util/customAxios';
+
+import { bestPostsApi } from '../../api/boards.js'
 
 export default function BestpostsWidget(){
   const navigate = useNavigate();
 
   const [ posts, setPosts ] = useState([])
 
-  useEffect(() => {
+  const bestRefresh = () => {
     customAxios({
-        method: "get",
-        url: `${process.env.REACT_APP_SERVER}/api/best`,
-      })
-      .then((res) => {
-        setPosts(res.data.slice(0, 10));
-      })
-      .catch((err) => console.log(err))
-    }, []);
+      method: "get",
+      url: `/api/best`,
+    })
+    .then((res) => {
+      setPosts(res.data.slice(0, 11));
+    })
+    .catch((err) => console.log(err))
+  }
+
+  useEffect(() => {
+    bestRefresh();
+  }, []);
 
   return(
     <div className={styles.bestpostwidgetContainer}>
-      <div className={styles.bestTitle}>Best 게시글<FaCrown className={styles.bestIcons}/></div>
+      <div className={styles.bestwidgetTopbar}>
+        <div className={styles.bestTitle}>Best 게시글<FaCrown className={styles.bestIcons}/></div>
+        <FiRefreshCw className={styles.bestrefreshIcon} onClick={bestRefresh}/>
+      </div>
       <div className={styles.bestpostsContainer}>
         {posts.map((post, index) => 
           <div key={index} className={styles.bestpostContents}>
