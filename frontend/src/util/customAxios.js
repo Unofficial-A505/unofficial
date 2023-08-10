@@ -30,10 +30,7 @@ customAxios.interceptors.response.use(
     const state = store.getState();
     console.log("error", error);
     const originalRequest = error.config;
-    if (
-      (error.response?.status === 401) &&
-      !originalRequest._retry
-    ) {
+    if ( error.response?.status === 401 && !originalRequest._retry ) {
       originalRequest._retry = true;
       const refreshToken = localStorage.getItem("REFRESH_TOKEN");
       // Replace '/refresh' with your refresh token endpoint
@@ -44,19 +41,19 @@ customAxios.interceptors.response.use(
         {
           headers: {
             REFRESH_TOKEN: refreshToken,
-            Authorization: originalRequest.Authorization
+            Authorization: originalRequest.headers.Authorization
           }
-        }
-      ).catch(() => {
+        })
+      .catch(() => {
         alert("로그인 해주세요")
         store.dispatch(setAccessToken(""))
         store.dispatch(setAuthUserEmail(""))
         localStorage.setItem("REFRESH_TOKEN", "")
         window.document.location.href = "/"
-      });
+      })
       if (res.status === 200) {
         store.dispatch(
-          setAccessToken(res.data.accessToken)
+          setAccessToken(res.headers.authorization.split(" ")[1])
         ); // Dispatch an action to update the access token in Redux
         return customAxios(originalRequest);
       } else {
@@ -69,7 +66,7 @@ customAxios.interceptors.response.use(
             }
           }
         )
-          .catch((err) => console.log(err))
+        .catch((err) => console.log(err))
       }
     }
     return Promise.reject(error);
