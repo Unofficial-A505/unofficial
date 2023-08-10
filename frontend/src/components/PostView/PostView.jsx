@@ -8,7 +8,7 @@ import koLocale from 'timeago.js/lib/lang/ko' //한국어 선택
 
 register('ko', koLocale)
 
-export default function PostView({ post, boardId, searchView, keyword, myBoard }) {
+export default function PostView({ post, boardId, searchView, keyword, myBoard, currPage }) {
   const navigate = useNavigate();
 
   const createTime = post.createTime
@@ -26,7 +26,7 @@ export default function PostView({ post, boardId, searchView, keyword, myBoard }
 
           {!searchView ?
           <div title={post.title} className={styles.postTitle}
-            onClick={() => navigate(`/boards/${boardId}/${post.id}`)}>
+            onClick={() => navigate(`/boards/${boardId}/${post.id}`, { state : currPage })}>
             {post.title}
           </div>
           : (<div title={post.title} className={styles.postTitle}
@@ -38,10 +38,12 @@ export default function PostView({ post, boardId, searchView, keyword, myBoard }
 
         </div>
         <div className={styles.postContainerB}>
-          <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}>{post.commentCount}</div>
+          <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}>{post.commentsCount}</div>
           <div className={styles.postContent} id={myBoard?styles.postcreateBoxsmall:styles.postcreateBox}>{myBoard?post.createTime:format(post.createTime, 'ko')}</div>
-          <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}><FaRegThumbsUp className={styles.postIcon}/>{post.likes}</div>
-          <div className={styles.postContent} id={myBoard?styles.postviewBoxsmall:styles.postviewBox}>조회수 {post.views}</div>
+          <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}>
+            {/* <FaRegThumbsUp className={styles.postIcon}/> */}
+            {post.likes}</div>
+          <div className={styles.postContent} id={myBoard?styles.postviewBoxsmall:styles.postviewBox}>{post.views}</div>
         </div>
       </div>
     </>

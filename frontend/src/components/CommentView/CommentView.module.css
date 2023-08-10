@@ -47,6 +47,7 @@
 /* 수정하기 삭제하기 텍스트 위치 조정*/
 .updatetextPosition {
   margin: 30px 0 0 10px;
+  cursor: pointer;
   /* border: 1px dotted red; */
 }
 
@@ -125,6 +126,7 @@ textarea::-webkit-scrollbar-track {
 }
 
 .recommentNicknameBox {
+  width: 90%;
   margin: 0 auto;
   /* border: 1px dotted red; */
 }

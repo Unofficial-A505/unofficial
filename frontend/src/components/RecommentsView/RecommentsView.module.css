@@ -66,6 +66,7 @@
 /* 수정하기 삭제하기 텍스트 위치 조정*/
 .updatetextPosition {
   margin: 30px 6px 0 0;
+  cursor: pointer;
 }
 
 .commentContent {

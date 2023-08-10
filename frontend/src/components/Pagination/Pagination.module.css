@@ -1,32 +1,52 @@
 .paginationContainer {
-  width: 500px;
-  height: 50px;  
+  /* width: 500px; */
+
+  /* 변수 정의 */
+  --width: 100px;
+
+  width: var(--width);
+
+  display: flex;
+  height: 45px;  
   margin: 0 auto;
 
-  border: 1px solid #7575752f;
+  border: 1px solid #75757570;
   border-radius: 3rem;
+
+  /* border: 1px dotted red; */
 }
 
 .paginationNumsContainer {
   display: flex;
 
-  width: 400px;
+  /* width: 400px; */
+  width: auto;
   height: 45px;
   margin: 0 auto;
 
-  /* border: 1px dotted aqua; */
+  cursor: pointer;
+  /* border: 1px dotted red; */
+  /* transition: all 5s; */
 }
 
 .paginationNumBox {
-  width: 50px;
-  height: 45px;
-  margin: 10px 0 0 0; 
+  /* flex: 1; */
+  width: 30px;
+  height: 30px;
+  margin: 5px 3px 0 3px; 
+  /* margin: 0 auto; */
   /* border: 1px solid red; */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .paginationNum {
   text-decoration: none;
   color: #757575;
+
+  padding: 0 0 3px 0;
 }
 
 .paginationNum:hover {
@@ -35,14 +55,22 @@
 
 /* 현재 선택된 페이지 */
 .paginationNumBoxcurr {
-  width: 50px;
-  height: 45px;
-  margin: 10px 0 0 0; 
-  background-color: black;
-  border: 1px solid red;
+  width: 30px;
+  height: 30px;
+  margin: 5px 3px 0 3px; 
+  background-color: #034BB9;
+  /* border: 1px solid red; */
+  border-radius: 100px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
 }
 
 .paginationNumcurr {
   text-decoration: none;
   color: white;
+
+  padding: 0 0 3px 0;
 }

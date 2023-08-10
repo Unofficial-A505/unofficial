@@ -1,9 +1,10 @@
-import styles from "./BoardsView.module.css";
+import styles from './BoardsView.module.css';
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { boardsArticles } from "../../../api/boards"
 import PostsView from "../../../components/PostView/PostView";
 import Pagination from "../../../components/Pagination/Pagination";
+import PostTypeTitleBar from "../../../components/PostTypeTitleBar/PostTypeTitleBar";
 
 export default function BoardsView() {
   const [ posts, setPosts ] = useState(null);
@@ -12,7 +13,7 @@ export default function BoardsView() {
   const navigate = useNavigate();
   // console.log('boardId', boardId)
   const [currPage, setcurrPage] = useState(0)
-  const [postPerPage, setpostPerPage] = useState(20)
+  // const [postPerPage, setpostPerPage] = useState(20)
   const [pageInfo, setPageInfo] = useState([])
 
   useEffect(() => {
@@ -25,25 +26,37 @@ export default function BoardsView() {
     .catch((err) => console.log(err));    
   }, [currPage || boardId]);
 
-  const indexOfLastPost = currPage * postPerPage;
-  const indexOfFirstPost = indexOfLastPost - postPerPage;
+  // const indexOfLastPost = currPage * postPerPage;
+  // const indexOfFirstPost = indexOfLastPost - postPerPage;
   // const currentPosts = posts?.slice(indexOfFirstPost, indexOfLastPost)
 
+
   const paginate = (pageNum) => {
-    console.log('pageNum', pageNum)
     setcurrPage(pageNum)
+
+    const targetElement = document.getElementById("post-top-bar"); // 스크롤할 요소 선택
+    if (targetElement) {
+      // comment scroll to
+      // console.log('targetElement', targetElement)
+      const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY; // 요소의 상단 위치
+      window.scrollTo({ top: targetPosition, behavior: "smooth" });
+    }
     }
 
   if (posts) {
     return (
-      <div>
+      <div id="post-top-bar">
+        <PostTypeTitleBar/>
+
         {
         posts.map((post, index) => (
           <PostsView key={index} boardTitle={boardTitle} post={post} boardId={boardId} currPage={currPage} />
         ))
         }
-      
-        <Pagination totalPages={pageInfo.totalPages} paginate={paginate}/>
+
+        <div className={styles.paginationContainer}>
+          <Pagination totalPages={pageInfo.totalPages} paginate={paginate} currPage={currPage}/>
+        </div>
 
       </div>
     );
