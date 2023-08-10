@@ -1,15 +1,11 @@
-import { OpenVidu } from 'openvidu-browser';
-
-import axios from 'axios';
+import styles from './WebRtcPage.module.css';
+import customAxios from './../../util/customAxios';
 import React, { Component } from 'react';
-import './App.css';
 import UserVideoComponent from './UserVideoComponent';
 
-// const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
-const APPLICATION_SERVER_URL = process.env.REACT_APP_SERVER + "/";
+import { OpenVidu } from 'openvidu-browser';
 
-
-class App extends Component {
+class WebRTC extends Component {
     constructor(props) {
         super(props);
 
@@ -136,9 +132,9 @@ class App extends Component {
                                 publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
                                 publishVideo: true, // Whether you want to start publishing with your video enabled or not
                                 resolution: '640x480', // The resolution of your video
-                                frameRate: 30, // The frame rate of your video
+                                frameRate: 60, // The frame rate of your video
                                 insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
-                                mirror: false, // Whether to mirror your local video or not
+                                mirror: true, // Whether to mirror your local video or not
                             });
 
                             // --- 6) Publish your stream ---
@@ -226,21 +222,19 @@ class App extends Component {
     render() {
         const mySessionId = this.state.mySessionId;
         const myUserName = this.state.myUserName;
+        console.log('state', this.state)
 
         return (
-            <div className="container">
+            <div className={styles.container}>
                 {this.state.session === undefined ? (
                     <div id="join">
-                        <div id="img-div">
-                            <img src="resources/images/openvidu_grey_bg_transp_cropped.png" alt="OpenVidu logo" />
-                        </div>
-                        <div id="join-dialog" className="jumbotron vertical-center">
+                        <div id="join-dialog" className={styles.joinContainer}>
                             <h1> Join a video session </h1>
-                            <form className="form-group" onSubmit={this.joinSession}>
+                            <form className={styles.formGroup} onSubmit={this.joinSession}>
                                 <p>
-                                    <label>Participant: </label>
+                                    <label>Participant:</label>
                                     <input
-                                        className="form-control"
+                                        className="form-control mb-4"
                                         type="text"
                                         id="userName"
                                         value={myUserName}
@@ -249,9 +243,9 @@ class App extends Component {
                                     />
                                 </p>
                                 <p>
-                                    <label> Session: </label>
+                                    <label>Session:</label>
                                     <input
-                                        className="form-control"
+                                        className="form-control mb-4"
                                         type="text"
                                         id="sessionId"
                                         value={mySessionId}
@@ -260,26 +254,24 @@ class App extends Component {
                                     />
                                 </p>
                                 <p className="text-center">
-                                    <input className="btn btn-lg btn-success" name="commit" type="submit" value="JOIN" />
+                                    <input className="btn btn-success" name="commit" type="submit" value="참여하기" />
                                 </p>
                             </form>
                         </div>
                     </div>
-                ) : null}
-
-                {this.state.session !== undefined ? (
+                ) : (
                     <div id="session">
                         <div id="session-header">
                             <h1 id="session-title">{mySessionId}</h1>
                             <input
-                                className="btn btn-large btn-danger"
+                                className="btn btn-danger"
                                 type="button"
                                 id="buttonLeaveSession"
                                 onClick={this.leaveSession}
                                 value="Leave session"
                             />
                             <input
-                                className="btn btn-large btn-success"
+                                className="btn btn-success"
                                 type="button"
                                 id="buttonSwitchCamera"
                                 onClick={this.switchCamera}
@@ -295,20 +287,21 @@ class App extends Component {
                         ) : null}
                         <div id="video-container" className="col-md-6">
                             {this.state.publisher !== undefined ? (
-                                <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+                                <div className="stream-container col-md-3 col-xs-12" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
                                     <UserVideoComponent
                                         streamManager={this.state.publisher} />
                                 </div>
-                            ) : null}
-                            {this.state.subscribers.map((sub, i) => (
-                                <div key={sub.id} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
-                                    <span>{sub.id}</span>
-                                    <UserVideoComponent streamManager={sub} />
-                                </div>
-                            ))}
+                            ) : (
+                                this.state.subscribers.map((sub, i) => (
+                                    <div key={sub.id} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
+                                        <span>{sub.id}</span>
+                                        <UserVideoComponent streamManager={sub} />
+                                    </div>
+                                )
+                                ))}
                         </div>
                     </div>
-                ) : null}
+                )}
             </div>
         );
     }
@@ -335,18 +328,18 @@ class App extends Component {
     }
 
     async createSession(sessionId) {
-        const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
+        const response = await customAxios.post(`${process.env.REACT_APP_SERVER}/api/sessions`, { customSessionId: sessionId }, {
             headers: { 'Content-Type': 'application/json', },
         });
         return response.data; // The sessionId
     }
 
     async createToken(sessionId) {
-        const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
+        const response = await customAxios.post(`${process.env.REACT_APP_SERVER}/api/sessions/` + sessionId + '/connections', {}, {
             headers: { 'Content-Type': 'application/json', },
         });
         return response.data; // The token
     }
 }
 
-export default App;
+export default WebRTC;
