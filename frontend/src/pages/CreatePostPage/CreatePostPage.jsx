@@ -15,22 +15,21 @@ import NavBar from "../../components/NavBar/NavBar";
 
 import { postImageApi, postCreateApi } from "../../api/posts";
 import useDocumentTitle from "../../useDocumentTitle";
+import { tab } from "@testing-library/user-event/dist/tab";
 
 Quill.register("modules/ImageResize", ImageResize);
 
 const QuillContainer = () => {
-    const [isLoading, setIsLoading] = useState(false);
   useDocumentTitle("게시글 작성");
-
   const navigate = useNavigate();
-  const { boardId } = useParams();
-  const { state: currboardName } = useLocation();
 
-  // const [ value, setValue ] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [nickNameInput, setnickName] = useState("");
+  const [imageList, setimageList] = useState([]);
+  const { state: currboardName } = useLocation();
+  const { boardId } = useParams();
   const TitleElement = useRef(null);
   const quillElement = useRef(null);
-  const [imageList, setimageList] = useState([]);
 
   const modules = {
     toolbar: {
@@ -45,6 +44,23 @@ const QuillContainer = () => {
     },
     ImageResize: { modules: ["Resize"] },
   };
+
+  const handleTabDown = (event) => {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      window.document.querySelector(".ql-editor").focus();
+    }
+  };
+
+  const handleShiftTabDown = (event) => {
+    if (event.key === "Tab" && event.shiftKey) {
+      event.preventDefault();
+      window.document
+        .querySelector(".CreatePostPage_inputTitle__GMlQG")
+        .focus();
+    }
+  };
+
   const formats = [
     "header",
     "bold",
@@ -103,42 +119,43 @@ const QuillContainer = () => {
 
   function sendformData() {
     let content = quillElement.current.editor.root.innerHTML;
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       // let content = quillElement.current.editor.root.innerHTML;
-      const imagePromises = []
-  
+      const imagePromises = [];
+
       //글 등록하는 현재 content에 존재하는 image만 formData에 싣기
       imageList.forEach((image) => {
-        let regexOne = new RegExp(`${image.url}`)
-        let imageString = String(regexOne)
-        imageString = imageString.replace(/\\/g, '')
-    
-        const imageChecked = content.match(regexOne)
-    
+        let regexOne = new RegExp(`${image.url}`);
+        let imageString = String(regexOne);
+        imageString = imageString.replace(/\\/g, "");
+
+        const imageChecked = content.match(regexOne);
+
         if (imageChecked) {
-          // formData에 해당 이미지 싣기 
+          // formData에 해당 이미지 싣기
           const formData = new FormData();
           formData.append("uploadFile", image.file);
-  
-          const promise = postImageApi(formData)
-          .then((res) => {
-            // console.log('image', res.url)
-            // console.log("success");
-            const uploadPath = res.data;
-            content = content.replace(regexOne, `${uploadPath}`)
-            // console.log('change source', content)
-            // quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${uploadPath}`);
-            
-            window.URL.revokeObjectURL(image.url)
-          }).catch((err) => console.log(err));
 
-          imagePromises.push(promise)
-        } 
-      })
+          const promise = postImageApi(formData)
+            .then((res) => {
+              // console.log('image', res.url)
+              // console.log("success");
+              const uploadPath = res.data;
+              content = content.replace(regexOne, `${uploadPath}`);
+              // console.log('change source', content)
+              // quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${uploadPath}`);
+
+              window.URL.revokeObjectURL(image.url);
+            })
+            .catch((err) => console.log(err));
+
+          imagePromises.push(promise);
+        }
+      });
       Promise.all(imagePromises)
-      .then(() => resolve(content))
-      .catch((err) => reject(err));
-    })
+        .then(() => resolve(content))
+        .catch((err) => reject(err));
+    });
   }
 
   function sendPost(content) {
@@ -161,24 +178,21 @@ const QuillContainer = () => {
     let contentTest = quillElement.current.editor.root.innerHTML;
     // console.log(contentTest)
     if (!titleTest) {
-      alert('제목을 입력해주세요!')
-    } else if (contentTest == '<p><br></p>') {
-      alert('내용을 입력하세요!')
+      alert("제목을 입력해주세요!");
+    } else if (contentTest == "<p><br></p>") {
+      alert("내용을 입력하세요!");
     } else if (!nickNameInput) {
-      alert('닉네임을 입력하세요!')
+      alert("닉네임을 입력하세요!");
     } else {
-      createPost()
+      createPost();
     }
-  }
+  };
 
   async function createPost() {
     try {
       setIsLoading(true); // 로딩 시작
       const content = await sendformData();
-      // console.log("sendformData completed");
-
       await sendPost(content);
-      // console.log("sendPost completed");
     } catch (err) {
       console.error("Error in createPost:", err);
     } finally {
@@ -186,68 +200,74 @@ const QuillContainer = () => {
     }
   }
 
-  // 이외 함수들      
+  // 이외 함수들
   const handleCancel = () => {
     navigate(-1);
   };
 
   return (
-    <div>
-      <TopSpace />
-      <NavBar />
-
-      <div className={styles.craetecontainer}>
-        <div className={styles.topmenu}>
-          <h3 className={styles.topmenuBox}>
-            <p className={styles.boardTitle}>{currboardName}</p>
-            <p>새 글 작성</p>
-          </h3>
-          <button className="btn" id={styles.createsubmitbutton} onClick={createRequest} disabled={isLoading}>
-            게시하기
-          </button>
-        </div>
-
-        <div>
-          <input
-            className={styles.inputTitle}
-            type="text"
-            placeholder="제목을 입력하세요"
-            ref={TitleElement}
-          />
-        </div>
-
-        <ReactQuill
-          id="react-quill"
-          // value={value}
-          // onChange={onChangeValue}
-          modules={modules}
-          formats={formats}
-          selection={{ start: 0, end: 0 }}
-          theme="snow"
-          style={{ height: "100%" }}
-          ref={quillElement}
-        />
-
-        <div className={styles.nicknameContainer}>
-          <span className={styles.nicknametitleBox}>닉네임</span>
-          <input
-            type="text"
-            onChange={(e) => setnickName(e.target.value)}
-            placeholder="닉네임을 입력하세요"
-          />
-        </div>
-        <div className={styles.undermenu}>
-          <button className={styles.grayoutbutton} onClick={handleCancel}>
-            <IoIosArrowBack />
-            목록으로 돌아가기
-          </button>
-          <button className="btn" id={styles.createsubmitbutton} onClick={createRequest}>
-            게시하기
-          </button>
-        </div>
+    <div className={styles.craetecontainer}>
+      <div className={styles.topmenu}>
+        <h3 className={styles.topmenuBox}>
+          <p className={styles.boardTitle}>{currboardName}</p>
+          <p>새 글 작성</p>
+        </h3>
+        <button
+          className="btn"
+          id={styles.createsubmitbutton}
+          onClick={createRequest}
+          disabled={isLoading}
+        >
+          게시하기
+        </button>
       </div>
-      <div className={styles.footerContainer}>
-        <Footer />
+
+      <div className={styles.nickNameContainer}>
+        <label for="inputNickname" class="form-label">
+          닉네임
+        </label>
+        <input
+          id ="inputNickname"
+          type="text"
+          class="form-control"
+          onChange={(e) => setnickName(e.target.value)}
+          placeholder="닉네임을 입력하세요"
+        />
+      </div>
+
+      <div>
+        <input
+          className={styles.inputTitle}
+          type="text"
+          placeholder="제목을 입력하세요"
+          onKeyDown={handleTabDown}
+          ref={TitleElement}
+        />
+      </div>
+
+      <ReactQuill
+        id="react-quill"
+        onKeyDown={handleShiftTabDown}
+        modules={modules}
+        formats={formats}
+        selection={{ start: 0, end: 0 }}
+        theme="snow"
+        style={{ height: "600px" }}
+        ref={quillElement}
+      />
+
+      <div className={styles.undermenu}>
+        <button className={styles.grayoutbutton} onClick={handleCancel}>
+          <IoIosArrowBack className="align-self-center" />
+          <p className="align-self-center">목록으로 돌아가기</p>
+        </button>
+        <button
+          className="btn"
+          id={styles.createsubmitbutton}
+          onClick={createRequest}
+        >
+          게시하기
+        </button>
       </div>
     </div>
   );
