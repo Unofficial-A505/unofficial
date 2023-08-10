@@ -62,6 +62,9 @@ public class AuthService {
     public AuthDto.TokenDto reissue(String requestAccessTokenInHeader, String requestRefreshToken) {
         String requestAccessToken = resolveToken(requestAccessTokenInHeader);
 
+        System.out.println("requestRefreshToken "+requestRefreshToken);
+        System.out.println("requestAccessToken "+requestAccessToken);
+
         Authentication authentication = jwtTokenProvider.getAuthentication(requestAccessToken);
         String principal = getPrincipal(requestAccessToken);
 
@@ -149,9 +152,9 @@ public class AuthService {
         }
 
         // Redis에 로그아웃 처리한 AT 저장
-        long expiration = jwtTokenProvider.getTokenExpirationTime(requestAccessToken) - new Date().getTime();
-        redisService.setValuesWithTimeout(requestAccessToken,
-                "logout",
-                expiration);
+//        long expiration = jwtTokenProvider.getTokenExpirationTime(requestAccessToken) - new Date().getTime();
+//        redisService.setValuesWithTimeout(requestAccessToken,
+//                "logout",
+//                expiration);
     }
 }

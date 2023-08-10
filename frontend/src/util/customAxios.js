@@ -41,22 +41,35 @@ customAxios.interceptors.response.use(
       const res = await axios.post(
         `${process.env.REACT_APP_SERVER}/api/auth/reissue`,
         { params: {} },
-        { headers: { 
-          REFRESH_TOKEN: refreshToken,
-          Authorization: originalRequest.Authorization
-        } }
-      ).catch(()=> {
+        {
+          headers: {
+            REFRESH_TOKEN: refreshToken,
+            Authorization: originalRequest.Authorization
+          }
+        }
+      ).catch(() => {
         alert("로그인 해주세요")
         store.dispatch(setAccessToken(""))
         store.dispatch(setAuthUserEmail(""))
-        localStorage.setItem("REFRESH_TOKEN","")
-        window.document.location.href="/"
+        localStorage.setItem("REFRESH_TOKEN", "")
+        window.document.location.href = "/"
       });
       if (res.status === 200) {
         store.dispatch(
           setAccessToken(res.data.accessToken)
         ); // Dispatch an action to update the access token in Redux
         return customAxios(originalRequest);
+      } else {
+        axios.post(
+          process.env.REACT_APP_SERVER + `/api/auth/logout`,
+          { params: {} },
+          {
+            headers: {
+              Authorization: originalRequest.Authorization
+            }
+          }
+        )
+          .catch((err) => console.log(err))
       }
     }
     return Promise.reject(error);
