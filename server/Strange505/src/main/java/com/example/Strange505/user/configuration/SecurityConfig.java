@@ -69,6 +69,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/best").permitAll()
                 .requestMatchers("/api/verify/**").permitAll()
                 .requestMatchers("/api/ads/active").permitAll()
+                .requestMatchers("/api/boards").permitAll()
+                .requestMatchers("/api/articles/board/**").permitAll()
                 .requestMatchers("/api/swagger-ui/**").permitAll()
                 .requestMatchers("/api/swagger-ui").permitAll()
                 .requestMatchers("/v3/api-docs/swagger-config").permitAll()
