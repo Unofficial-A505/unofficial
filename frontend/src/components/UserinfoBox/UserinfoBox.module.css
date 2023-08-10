@@ -130,5 +130,12 @@
 }
 .myIcon {
   align-self: center;
-  margin-right: 2px;
+  margin-right: 5px;
+}
+.midIcon {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  border-left: 1px solid #d2d4d8;
+  border-right: 1px solid #d2d4d8;
 }

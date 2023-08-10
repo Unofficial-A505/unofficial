@@ -17,14 +17,15 @@ export default function UserinfoBox() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [isAuth, setIsAuth] = useState(null);
+  // const [isAuth, setIsAuth] = useState(null);
+  const [isAuth, setIsAuth] = useState(true);
   const [userInfo, setUserInfo] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
   const authUser = useSelector((state) => state.authUser);
 
-  useEffect(() => {
-    setIsAuth(authUser.accessToken);
-  }, [authUser]);
+  // useEffect(() => {
+  //   setIsAuth(authUser.accessToken);
+  // }, [authUser]);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -140,23 +141,23 @@ export default function UserinfoBox() {
             onClick={() => navigate("/user/advertisement/myadv")}
           >
             <FaBullhorn className={styles.myIcon} />
-            &nbsp;
             <p className="align-self-center">광고 신청</p>
           </div>
           <div
             className={styles.myButton}
+            style={{ padding: "10px 0" }}
             onClick={() => navigate("/user/activity/myposts")}
           >
-            <BsFileEarmarkText className={styles.myIcon} />
-            &nbsp;
-            <p className="align-self-center">내 게시글</p>
+            <div className={styles.midIcon}>
+              <BsFileEarmarkText className={styles.myIcon} />
+              <p className="align-self-center">내 게시글</p>
+            </div>
           </div>
           <div
             className={styles.myButton}
             onClick={() => navigate("/user/activity/mycomments")}
           >
             <AiOutlineComment className={styles.myIcon} />
-            &nbsp;
             <p className="align-self-center">내 댓글</p>
           </div>
         </div>
