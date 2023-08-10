@@ -24,10 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -112,9 +109,15 @@ public class CommentServiceImpl implements CommentService {
 
         for (Comment c :
                 repoList) {
-            System.out.println(c.getContent());
             checkParent(c, user, list);
         }
+
+        Collections.sort(list, new Comparator<CommentResponseDto>() {
+            @Override
+            public int compare(CommentResponseDto s1, CommentResponseDto s2) {
+                return (int)(s1.getOrderId() - s2.getOrderId());
+            }
+        });
 
         Map<String, Object> pageInfo = new HashMap<>();
         pageInfo.put("page", pageable.getPageNumber());
@@ -134,23 +137,37 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private void checkParent(Comment c, User currUser, List<CommentResponseDto> list) {
-        if (c.getParent() == null) {
+        if (c.getParent() == null) { // 부모 댓글이라면 orderId는 자신의 아이디 * 1000
 
+            list.add(CommentResponseDto.builder()
+                    .id(c.getId())
+                    .articleId(c.getArticle().getId())
+                    .content(c.getContent())
+                    .parentId(null)
+                    .nickName(c.getNickName())
+                    .gen(c.getUser().getGen())
+                    .local(c.getUser().getLocal())
+                    .isUser(checkUser(c.getUser().getId(), currUser.getId()))
+                    .orderId(c.getId() * 1000L)
+                    .createTime(c.getCreateTime())
+                    .modifyTime(c.getModifyTime())
+                    .build());
+
+            // 자식 댓글(대댓글)
             List<CommentResponseDto> reComment = c.getChildren().stream().map(comment -> new CommentResponseDto(
                     comment.getId(),
                     comment.getArticle().getId(), comment.getContent(), c.getId(),
                     comment.getNickName(),
                     comment.getUser().getGen(), comment.getUser().getLocal(),
                     checkUser(comment.getUser().getId(), currUser.getId()),
+                    0L,
                     comment.getCreateTime(), comment.getModifyTime(), null)).toList();
 
-            list.add(new CommentResponseDto(
-                    c.getId(),
-                    c.getArticle().getId(), c.getContent(), null,
-                    c.getNickName(),
-                    c.getUser().getGen(), c.getUser().getLocal(),
-                    checkUser(c.getUser().getId(), currUser.getId()),
-                    c.getCreateTime(), c.getModifyTime(), reComment));
+            for (int i = 0; i < reComment.size(); i++){ // 자식댓글, 즉 대댓글이라면 부모댓글 * 1000에 차례대로 1씩 더해짐
+                reComment.get(i).setOrderId(reComment.get(i).getParentId() * 1000L + (i + 1));
+                list.add(reComment.get(i));
+            }
+
         }
     }
 
@@ -194,7 +211,8 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("해당 댓글이 존재하지 않습니다."));
         if (user.getId() == comment.getUser().getId() || user.getRole() == Role.ADMIN) {
             comment.update(dto.getContent(), LocalDateTime.now());
-            Comment modifiedComment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("해당 댓글이 존재하지 않습니다."));;
+            Comment modifiedComment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("해당 댓글이 존재하지 않습니다."));
+            ;
             return new CommentResponseDto(modifiedComment);
         } else {
             throw new NotAuthorException("작성자만 삭제 가능합니다.");
@@ -211,7 +229,7 @@ public class CommentServiceImpl implements CommentService {
             comment.remove();
             List<Comment> removableCommentList = comment.findRemovableList();
             log.info("removeList = {}", removableCommentList);
-            for (Comment c: removableCommentList) {
+            for (Comment c : removableCommentList) {
                 c.remove();
             }
         } else {
