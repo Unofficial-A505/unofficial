@@ -63,5 +63,5 @@ main: main
 
 springdoc:
   swagger-ui:
-    path: /api/swagger-ui.html
+    path: /api/swagger-ui
     use-root-path: true
