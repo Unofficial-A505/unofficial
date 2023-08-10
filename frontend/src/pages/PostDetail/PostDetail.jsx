@@ -94,6 +94,7 @@ export default function PostDetail() {
   };
 
   useDocumentTitle(boardTitle);
+
   useEffect(() => {
     setcurrpostPage(currPage)
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -110,7 +111,7 @@ export default function PostDetail() {
 
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    // 현재 board 게시글
+    //현재 board 게시글
     boardsArticles(boardId, currpostPage, 20)
     .then((res) => {
       setcurrboardPosts(res.content);
@@ -138,26 +139,11 @@ export default function PostDetail() {
       setPageInfo(res.pageInfo)
       setcurrpostPage(res.pageInfo.page)})
     .catch((err) => console.log(err));
-
-    const targetElement = document.getElementById("board-posts-more"); // 스크롤할 요소 선택
-    if (targetElement) {
-      // comment scroll to
-      // console.log('targetElement', targetElement)
-      const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY; // 요소의 상단 위치
-      window.scrollTo({ top: targetPosition, behavior: "smooth" });
-    }}, [currpostPage]);
+  }, [currpostPage])
 
   useEffect(() => {
     getComment();
-    const targetElement = document.getElementById("comment-input-box"); // 스크롤할 요소 선택
-    if (targetElement) {
-      // comment scroll to
-      // console.log('targetElement', targetElement)
-      const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY; // 요소의 상단 위치
-      window.scrollTo({ top: targetPosition, behavior: "smooth" });
-    }
   }, [currcommentPage])
-
 
   // 게시글 삭제
   const postDelete = () => {
@@ -237,12 +223,26 @@ export default function PostDetail() {
   // 게시글 더보기 pagination
   const postsmorePaginate = (pageNum) => {
     setcurrpostPage(pageNum)
-    }
+
+    const targetElement = document.getElementById("board-posts-more"); // 스크롤할 요소 선택
+    if (targetElement) {
+      // comment scroll to
+      // console.log('targetElement', targetElement)
+      const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY; // 요소의 상단 위치
+      window.scrollTo({ top: targetPosition, behavior: "smooth" });
+  }}
 
   // 댓글 pagination
   const comentPaginate = (pageNum) => {
     setcurrcommentPage(pageNum)
-    }
+
+    const targetElement = document.getElementById("comment-input-box"); // 스크롤할 요소 선택
+    if (targetElement) {
+      // comment scroll to
+      // console.log('targetElement', targetElement)
+      const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY; // 요소의 상단 위치
+      window.scrollTo({ top: targetPosition, behavior: "smooth" });
+  }}
 
   // const createTime = postDetail.createTime;
   // const updateTime = postDetail.modifyTime;
@@ -394,9 +394,10 @@ export default function PostDetail() {
            }
            })}
           </div>
-          <div id="board-posts-more" className={styles.commentPagination}>
+          {comments.length ? 
+          (<div id="board-posts-more" className={styles.commentPagination}>
             <Pagination totalPages={commentPageInfo.totalPages} paginate={comentPaginate} currPage={currcommentPage}/>
-          </div>
+          </div>): ""}
 
           {/* <div className={styles.pageBottomtab}>
             <button
@@ -445,7 +446,7 @@ export default function PostDetail() {
           </div>
           <PostTypeTitleBar />
           <BoardView posts={currboardPosts} boardId={boardId} />
-          <Pagination totalPages={pageInfo.totalPages} paginate={postsmorePaginate} currPage={currpostPage}/>
+          <Pagination totalPages={pageInfo.totalPages} paginate={postsmorePaginate} currPage={currpostPage} />
         </span>
 
         <span className={styles.sideviewContainer}>

@@ -1,6 +1,6 @@
 import styles from './Pagination.module.css'
 
-export default function Pagination({totalPages, paginate, currPage}) {
+export default function Pagination({totalPages, paginate, currPage, Pagechange}) {
   const pageNumbers = []
   console.log(totalPages, currPage)
 
@@ -16,8 +16,13 @@ export default function Pagination({totalPages, paginate, currPage}) {
       <div>이쪽</div>
       <div className={styles.paginationNumsContainer}>
         {pageNumbers.map(num => 
-          <div className={num-1==currPage?styles.paginationNumBoxcurr:styles.paginationNumBox} key={num}>
-            <a className={num-1==currPage?styles.paginationNumcurr:styles.paginationNum} onClick={() => paginate(num-1)} >{num}</a>
+          <div className={num-1==currPage?styles.paginationNumBoxcurr:styles.paginationNumBox} 
+          onClick={() => {
+            paginate(num-1);
+            if (Pagechange) {
+              Pagechange();}}}
+          key={num}>
+            <a className={num-1==currPage?styles.paginationNumcurr:styles.paginationNum}  >{num}</a>
           </div>  
         )}
         </div>

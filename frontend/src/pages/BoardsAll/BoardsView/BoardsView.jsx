@@ -33,12 +33,20 @@ export default function BoardsView() {
 
   const paginate = (pageNum) => {
     setcurrPage(pageNum)
+
+    const targetElement = document.getElementById("post-top-bar"); // 스크롤할 요소 선택
+    if (targetElement) {
+      // comment scroll to
+      // console.log('targetElement', targetElement)
+      const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY; // 요소의 상단 위치
+      window.scrollTo({ top: targetPosition, behavior: "smooth" });
+    }
     }
 
   if (posts) {
     return (
-      <div>
-        <PostTypeTitleBar />
+      <div id="post-top-bar">
+        <PostTypeTitleBar/>
 
         {
         posts.map((post, index) => (
