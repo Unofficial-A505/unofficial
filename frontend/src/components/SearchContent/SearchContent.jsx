@@ -1,6 +1,7 @@
 import styles from "./SearchContent.module.css";
 
 import BoardView from "../BoardView/BoardView";
+import PostTypeTitleBar from "../PostTypeTitleBar/PostTypeTitleBar";
 
 export default function SearchContent({ searchResults, keyword }) {
   const searchView = true;
@@ -8,6 +9,7 @@ export default function SearchContent({ searchResults, keyword }) {
   if (searchResults) {
     return (
       <div>
+        <PostTypeTitleBar />
         <div className={styles.searchcontentContainer}>
           <BoardView
             posts={searchResults}

@@ -189,7 +189,6 @@ export default function PostDetail() {
       alert("닉네임을 입력해주세요!");
     } else {
       setIsButtonDisabled(true)
-      console.log('isbuttonDisabled state', isButtonDisabled)
       const content = createcomment;
       const parentId = 0;
       const articleId = postId;
@@ -446,7 +445,9 @@ export default function PostDetail() {
           </div>
           <PostTypeTitleBar />
           <BoardView posts={currboardPosts} boardId={boardId} />
-          <Pagination totalPages={pageInfo.totalPages} paginate={postsmorePaginate} currPage={currpostPage} />
+          <div className={styles.postmorePagination}>
+            <Pagination totalPages={pageInfo.totalPages} paginate={postsmorePaginate} currPage={currpostPage} />
+          </div>
         </span>
 
         <span className={styles.sideviewContainer}>

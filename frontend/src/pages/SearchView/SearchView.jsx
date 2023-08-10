@@ -61,10 +61,6 @@ export default function SearchView() {
         setboardNames(res);
       })
       .catch((err) => console.log(err));
-
-    return () => {
-      console.log("unmounted");
-    };
   }, []);
 
   return (

@@ -10,6 +10,7 @@ register('ko', koLocale)
 
 export default function PostView({ post, boardId, searchView, keyword, myBoard, currPage }) {
   const navigate = useNavigate();
+  console.log(post)
 
   const createTime = post.createTime
   // const updateTime = post.modifyTime
@@ -20,8 +21,8 @@ export default function PostView({ post, boardId, searchView, keyword, myBoard, 
     <>
       <div className={styles.boardpostContainer}>
         <div className={styles.postContainerA}>
-          <div className={styles.postContent} id={myBoard?styles.boardName:styles.postId}>
-            {myBoard?post.boardName:post.id}
+          <div className={styles.postContent} id={myBoard||searchView?styles.boardName:styles.postId}>
+            {myBoard||searchView?post.boardName:post.id}
           </div>
 
           {!searchView ?
@@ -37,13 +38,14 @@ export default function PostView({ post, boardId, searchView, keyword, myBoard, 
           </div>)}
 
         </div>
-        <div className={styles.postContainerB}>
+        <div className={!searchView?styles.postContainerB:styles.postContainerC}>
           <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}>{post.commentsCount}</div>
           <div className={styles.postContent} id={myBoard?styles.postcreateBoxsmall:styles.postcreateBox}>{myBoard?post.createTime:format(post.createTime, 'ko')}</div>
           <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}>
             {/* <FaRegThumbsUp className={styles.postIcon}/> */}
             {post.likes}</div>
-          <div className={styles.postContent} id={myBoard?styles.postviewBoxsmall:styles.postviewBox}>{post.views}</div>
+          {searchView?<div className={styles.postContent} id={styles.postviewBoxSearch}>{post.views}</div>
+          :<div className={styles.postContent} id={myBoard?styles.postviewBoxsmall:styles.postviewBox}>{post.views}</div>}
         </div>
       </div>
     </>

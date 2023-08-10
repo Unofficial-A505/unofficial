@@ -31,6 +31,16 @@
   /* border: 1px dotted red; */
 }
 
+.postContainerC {
+  display: flex;
+  justify-content: space-between;
+  margin: 8PX 12px 0 10px;
+  width: 35%;
+  text-align: right;
+
+  /* border: 1px dotted red; */
+}
+
 .postTitle {
   text-align: start;
   /* border: 1px dotted red; */
@@ -90,6 +100,10 @@
 
 #postcreatTime {
   text-align: right;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   /* border: 1px dotted red; */
 }
@@ -157,4 +171,20 @@
   white-space: nowrap;
 
   /* border: 1px dotted red; */
+}
+
+#postviewBoxSearch {
+
+  width: 70px;
+  text-align: center;
+
+  /* width 넘어가는 글자들 ... 처리*/
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+
+  /* border: 1px dotted red; */
+
+  /* padding: 0 0 0 10px; */
+
 }

@@ -143,7 +143,6 @@ function Drop({ setModalOpen, setDropComplete, userEmail }) {
         password: userPassword,
       })
       .then((res) => {
-        console.log(res);
         setDropComplete(true);
       })
       .catch((err) => {

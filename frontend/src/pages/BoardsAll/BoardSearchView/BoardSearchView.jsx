@@ -19,6 +19,7 @@ export default function BoardSearchView() {
     // 특정 게시판에서 게시글 검색
     searchViewApi(keyword, boardId)
     .then((res) => {
+      console.log(res)
       setsearchResults(res.data.content)
       setcurrboardName(res[0].boardName)
     }).catch((err) => console.log(err));
