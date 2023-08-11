@@ -55,11 +55,12 @@ public class Comment {
         children.add(child);
     }
 
+    public void removeChild(Comment child) {
+        children.remove(child);
+    }
+
     public void remove() {
         this.isRemoved = true;
-        if (this.parent != null) { // 자식 댓글이라면 부모 댓글의 자식리스트에서 제외하기
-            this.parent.children.remove(this);
-        }
     }
 
     public List<Comment> findRemovableList() {

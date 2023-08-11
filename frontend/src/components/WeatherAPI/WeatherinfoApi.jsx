@@ -6,17 +6,31 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
-export default function WeatherWidget() {
-  const cities = ["Seoul", "Daejeon", "Gumi", "Gwangju", "Busan"];
+export default function WeatherWidget({ userLocal }) {
+  const korToEng = {
+    서울: "Seoul",
+    대전: "Daejeon",
+    구미: "Gumi",
+    광주: "Gwangju",
+    부산: "Busan",
+  };
+  const userLocalEng = korToEng[userLocal];
+  let cities = ["Seoul", "Daejeon", "Gumi", "Gwangju", "Busan"];
   const api_key = "be3211008c87f453651f5f04faa61375";
   const [weatherData, setWeatherData] = useState([]);
 
   useEffect(() => {
     fetchWeatherData();
-  }, []);
+  }, [userLocal]);
 
   const fetchWeatherData = async () => {
     const data = await Promise.all(cities.map(getWeather));
+    const index = data.findIndex((item) => item.city.name === userLocalEng);
+
+    if (index !== -1) {
+      const matchedCity = data.splice(index, 1)[0];
+      data.unshift(matchedCity);
+    }
     setWeatherData(data);
   };
 
