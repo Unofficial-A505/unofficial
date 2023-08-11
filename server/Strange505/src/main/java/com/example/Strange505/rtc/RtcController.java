@@ -11,7 +11,7 @@ import java.util.Map;
 
 @CrossOrigin(origins = "*")
 @RestController
-public class Controller {
+public class RtcController {
 
 	@Value("${OPENVIDU_URL}")
 	private String OPENVIDU_URL;
@@ -20,6 +20,14 @@ public class Controller {
 	private String OPENVIDU_SECRET;
 
 	private OpenVidu openvidu;
+
+	private RtcRoomService rtcRoomService;
+
+
+	public RtcController(RtcRoomService rtcRoomService) {
+//		this.openvidu = new OpenVidu(OPENVIDU_URL, OPENVIDU_SECRET);
+		this.rtcRoomService = rtcRoomService;
+	}
 
 	@PostConstruct
 	public void init() {
@@ -61,4 +69,14 @@ public class Controller {
 		return new ResponseEntity<>(connection.getToken(), HttpStatus.OK);
 	}
 
+	@GetMapping("/api/sessions/getRoom")
+	public ResponseEntity<String> getRoom() {
+		return ResponseEntity.status(HttpStatus.OK).body(rtcRoomService.findRoom());
+	}
+
+	@PostMapping("api/sessions/outRoom")
+	public ResponseEntity<?> outRoom() {
+
+		return ResponseEntity.ok().build();
+	}
 }
