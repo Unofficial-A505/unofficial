@@ -9,7 +9,7 @@ import RecommentsView from "../../components/RecommentsView/RecommentsView";
 import BestpostsWidget from "../../components/BestpostsWidget/BestpostsWidget";
 import ServerTime from "../../components/ServerTime/ServerTime";
 import PostTypeTitleBar from "../../components/PostTypeTitleBar/PostTypeTitleBar";
-import Pagination from "../../components/Pagination/Pagination";
+import PaginationCustom from "../../components/Pagination/Pagination";
 
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
@@ -252,14 +252,17 @@ export default function PostDetail() {
     <>
       <div className={styles.postdetailallContainer}>
         <span className={styles.postviewContainer}>
-          
           <div className={styles.postTopbar}>
-            <span className={styles.boardTitle}
-            onClick={() =>
-              navigate(`/boards/${postDetail.boardId}`, {
-                state: postDetail.boardId,
-              })
-            }>{postDetail.boardName}</span>
+            <span
+              className={styles.boardTitle}
+              onClick={() =>
+                navigate(`/boards/${postDetail.boardId}`, {
+                  state: postDetail.boardId,
+                })
+              }
+            >
+              {postDetail.boardName}
+            </span>
             <button
               className={styles.grayoutbutton}
               onClick={() =>
@@ -277,12 +280,15 @@ export default function PostDetail() {
             <div>
               <div className={styles.postTitle}>{postDetail.title}</div>
               <div className={styles.postusername}>
-                <span>{postDetail.local} {postDetail.gen}기</span><span> {postDetail.nickName}</span>
+                <span>
+                  {postDetail.local} {postDetail.gen}기
+                </span>
+                <span> {postDetail.nickName}</span>
               </div>
               <div className={styles.dateViews}>
                 <div className={styles.posttimeago}>
                   <IoRocketOutline className={styles.tabIcon} size="20" />
-                  {format(postDetail.createTime, 'ko')}
+                  {format(postDetail.createTime, "ko")}
                 </div>
                 <div className={styles.posttimeago}>
                   <AiOutlineEye className={styles.tabIcon} size="19" />
@@ -368,7 +374,11 @@ export default function PostDetail() {
                 }}
                 placeholder="댓글을 작성해보세요"
               />
-              <button className={styles.commentButton} onClick={commentCreate} disabled={isButtonDisabled}>
+              <button
+                className={styles.commentButton}
+                onClick={commentCreate}
+                disabled={isButtonDisabled}
+              >
                 <IoChatboxOutline size="23" />
               </button>
             </div>
@@ -378,25 +388,40 @@ export default function PostDetail() {
             <hr />
             {comments.map((comment, index) => {
               if (!comment.parentId) {
-              return(<div key={index}>
-                <CommentView
-                  comment={comment}
-                  commentUpdate={commentUpdate}
-                  getComment={getComment}
-                />
-              </div>);
-           } else {
-            return (<div key={index}>
-              <RecommentsView recomment={comment} parentId={comment.parentId} getComment={getComment} articleId={comment.articleId}/>
-            </div>
-            );
-           }
-           })}
+                return (
+                  <div key={index}>
+                    <CommentView
+                      comment={comment}
+                      commentUpdate={commentUpdate}
+                      getComment={getComment}
+                    />
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={index}>
+                    <RecommentsView
+                      recomment={comment}
+                      parentId={comment.parentId}
+                      getComment={getComment}
+                      articleId={comment.articleId}
+                    />
+                  </div>
+                );
+              }
+            })}
           </div>
-          {comments.length ? 
-          (<div id="board-posts-more" className={styles.commentPagination}>
-            <Pagination totalPages={commentPageInfo.totalPages} paginate={comentPaginate} currPage={currcommentPage}/>
-          </div>): ""}
+          {comments.length ? (
+            <div id="board-posts-more" className={styles.commentPagination}>
+              <PaginationCustom
+                totalPages={commentPageInfo.totalPages}
+                paginate={comentPaginate}
+                currPage={currcommentPage}
+              />
+            </div>
+          ) : (
+            ""
+          )}
 
           {/* <div className={styles.pageBottomtab}>
             <button
@@ -444,9 +469,17 @@ export default function PostDetail() {
             </button>
           </div>
           <PostTypeTitleBar />
-          <BoardView posts={currboardPosts} boardId={boardId} currPage={currpostPage}/>
+          <BoardView
+            posts={currboardPosts}
+            boardId={boardId}
+            currPage={currpostPage}
+          />
           <div className={styles.postmorePagination}>
-            <Pagination totalPages={pageInfo.totalPages} paginate={postsmorePaginate} currPage={currpostPage} />
+            <PaginationCustom
+              totalPages={pageInfo.totalPages}
+              paginate={postsmorePaginate}
+              currPage={currpostPage}
+            />
           </div>
         </span>
 
