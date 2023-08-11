@@ -1,7 +1,6 @@
 .craetecontainer {
   width: 1200px;
   margin: 10px auto;
-  /* border: 1px dotted red; */
 }
 
 .topmenu {
@@ -22,33 +21,25 @@
 
 .boardTitle {
   color: #034BB9;
-  margin: 0 10px 0 0;
+  margin-right: 10px;
+  margin-bottom: 1rem;
   font-size: 20px;
   font-weight: 700;
 }
 
-.boardnameTitle {
-  margin: 0 0 0 10px;
-  text-align: start;
-  color: #000;
-  font-family: Inter;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700px;
-  line-height: normal;
-  display: flex;
-}
 .nickNameContainer {
   display: flex;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   width: 30%;
 }
+
 .nickNameContainer label {
   width: 20%;
   margin-bottom: 0;
   text-align: left;
   align-self: center;
 }
+
 .nickNameContainer input::placeholder {
   font-size: 0.9rem;
 }
@@ -56,11 +47,16 @@
 .inputTitle {
   font-size: 1.5rem;
   border: none;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   width: 100%;
 }
+
 .inputTitle::placeholder {
   font-size: 1.5rem;
+}
+
+.ql-container .ql-snow .ql-editor p {
+  font-size: 30px !important;
 }
 
 .undermenu {
@@ -79,12 +75,13 @@
   font-style: normal;
   font-weight: 400;
 }
+
 .grayoutbutton:hover {
   color: #222;
 }
 
 #createsubmitbutton:hover {
-  background-color: rgba(208, 208, 208, 0.264);  
+  background-color: rgba(208, 208, 208, 0.264);
   border: 1px solid black;
   position: relative;
 }

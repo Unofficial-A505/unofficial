@@ -85,6 +85,7 @@ const router = createBrowserRouter([
       },
       { path: "boards/:boardId/create", element: <CreatePostPage /> },
       { path: "boards/:boardId/:postId", element: <PostDetail /> },
+      { path: "boards/:boardId/:postId/update", element: <PostUpdate /> },
       { path: "boards/search/:keyword", element: <SearchView /> },
       { path: "web-rtc", element: <WebRTC /> },
       { path: "forgot-password", element: <ForgotPasswordPage /> },
@@ -100,7 +101,6 @@ const router = createBrowserRouter([
       { path: "complete", element: <Signup3 /> },
     ],
   },
-  { path: "boards/:boardId/:postId/update", element: <PostUpdate /> },
   { path: "user/advertisement/form", element: <AddAdvPage /> },
   { path: "verify", element: <EmailVerifyPage /> },
 ]);
