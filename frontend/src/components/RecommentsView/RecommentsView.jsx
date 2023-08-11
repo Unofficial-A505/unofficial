@@ -23,7 +23,6 @@ export default function RecommentsView({ recomment, getComment, articleId, paren
   // 대댓글 삭제
   const recommentDelete = (id) => {
     if (window.confirm("댓글을 삭제하시겠습니까?")) {
-      console.log('id', id)
       postCommentDeleteApi(id)
       .then(() => {
         getComment();
@@ -36,7 +35,7 @@ export default function RecommentsView({ recomment, getComment, articleId, paren
     const content = updatereComment
     const nickName = recomment.nickName
     postCommentUpdateApi(id, articleId, content, parentId, nickName)
-    .then((res) => {
+    .then(() => {
       getComment();
 
       setupdatereComment("")

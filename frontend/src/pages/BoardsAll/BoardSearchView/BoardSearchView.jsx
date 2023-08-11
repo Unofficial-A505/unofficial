@@ -9,9 +9,11 @@ import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack';
 import { searchViewApi } from "../../../api/boards"
 
 export default function BoardSearchView() {
+  const searchView = false
   const navigate = useNavigate();
   const { boardId } = useParams();
   const { keyword } = useParams();
+  // console.log('boardId', boardId)
   const [ currboardName, setcurrboardName ] = useState('')
   const [ searchResults, setsearchResults ] = useState([]);
 
@@ -19,7 +21,8 @@ export default function BoardSearchView() {
     // 특정 게시판에서 게시글 검색
     searchViewApi(keyword, boardId)
     .then((res) => {
-      setsearchResults(res.data.content)
+      console.log(res)
+      setsearchResults(res)
       setcurrboardName(res[0].boardName)
     }).catch((err) => console.log(err));
 
@@ -33,7 +36,7 @@ export default function BoardSearchView() {
       </div>
         
       <div className={styles.boardscontentTitles}>
-        <SearchContent searchResults={searchResults} keyword={keyword}/>
+        <SearchContent searchResults={searchResults} keyword={keyword} searchView={searchView}/>
       </div>
     </div>
   );

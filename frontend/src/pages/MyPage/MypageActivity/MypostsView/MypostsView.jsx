@@ -1,6 +1,7 @@
 import styles from "./MypostsView.module.css";
 
 import BoardView from "../../../../components/BoardView/BoardView";
+import PostTypeTitleBar from "../../../../components/PostTypeTitleBar/PostTypeTitleBar";
 import { useEffect, useState } from "react";
 import customAxios from "../../../../util/customAxios";
 import { PaginationControl } from "react-bootstrap-pagination-control";
@@ -9,7 +10,7 @@ export default function MypostsView() {
   const [myPosts, setMyPosts] = useState([]);
   const [page, setPage] = useState(1);
   const [pageInfo, setPageInfo] = useState({});
-  const size = 9;
+  const size = 7;
 
   useEffect(() => {
     customAxios
@@ -22,9 +23,6 @@ export default function MypostsView() {
 
   return (
     <div className={styles.contentContainer}>
-      <div className={styles.welcomeContainer}>
-        <div />
-      </div>
       <div className={styles.myContentContainer}>
         <div className={styles.mycontentTop}>
           <div className={styles.mycontentTitle}>
@@ -35,12 +33,12 @@ export default function MypostsView() {
           </div>
           {/* <p style={{color:'#282828'}}>가입한지 <span style={{color:'#034BB9', fontSize:'1.2rem', fontWeight:'600'}}>+{ date }일</span></p> */}
         </div>
+        <div className={styles.PostTypeTitleBarBox}><PostTypeTitleBar /></div>
         {!myPosts.length ? (
           <p className="ms-3 mt-4">아직 작성한 게시글이 없습니다.</p>
         ) : (
-          <BoardView posts={myPosts} myBoard={true} />
+          <div className={styles.ContentsBox}><BoardView posts={myPosts} myBoard='myBoard' /></div>
         )}
-      </div>
       <div style={{ width: "100%" }} className="d-flex justify-content-center">
         <PaginationControl
           page={page}
@@ -52,6 +50,7 @@ export default function MypostsView() {
           }}
           ellipsis={1}
         />
+      </div>
       </div>
     </div>
   );

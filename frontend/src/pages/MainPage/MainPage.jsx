@@ -11,6 +11,8 @@ import WeatherinfoApi from "../../components/WeatherAPI/WeatherinfoApi";
 import LunchCarousel from "../../components/LunchCarousel/LunchCarousel";
 import ServerTime from "../../components/ServerTime/ServerTime";
 import TopSpace from "../../components/TopSpace/TopSpace";
+import PostTypeTitleBar from "../../components/PostTypeTitleBar/PostTypeTitleBar";
+
 import useDocumentTitle from "../../useDocumentTitle";
 
 import { FaCrown } from "@react-icons/all-files/fa/FaCrown";
@@ -85,7 +87,8 @@ export default function MainPage() {
             Best 게시글
             <FaCrown className={styles.bestIcons} />
           </div>
-          <BoardView posts={bestPosts} myBoard={true} />
+          <div className={styles.posttypeTitlebarBox}><PostTypeTitleBar /></div>
+          <BoardView posts={bestPosts?.slice(0, 14)} myBoard={true}/>
         </div>
         <div className={styles.middleRightContainer}>
           <WeatherinfoApi userLocal={userInfo?.local} />
