@@ -60,6 +60,13 @@ const PostUpdate = () => {
   ];
 
   useEffect(() => {
+    const editor = document.querySelector(".ql-editor");
+    if (editor) {
+      editor.classList.add("fs-6");
+    }
+  }, []);
+
+  useEffect(() => {
     const delta = quillElement.current.editor.clipboard.convert(
       postDetail.content
     );
