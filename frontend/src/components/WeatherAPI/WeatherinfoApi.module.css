@@ -5,14 +5,14 @@
   background-color: #f4f6fa;
   /* border: 1px solid #d6d6d6; */
   border-radius: 1rem;
-  box-shadow: 0 0 0 1px #e3e5e8, 0 1px 2px 0 rgba(0,0,0,.04);
+  box-shadow: 0 0 0 1px #e3e5e8, 0 0 1px 0 #e8e8e8;
   margin-bottom: 1rem;
 }
 .weatherCardContainer {
   height: 14.5rem;
   padding: 0.8rem;
   background-color: #fff;
-  border: 1px solid #d6d6d6;
+  /* border: 0.1px solid #d6d6d6; */
   border-radius: 1rem;
 }
 .weatherCardContainer p {
