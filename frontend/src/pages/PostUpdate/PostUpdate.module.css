@@ -1,20 +1,24 @@
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="150px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="150px"]::before {
+  content: '150px';
+}
+
+.ql-snow .ql-size[data-value="150px"] {
+  font-size: 150px;
+}
+
 .craetecontainer {
   width: 1200px;
-  height: 600px;
-
-  /* border: 1px dotted red; */
   margin: 10px auto;
 }
 
-.upmenu {
+.topmenu {
   display: flex;
   justify-content: space-between;
-
-  margin: 20px 0 0 0;
+  margin-bottom: 1rem;
 }
 
 .topmenuBox {
-  margin: 0 0 0 10px;
   text-align: start;
   color: #000;
   font-size: 20px;
@@ -26,80 +30,63 @@
 
 .boardTitle {
   color: #034BB9;
-  margin: 0 10px 0 0;
+  margin-right: 10px;
+  margin-bottom: 1rem;
   font-size: 20px;
   font-weight: 700;
 }
 
-.boardnameTitle {
-  margin: 0 0 0 10px;
-  text-align: start;
-  color: #000;
-  font-family: Inter;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700px;
-  line-height: normal;
+.nickNameContainer {
   display: flex;
+  margin-bottom: 1.5rem;
+  width: 30%;
 }
 
-#createpagetitle {
-  text-align: start;
-  margin: 20px 0 10px 0;
+.nickNameContainer label {
+  width: 20%;
+  margin-bottom: 0;
+  text-align: left;
+  align-self: center;
+}
+
+.nickNameContainer input::placeholder {
+  font-size: 0.9rem;
 }
 
 .inputTitle {
-  font-size: 3rem;
-  outline: none;
-  padding-button: 0.5rem;
+  font-size: 1.5rem;
   border: none;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   width: 100%;
 }
 
-.editorcontainer {
-  margin: 0 auto;
+.inputTitle::placeholder {
+  font-size: 1.5rem;
 }
-
-.nicknameContainer {
-  width: 400px;
-  margin: 80px 0 40px 10px;
-}
-
-.nicknametitleBox {
-  margin: 0 10px;
-  width: 50px;
-
-  font-size: 20px;
-  font-weight: 500;
-} 
 
 .undermenu {
   width: 100%;
-  margin: 60px auto;
-
   display: flex;
   justify-content: space-between;
-
-  border-radius: 1px dotted red;
+  margin-top: 60px;
 }
 
 .grayoutbutton {
   border: 0;
   background-color: transparent;
-
+  display: flex;
   color: rgba(117, 117, 117, 0.80);
-  font-family: Inter;
-  font-size: 17.537px;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
 }
 
-#createsubmitbutton:hover {
-  background-color: rgba(208, 208, 208, 0.264);  
-  border: 1px solid black;
+.grayoutbutton:hover {
+  color: #222;
 }
 
-.footerContainer {
-  margin: 300px 0 0 0;
+#createsubmitbutton:hover {
+  background-color: rgba(208, 208, 208, 0.264);
+  border: 1px solid black;
+  position: relative;
 }

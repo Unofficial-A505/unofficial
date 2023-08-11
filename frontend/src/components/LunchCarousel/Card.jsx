@@ -2,7 +2,9 @@ import styles from "./Card.module.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+
 import lunch_loading from "./../../assets/images/lunch_loading.jpg";
+import spoon from "./../../assets/images/spoon.png";
 
 export default function Card({ lunchZip }) {
   const settings = {
@@ -19,6 +21,9 @@ export default function Card({ lunchZip }) {
   return (
     <div className={styles.card}>
       <div className={styles.title}>
+        <p style={{ alignSelf: "center" }}>
+          <img src={spoon} alt="spoon" width={22} />
+        </p>
         <p>{lunchZip[0].local} 캠퍼스</p>
       </div>
       <Slider {...settings}>
@@ -46,22 +51,26 @@ function Menu({ menu }) {
         }}
         alt={name}
       />
-      <div className="d-flex justify-content-between mb-1">
-        <p>{menu.courseName}</p>
-        <p>{cal}kcal</p>
-      </div>
-      <h2
-        className="mb-1"
-        style={{
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        }}
-      >
-        {name}
-      </h2>
+      <div className={styles.textContainer}>
+        <div className="d-flex justify-content-between mb-1">
+          <p>{menu.courseName}</p>
+          <p style={{ color: cal.length > 3 ? "#c90000" : "#0055c5" }}>
+            {cal}kcal
+          </p>
+        </div>
+        <h2
+          className="mb-1"
+          style={{
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {name}
+        </h2>
 
-      <p className={styles.detail}>{menu.detail}</p>
+        <p className={styles.detail}>{menu.detail}</p>
+      </div>
     </div>
   );
 }

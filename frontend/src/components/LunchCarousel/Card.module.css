@@ -1,13 +1,17 @@
 .card {
   width: 630px;
-  height: 92%;
+  height: 94%;
   display: flex;
   flex-direction: column;
   padding: 0.7rem 0.3rem 0 0.3rem;
-  border-radius: 0.5rem;
-  border: 0.5px solid rgba(0,0,0,.04);
-  box-shadow: 0 0 0 1px #e3e5e8, 5px 5px 10px 0 rgba(0,0,0,.04);
-  background-color: #f6f7f8;
+  border-radius: 12px;
+  /* border: 0.5px solid #e3e5e8; */
+  box-shadow: 0 0 3px 0.5px #e3e5e8;
+  background-color: #f3f6f9;
+}
+.title {
+  display: flex;
+  justify-content: center;
 }
 .title p {
   text-align: center;
@@ -20,21 +24,16 @@
   display: flex;
   flex-direction: column;
   padding: 0.2rem;
+  border-radius: 10px;
 }
 .menu img {
   width: auto;
   height: 8.8rem;
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  border: 0.2px solid #cdcdcd;
+  border-bottom: 0.2px solid #e8e8e8;
   background-color: #fff;
-  border-radius: 0.3rem;
+  border-radius: 16px 16px 0 0;
   transition: transform 0.2s ease-in-out;
 }
-/* .menu img:hover {
-  cursor: pointer;
-  transform: scale(1.02);
-} */
 .menu h2 {
   text-align: left;
   font-size: 0.9rem;
@@ -48,6 +47,13 @@
   margin: 0;
   text-align: left;
   padding: 0 0.4rem;
+}
+.textContainer {
+  height: 5.8rem;
+  padding: 0.2rem;
+  padding-top: 0.4rem;
+  background-color: #fff;
+  border-radius: 0 0 16px 16px;
 }
 .detail {
   display: -webkit-box;

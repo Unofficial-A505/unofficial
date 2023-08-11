@@ -1,21 +1,14 @@
 import styles from "./CreatePostPage.module.css";
-
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { postImageApi, postCreateApi } from "../../api/posts";
+import useDocumentTitle from "../../useDocumentTitle";
 
 import Quill from "quill";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImageResize from "@looop/quill-image-resize-module-react";
-
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
-import TopSpace from "../../components/TopSpace/TopSpace";
-import Footer from "../../components/Footer/Footer";
-import NavBar from "../../components/NavBar/NavBar";
-
-import { postImageApi, postCreateApi } from "../../api/posts";
-import useDocumentTitle from "../../useDocumentTitle";
-import { tab } from "@testing-library/user-event/dist/tab";
 
 Quill.register("modules/ImageResize", ImageResize);
 
@@ -45,22 +38,6 @@ const QuillContainer = () => {
     ImageResize: { modules: ["Resize"] },
   };
 
-  const handleTabDown = (event) => {
-    if (event.key === "Tab") {
-      event.preventDefault();
-      window.document.querySelector(".ql-editor").focus();
-    }
-  };
-
-  const handleShiftTabDown = (event) => {
-    if (event.key === "Tab" && event.shiftKey) {
-      event.preventDefault();
-      window.document
-        .querySelector(".CreatePostPage_inputTitle__GMlQG")
-        .focus();
-    }
-  };
-
   const formats = [
     "header",
     "bold",
@@ -79,6 +56,13 @@ const QuillContainer = () => {
   ];
 
   useEffect(() => {
+    const editor = document.querySelector(".ql-editor");
+    if (editor) {
+      editor.classList.add("fs-6");
+    }
+  }, []);
+
+  useEffect(() => {
     quillElement.current.editor
       .getModule("toolbar")
       .addHandler("image", function () {
@@ -87,6 +71,22 @@ const QuillContainer = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
   }, [imageList]);
+
+  const handleTabDown = (event) => {
+    event.preventDefault();
+    if (event.shiftKey && event.key === "Tab") {
+      document.querySelector("#inputNickname").focus();
+    } else if (event.key === "Tab") {
+      window.document.querySelector(".ql-editor").focus();
+    }
+  };
+
+  const handleShiftTabDown = (event) => {
+    event.preventDefault();
+    if (event.key === "Tab" && event.shiftKey) {
+      document.querySelector(".CreatePostPage_inputTitle__GMlQG").focus();
+    }
+  };
 
   const changeImageList = (url, file) => {
     setimageList([...imageList, { url, file }]);
@@ -227,7 +227,7 @@ const QuillContainer = () => {
           닉네임
         </label>
         <input
-          id ="inputNickname"
+          id="inputNickname"
           type="text"
           class="form-control"
           onChange={(e) => setnickName(e.target.value)}
@@ -240,20 +240,20 @@ const QuillContainer = () => {
           className={styles.inputTitle}
           type="text"
           placeholder="제목을 입력하세요"
-          onKeyDown={handleTabDown}
           ref={TitleElement}
+          onKeyDown={handleTabDown}
         />
       </div>
 
       <ReactQuill
         id="react-quill"
-        onKeyDown={handleShiftTabDown}
         modules={modules}
         formats={formats}
         selection={{ start: 0, end: 0 }}
         theme="snow"
         style={{ height: "600px" }}
         ref={quillElement}
+        onKeyDown={handleShiftTabDown}
       />
 
       <div className={styles.undermenu}>
@@ -265,6 +265,7 @@ const QuillContainer = () => {
           className="btn"
           id={styles.createsubmitbutton}
           onClick={createRequest}
+          disabled={isLoading}
         >
           게시하기
         </button>

@@ -59,7 +59,12 @@ export default function NavBar() {
       <nav className="navbar navbar-expand">
         <div className={`container-fluid ${styles.container}`}>
           <a className="navbar-brand" style={{ padding: "10px" }} href="/">
-            <img src={main_logo} alt="main_logo" width={150} style={{marginBottom:'5px'}} />
+            <img
+              src={main_logo}
+              alt="main_logo"
+              width={155}
+              style={{ marginBottom: "2px" }}
+            />
           </a>
           <div className="collapse navbar-collapse">
             <MenuItems />
