@@ -25,6 +25,7 @@ public class MypageCommentResponseDto implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createTime;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime modifyTime;
     private List<MypageCommentResponseDto> children;
     private String articleTitle;
     private String boardName;
