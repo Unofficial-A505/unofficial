@@ -17,14 +17,28 @@ export default function BoardsView() {
   const [pageInfo, setPageInfo] = useState([])
 
   useEffect(() => {
-    boardsArticles(boardId, currPage, 20)
+    boardsArticles(boardId, 0, 20)
     .then((res) => {
+      console.log('boardId change')
+      console.log(res)
       setPosts(res.content);
       setPageInfo(res.pageInfo)
       setcurrPage(res.pageInfo.page)
     })
     .catch((err) => console.log(err));    
-  }, [currPage || boardId]);
+  }, [boardId]);
+
+  useEffect(() => {
+    boardsArticles(boardId, currPage, 20)
+    .then((res) => {
+      console.log('change page', currPage)
+      setPosts(res.content);
+      setPageInfo(res.pageInfo)
+      setcurrPage(res.pageInfo.page)
+    })
+    .catch((err) => console.log(err));    
+
+  }, [currPage])
 
   // const indexOfLastPost = currPage * postPerPage;
   // const indexOfFirstPost = indexOfLastPost - postPerPage;

@@ -34,7 +34,7 @@ export default function BestpostsWidget(){
     <div className={styles.bestpostwidgetContainer}>
       <div className={styles.bestwidgetTopbar}>
         <div className={styles.bestTitle}>Best 게시글<FaCrown className={styles.bestIcons}/></div>
-        <FiRefreshCw className={styles.bestrefreshIcon} onClick={bestRefresh}/>
+        <FiRefreshCw className={styles.bestrefreshIcon} onClick={bestRefresh} title="새로고침"/>
       </div>
       <div className={styles.bestpostsContainer}>
         {posts.map((post, index) => 

@@ -67,8 +67,8 @@ export default function MainPage() {
             Best 게시글
             <FaCrown className={styles.bestIcons} />
           </div>
-          <PostTypeTitleBar />
-          <BoardView posts={bestPosts} myBoard={true}/>
+          <div className={styles.posttypeTitlebarBox}><PostTypeTitleBar /></div>
+          <BoardView posts={bestPosts?.slice(0, 14)} myBoard={true}/>
         </div>
         <div className={styles.middleRightContainer}>
           <WeatherinfoApi />

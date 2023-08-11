@@ -36,11 +36,11 @@ export default function MypostsView() {
           </div>
           {/* <p style={{color:'#282828'}}>가입한지 <span style={{color:'#034BB9', fontSize:'1.2rem', fontWeight:'600'}}>+{ date }일</span></p> */}
         </div>
-        <PostTypeTitleBar />
+        <div className={styles.PostTypeTitleBarBox}><PostTypeTitleBar /></div>
         {!myPosts.length ? (
           <p className="ms-3 mt-4">아직 작성한 게시글이 없습니다.</p>
         ) : (
-          <BoardView posts={myPosts} myBoard={true} />
+          <BoardView posts={myPosts} myBoard='myBoard' />
         )}
       </div>
       <div style={{ width: "100%" }} className="d-flex justify-content-center">

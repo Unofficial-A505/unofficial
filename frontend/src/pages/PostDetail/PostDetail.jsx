@@ -83,7 +83,6 @@ export default function PostDetail() {
       url: `/api/comments/article/${postId}?page=${currcommentPage}&size=${20}`,
     })
       .then((res) => {
-        console.log('comments', res.data)
         setComments(res.data.content);
         setCommentsInfo(res.data);
 
@@ -109,23 +108,24 @@ export default function PostDetail() {
     })
     .catch((err) => console.log(err));
 
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    console.log('currPage', currPage)
+    console.log('currpostPage', currpostPage)
 
     //현재 board 게시글
-    boardsArticles(boardId, currpostPage, 20)
+    boardsArticles(boardId, currPage, 20)
     .then((res) => {
       setcurrboardPosts(res.content);
       setPageInfo(res.pageInfo)
-      setcurrpostPage(res.pageInfo.page)})
+      setcurrpostPage(res.pageInfo.page)
+      console.log(res.pageInfo.page)
+      console.log('article 가져온 다음 currpostPage', currpostPage)
+    })
     .catch((err) => console.log(err));
 
     document.getElementById("comment-nickname-input").value = null;
     document.getElementById("comment-input").value = null;
 
-    return () => {
-      console.log("unmounted");
-    };
-  }, [postId || currcommentPage]);
+  }, [postId]);
 
   useEffect(() => {
     setrecommendedState(postDetail.isLiked);
@@ -139,7 +139,7 @@ export default function PostDetail() {
       setPageInfo(res.pageInfo)
       setcurrpostPage(res.pageInfo.page)})
     .catch((err) => console.log(err));
-  }, [currpostPage])
+  }, [!postId, currpostPage])
 
   useEffect(() => {
     getComment();
@@ -444,7 +444,7 @@ export default function PostDetail() {
             </button>
           </div>
           <PostTypeTitleBar />
-          <BoardView posts={currboardPosts} boardId={boardId} />
+          <BoardView posts={currboardPosts} boardId={boardId} currPage={currpostPage}/>
           <div className={styles.postmorePagination}>
             <Pagination totalPages={pageInfo.totalPages} paginate={postsmorePaginate} currPage={currpostPage} />
           </div>

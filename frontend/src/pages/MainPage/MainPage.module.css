@@ -59,6 +59,12 @@
 .bestIcons {
   margin: 0 0 6px 6px;
 }
+
+.posttypeTitlebarBox {
+  width: 99.4%;
+  /* border: 1px dotted red; */
+}
+
 .middleRightContainer {
   width: 330px;
   display: flex;
