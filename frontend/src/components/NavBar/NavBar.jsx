@@ -5,13 +5,16 @@ import main_logo from "./../../assets/images/main_logo.png";
 import styles from "./NavBar.module.css";
 // import Swal from 'sweetalert2';
 import Suggestion from "../Suggestion/Suggestion";
+import { useSelector } from "react-redux";
 
 export default function NavBar() {
   const navigate = useNavigate();
+  const authUser = useSelector((state) => state.authUser);
   const [modalShow, setModalShow] = useState(false);
 
   const handleClose = () => setModalShow(false);
   const handleShow = () => setModalShow(true);
+
   // const DEBUGRTC = () => {
   //   Swal.fire({
   //     title: '공사중',
@@ -22,6 +25,22 @@ export default function NavBar() {
   //     imageAlt: 'Custom image',
   //   })
   // }
+
+  const suggestionHandeler = () => {
+    if (authUser.accessToken) {
+      handleShow();
+    } else {
+      alert("로그인 후 사용해 주세요.");
+    }
+  };
+
+  const RtcHandeler = () => {
+    if (authUser.accessToken) {
+      navigate("/web-rtc");
+    } else {
+      alert("로그인 후 사용해 주세요.");
+    }
+  };
 
   const MenuItems = () => (
     <ul className="navbar-nav">
@@ -36,17 +55,12 @@ export default function NavBar() {
         </button>
       </li>
       <li className="nav-item">
-        <button className={styles.tab} onClick={handleShow}>
+        <button className={styles.tab} onClick={suggestionHandeler}>
           건의하기
         </button>
       </li>
       <li className="nav-item">
-        <button
-          className={styles.tab}
-          onClick={() => {
-            navigate("/web-rtc");
-          }}
-        >
+        <button className={styles.tab} onClick={RtcHandeler}>
           디버깅
         </button>
       </li>

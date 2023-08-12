@@ -24,7 +24,9 @@ export default function MyPage() {
 
   useEffect(() => {
     if (!accessToken) {
+      alert("로그인 후에 사용해 주세요.");
       navigate("/");
+      return;
     }
   }, []);
 
