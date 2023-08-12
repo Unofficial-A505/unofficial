@@ -99,7 +99,6 @@ public class LunchScrapCron {
 
     public void updateMenu(List<Lunch> lunches) {
         for (Lunch lunch : lunches) {
-            System.out.println(lunch);
             Lunch fromDB = lunchRepository.findByDateAndLocalAndCourseName(lunch.getDate(), lunch.getLocal(), lunch.getCourseName());
             if (lunch.equals(fromDB)) {
                 lunch.setId(fromDB.getId());
