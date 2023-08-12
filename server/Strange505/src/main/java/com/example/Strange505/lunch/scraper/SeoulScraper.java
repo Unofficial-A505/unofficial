@@ -1,6 +1,6 @@
 package com.example.Strange505.lunch.scraper;
 
-import com.example.Strange505.lunch.Lunch;
+import com.example.Strange505.lunch.domain.Lunch;
 
 import java.util.List;
 

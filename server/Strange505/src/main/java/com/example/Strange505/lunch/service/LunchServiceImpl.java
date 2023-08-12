@@ -1,31 +1,50 @@
 package com.example.Strange505.lunch.service;
 
-import com.example.Strange505.lunch.Lunch;
+import com.example.Strange505.lunch.domain.Lunch;
 import com.example.Strange505.lunch.cron.LunchScrapCron;
 import com.example.Strange505.lunch.repository.LunchRepository;
+import com.example.Strange505.lunch.responseDTO.LunchResponseDto;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class LunchServiceImpl implements LunchService {
-    LunchRepository lunchRepository;
-    LunchScrapCron lunchScrapCron;
+    private final LunchRepository lunchRepository;
+    private final LunchScrapCron lunchScrapCron;
+    private final LunchLikeService lunchLikeService;
 
-    public LunchServiceImpl(LunchRepository lunchRepository, LunchScrapCron lunchScrapCron) {
-        this.lunchRepository = lunchRepository;
-        this.lunchScrapCron = lunchScrapCron;
+
+    @Override
+    public List<LunchResponseDto> getTodayLunch(String date, Long userId) {
+        List<Lunch> lunches = lunchRepository.findByDate(date);
+        List<LunchResponseDto> lunchesResponse =  null;
+        if (userId != null) {
+            lunchesResponse
+                    = lunches.stream().map((lunch) -> new LunchResponseDto(lunch, lunchLikeService.checkExist(lunch.getId(), userId) , lunchLikeService.countLike(lunch.getId()))).toList();
+        } else {
+            lunchesResponse
+                    = lunches.stream().map((lunch) ->  new LunchResponseDto(lunch, false, lunchLikeService.countLike(lunch.getId()))).toList();
+        }
+        return lunchesResponse;
     }
 
     @Override
-    public List<Lunch> getTodayLunch(String date) {
-        return lunchRepository.findByDate(date);
-    }
-
-    @Override
-    public List<Lunch> getLunches() {
-        return lunchRepository.findAll();
+    public List<LunchResponseDto> getLunches(Long userId) {
+        List<Lunch> lunches = lunchRepository.findAll();
+        List<LunchResponseDto> lunchesResponse =  null;
+        if (userId != null) {
+            lunchesResponse
+                    = lunches.stream().map((lunch) -> new LunchResponseDto(lunch, lunchLikeService.checkExist(lunch.getId(), userId) , lunchLikeService.countLike(lunch.getId()))).toList();
+        } else {
+            lunchesResponse
+                    = lunches.stream().map((lunch) ->  new LunchResponseDto(lunch, false, lunchLikeService.countLike(lunch.getId()))).toList();
+        }
+        return lunchesResponse;
     }
 
     @Override
@@ -34,15 +53,4 @@ public class LunchServiceImpl implements LunchService {
         return true;
     }
 
-    @Override
-    @Transactional
-    public boolean like(long id) {
-        Lunch lunch = lunchRepository.findById(id).get();
-        if (lunch != null) {
-            lunch.setLikes(lunch.getLikes() + 1);
-            lunchRepository.save(lunch);
-            return true;
-        }
-        return false;
-    }
 }

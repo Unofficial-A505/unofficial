@@ -1,7 +1,7 @@
 package com.example.Strange505.lunch.cron;
 
 import com.example.Strange505.lunch.DateUtil;
-import com.example.Strange505.lunch.Lunch;
+import com.example.Strange505.lunch.domain.Lunch;
 import com.example.Strange505.lunch.repository.LunchRepository;
 import com.example.Strange505.lunch.scraper.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,7 +99,6 @@ public class LunchScrapCron {
 
     public void updateMenu(List<Lunch> lunches) {
         for (Lunch lunch : lunches) {
-            System.out.println(lunch);
             Lunch fromDB = lunchRepository.findByDateAndLocalAndCourseName(lunch.getDate(), lunch.getLocal(), lunch.getCourseName());
             if (lunch.equals(fromDB)) {
                 lunch.setId(fromDB.getId());
