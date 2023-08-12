@@ -15,13 +15,14 @@ Quill.register("modules/ImageResize", ImageResize);
 
 const QuillContainer = () => {
   useDocumentTitle("게시글 작성");
+  
   const navigate = useNavigate();
   const authUser = useSelector((state) => state.authUser);
 
   useEffect(() => {
     if (!authUser.accessToken) {
       alert("로그인 후에 사용해 주세요.");
-      navigate("/");
+      navigate("/boards/1");
       return;
     }
   }, []);

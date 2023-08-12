@@ -66,20 +66,11 @@ export default function BoardsAll() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [boardId || boardNames]);
 
-  const createPage = () => {
-    if (authUser.accessToken) {
-      navigate(`/boards/${boardId}/create`, { state: currboardName });
-    } else {
-      alert("로그인 후 작성 해주세요.");
-      return;
-    }
-  };
-
   const selectBestArticle = (data) => {
     if (authUser.accessToken) {
       navigate(`/boards/${data.boardId}/${data.articleId}`);
     } else {
-      alert("로그인 후 작성 해주세요.");
+      alert("로그인 후 조회 해주세요.");
       return;
     }
   };
@@ -122,7 +113,7 @@ export default function BoardsAll() {
                     <div
                       key={index}
                       className={styles.bestContentContainer}
-                      onClick={() => selectBestArticle(data)}
+                      onClick={() => navigate(`/boards/${data.boardId}/${data.articleId}`)}
                     >
                       <span className={styles.bestContent}>
                         {data.boardName}
@@ -158,7 +149,7 @@ export default function BoardsAll() {
             <div className={styles.postcreateContainer}>
               <button
                 className={styles.createpageButton}
-                onClick={() => createPage}
+                onClick={() => navigate(`/boards/${boardId}/create`, { state: currboardName })}
               >
                 <CgAddR className={styles.createpageIcon} size="20" />새 글 작성
               </button>
