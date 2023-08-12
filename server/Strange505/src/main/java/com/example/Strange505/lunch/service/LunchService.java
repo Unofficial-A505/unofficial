@@ -7,9 +7,9 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 
 public interface LunchService {
-    List<LunchResponseDto> getTodayLunch(String date);
+    List<LunchResponseDto> getTodayLunch(String date, Long userId);
 
-    List<LunchResponseDto> getLunches();
+    List<LunchResponseDto> getLunches(Long userId);
 
     boolean forceCron() throws Exception;
 

@@ -22,18 +22,30 @@ public class LunchServiceImpl implements LunchService {
     }
 
     @Override
-    public List<LunchResponseDto> getTodayLunch(String date) {
+    public List<LunchResponseDto> getTodayLunch(String date, Long userId) {
         List<Lunch> lunches = lunchRepository.findByDate(date);
-        List<LunchResponseDto> lunchesResponse
-                = lunches.stream().map((lunch) ->  new LunchResponseDto(lunch, false, lunchLikeService.countLike(lunch.getId()))).toList();
+        List<LunchResponseDto> lunchesResponse =  null;
+        if (userId != null) {
+            lunchesResponse
+                    = lunches.stream().map((lunch) -> new LunchResponseDto(lunch, lunchLikeService.checkExist(lunch.getId(), userId) , lunchLikeService.countLike(lunch.getId()))).toList();
+        } else {
+            lunchesResponse
+                    = lunches.stream().map((lunch) ->  new LunchResponseDto(lunch, false, lunchLikeService.countLike(lunch.getId()))).toList();
+        }
         return lunchesResponse;
     }
 
     @Override
-    public List<LunchResponseDto> getLunches() {
+    public List<LunchResponseDto> getLunches(Long userId) {
         List<Lunch> lunches = lunchRepository.findAll();
-        List<LunchResponseDto> lunchesResponse
-                = lunches.stream().map((lunch) -> new LunchResponseDto(lunch, false, lunchLikeService.countLike(lunch.getId()))).toList();
+        List<LunchResponseDto> lunchesResponse =  null;
+        if (userId != null) {
+            lunchesResponse
+                    = lunches.stream().map((lunch) -> new LunchResponseDto(lunch, lunchLikeService.checkExist(lunch.getId(), userId) , lunchLikeService.countLike(lunch.getId()))).toList();
+        } else {
+            lunchesResponse
+                    = lunches.stream().map((lunch) ->  new LunchResponseDto(lunch, false, lunchLikeService.countLike(lunch.getId()))).toList();
+        }
         return lunchesResponse;
     }
 

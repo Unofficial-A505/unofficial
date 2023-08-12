@@ -1,7 +1,6 @@
 package com.example.Strange505.lunch.controller;
 
 import com.example.Strange505.lunch.DateUtil;
-import com.example.Strange505.lunch.domain.Lunch;
 import com.example.Strange505.lunch.responseDTO.LunchResponseDto;
 import com.example.Strange505.lunch.service.LunchLikeService;
 import com.example.Strange505.lunch.service.LunchService;
@@ -23,16 +22,24 @@ public class LunchContoller {
     private final AuthService authService;
 
     @GetMapping
-    ResponseEntity<List<LunchResponseDto>> getTodayLunch(@RequestParam(value = "date", required = false) String date) {
-        if (date != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(lunchService.getTodayLunch(date));
+    ResponseEntity<List<LunchResponseDto>> getTodayLunch(@RequestParam(value = "date", required = false) String date, @RequestHeader(value = "Authorization", required = false) String accessToken) {
+        Long userId = null;
+        if (accessToken != null) {
+            userId = authService.extractID(accessToken);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(lunchService.getTodayLunch(DateUtil.getToday(0)));
+        if (date != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(lunchService.getTodayLunch(date, userId));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(lunchService.getTodayLunch(DateUtil.getToday(0), userId));
     }
 
     @GetMapping("/all")
-    ResponseEntity<List<LunchResponseDto>> getAllLunch() {
-        return ResponseEntity.status(HttpStatus.OK).body(lunchService.getLunches());
+    ResponseEntity<List<LunchResponseDto>> getAllLunch(@RequestHeader(value = "Authorization", required = false) String accessToken) {
+        Long userId = null;
+        if (accessToken!=null) {
+            userId = authService.extractID(accessToken);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(lunchService.getLunches(userId));
     }
 
     @GetMapping("/doCron")

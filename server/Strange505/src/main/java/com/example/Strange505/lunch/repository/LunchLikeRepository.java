@@ -11,4 +11,6 @@ public interface LunchLikeRepository extends JpaRepository<LunchLikes, Long> {
     Long countByLunchId(Long lunchId);
 
     Optional<LunchLikes> findByLunchIdAndUserId(Long lunchId, Long userId);
+
+    boolean existsByLunchIdAndUserId(Long lunchId, Long userId);
 }

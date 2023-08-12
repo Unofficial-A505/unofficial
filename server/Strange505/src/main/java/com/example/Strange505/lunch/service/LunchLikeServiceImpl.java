@@ -33,4 +33,9 @@ public class LunchLikeServiceImpl implements LunchLikeService {
         return lunchLikeRepository.countByLunchId(lunchId);
     }
 
+    @Override
+    public boolean checkExist(Long lunchId, Long userId) {
+        return lunchLikeRepository.existsByLunchIdAndUserId(lunchId, userId);
+    }
+
 }

@@ -6,4 +6,6 @@ public interface LunchLikeService {
     Long dislike(Long lunchId, Long userId);
 
     Long countLike(Long lunchId);
+
+    boolean checkExist(Long lunchId, Long userId);
 }
