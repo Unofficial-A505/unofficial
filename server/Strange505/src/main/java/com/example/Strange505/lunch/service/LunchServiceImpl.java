@@ -1,6 +1,6 @@
 package com.example.Strange505.lunch.service;
 
-import com.example.Strange505.lunch.Lunch;
+import com.example.Strange505.lunch.domain.Lunch;
 import com.example.Strange505.lunch.cron.LunchScrapCron;
 import com.example.Strange505.lunch.repository.LunchRepository;
 import jakarta.transaction.Transactional;

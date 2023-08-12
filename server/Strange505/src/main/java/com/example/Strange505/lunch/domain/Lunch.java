@@ -1,4 +1,4 @@
-package com.example.Strange505.lunch;
+package com.example.Strange505.lunch.domain;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,7 +1,7 @@
 package com.example.Strange505.lunch.scraper;
 
 import com.example.Strange505.lunch.DateUtil;
-import com.example.Strange505.lunch.Lunch;
+import com.example.Strange505.lunch.domain.Lunch;
 import com.example.Strange505.lunch.RestUtil;
 import com.example.Strange505.lunch.responseDTO.WelstoryDTO;
 import com.example.Strange505.lunch.responseDTO.WelstoryMeal;

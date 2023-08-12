@@ -1,6 +1,6 @@
 package com.example.Strange505.lunch.service;
 
-import com.example.Strange505.lunch.Lunch;
+import com.example.Strange505.lunch.domain.Lunch;
 import jakarta.transaction.Transactional;
 
 import java.util.List;

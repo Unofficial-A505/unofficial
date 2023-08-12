@@ -1,7 +1,7 @@
 package com.example.Strange505.lunch.cron;
 
 import com.example.Strange505.lunch.DateUtil;
-import com.example.Strange505.lunch.Lunch;
+import com.example.Strange505.lunch.domain.Lunch;
 import com.example.Strange505.lunch.repository.LunchRepository;
 import com.example.Strange505.lunch.scraper.*;
 import org.springframework.beans.factory.annotation.Autowired;
