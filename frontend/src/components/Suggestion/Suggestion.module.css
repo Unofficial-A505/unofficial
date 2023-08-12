@@ -1,5 +1,23 @@
 .title {
+  display: flex;
+  align-items: center;
   font-size: 1.1rem;
-  align-self: center;
   font-weight: 550;
+  margin-top: 0.5rem;
+}
+.cautionContainer {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  border-radius: 2px;
+  background-color: #222;
+  padding: 10px;
+  margin-bottom: 1rem;
+  color: #fff;
+  font-size: 13px;
+}
+.inputLabel {
+  color: #333;
+  font-size: 13px;
+  margin-bottom: 2px;
 }

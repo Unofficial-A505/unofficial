@@ -1,6 +1,7 @@
 import styles from "./CreatePostPage.module.css";
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { postImageApi, postCreateApi } from "../../api/posts";
 import useDocumentTitle from "../../useDocumentTitle";
 
@@ -15,6 +16,15 @@ Quill.register("modules/ImageResize", ImageResize);
 const QuillContainer = () => {
   useDocumentTitle("게시글 작성");
   const navigate = useNavigate();
+  const authUser = useSelector((state) => state.authUser);
+
+  useEffect(() => {
+    if (!authUser.accessToken) {
+      alert("로그인 후에 사용해 주세요.");
+      navigate("/");
+      return;
+    }
+  }, []);
 
   const [isLoading, setIsLoading] = useState(false);
   const [nickNameInput, setnickName] = useState("");
@@ -73,18 +83,19 @@ const QuillContainer = () => {
   }, [imageList]);
 
   const handleTabDown = (event) => {
-    event.preventDefault();
     if (event.shiftKey && event.key === "Tab") {
+      event.preventDefault();
       document.querySelector("#inputNickname").focus();
     } else if (event.key === "Tab") {
+      event.preventDefault();
       window.document.querySelector(".ql-editor").focus();
     }
   };
 
   const handleShiftTabDown = (event) => {
-    event.preventDefault();
     if (event.key === "Tab" && event.shiftKey) {
-      document.querySelector(".CreatePostPage_inputTitle__GMlQG").focus();
+      event.preventDefault();
+      document.querySelector("#inputTitle").focus();
     }
   };
 
@@ -237,6 +248,7 @@ const QuillContainer = () => {
 
       <div>
         <input
+          id="inputTitle"
           className={styles.inputTitle}
           type="text"
           placeholder="제목을 입력하세요"

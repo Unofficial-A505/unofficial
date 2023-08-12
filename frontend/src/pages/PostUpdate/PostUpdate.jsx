@@ -1,6 +1,7 @@
 import styles from "./PostUpdate.module.css";
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { postUpdateApi, postImageApi } from "../../api/posts";
 import useDocumentTitle from "../../useDocumentTitle";
 
@@ -16,6 +17,17 @@ const PostUpdate = () => {
   useDocumentTitle("게시글 수정");
 
   const navigate = useNavigate();
+  const authUser = useSelector((state) => state.authUser);
+  const accessToken = authUser.accessToken;
+
+  useEffect(() => {
+    if (!accessToken) {
+      alert("로그인 후에 사용해 주세요.");
+      navigate("/");
+      return;
+    }
+  }, []);
+
   const { boardId } = useParams();
   const { postId } = useParams();
   const { state: postDetail } = useLocation();
@@ -93,7 +105,7 @@ const PostUpdate = () => {
   const handleShiftTabDown = (event) => {
     if (event.key === "Tab" && event.shiftKey) {
       event.preventDefault();
-      window.document.querySelector(".PostUpdate_inputTitle__WRgXk").focus();
+      window.document.querySelector("#inputTitle").focus();
     }
   };
 
@@ -264,6 +276,7 @@ const PostUpdate = () => {
 
         <div>
           <input
+            id="inputTitle"
             className={styles.inputTitle}
             type="text"
             defaultValue={postDetail.title}

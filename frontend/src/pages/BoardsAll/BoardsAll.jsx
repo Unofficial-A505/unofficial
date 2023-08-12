@@ -15,20 +15,21 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import useDocumentTitle from "../../useDocumentTitle";
+import { useSelector } from "react-redux";
 
 export default function BoardsAll() {
   useDocumentTitle("게시판");
 
+  const navigate = useNavigate();
+  const authUser = useSelector((state) => state.authUser);
+
+  const { boardId } = useParams();
   const [boardNames, setboardNames] = useState([]);
   const [currboardName, setcurrboardName] = useState("");
-  const { boardId } = useParams();
   const [keywordAll, setKeywordAll] = useState("");
   const [keywordBoard, setKeywordBoard] = useState("");
   const [bestPostlist, setbestPostlist] = useState([]);
-
   const boardsearchMessage = `${currboardName}에서 찾고싶은 게시글의 키워드를 검색`;
-
-  const navigate = useNavigate();
 
   const settings = {
     // dots: false,
@@ -45,16 +46,17 @@ export default function BoardsAll() {
   useEffect(() => {
     // best 게시글 api
     bestPostsApi()
-    .then((res) => {
-      setbestPostlist(res);
-    }).catch((err) => console.log(err));
-   
+      .then((res) => {
+        setbestPostlist(res);
+      })
+      .catch((err) => console.log(err));
+
     // boards Title api
     boardNamesApi()
       .then((res) => {
         setboardNames(res);
         res.forEach((board) => {
-          if (board.id+'' === boardId) {
+          if (board.id + "" === boardId) {
             setcurrboardName(board.name);
           }
         });
@@ -62,8 +64,34 @@ export default function BoardsAll() {
       .catch((err) => console.log(err));
 
     window.scrollTo({ top: 0, behavior: "smooth" });
-
   }, [boardId || boardNames]);
+
+  const createPage = () => {
+    if (authUser.accessToken) {
+      navigate(`/boards/${boardId}/create`, { state: currboardName });
+    } else {
+      alert("로그인 후 작성 해주세요.");
+      return;
+    }
+  };
+
+  const selectBoard = (board) => {
+    if (authUser.accessToken) {
+      navigate(`/boards/${board.id}`, { state: board.name });
+    } else {
+      alert("로그인 후 작성 해주세요.");
+      return;
+    }
+  };
+
+  const selectBestBoard = (data) => {
+    if (authUser.accessToken) {
+      navigate(`/boards/${data.boardId}/${data.articleId}`);
+    } else {
+      alert("로그인 후 작성 해주세요.");
+      return;
+    }
+  };
 
   return (
     <div className={styles.boardsAllContainer}>
@@ -100,16 +128,24 @@ export default function BoardsAll() {
               <div className={styles.boardsallBestBox}>
                 <Slider {...settings} className={styles.bestContentContainer}>
                   {bestPostlist.map((data, index) => (
-                    <div key={index} className={styles.bestContentContainer} onClick={() => navigate(`/boards/${data.boardId}/${data.articleId}`)}>
-                      <span className={styles.bestContent}>{data.boardName}</span>
-                      <span className={styles.bestContentTitle}>{data.title}</span>
+                    <div
+                      key={index}
+                      className={styles.bestContentContainer}
+                      onClick={selectBestBoard(data)}
+                    >
+                      <span className={styles.bestContent}>
+                        {data.boardName}
+                      </span>
+                      <span className={styles.bestContentTitle}>
+                        {data.title}
+                      </span>
                     </div>
                   ))}
                 </Slider>
               </div>
             </div>
           </div>
-          
+
           <div className={styles.boardtabContainer}>
             <div>
               {boardNames.map((board, index) => (
@@ -120,19 +156,14 @@ export default function BoardsAll() {
                       ? styles.boardtabSelected
                       : styles.boardtab
                   }
-                  onClick={() =>
-                    navigate(`/boards/${board.id}`, { state: board.name })
-                  }
+                  onClick={selectBoard(board)}
                 >
                   {board.name}
                 </button>
               ))}
             </div>
             <div className={styles.postcreateContainer}>
-              <button
-                className={styles.createpageButton}
-                onClick={() => navigate(`/boards/${boardId}/create`, { state : currboardName })}
-              >
+              <button className={styles.createpageButton} onClick={createPage}>
                 <CgAddR className={styles.createpageIcon} size="20" />새 글 작성
               </button>
             </div>
@@ -177,14 +208,11 @@ export default function BoardsAll() {
             </div>
           </div>
         </div>
-
       </div>
-
 
       <div className={styles.advContainer}>
         <AdHorizontal />
       </div>
-
     </div>
   );
 }
