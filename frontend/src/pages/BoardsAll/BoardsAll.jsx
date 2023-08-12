@@ -122,7 +122,7 @@ export default function BoardsAll() {
                     <div
                       key={index}
                       className={styles.bestContentContainer}
-                      onClick={selectBestArticle(data)}
+                      onClick={() => selectBestArticle(data)}
                     >
                       <span className={styles.bestContent}>
                         {data.boardName}
@@ -156,7 +156,10 @@ export default function BoardsAll() {
               ))}
             </div>
             <div className={styles.postcreateContainer}>
-              <button className={styles.createpageButton} onClick={createPage}>
+              <button
+                className={styles.createpageButton}
+                onClick={() => createPage}
+              >
                 <CgAddR className={styles.createpageIcon} size="20" />새 글 작성
               </button>
             </div>
