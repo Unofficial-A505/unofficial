@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 
 public class ImageResizeUtil {
 
-    public static InputStream imageResize(String imageUrl, int width, int height) throws IOException {
+    public static ByteArrayOutputStream imageResize(String imageUrl, int width, int height) throws IOException {
         URL url = new URL(imageUrl); // 원본 이미지 ( http/https url )
 //        int width = 404;
 //        int height = 280;
@@ -30,7 +30,7 @@ public class ImageResizeUtil {
         baos.flush();
         InputStream imageStream = new ByteArrayInputStream(baos.toByteArray());
         baos.close();
-        return imageStream;
+        return baos;
     }
 
     public static BufferedImage resize(URL url, int width, int height) throws IOException {
