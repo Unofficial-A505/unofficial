@@ -1,6 +1,8 @@
 package com.example.Strange505.lunch.cron;
 
+import com.example.Strange505.file.service.S3UploaderService;
 import com.example.Strange505.lunch.DateUtil;
+import com.example.Strange505.lunch.ImageResizeUtil;
 import com.example.Strange505.lunch.domain.Lunch;
 import com.example.Strange505.lunch.repository.LunchRepository;
 import com.example.Strange505.lunch.scraper.*;
@@ -8,17 +10,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 @Component
 public class LunchScrapCron {
+    private final int WIDTH=404;
+    private final int HEIGHT=280;
 
     LocalScraper localScraper;
     LunchRepository lunchRepository;
+    S3UploaderService s3Uploader;
 
     @Autowired
-    public LunchScrapCron(LunchRepository lunchRepository) {
+    public LunchScrapCron(LunchRepository lunchRepository, S3UploaderService s3UploaderService) {
         this.lunchRepository = lunchRepository;
+        this.s3Uploader = s3UploaderService;
     }
 
     @Scheduled(cron = "0 0 3 ? * SUN", zone = "Asia/Seoul")
@@ -97,14 +104,23 @@ public class LunchScrapCron {
 
     }
 
-    public void updateMenu(List<Lunch> lunches) {
+    public void updateMenu(List<Lunch> lunches) throws Exception {
         for (Lunch lunch : lunches) {
             Lunch fromDB = lunchRepository.findByDateAndLocalAndCourseName(lunch.getDate(), lunch.getLocal(), lunch.getCourseName());
             if (lunch.equals(fromDB)) {
                 lunch.setId(fromDB.getId());
                 lunch.setLikes(fromDB.getLikes());
             }
+            if (!lunch.getImageUrl().equals("") && (fromDB==null || !fromDB.getImageUrl().startsWith("https://505bucket"))) {
+                lunch.setImageUrl(upload(lunch.getImageUrl()));
+            }
             lunchRepository.save(lunch);
         }
+    }
+
+    public String upload(String url) throws Exception {
+        ByteArrayOutputStream baos = ImageResizeUtil.imageResize(url, WIDTH, HEIGHT);
+        String[] urlDiv = url.split("/");
+        return s3Uploader.putS3(baos, urlDiv[urlDiv.length-1]);
     }
 }
