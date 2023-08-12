@@ -83,7 +83,7 @@ public class Welstory {
             lunch.setDate(date);
             lunch.setLocal(location);
             lunch.setName(meal.getMenuName() + " (" + meal.getSumKcal() + ")");
-            lunch.setImageUrl(meal.getPhotoUrl() + meal.getPhotoCd());
+            lunch.setImageUrl(meal.getPhotoCd().equals("null")?"":meal.getPhotoUrl() + meal.getPhotoCd());
             lunch.setRestaurantId(restaurantCode.get(location));
             lunch.setDetail(meal.getSubMenuTxt());
             lunch.setCourseName(meal.getCourseTxt());
