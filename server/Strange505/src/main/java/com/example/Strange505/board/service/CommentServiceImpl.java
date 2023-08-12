@@ -150,7 +150,7 @@ public class CommentServiceImpl implements CommentService {
                     .local(c.getUser().getLocal())
                     .isUser(checkUser(c.getUser().getId(), currUser.getId()))
                     .orderId(c.getId() * 1000L)
-                    .hasChildren(c.getChildren().size() > 0) // 자식 댓글이 있다면 true 반환
+                    .hasChildren(!c.isAllChildRemoved()) // 자식 댓글이 있다면 true 반환
                     .createTime(c.getCreateTime())
                     .modifyTime(c.getModifyTime())
                     .build());
