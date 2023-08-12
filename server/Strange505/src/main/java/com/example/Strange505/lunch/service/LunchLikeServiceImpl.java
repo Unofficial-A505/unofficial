@@ -1,0 +1,31 @@
+package com.example.Strange505.lunch.service;
+
+import com.example.Strange505.lunch.domain.LunchLikes;
+import com.example.Strange505.lunch.repository.LunchLikeRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@Transactional
+@RequiredArgsConstructor
+public class LunchLikeServiceImpl implements LunchLikeService {
+    private final LunchLikeRepository lunchLikeRepository;
+
+    @Override
+    public Long like(Long lunchId, Long userId) {
+        lunchLikeRepository.save(new LunchLikes(0L,lunchId,userId));
+
+        return lunchLikeRepository.countByLunchId(lunchId);
+    }
+
+    @Override
+    public Long dislike(Long lunchId, Long userId) {
+
+        LunchLikes lunchLikes = lunchLikeRepository.findByLunchIdAndUserId(lunchId, userId).orElseThrow();
+        lunchLikeRepository.delete(lunchLikes);
+
+        return lunchLikeRepository.countByLunchId(lunchId);
+    }
+
+}
