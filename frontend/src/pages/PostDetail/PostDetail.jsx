@@ -44,15 +44,24 @@ import {
 import customAxios from "../../util/customAxios";
 import useDocumentTitle from "../../useDocumentTitle";
 
-import { format, register } from 'timeago.js' //임포트하기 register 한국어 선택
-import koLocale from 'timeago.js/lib/lang/ko' //한국어 선택
+import { format, register } from "timeago.js"; //임포트하기 register 한국어 선택
+import koLocale from "timeago.js/lib/lang/ko"; //한국어 선택
 
-register('ko', koLocale)
+register("ko", koLocale);
 
 // API import
 export default function PostDetail() {
-  const { state : currPage } = useLocation();
+  const { state: currPage } = useLocation();
   const navigate = useNavigate();
+  const authUser = useSelector((state) => state.authUser);
+
+  useEffect(() => {
+    if (!authUser.accessToken) {
+      alert("로그인 후에 사용해 주세요.");
+      navigate("/boards/1");
+      return;
+    }
+  }, []);
 
   const { boardId } = useParams();
   const { postId } = useParams();
@@ -67,11 +76,11 @@ export default function PostDetail() {
   const [currboardPosts, setcurrboardPosts] = useState([]);
   const [recommendedState, setrecommendedState] = useState(null);
 
-  const [currcommentPage, setcurrcommentPage] = useState(0)
-  const [commentPageInfo, setcommentPageInfo] = useState([])
+  const [currcommentPage, setcurrcommentPage] = useState(0);
+  const [commentPageInfo, setcommentPageInfo] = useState([]);
 
-  const [currpostPage, setcurrpostPage] = useState(0)
-  const [pageInfo, setPageInfo] = useState([])
+  const [currpostPage, setcurrpostPage] = useState(0);
+  const [pageInfo, setPageInfo] = useState([]);
 
   // 탭 제목 설정하기
   useDocumentTitle(boardTitle);
@@ -86,8 +95,8 @@ export default function PostDetail() {
         setComments(res.data.content);
         setCommentsInfo(res.data);
 
-        setcommentPageInfo(res.data.pageInfo)
-        setcurrcommentPage(res.data.pageInfo.page)
+        setcommentPageInfo(res.data.pageInfo);
+        setcurrcommentPage(res.data.pageInfo.page);
       })
       .catch((err) => console.log(err));
   };
@@ -95,64 +104,63 @@ export default function PostDetail() {
   useDocumentTitle(boardTitle);
 
   useEffect(() => {
-    setcurrpostPage(currPage)
+    setcurrpostPage(currPage);
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     // 게시글 상세정보 가져오기
     postDetailApi(postId)
-    .then((res) => {
-      console.log(res)
-      setpostDetail(res);
-      setBoardTitle(res.boardName);
-      getComment();
-    })
-    .catch((err) => console.log(err));
+      .then((res) => {
+        console.log(res);
+        setpostDetail(res);
+        setBoardTitle(res.boardName);
+        getComment();
+      })
+      .catch((err) => console.log(err));
 
-    console.log('currPage', currPage)
-    console.log('currpostPage', currpostPage)
+    console.log("currPage", currPage);
+    console.log("currpostPage", currpostPage);
 
     //현재 board 게시글
     boardsArticles(boardId, currPage, 20)
-    .then((res) => {
-      setcurrboardPosts(res.content);
-      setPageInfo(res.pageInfo)
-      setcurrpostPage(res.pageInfo.page)
-      console.log(res.pageInfo.page)
-      console.log('article 가져온 다음 currpostPage', currpostPage)
-    })
-    .catch((err) => console.log(err));
+      .then((res) => {
+        setcurrboardPosts(res.content);
+        setPageInfo(res.pageInfo);
+        setcurrpostPage(res.pageInfo.page);
+        console.log(res.pageInfo.page);
+        console.log("article 가져온 다음 currpostPage", currpostPage);
+      })
+      .catch((err) => console.log(err));
 
     document.getElementById("comment-nickname-input").value = null;
     document.getElementById("comment-input").value = null;
-
   }, [postId]);
 
   useEffect(() => {
     setrecommendedState(postDetail.isLiked);
-
   }, [postDetail]);
 
   useEffect(() => {
     boardsArticles(boardId, currpostPage, 20)
-    .then((res) => {
-      setcurrboardPosts(res.content);
-      setPageInfo(res.pageInfo)
-      setcurrpostPage(res.pageInfo.page)})
-    .catch((err) => console.log(err));
-  }, [!postId, currpostPage])
+      .then((res) => {
+        setcurrboardPosts(res.content);
+        setPageInfo(res.pageInfo);
+        setcurrpostPage(res.pageInfo.page);
+      })
+      .catch((err) => console.log(err));
+  }, [!postId, currpostPage]);
 
   useEffect(() => {
     getComment();
-  }, [currcommentPage])
+  }, [currcommentPage]);
 
   // 게시글 삭제
   const postDelete = () => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
-    postDeleteApi(postId)
-      .then(() => {
-        navigate(`/boards/${boardId}`);
-      })
-      .catch((err) => console.log(err));
+      postDeleteApi(postId)
+        .then(() => {
+          navigate(`/boards/${boardId}`);
+        })
+        .catch((err) => console.log(err));
     }
   };
 
@@ -177,7 +185,7 @@ export default function PostDetail() {
           .catch((res) => console.log(res));
       }
     } else {
-      alert('이미 추천한 게시글입니다!')
+      alert("이미 추천한 게시글입니다!");
     }
   };
 
@@ -188,7 +196,7 @@ export default function PostDetail() {
     } else if (!commentnickName) {
       alert("닉네임을 입력해주세요!");
     } else {
-      setIsButtonDisabled(true)
+      setIsButtonDisabled(true);
       const content = createcomment;
       const parentId = 0;
       const articleId = postId;
@@ -197,11 +205,11 @@ export default function PostDetail() {
       try {
         await postCommentCreateApi(articleId, content, parentId, nickName);
         await getComment();
-  
+
         document.getElementById("comment-nickname-input").value = null;
         document.getElementById("comment-input").value = null;
-        setcreateComment("")
-        setcommentnickName("")
+        setcreateComment("");
+        setcommentnickName("");
       } catch (err) {
         console.log(err);
       } finally {
@@ -221,27 +229,31 @@ export default function PostDetail() {
 
   // 게시글 더보기 pagination
   const postsmorePaginate = (pageNum) => {
-    setcurrpostPage(pageNum)
+    setcurrpostPage(pageNum);
 
     const targetElement = document.getElementById("board-posts-more"); // 스크롤할 요소 선택
     if (targetElement) {
       // comment scroll to
       // console.log('targetElement', targetElement)
-      const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY; // 요소의 상단 위치
+      const targetPosition =
+        targetElement.getBoundingClientRect().top + window.scrollY; // 요소의 상단 위치
       window.scrollTo({ top: targetPosition, behavior: "smooth" });
-  }}
+    }
+  };
 
   // 댓글 pagination
   const comentPaginate = (pageNum) => {
-    setcurrcommentPage(pageNum)
+    setcurrcommentPage(pageNum);
 
     const targetElement = document.getElementById("comment-input-box"); // 스크롤할 요소 선택
     if (targetElement) {
       // comment scroll to
       // console.log('targetElement', targetElement)
-      const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY; // 요소의 상단 위치
+      const targetPosition =
+        targetElement.getBoundingClientRect().top + window.scrollY; // 요소의 상단 위치
       window.scrollTo({ top: targetPosition, behavior: "smooth" });
-  }}
+    }
+  };
 
   // const createTime = postDetail.createTime;
   // const updateTime = postDetail.modifyTime;
