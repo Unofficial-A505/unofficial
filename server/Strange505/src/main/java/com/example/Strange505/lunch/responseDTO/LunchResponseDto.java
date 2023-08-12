@@ -16,7 +16,7 @@ public class LunchResponseDto {
     private String courseName;
     private Boolean isLike;
 
-    public LunchResponseDto(Lunch lunch, Boolean isLike) {
+    public LunchResponseDto(Lunch lunch, Boolean isLike, Long likes) {
         this.isLike = isLike;
         this.id = lunch.getId();
         this.date = lunch.getDate();
@@ -24,7 +24,7 @@ public class LunchResponseDto {
         this.imageUrl = lunch.getImageUrl();
         this.name = lunch.getName();
         this.detail = lunch.getDetail();
-        this.likes = lunch.getLikes();
+        this.likes = likes;
         this.local = lunch.getLocal();
         this.courseName = lunch.getCourseName();
     }

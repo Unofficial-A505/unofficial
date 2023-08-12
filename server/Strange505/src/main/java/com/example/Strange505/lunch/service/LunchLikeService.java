@@ -4,4 +4,6 @@ public interface LunchLikeService {
     Long like(Long lunchId, Long userId);
 
     Long dislike(Long lunchId, Long userId);
+
+    Long countLike(Long lunchId);
 }

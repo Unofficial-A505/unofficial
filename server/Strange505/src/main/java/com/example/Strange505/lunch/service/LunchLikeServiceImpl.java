@@ -16,7 +16,7 @@ public class LunchLikeServiceImpl implements LunchLikeService {
     public Long like(Long lunchId, Long userId) {
         lunchLikeRepository.save(new LunchLikes(0L,lunchId,userId));
 
-        return lunchLikeRepository.countByLunchId(lunchId);
+        return countLike(lunchId);
     }
 
     @Override
@@ -25,6 +25,11 @@ public class LunchLikeServiceImpl implements LunchLikeService {
         LunchLikes lunchLikes = lunchLikeRepository.findByLunchIdAndUserId(lunchId, userId).orElseThrow();
         lunchLikeRepository.delete(lunchLikes);
 
+        return countLike(lunchId);
+    }
+
+    @Override
+    public Long countLike(Long lunchId) {
         return lunchLikeRepository.countByLunchId(lunchId);
     }
 

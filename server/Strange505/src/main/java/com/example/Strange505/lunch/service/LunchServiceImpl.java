@@ -14,6 +14,7 @@ import java.util.List;
 public class LunchServiceImpl implements LunchService {
     LunchRepository lunchRepository;
     LunchScrapCron lunchScrapCron;
+    LunchLikeService lunchLikeService;
 
     public LunchServiceImpl(LunchRepository lunchRepository, LunchScrapCron lunchScrapCron) {
         this.lunchRepository = lunchRepository;
@@ -23,18 +24,16 @@ public class LunchServiceImpl implements LunchService {
     @Override
     public List<LunchResponseDto> getTodayLunch(String date) {
         List<Lunch> lunches = lunchRepository.findByDate(date);
-        List<LunchResponseDto> lunchesResponse = lunches.stream().map((lunch) -> {
-            return new LunchResponseDto(lunch, false);
-        }).toList();
+        List<LunchResponseDto> lunchesResponse
+                = lunches.stream().map((lunch) ->  new LunchResponseDto(lunch, false, lunchLikeService.countLike(lunch.getId()))).toList();
         return lunchesResponse;
     }
 
     @Override
     public List<LunchResponseDto> getLunches() {
         List<Lunch> lunches = lunchRepository.findAll();
-        List<LunchResponseDto> lunchesResponse = lunches.stream().map((lunch) -> {
-            return new LunchResponseDto(lunch, false);
-        }).toList();
+        List<LunchResponseDto> lunchesResponse
+                = lunches.stream().map((lunch) -> new LunchResponseDto(lunch, false, lunchLikeService.countLike(lunch.getId()))).toList();
         return lunchesResponse;
     }
 
