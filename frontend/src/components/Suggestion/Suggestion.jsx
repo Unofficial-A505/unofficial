@@ -67,9 +67,8 @@ export default function Suggestion({ show, handleClose }) {
       </Modal.Header>
       <Modal.Body style={{ padding: " 1.5rem 1.5rem" }}>
         <div className={styles.cautionContainer}>
-          <FcAssistant size={40} style={{ marginRight: "8px" }} />
           <p>
-            언오핏셜에 이 양식이 제출됩니다. 비밀번호와 같은 중요한 개인 정보가
+            언오피셜에 이 양식이 제출됩니다. 비밀번호와 같은 중요한 개인 정보가
             노출되지 않도록 주의해주세요.
           </p>
         </div>

@@ -75,16 +75,7 @@ export default function BoardsAll() {
     }
   };
 
-  const selectBoard = (board) => {
-    if (authUser.accessToken) {
-      navigate(`/boards/${board.id}`, { state: board.name });
-    } else {
-      alert("로그인 후 작성 해주세요.");
-      return;
-    }
-  };
-
-  const selectBestBoard = (data) => {
+  const selectBestArticle = (data) => {
     if (authUser.accessToken) {
       navigate(`/boards/${data.boardId}/${data.articleId}`);
     } else {
@@ -131,7 +122,7 @@ export default function BoardsAll() {
                     <div
                       key={index}
                       className={styles.bestContentContainer}
-                      onClick={selectBestBoard(data)}
+                      onClick={selectBestArticle(data)}
                     >
                       <span className={styles.bestContent}>
                         {data.boardName}
@@ -156,7 +147,9 @@ export default function BoardsAll() {
                       ? styles.boardtabSelected
                       : styles.boardtab
                   }
-                  onClick={selectBoard(board)}
+                  onClick={() => {
+                    navigate(`/boards/${board.id}`, { state: board.name });
+                  }}
                 >
                   {board.name}
                 </button>
