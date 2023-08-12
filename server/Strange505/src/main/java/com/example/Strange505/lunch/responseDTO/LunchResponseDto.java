@@ -2,8 +2,10 @@ package com.example.Strange505.lunch.responseDTO;
 
 import com.example.Strange505.lunch.domain.Lunch;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
+@Getter
 public class LunchResponseDto {
     private Long id;
     private String date;

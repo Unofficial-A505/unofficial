@@ -2,9 +2,13 @@ package com.example.Strange505.lunch.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
+@Getter
 @Table(name = "lunch_likes",
         uniqueConstraints = {
             @UniqueConstraint(

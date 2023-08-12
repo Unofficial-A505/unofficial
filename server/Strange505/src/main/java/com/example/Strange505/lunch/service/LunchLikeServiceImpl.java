@@ -6,6 +6,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -14,17 +16,18 @@ public class LunchLikeServiceImpl implements LunchLikeService {
 
     @Override
     public Long like(Long lunchId, Long userId) {
-        lunchLikeRepository.save(new LunchLikes(0L,lunchId,userId));
-
+        if (!lunchLikeRepository.existsByLunchIdAndUserId(lunchId, userId)) {
+            lunchLikeRepository.save(new LunchLikes(0L,lunchId,userId));
+        }
         return countLike(lunchId);
     }
 
     @Override
     public Long dislike(Long lunchId, Long userId) {
-
-        LunchLikes lunchLikes = lunchLikeRepository.findByLunchIdAndUserId(lunchId, userId).orElseThrow();
-        lunchLikeRepository.delete(lunchLikes);
-
+        if (lunchLikeRepository.existsByLunchIdAndUserId(lunchId, userId)) {
+            LunchLikes lunchLikes = lunchLikeRepository.findByLunchIdAndUserId(lunchId, userId).orElseThrow();
+            lunchLikeRepository.delete(lunchLikes);
+        }
         return countLike(lunchId);
     }
 

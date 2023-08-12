@@ -5,21 +5,19 @@ import com.example.Strange505.lunch.cron.LunchScrapCron;
 import com.example.Strange505.lunch.repository.LunchRepository;
 import com.example.Strange505.lunch.responseDTO.LunchResponseDto;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class LunchServiceImpl implements LunchService {
-    LunchRepository lunchRepository;
-    LunchScrapCron lunchScrapCron;
-    LunchLikeService lunchLikeService;
+    private final LunchRepository lunchRepository;
+    private final LunchScrapCron lunchScrapCron;
+    private final LunchLikeService lunchLikeService;
 
-    public LunchServiceImpl(LunchRepository lunchRepository, LunchScrapCron lunchScrapCron) {
-        this.lunchRepository = lunchRepository;
-        this.lunchScrapCron = lunchScrapCron;
-    }
 
     @Override
     public List<LunchResponseDto> getTodayLunch(String date, Long userId) {
