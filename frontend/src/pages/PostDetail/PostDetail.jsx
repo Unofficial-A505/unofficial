@@ -2,6 +2,7 @@ import styles from "./PostDetail.module.css";
 
 import { useState, useEffect, useDebugValue, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import BoardView from "../../components/BoardView/BoardView";
 import CommentView from "../../components/CommentView/CommentView";
