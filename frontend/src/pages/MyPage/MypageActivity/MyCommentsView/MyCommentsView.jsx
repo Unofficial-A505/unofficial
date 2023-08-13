@@ -89,7 +89,7 @@ export default function MyCommentsView() {
                           {comment.nickName}
                         </div>
                         <div className={styles.commentContent}>
-                          {comment.createTime}
+                          {format(comment.createTime, 'ko')}
                         </div>
                       </div>
                     </div>
