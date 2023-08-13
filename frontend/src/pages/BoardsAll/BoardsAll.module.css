@@ -63,8 +63,8 @@
 }
 
 .boardsallBestBox {
-  padding: 2px 0 0 15px;
-  margin: 1px 0 5px;
+  padding: 2px 0 5px 0;
+  margin: 1px 0 5px 0;
   height: 32px;
 
   /* border: 1px dotted red; */
@@ -79,7 +79,7 @@
 
 .bestbannerTitle {
   height: 32px;
-  width: 160px;
+  width: 178px;
   padding: 3px 0 0 0;
 
   color: rgba(10, 10, 10, 0.571);
@@ -87,7 +87,7 @@
 }
 
 .bestContentContainer {
-  height: 32px;
+  height: 34.5px;
   /* border: 1px dotted red;  */
 }
 

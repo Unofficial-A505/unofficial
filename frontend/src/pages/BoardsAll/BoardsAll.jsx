@@ -118,12 +118,12 @@ export default function BoardsAll() {
             <div className={styles.boardsallBestContainer}>
               <div className={styles.bestbannerTitle}>전체 best 게시글</div>
               <div className={styles.boardsallBestBox}>
-                <Slider {...settings} className={styles.bestContentContainer}>
+                <Slider {...settings}>
                   {bestPostlist.map((data, index) => (
                     <div
                       key={index}
                       className={styles.bestContentContainer}
-                      onClick={() => {if(authUser.accessToken) 
+                      onClick={() => {if (authUser.accessToken) 
                         (navigate(`/boards/${data.boardId}/${data.articleId}`))
                       else (alert('로그인 후 이용해주세요!'))}}>
                       <span className={styles.bestContent}>
