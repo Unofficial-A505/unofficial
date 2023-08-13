@@ -130,7 +130,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     public boolean checkUser(Long commentUserId, Long userId) {
-        if (userId == commentUserId) {
+        User user = userRepository.findById(commentUserId).orElseThrow(() -> new NoResultException("사용자가 존재하지 않습니다."));
+        if (userId == commentUserId || user.getRole() == Role.ADMIN) {
             return true;
         } else {
             return false;

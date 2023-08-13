@@ -108,7 +108,7 @@ public class ArticleServiceImpl implements ArticleService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NoResultException("사용자가 존재하지 않습니다."));
 
-        if (user.getId() == article.getUser().getId()) {
+        if (user.getId() == article.getUser().getId() || user.getRole() == Role.ADMIN) {
             return true;
         } else {
             return false;
