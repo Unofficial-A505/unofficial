@@ -56,14 +56,6 @@ export default function PostDetail() {
   const navigate = useNavigate();
   const authUser = useSelector((state) => state.authUser);
 
-  // useEffect(() => {
-  //   if (!authUser.accessToken) {
-  //     alert("로그인 후에 사용해 주세요.");
-  //     navigate("/boards/1");
-  //     return;
-  //   }
-  // }, []);
-
   const { boardId } = useParams();
   const { postId } = useParams();
 
@@ -90,14 +82,16 @@ export default function PostDetail() {
   const getComment = () => {
     customAxios({
       method: "get",
-      url: `/api/comments/article/${postId}?page=${currcommentPage-1}&size=${20}`,
+      url: `/api/comments/article/${postId}?page=${
+        currcommentPage - 1
+      }&size=${20}`,
     })
       .then((res) => {
         setComments(res.data.content);
         setCommentsInfo(res.data);
 
         setcommentPageInfo(res.data.pageInfo);
-        setcurrcommentPage(res.data.pageInfo.page+1);
+        setcurrcommentPage(res.data.pageInfo.page + 1);
       })
       .catch((err) => console.log(err));
   };
@@ -105,8 +99,6 @@ export default function PostDetail() {
   useDocumentTitle(boardTitle);
 
   useEffect(() => {
-    console.log(authUser)
-
     setcurrpostPage(currPage);
     window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -177,7 +169,7 @@ export default function PostDetail() {
             setrecommendedState((prev) => !prev);
             alert("추천 완료!");
           })
-          .catch((res) => console.log(res));
+          .catch((err) => console.log(err));
       }
     } else {
       alert("이미 추천한 게시글입니다!");
@@ -251,7 +243,7 @@ export default function PostDetail() {
   // const createTime_modify = createTime?.slice(0, 10);
   // const updateTime_modify = updateTime?.slice(0, 10);
 
-  if(authUser.accessToken) {
+  if (authUser.accessToken) {
     return (
       <>
         <div className={styles.postdetailallContainer}>
@@ -279,7 +271,7 @@ export default function PostDetail() {
                 목록으로 돌아가기
               </button>
             </div>
-  
+
             <div className={styles.postContainer}>
               <div>
                 <div className={styles.postTitle}>{postDetail.title}</div>
@@ -300,12 +292,12 @@ export default function PostDetail() {
                   </div>
                 </div>
               </div>
-  
+
               <hr />
               <div className={styles.postcontentContainer}>
                 <div dangerouslySetInnerHTML={{ __html: postDetail.content }} />
               </div>
-  
+
               <div id="comment-input-box" className={styles.postBottombar}>
                 <div
                   onClick={postRecommendedInput}
@@ -318,7 +310,7 @@ export default function PostDetail() {
                   )}
                   {postDetail.likes}
                 </div>
-  
+
                 {postDetail.isUser && (
                   <div className={styles.postupdateBottom}>
                     <div
@@ -343,10 +335,10 @@ export default function PostDetail() {
                   </div>
                 )}
               </div>
-  
+
               <hr />
             </div>
-  
+
             <div className={styles.commentInputContainer}>
               <div className={styles.commentTitle}>
                 <p>
@@ -357,7 +349,7 @@ export default function PostDetail() {
                 </p>
                 {/* <p>댓글 {commentsInfo.pageInfo?.totalElements}</p> */}
               </div>
-  
+
               <div className={styles.commentnickName}>
                 <div>닉네임</div>
                 <input
@@ -387,7 +379,7 @@ export default function PostDetail() {
                 </button>
               </div>
             </div>
-  
+
             <div className={styles.postContainer}>
               <hr />
               {comments.map((comment, index) => {
@@ -426,7 +418,7 @@ export default function PostDetail() {
             ) : (
               ""
             )}
-  
+
             {/* <div className={styles.pageBottomtab}>
               <button
                 className={styles.grayoutbutton}
@@ -443,9 +435,9 @@ export default function PostDetail() {
                 <IoIosArrowForward />
               </button>
             </div> */}
-  
+
             <br />
-  
+
             <div className={styles.moreTopbar}>
               <button
                 className={styles.buttonlayoutDel}
@@ -487,11 +479,11 @@ export default function PostDetail() {
               />
             </div>
           </span>
-  
+
           <span className={styles.sideviewContainer}>
             <div className={styles.sideContentContainer}>
               <div className={styles.sidecontentmiddleBox}>
-                <BestpostsWidget IsAuth={authUser.accessToken}/>
+                <BestpostsWidget IsAuth={authUser.accessToken} />
                 <ServerTime />
               </div>
             </div>
@@ -499,7 +491,8 @@ export default function PostDetail() {
         </div>
       </>
     );
-  } else 
-    {alert('로그인 후 이용해주세요! 메인 화면으로 이동합니다.');
-    window.document.location.href = "/";}
+  } else {
+    alert("로그인 후 이용해주세요! 메인 화면으로 이동합니다.");
+    window.document.location.href = "/";
+  }
 }

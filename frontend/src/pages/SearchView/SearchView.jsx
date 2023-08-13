@@ -151,7 +151,7 @@ export default function SearchView() {
               게시판으로 돌아가기
             </button>
           </div>
-          {console.log(searchResults.length)}
+          {/* {console.log(searchResults.length)} */}
           <div className={styles.searchcontentBox}>
             <SearchContent searchResults={searchResults} keyword={decodeURIComponent(keyword)} searchView='all' IsAuth={authUser.accessToken}/>
           {searchResults.length == 0 && (

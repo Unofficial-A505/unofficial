@@ -158,19 +158,20 @@ function Drop({ setModalOpen, setDropComplete, userEmail }) {
       <div className={styles.container}>
         <img src={main_logo} alt="언오피셜 로고" width={160} />
         <p>정말 탈퇴하시겠습니까?</p>
-        <form classNamess="row" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
             disabled
             readOnly
-            className="form-control-plaintext mb-2 ms-1"
+            className="form-control-plaintext mb-2"
+            style={{textAlign: "center"}}
             id="staticEmail2"
             value={userEmail}
           />
           <input
             type="password"
             className="form-control"
-            autocomplete="off"
+            autoComplete="off"
             placeholder="비밀번호를 입력하세요"
             onChange={passwordHandler}
           />
