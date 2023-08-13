@@ -90,14 +90,14 @@ export default function PostDetail() {
   const getComment = () => {
     customAxios({
       method: "get",
-      url: `/api/comments/article/${postId}?page=${currcommentPage}&size=${20}`,
+      url: `/api/comments/article/${postId}?page=${currcommentPage-1}&size=${20}`,
     })
       .then((res) => {
         setComments(res.data.content);
         setCommentsInfo(res.data);
 
         setcommentPageInfo(res.data.pageInfo);
-        setcurrcommentPage(res.data.pageInfo.page);
+        setcurrcommentPage(res.data.pageInfo.page+1);
       })
       .catch((err) => console.log(err));
   };
@@ -141,11 +141,11 @@ export default function PostDetail() {
   }, [postDetail]);
 
   useEffect(() => {
-    boardsArticles(boardId, currpostPage, 20)
+    boardsArticles(boardId, currpostPage - 1, 20)
       .then((res) => {
         setcurrboardPosts(res.content);
         setPageInfo(res.pageInfo);
-        setcurrpostPage(res.pageInfo.page);
+        setcurrpostPage(res.pageInfo.page + 1);
       })
       .catch((err) => console.log(err));
   }, [!postId, currpostPage]);
