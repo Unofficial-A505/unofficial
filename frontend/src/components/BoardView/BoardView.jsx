@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import PostView from '../PostView/PostView'
 
-export default function BoardView({ posts, searchView, keyword, myBoard, boardId, currPage }){
+export default function BoardView({ posts, searchView, keyword, myBoard, boardId, currPage, IsAuth}){
   if (!posts) { posts = [] }
 
   const [ currentPage, setCurrentPage ] = useState(1);
@@ -16,7 +16,7 @@ export default function BoardView({ posts, searchView, keyword, myBoard, boardId
     <div>
       {posts.map((post, index) => (
         <div key={index}>
-          <PostView post={post} boardId={post.boardId} searchView={searchView} keyword={keyword} myBoard={myBoard} currPage={currPage}/>
+          <PostView post={post} boardId={post.boardId} searchView={searchView} keyword={keyword} myBoard={myBoard} currPage={currPage} IsAuth={IsAuth}/>
         </div>
       ))}
     </div>
