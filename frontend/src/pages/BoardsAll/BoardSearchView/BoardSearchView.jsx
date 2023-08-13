@@ -18,12 +18,8 @@ export default function BoardSearchView() {
 
   useEffect(() => {
     // 특정 게시판에서 게시글 검색
-
-    console.log(boardName, keyword)
-
     searchViewApi(encodeURIComponent(keyword), boardId)
     .then((res) => {
-      console.log(res)
       setsearchResults(res)
       // setcurrboardName(res[0].boardName)
     }).catch((err) => console.log(err));
@@ -38,7 +34,7 @@ export default function BoardSearchView() {
       </div>
         
       <div className={styles.boardscontentTitles}>
-        <SearchContent searchResults={searchResults} keyword={keyword} searchView={false}/>
+        <SearchContent searchResults={searchResults} keyword={keyword} searchView={true}/>
         {searchResults.length == 0 && (
           <div className={styles.noSearchSentence}>검색된 결과가 없습니다.</div>
         )}
