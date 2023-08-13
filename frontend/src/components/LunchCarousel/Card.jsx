@@ -1,10 +1,16 @@
 import styles from "./Card.module.css";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import customAxios from "./../../util/customAxios";
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
 import lunch_loading from "./../../assets/images/lunch_loading.jpg";
 import spoon from "./../../assets/images/spoon.png";
+import IconButton from "@mui/joy/IconButton";
+import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 
 export default function Card({ lunchZip }) {
   const settings = {
@@ -38,21 +44,56 @@ export default function Card({ lunchZip }) {
 }
 
 function Menu({ menu }) {
+  const authUser = useSelector((state) => state.authUser);
   const { name, cal } = extractNameCal(menu.name);
+  const { likeCnt, setLikeCnt } = useState(0);
+  const [isLunchLoading, setIsLunchLoading] = useState(false);
+
+  const handleImageError = (e) => {
+    e.target.onerror = null;
+    e.target.src = lunch_loading;
+    setIsLunchLoading(true);
+  };
+
+  const likeMenu = () => {
+    if (!authUser.accessToken) {
+      alert("로그인 후 이용해 주세요.");
+      return;
+    }
+
+    customAxios
+      .post(`${process.env.REACT_APP_SERVER}/api/lunch/like/${menu.id}`)
+      .then((res) => {
+        setLikeCnt(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className={styles.menu}>
-      <img
-        style={{ objectFit: "cover" }}
-        src={menu.imageUrl}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = lunch_loading;
-        }}
-        alt={name}
-      />
+      <div className={styles.imageContainer}>
+        <IconButton
+          onClick={likeMenu}
+          variant="plain"
+          sx={{
+            "--IconButton-size": "30px",
+          }}
+          className={styles.likeButton}
+        >
+          <FavoriteBorder />
+        </IconButton>
+        <img
+          src={menu.imageUrl}
+          onError={handleImageError}
+          alt={name}
+          className={isLunchLoading ? styles.lunchLoading : ""}
+        />
+        <p className={styles.likeCount}>{likeCnt}</p>
+      </div>
       <div className={styles.textContainer}>
-        <div className="d-flex justify-content-between mb-1">
+        <div className="d-flex justify-content-between mb-2">
           <p>{menu.courseName}</p>
           <p style={{ color: cal.length > 3 ? "#c90000" : "#0055c5" }}>
             {cal}kcal
@@ -68,7 +109,6 @@ function Menu({ menu }) {
         >
           {name}
         </h2>
-
         <p className={styles.detail}>{menu.detail}</p>
       </div>
     </div>
