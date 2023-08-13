@@ -1,5 +1,4 @@
 import styles from "./PostView.module.css";
-
 import { useNavigate } from "react-router-dom";
 import { FaRegThumbsUp } from "@react-icons/all-files/fa/FaRegThumbsUp";
 
@@ -8,11 +7,11 @@ import koLocale from 'timeago.js/lib/lang/ko' //한국어 선택
 
 register('ko', koLocale)
 
-export default function PostView({ post, boardId, searchView, keyword, myBoard, currPage }) {
+export default function PostView({ post, boardId, searchView, keyword, myBoard, currPage, IsAuth }) {
   const navigate = useNavigate();
+  
   const regex = new RegExp(keyword, "gi");
   const isKeywordIncluded = regex.test(post.title);
-  
   const highlightKeyword = (title, keyword) => {
     return title.replace(regex, (match) => `<strong style="color: #3F51B5">${match}</strong>`);
   };
@@ -20,7 +19,7 @@ export default function PostView({ post, boardId, searchView, keyword, myBoard, 
 
   const createTime = post.createTime
   // const updateTime = post.modifyTime
-  const createTime_modify = createTime?.slice(0, 10)
+  // const createTime_modify = createTime?.slice(0, 10)
   // const updateTime_modify = updateTime?.slice(0, 10)
 
   return (
@@ -33,18 +32,26 @@ export default function PostView({ post, boardId, searchView, keyword, myBoard, 
 
           {!searchView ?
           <div title={post.title} className={styles.postTitle}
-            onClick={() => navigate(`/boards/${boardId}/${post.id}`, { state : currPage })}>
+            onClick={() => {
+              if (IsAuth) 
+              (navigate(`/boards/${boardId}/${post.id}`, { state : currPage }))
+             else (
+              alert('로그인 후 이용해주세요!'))}}>
             <span >{post.title}</span>
             <span className={styles.postrecommendBox}>[{post.commentsCount}]</span>
           </div>
           : isKeywordIncluded? 
             (<div title={post.title} className={styles.postTitle}
-            onClick={() => navigate(`/boards/${boardId}/${post.id}`, { state : currPage })}>
+            onClick={() => {if (IsAuth) 
+              (navigate(`/boards/${boardId}/${post.id}`, { state : currPage }))
+            else (alert('로그인 후 이용해주세요!'))}}>
             <span dangerouslySetInnerHTML={{ __html: highlightedSentence }}></span>
             <span className={styles.postrecommendBox}>[{post.commentsCount}]</span>
             </div>) 
           : (<div title={post.title} className={styles.postTitle}
-            onClick={() => navigate(`/boards/${boardId}/${post.id}`, { state : currPage })}>
+            onClick={() =>{if (IsAuth) 
+              (navigate(`/boards/${boardId}/${post.id}`, { state : currPage }))
+            else (alert('로그인 후 이용해주세요!'))}}>
             <span >{post.title}</span>
             <span className={styles.postrecommendBox}>[{post.commentsCount}]</span>
             </div>)

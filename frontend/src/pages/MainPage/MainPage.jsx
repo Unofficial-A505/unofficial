@@ -88,7 +88,7 @@ export default function MainPage() {
             <FaCrown className={styles.bestIcons} />
           </div>
           <div className={styles.posttypeTitlebarBox}><PostTypeTitleBar /></div>
-          <BoardView posts={bestPosts?.slice(0, 14)} myBoard={true}/>
+          <BoardView posts={bestPosts?.slice(0, 14)} myBoard={true} IsAuth={authUser.accessToken}/>
         </div>
         <div className={styles.middleRightContainer}>
           <WeatherinfoApi userLocal={userInfo?.local} />

@@ -3,7 +3,7 @@ import styles from "./SearchContent.module.css";
 import BoardView from "../BoardView/BoardView";
 import PostTypeTitleBar from "../PostTypeTitleBar/PostTypeTitleBar";
 
-export default function SearchContent({ searchResults, keyword, searchView }) {
+export default function SearchContent({ searchResults, keyword, searchView, IsAuth }) {
   if (searchResults) {
     return (
       <div>
@@ -13,6 +13,7 @@ export default function SearchContent({ searchResults, keyword, searchView }) {
             posts={searchResults}
             searchView={searchView}
             keyword={keyword}
+            IsAuth={IsAuth}
           />
         </div>
       </div>

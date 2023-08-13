@@ -111,15 +111,11 @@ export default function PostDetail() {
     // 게시글 상세정보 가져오기
     postDetailApi(postId)
       .then((res) => {
-        console.log(res);
         setpostDetail(res);
         setBoardTitle(res.boardName);
         getComment();
       })
       .catch((err) => console.log(err));
-
-    console.log("currPage", currPage);
-    console.log("currpostPage", currpostPage);
 
     //현재 board 게시글
     boardsArticles(boardId, currPage, 20)
@@ -127,8 +123,6 @@ export default function PostDetail() {
         setcurrboardPosts(res.content);
         setPageInfo(res.pageInfo);
         setcurrpostPage(res.pageInfo.page);
-        console.log(res.pageInfo.page);
-        console.log("article 가져온 다음 currpostPage", currpostPage);
       })
       .catch((err) => console.log(err));
 
@@ -179,8 +173,6 @@ export default function PostDetail() {
               postDetail.likes -= 1;
             }
             setrecommendedState((prev) => !prev);
-            // console.log(recommendedState)
-            // console.log('recommended success !!!!!!!')
             alert("추천 완료!");
           })
           .catch((res) => console.log(res));
@@ -234,8 +226,6 @@ export default function PostDetail() {
 
     const targetElement = document.getElementById("board-posts-more"); // 스크롤할 요소 선택
     if (targetElement) {
-      // comment scroll to
-      // console.log('targetElement', targetElement)
       const targetPosition =
         targetElement.getBoundingClientRect().top + window.scrollY; // 요소의 상단 위치
       window.scrollTo({ top: targetPosition, behavior: "smooth" });
@@ -248,8 +238,6 @@ export default function PostDetail() {
 
     const targetElement = document.getElementById("comment-input-box"); // 스크롤할 요소 선택
     if (targetElement) {
-      // comment scroll to
-      // console.log('targetElement', targetElement)
       const targetPosition =
         targetElement.getBoundingClientRect().top + window.scrollY; // 요소의 상단 위치
       window.scrollTo({ top: targetPosition, behavior: "smooth" });

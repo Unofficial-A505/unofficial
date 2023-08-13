@@ -3,6 +3,7 @@ import styles from "./SearchView.module.css";
 
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import { FiSearch } from "@react-icons/all-files/fi/FiSearch";
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
@@ -28,6 +29,8 @@ export default function SearchView() {
   const [bestPostlist, setbestPostlist] = useState([]);
   const [boardNames, setboardNames] = useState([]);
   const navigate = useNavigate();
+
+  const authUser = useSelector((state) => state.authUser);
 
   const settings = {
     dots: false,
@@ -148,7 +151,7 @@ export default function SearchView() {
         </div>
         {console.log(searchResults.length)}
         <div className={styles.searchcontentBox}>
-          <SearchContent searchResults={searchResults} keyword={decodeURIComponent(keyword)} searchView='all'/>
+          <SearchContent searchResults={searchResults} keyword={decodeURIComponent(keyword)} searchView='all' IsAuth={authUser.accessToken}/>
         {searchResults.length == 0 && (
           <div className={styles.noSearchSentence}>검색된 결과가 없습니다.</div>
         )}

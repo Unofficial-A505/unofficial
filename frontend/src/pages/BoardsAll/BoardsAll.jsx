@@ -100,10 +100,14 @@ export default function BoardsAll() {
                   className={styles.searchbutton}
                   onClick={(e) => {
                     e.preventDefault();
-                    if (keywordAll.trim()) {
-                      navigate(`/boards/search/${encodeURIComponent(keywordAll)}`, { state : encodeURIComponent(keywordAll) })
+                    if (authUser.accessToken) {
+                      if (keywordAll.trim()) {
+                        navigate(`/boards/search/${encodeURIComponent(keywordAll)}`, { state : encodeURIComponent(keywordAll) })
+                      } else {
+                        alert('검색어를 입력해주세요!')
+                      }
                     } else {
-                      alert('검색어를 입력해주세요!')
+                      alert('로그인 후 이용해주세요!')
                     }
                   }}>
                   <FiSearch />
@@ -119,8 +123,9 @@ export default function BoardsAll() {
                     <div
                       key={index}
                       className={styles.bestContentContainer}
-                      onClick={() => navigate(`/boards/${data.boardId}/${data.articleId}`)}
-                    >
+                      onClick={() => {if(authUser.accessToken) 
+                        (navigate(`/boards/${data.boardId}/${data.articleId}`))
+                      else (alert('로그인 후 이용해주세요!'))}}>
                       <span className={styles.bestContent}>
                         {data.boardName}
                       </span>
@@ -155,8 +160,11 @@ export default function BoardsAll() {
             <div className={styles.postcreateContainer}>
               <button
                 className={styles.createpageButton}
-                onClick={() => navigate(`/boards/${boardId}/create`, { state: currboardName })}
-              >
+                onClick={() => {if(authUser.accessToken) 
+                  (navigate(`/boards/${boardId}/create`, { state: currboardName }))
+                else (
+                 alert('로그인 후 이용해주세요!') 
+                )}}>
                 <CgAddR className={styles.createpageIcon} size="20" />새 글 작성
               </button>
             </div>
@@ -183,14 +191,16 @@ export default function BoardsAll() {
                   className={styles.searchbutton}
                   onClick={(e) => {
                     e.preventDefault();
-                    if (keywordBoard.trim()) {
-                      navigate(`${boardId}/search/${encodeURIComponent(keywordBoard)}`, { state : currboardName });
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-                    } else {
-                      alert('검색어를 입력해주세요!')
-                    }
-                  }}
-                >
+                    if (authUser.accessToken) {
+                      if (keywordBoard.trim()) {
+                        navigate(`${boardId}/search/${encodeURIComponent(keywordBoard)}`, { state : currboardName });
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      } else {
+                        alert('검색어를 입력해주세요!')
+                      }
+                    } else (
+                      alert('로그인 후 이용해주세요!')
+                    )}}>
                   <FiSearch />
                 </button>
               </div>
@@ -201,7 +211,7 @@ export default function BoardsAll() {
         <div className={styles.sideviewContainer}>
           <div className={styles.sideContentContainer}>
             <div className={styles.sidecontentmiddleBox}>
-              <BestpostsWidget />
+              <BestpostsWidget IsAuth={authUser.accessToken}/>
               <ServerTime />
             </div>
           </div>
