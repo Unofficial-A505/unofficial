@@ -56,13 +56,13 @@ export default function PostDetail() {
   const navigate = useNavigate();
   const authUser = useSelector((state) => state.authUser);
 
-  useEffect(() => {
-    if (!authUser.accessToken) {
-      alert("로그인 후에 사용해 주세요.");
-      navigate("/boards/1");
-      return;
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!authUser.accessToken) {
+  //     alert("로그인 후에 사용해 주세요.");
+  //     navigate("/boards/1");
+  //     return;
+  //   }
+  // }, []);
 
   const { boardId } = useParams();
   const { postId } = useParams();
@@ -105,6 +105,8 @@ export default function PostDetail() {
   useDocumentTitle(boardTitle);
 
   useEffect(() => {
+    console.log(authUser)
+
     setcurrpostPage(currPage);
     window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -249,250 +251,255 @@ export default function PostDetail() {
   // const createTime_modify = createTime?.slice(0, 10);
   // const updateTime_modify = updateTime?.slice(0, 10);
 
-  return (
-    <>
-      <div className={styles.postdetailallContainer}>
-        <span className={styles.postviewContainer}>
-          <div className={styles.postTopbar}>
-            <span
-              className={styles.boardTitle}
-              onClick={() =>
-                navigate(`/boards/${postDetail.boardId}`, {
-                  state: postDetail.boardId,
-                })
-              }
-            >
-              {postDetail.boardName}
-            </span>
-            <button
-              className={styles.grayoutbutton}
-              onClick={() =>
-                navigate(`/boards/${postDetail.boardId}`, {
-                  state: postDetail.boardId,
-                })
-              }
-            >
-              <IoIosArrowBack />
-              목록으로 돌아가기
-            </button>
-          </div>
-
-          <div className={styles.postContainer}>
-            <div>
-              <div className={styles.postTitle}>{postDetail.title}</div>
-              <div className={styles.postusername}>
-                <span>
-                  {postDetail.local} {postDetail.gen}기
-                </span>
-                <span> {postDetail.nickName}</span>
-              </div>
-              <div className={styles.dateViews}>
-                <div className={styles.posttimeago}>
-                  <IoRocketOutline className={styles.tabIcon} size="20" />
-                  {format(postDetail.createTime, "ko")}
-                </div>
-                <div className={styles.posttimeago}>
-                  <AiOutlineEye className={styles.tabIcon} size="19" />
-                  {postDetail.views}
-                </div>
-              </div>
-            </div>
-
-            <hr />
-            <div className={styles.postcontentContainer}>
-              <div dangerouslySetInnerHTML={{ __html: postDetail.content }} />
-            </div>
-
-            <div id="comment-input-box" className={styles.postBottombar}>
-              <div
-                onClick={postRecommendedInput}
-                className={styles.tabthumbIcon}
+  if(authUser.accessToken) {
+    return (
+      <>
+        <div className={styles.postdetailallContainer}>
+          <span className={styles.postviewContainer}>
+            <div className={styles.postTopbar}>
+              <span
+                className={styles.boardTitle}
+                onClick={() =>
+                  navigate(`/boards/${postDetail.boardId}`, {
+                    state: postDetail.boardId,
+                  })
+                }
               >
-                {recommendedState ? (
-                  <FaThumbsUp className={styles.tabupIcon} />
-                ) : (
-                  <FaRegThumbsUp className={styles.tabregupIcon} />
-                )}
-                {postDetail.likes}
-              </div>
-
-              {postDetail.isUser && (
-                <div className={styles.postupdateBottom}>
-                  <div
-                    onClick={() =>
-                      navigate(`/boards/${boardId}/${postId}/update`, {
-                        state: postDetail,
-                      })
-                    }
-                    className={styles.postupdateBottomtab}
-                  >
-                    <HiOutlinePencilAlt className={styles.tabupIcon} />
-                    수정하기
-                  </div>
-                  <div
-                    onClick={postDelete}
-                    className={styles.postupdateBottomtab}
-                  >
-                    <IoTrashOutline className={styles.tabupIcon} />
-                    삭제하기
-                  </div>
-                  {/* <div className={styles.postupdateBottomtab}><HiOutlineSpeakerphone />공지로 설정하기</div> */}
-                </div>
-              )}
-            </div>
-
-            <hr />
-          </div>
-
-          <div className={styles.commentInputContainer}>
-            <div className={styles.commentTitle}>
-              <p>
-                댓글{" "}
-                {commentsInfo.pageInfo === undefined
-                  ? "0"
-                  : commentsInfo.pageInfo.totalElements}
-              </p>
-              {/* <p>댓글 {commentsInfo.pageInfo?.totalElements}</p> */}
-            </div>
-
-            <div className={styles.commentnickName}>
-              <div>닉네임</div>
-              <input
-                id="comment-nickname-input"
-                className={styles.commentnickNameInput}
-                type="text"
-                placeholder="닉네임을 입력하세요"
-                onChange={(e) => setcommentnickName(e.target.value)}
-              />
-            </div>
-            <div className={styles.commentbox}>
-              <textarea
-                id="comment-input"
-                className={styles.commentInput}
-                type="text"
-                onChange={(e) => {
-                  setcreateComment(e.target.value);
-                }}
-                placeholder="댓글을 작성해보세요"
-              />
-              <button
-                className={styles.commentButton}
-                onClick={commentCreate}
-                disabled={isButtonDisabled}
-              >
-                <IoChatboxOutline size="23" />
-              </button>
-            </div>
-          </div>
-
-          <div className={styles.postContainer}>
-            <hr />
-            {comments.map((comment, index) => {
-              if (!comment.parentId) {
-                return (
-                  <div key={index}>
-                    <CommentView
-                      comment={comment}
-                      commentUpdate={commentUpdate}
-                      getComment={getComment}
-                    />
-                  </div>
-                );
-              } else {
-                return (
-                  <div key={index}>
-                    <RecommentsView
-                      recomment={comment}
-                      parentId={comment.parentId}
-                      getComment={getComment}
-                      articleId={comment.articleId}
-                    />
-                  </div>
-                );
-              }
-            })}
-          </div>
-          {comments.length ? (
-            <div id="board-posts-more" className={styles.commentPagination}>
-              <PaginationCustom
-                totalPages={commentPageInfo.totalPages}
-                paginate={comentPaginate}
-                currPage={currcommentPage}
-              />
-            </div>
-          ) : (
-            ""
-          )}
-
-          {/* <div className={styles.pageBottomtab}>
-            <button
-              className={styles.grayoutbutton}
-              onClick={() => navigate(`/boards/${boardId}`)}
-            >
-              <IoIosArrowBack />
-              이전글 보기
-            </button>
-            <button
-              className={styles.grayoutbutton}
-              onClick={() => navigate(+1)}
-            >
-              다음글 보기
-              <IoIosArrowForward />
-            </button>
-          </div> */}
-
-          <br />
-
-          <div className={styles.moreTopbar}>
-            <button
-              className={styles.buttonlayoutDel}
-              onClick={() =>
-                navigate(`/boards/${postDetail.boardId}`, {
-                  state: postDetail.boardId,
-                })
-              }
-            >
-              <span className={styles.boardmoreTitleA}>
                 {postDetail.boardName}
               </span>
-              <span className={styles.boardmoreTitleB}>글 더 보기</span>
-            </button>
-            <button
-              className={styles.grayoutbutton}
-              onClick={() =>
-                navigate(`/boards/${postDetail.boardId}`, {
-                  state: postDetail.boardId,
-                })
-              }
-            >
-              목록 보기
-              <IoIosArrowForward />
-            </button>
-          </div>
-          <PostTypeTitleBar />
-          <BoardView
-            posts={currboardPosts}
-            boardId={boardId}
-            currPage={currpostPage}
-          />
-          <div className={styles.postmorePagination}>
-            <PaginationCustom
-              totalPages={pageInfo.totalPages}
-              paginate={postsmorePaginate}
-              currPage={currpostPage}
-            />
-          </div>
-        </span>
-
-        <span className={styles.sideviewContainer}>
-          <div className={styles.sideContentContainer}>
-            <div className={styles.sidecontentmiddleBox}>
-              <BestpostsWidget />
-              <ServerTime />
+              <button
+                className={styles.grayoutbutton}
+                onClick={() =>
+                  navigate(`/boards/${postDetail.boardId}`, {
+                    state: postDetail.boardId,
+                  })
+                }
+              >
+                <IoIosArrowBack />
+                목록으로 돌아가기
+              </button>
             </div>
-          </div>
-        </span>
-      </div>
-    </>
-  );
+  
+            <div className={styles.postContainer}>
+              <div>
+                <div className={styles.postTitle}>{postDetail.title}</div>
+                <div className={styles.postusername}>
+                  <span>
+                    {postDetail.local} {postDetail.gen}기
+                  </span>
+                  <span> {postDetail.nickName}</span>
+                </div>
+                <div className={styles.dateViews}>
+                  <div className={styles.posttimeago}>
+                    <IoRocketOutline className={styles.tabIcon} size="20" />
+                    {format(postDetail.createTime, "ko")}
+                  </div>
+                  <div className={styles.posttimeago}>
+                    <AiOutlineEye className={styles.tabIcon} size="19" />
+                    {postDetail.views}
+                  </div>
+                </div>
+              </div>
+  
+              <hr />
+              <div className={styles.postcontentContainer}>
+                <div dangerouslySetInnerHTML={{ __html: postDetail.content }} />
+              </div>
+  
+              <div id="comment-input-box" className={styles.postBottombar}>
+                <div
+                  onClick={postRecommendedInput}
+                  className={styles.tabthumbIcon}
+                >
+                  {recommendedState ? (
+                    <FaThumbsUp className={styles.tabupIcon} />
+                  ) : (
+                    <FaRegThumbsUp className={styles.tabregupIcon} />
+                  )}
+                  {postDetail.likes}
+                </div>
+  
+                {postDetail.isUser && (
+                  <div className={styles.postupdateBottom}>
+                    <div
+                      onClick={() =>
+                        navigate(`/boards/${boardId}/${postId}/update`, {
+                          state: postDetail,
+                        })
+                      }
+                      className={styles.postupdateBottomtab}
+                    >
+                      <HiOutlinePencilAlt className={styles.tabupIcon} />
+                      수정하기
+                    </div>
+                    <div
+                      onClick={postDelete}
+                      className={styles.postupdateBottomtab}
+                    >
+                      <IoTrashOutline className={styles.tabupIcon} />
+                      삭제하기
+                    </div>
+                    {/* <div className={styles.postupdateBottomtab}><HiOutlineSpeakerphone />공지로 설정하기</div> */}
+                  </div>
+                )}
+              </div>
+  
+              <hr />
+            </div>
+  
+            <div className={styles.commentInputContainer}>
+              <div className={styles.commentTitle}>
+                <p>
+                  댓글{" "}
+                  {commentsInfo.pageInfo === undefined
+                    ? "0"
+                    : commentsInfo.pageInfo.totalElements}
+                </p>
+                {/* <p>댓글 {commentsInfo.pageInfo?.totalElements}</p> */}
+              </div>
+  
+              <div className={styles.commentnickName}>
+                <div>닉네임</div>
+                <input
+                  id="comment-nickname-input"
+                  className={styles.commentnickNameInput}
+                  type="text"
+                  placeholder="닉네임을 입력하세요"
+                  onChange={(e) => setcommentnickName(e.target.value)}
+                />
+              </div>
+              <div className={styles.commentbox}>
+                <textarea
+                  id="comment-input"
+                  className={styles.commentInput}
+                  type="text"
+                  onChange={(e) => {
+                    setcreateComment(e.target.value);
+                  }}
+                  placeholder="댓글을 작성해보세요"
+                />
+                <button
+                  className={styles.commentButton}
+                  onClick={commentCreate}
+                  disabled={isButtonDisabled}
+                >
+                  <IoChatboxOutline size="23" />
+                </button>
+              </div>
+            </div>
+  
+            <div className={styles.postContainer}>
+              <hr />
+              {comments.map((comment, index) => {
+                if (!comment.parentId) {
+                  return (
+                    <div key={index}>
+                      <CommentView
+                        comment={comment}
+                        commentUpdate={commentUpdate}
+                        getComment={getComment}
+                      />
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div key={index}>
+                      <RecommentsView
+                        recomment={comment}
+                        parentId={comment.parentId}
+                        getComment={getComment}
+                        articleId={comment.articleId}
+                      />
+                    </div>
+                  );
+                }
+              })}
+            </div>
+            {comments.length ? (
+              <div id="board-posts-more" className={styles.commentPagination}>
+                <PaginationCustom
+                  totalPages={commentPageInfo.totalPages}
+                  paginate={comentPaginate}
+                  currPage={currcommentPage}
+                />
+              </div>
+            ) : (
+              ""
+            )}
+  
+            {/* <div className={styles.pageBottomtab}>
+              <button
+                className={styles.grayoutbutton}
+                onClick={() => navigate(`/boards/${boardId}`)}
+              >
+                <IoIosArrowBack />
+                이전글 보기
+              </button>
+              <button
+                className={styles.grayoutbutton}
+                onClick={() => navigate(+1)}
+              >
+                다음글 보기
+                <IoIosArrowForward />
+              </button>
+            </div> */}
+  
+            <br />
+  
+            <div className={styles.moreTopbar}>
+              <button
+                className={styles.buttonlayoutDel}
+                onClick={() =>
+                  navigate(`/boards/${postDetail.boardId}`, {
+                    state: postDetail.boardId,
+                  })
+                }
+              >
+                <span className={styles.boardmoreTitleA}>
+                  {postDetail.boardName}
+                </span>
+                <span className={styles.boardmoreTitleB}>글 더 보기</span>
+              </button>
+              <button
+                className={styles.grayoutbutton}
+                onClick={() =>
+                  navigate(`/boards/${postDetail.boardId}`, {
+                    state: postDetail.boardId,
+                  })
+                }
+              >
+                목록 보기
+                <IoIosArrowForward />
+              </button>
+            </div>
+            <PostTypeTitleBar />
+            <BoardView
+              posts={currboardPosts}
+              boardId={boardId}
+              currPage={currpostPage}
+              IsAuth={authUser.accessToken}
+            />
+            <div className={styles.postmorePagination}>
+              <PaginationCustom
+                totalPages={pageInfo.totalPages}
+                paginate={postsmorePaginate}
+                currPage={currpostPage}
+              />
+            </div>
+          </span>
+  
+          <span className={styles.sideviewContainer}>
+            <div className={styles.sideContentContainer}>
+              <div className={styles.sidecontentmiddleBox}>
+                <BestpostsWidget IsAuth={authUser.accessToken}/>
+                <ServerTime />
+              </div>
+            </div>
+          </span>
+        </div>
+      </>
+    );
+  } else 
+    {alert('로그인 후 이용해주세요! 메인 화면으로 이동합니다.');
+    window.document.location.href = "/";}
 }

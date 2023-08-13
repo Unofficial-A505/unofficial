@@ -69,94 +69,100 @@ export default function SearchView() {
       .catch((err) => console.log(err));
   }, []);
 
-  return (
-    <div>
-      <div className={styles.advContainer}>
-        <AdHorizontal />
-      </div>
+  if (authUser.accessToken) {
 
-      <div className={styles.boardsTopContainer}>
-        <form className={styles.searchboxall}>
-          <p>전체 게시글 검색</p>
-          <div className={styles.searchInputBox}>
-            <input
-              className={styles.search}
-              id={styles.all}
-              type="text"
-              placeholder="찾고싶은 게시글의 제목 또는 내용의 키워드를 검색"
-              onChange={(e) => {
-                setKeywordAll(e.target.value);
-              }}
-            />
+    return (
+      <div>
+        <div className={styles.advContainer}>
+          <AdHorizontal />
+        </div>
+  
+        <div className={styles.boardsTopContainer}>
+          <form className={styles.searchboxall}>
+            <p>전체 게시글 검색</p>
+            <div className={styles.searchInputBox}>
+              <input
+                className={styles.search}
+                id={styles.all}
+                type="text"
+                placeholder="찾고싶은 게시글의 제목 또는 내용의 키워드를 검색"
+                onChange={(e) => {
+                  setKeywordAll(e.target.value);
+                }}
+              />
+              <button
+                className={styles.searchbutton}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (keywordAll.trim()) {
+                    navigate(`/boards/search/${encodeURIComponent(keywordAll)}`, { state : encodeURIComponent(keywordAll) })
+                  } else {
+                    alert('검색어를 입력해주세요!')
+                  }
+                  }}>
+                <FiSearch />
+              </button>
+            </div>
+          </form>
+  
+          <div className={styles.boardsallBestContainer}>
+            <div className={styles.bestbannerTitle}>전체 best 게시글</div>
+            <div className={styles.boardsallBestBox}>
+              <Slider {...settings}>
+                {bestPostlist.map((data, index) => (
+                  <div key={index} className={styles.bestContentContainer}>
+                    <span className={styles.bestContent}>{data.boardName}</span>
+                    <span>{data.title}</span>
+                  </div>
+                ))}
+              </Slider>
+            </div>
+          </div>
+        </div>
+        <div className={styles.boardcontainer}>
+          <div className={styles.boardtabContainer}>
+            <div>
+              {boardNames.map((board, index) => (
+                <button
+                  key={index}
+                  className={styles.boardtab}
+                  onClick={() =>
+                    navigate(`/boards/${board.id}`, { state: board.name })
+                  }
+                >
+                  {board.name}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+  
+        <div className={styles.searchcontentContainer}>
+          <div className={styles.searchUpheader}>
+            <div className={styles.searchkeywordBox}>
+              <span className={styles.boardTitle}>전체게시판</span>의
+              <span className={styles.searchKeyword}>'{decodeURIComponent(keyword)}'</span> 검색 결과
+            </div>
             <button
-              className={styles.searchbutton}
-              onClick={(e) => {
-                e.preventDefault();
-                if (keywordAll.trim()) {
-                  navigate(`/boards/search/${encodeURIComponent(keywordAll)}`, { state : encodeURIComponent(keywordAll) })
-                } else {
-                  alert('검색어를 입력해주세요!')
-                }
-                }}>
-              <FiSearch />
+              className={styles.grayoutbutton}
+              onClick={() => navigate("/boards/1")}
+            >
+              <IoIosArrowBack />
+              게시판으로 돌아가기
             </button>
           </div>
-        </form>
-
-        <div className={styles.boardsallBestContainer}>
-          <div className={styles.bestbannerTitle}>전체 best 게시글</div>
-          <div className={styles.boardsallBestBox}>
-            <Slider {...settings}>
-              {bestPostlist.map((data, index) => (
-                <div key={index} className={styles.bestContentContainer}>
-                  <span className={styles.bestContent}>{data.boardName}</span>
-                  <span>{data.title}</span>
-                </div>
-              ))}
-            </Slider>
+          {console.log(searchResults.length)}
+          <div className={styles.searchcontentBox}>
+            <SearchContent searchResults={searchResults} keyword={decodeURIComponent(keyword)} searchView='all' IsAuth={authUser.accessToken}/>
+          {searchResults.length == 0 && (
+            <div className={styles.noSearchSentence}>검색된 결과가 없습니다.</div>
+          )}
           </div>
         </div>
       </div>
-      <div className={styles.boardcontainer}>
-        <div className={styles.boardtabContainer}>
-          <div>
-            {boardNames.map((board, index) => (
-              <button
-                key={index}
-                className={styles.boardtab}
-                onClick={() =>
-                  navigate(`/boards/${board.id}`, { state: board.name })
-                }
-              >
-                {board.name}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.searchcontentContainer}>
-        <div className={styles.searchUpheader}>
-          <div className={styles.searchkeywordBox}>
-            <span className={styles.boardTitle}>전체게시판</span>의
-            <span className={styles.searchKeyword}>'{decodeURIComponent(keyword)}'</span> 검색 결과
-          </div>
-          <button
-            className={styles.grayoutbutton}
-            onClick={() => navigate("/boards/1")}
-          >
-            <IoIosArrowBack />
-            게시판으로 돌아가기
-          </button>
-        </div>
-        {console.log(searchResults.length)}
-        <div className={styles.searchcontentBox}>
-          <SearchContent searchResults={searchResults} keyword={decodeURIComponent(keyword)} searchView='all' IsAuth={authUser.accessToken}/>
-        {searchResults.length == 0 && (
-          <div className={styles.noSearchSentence}>검색된 결과가 없습니다.</div>
-        )}
-        </div>
-      </div>
-    </div>
-  );
+    );
+  } else {
+    {alert('로그인 후 이용해주세요! 메인 화면으로 이동합니다.');
+    window.document.location.href = "/";}
+  }
 }
