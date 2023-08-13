@@ -60,8 +60,12 @@ const ForgotPasswordPage = () => {
             <div className="d-flex justify-content-between mb-2">
               <div className={styles.selectContainer}>
                 <label className="form-label mb-0">지역</label>
-                <select name="enter_local" onChange={handleLocalChange}>
-                  <option disabled selected>
+                <select
+                  name="enter_local"
+                  value={selectedLocal}
+                  onChange={handleLocalChange}
+                >
+                  <option value="" disabled>
                     지역을 선택하세요
                   </option>
                   <option value="서울">서울 캠퍼스</option>
@@ -73,8 +77,12 @@ const ForgotPasswordPage = () => {
               </div>
               <div className={styles.selectContainer}>
                 <label className="form-label mb-0">기수</label>
-                <select name="enter_gen" onChange={handleGenChange}>
-                  <option disabled selected>
+                <select
+                  name="enter_gen"
+                  value={selectedGen}
+                  onChange={handleGenChange}
+                >
+                  <option value="" disabled>
                     기수를 선택하세요
                   </option>
                   <option value="1">1기</option>
@@ -91,12 +99,12 @@ const ForgotPasswordPage = () => {
               </div>
             </div>
             <div className="mb-4">
-              <label for="inputEmail" className="form-label">
+              <label htmlFor="inputEmail" className="form-label">
                 이메일
               </label>
               <input
                 type="email"
-                class="form-control"
+                className="form-control"
                 id="inputEmail"
                 onInput={onEmailHandler}
               />

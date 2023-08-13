@@ -23,7 +23,7 @@ export default function MyCommentsView() {
     customAxios
       .get(`/api/comments/user?size=${size}&page=${page - 1}`)
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         setComments(res.data.content);
         setPageInfo(res.data.pageInfo);
       });

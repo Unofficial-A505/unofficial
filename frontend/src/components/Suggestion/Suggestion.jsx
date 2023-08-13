@@ -100,12 +100,12 @@ export default function Suggestion({ show, handleClose }) {
           <div className="d-flex justify-content-end">
             <button
               type="button"
-              class="btn btn-light btn-sm me-2"
+              className="btn btn-light btn-sm me-2"
               onClick={() => handleClose()}
             >
               뒤로가기
             </button>
-            <button type="submit" class="btn btn-primary btn-sm">
+            <button type="submit" className="btn btn-primary btn-sm">
               제출하기
             </button>
           </div>

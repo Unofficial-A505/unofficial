@@ -66,15 +66,6 @@ export default function BoardsAll() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [boardId || boardNames]);
 
-  const selectBestArticle = (data) => {
-    if (authUser.accessToken) {
-      navigate(`/boards/${data.boardId}/${data.articleId}`);
-    } else {
-      alert("로그인 후 조회 해주세요.");
-      return;
-    }
-  };
-
   return (
     <div className={styles.boardsAllContainer}>
       <div className={styles.boardsviewContainer}>
