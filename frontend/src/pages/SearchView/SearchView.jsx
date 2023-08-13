@@ -91,7 +91,11 @@ export default function SearchView() {
               className={styles.searchbutton}
               onClick={(e) => {
                 e.preventDefault();
-                navigate(`/boards/search/${encodeURIComponent(keywordAll)}`, { state : encodeURIComponent(keywordAll) })
+                if (keywordAll.trim()) {
+                  navigate(`/boards/search/${encodeURIComponent(keywordAll)}`, { state : encodeURIComponent(keywordAll) })
+                } else {
+                  alert('검색어를 입력해주세요!')
+                }
                 }}>
               <FiSearch />
             </button>

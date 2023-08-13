@@ -100,7 +100,11 @@ export default function BoardsAll() {
                   className={styles.searchbutton}
                   onClick={(e) => {
                     e.preventDefault();
-                    navigate(`/boards/search/${encodeURIComponent(keywordAll)}`, { state : encodeURIComponent(keywordAll) })
+                    if (keywordAll.trim()) {
+                      navigate(`/boards/search/${encodeURIComponent(keywordAll)}`, { state : encodeURIComponent(keywordAll) })
+                    } else {
+                      alert('검색어를 입력해주세요!')
+                    }
                   }}>
                   <FiSearch />
                 </button>
@@ -179,8 +183,12 @@ export default function BoardsAll() {
                   className={styles.searchbutton}
                   onClick={(e) => {
                     e.preventDefault();
-                    navigate(`${boardId}/search/${encodeURIComponent(keywordBoard)}`, { state : currboardName });
-                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    if (keywordBoard.trim()) {
+                      navigate(`${boardId}/search/${encodeURIComponent(keywordBoard)}`, { state : currboardName });
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    } else {
+                      alert('검색어를 입력해주세요!')
+                    }
                   }}
                 >
                   <FiSearch />
