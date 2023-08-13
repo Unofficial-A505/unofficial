@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./SearchView.module.css";
 
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import { FiSearch } from "@react-icons/all-files/fi/FiSearch";
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
@@ -21,7 +21,8 @@ export default function SearchView() {
   const searchView = true
   useDocumentTitle("게시글 찾기");
 
-  const { keyword } = useParams();
+  // const { keyword } = useParams();
+  const { state: keyword } = useLocation();
   const [keywordAll, setKeywordAll] = useState("");
   const [searchResults, setsearchResults] = useState([]);
   const [bestPostlist, setbestPostlist] = useState([]);
@@ -41,7 +42,10 @@ export default function SearchView() {
   };
 
   useEffect(() => {
-    // 전체게시판에서 게시글 검색
+    console.log('keyword', keyword)
+    // console.log('encodeURIComponent', encodeURIComponent(keyword))
+
+    //전체게시판에서 게시글 검색
     searchViewApi(keyword, 0)
       .then((res) => {
         // console.log("search success", res);
@@ -85,8 +89,10 @@ export default function SearchView() {
             />
             <button
               className={styles.searchbutton}
-              onClick={() => navigate(`/boards/search/${keywordAll}`)}
-            >
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(`/boards/search/${encodeURIComponent(keywordAll)}`, { state : encodeURIComponent(keywordAll) })
+                }}>
               <FiSearch />
             </button>
           </div>
@@ -128,7 +134,7 @@ export default function SearchView() {
         <div className={styles.searchUpheader}>
           <div>
             <span className={styles.boardTitle}>전체게시판</span>의
-            <span className={styles.searchKeyword}>'{keyword}'</span> 검색 결과
+            <span className={styles.searchKeyword}>'{decodeURIComponent(keyword)}'</span> 검색 결과
           </div>
           <button
             className={styles.grayoutbutton}
@@ -139,11 +145,11 @@ export default function SearchView() {
           </button>
         </div>
         {console.log(searchResults.length)}
+        <div className={styles.searchcontentBox}>
+          <SearchContent searchResults={searchResults} keyword={decodeURIComponent(keyword)} searchView={searchView}/>
         {searchResults.length == 0 && (
           <div className={styles.noSearchSentence}>검색된 결과가 없습니다.</div>
         )}
-        <div className={styles.searchcontentBox}>
-          <SearchContent searchResults={searchResults} keyword={keyword} searchView={searchView}/>
         </div>
       </div>
     </div>

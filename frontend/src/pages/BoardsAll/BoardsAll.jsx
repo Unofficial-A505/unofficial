@@ -98,8 +98,10 @@ export default function BoardsAll() {
                 />
                 <button
                   className={styles.searchbutton}
-                  onClick={() => navigate(`/boards/search/${keywordAll}`)}
-                >
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate(`/boards/search/${encodeURIComponent(keywordAll)}`, { state : encodeURIComponent(keywordAll) })
+                  }}>
                   <FiSearch />
                 </button>
               </div>
@@ -175,8 +177,9 @@ export default function BoardsAll() {
                 />
                 <button
                   className={styles.searchbutton}
-                  onClick={() => {
-                    navigate(`/boards/${boardId}/search/${keywordBoard}`);
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate(`${boardId}/search/${encodeURIComponent(keywordBoard)}`, { state : currboardName });
                     window.scrollTo({ top: 0, behavior: "smooth" });
                   }}
                 >
