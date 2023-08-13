@@ -40,19 +40,17 @@ export default function SearchView() {
     autoplay: true,
     autoplaySpeed: 2000,
   };
-
   useEffect(() => {
-    console.log('keyword', keyword)
-    // console.log('encodeURIComponent', encodeURIComponent(keyword))
-
     //전체게시판에서 게시글 검색
     searchViewApi(keyword, 0)
-      .then((res) => {
-        // console.log("search success", res);
-        setsearchResults(res);
-      })
-      .catch((err) => console.log(err));
+    .then((res) => {
+      // console.log("search success", res);
+      setsearchResults(res);
+    })
+    .catch((err) => console.log(err));
+  }, [keyword])
 
+  useEffect(() => {
     bestPostsApi()
       .then((res) => {
         // console.log("best", res);
@@ -136,7 +134,7 @@ export default function SearchView() {
 
       <div className={styles.searchcontentContainer}>
         <div className={styles.searchUpheader}>
-          <div>
+          <div className={styles.searchkeywordBox}>
             <span className={styles.boardTitle}>전체게시판</span>의
             <span className={styles.searchKeyword}>'{decodeURIComponent(keyword)}'</span> 검색 결과
           </div>
@@ -150,7 +148,7 @@ export default function SearchView() {
         </div>
         {console.log(searchResults.length)}
         <div className={styles.searchcontentBox}>
-          <SearchContent searchResults={searchResults} keyword={decodeURIComponent(keyword)} searchView={searchView}/>
+          <SearchContent searchResults={searchResults} keyword={decodeURIComponent(keyword)} searchView='all'/>
         {searchResults.length == 0 && (
           <div className={styles.noSearchSentence}>검색된 결과가 없습니다.</div>
         )}
