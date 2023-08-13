@@ -1,6 +1,7 @@
 import styles from "./BoardsView.module.css";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { boardsArticles } from "../../../api/boards";
 import PostsView from "../../../components/PostView/PostView";
 import PaginationCustom from "../../../components/Pagination/Pagination";
@@ -10,16 +11,14 @@ export default function BoardsView() {
   const [posts, setPosts] = useState(null);
   const { state: boardTitle } = useLocation();
   let { boardId } = useParams();
-  // const navigate = useNavigate();
-  // console.log('boardId', boardId)
   const [currPage, setcurrPage] = useState(0);
   // const [postPerPage, setpostPerPage] = useState(20)
   const [pageInfo, setPageInfo] = useState([]);
+  const authUser = useSelector((state) => state.authUser);
 
   useEffect(() => {
     boardsArticles(boardId, currPage - 1, 20)
       .then((res) => {
-        console.log("boardId change");
         console.log(res);
         setPosts(res.content);
         setPageInfo(res.pageInfo);
@@ -31,7 +30,6 @@ export default function BoardsView() {
   useEffect(() => {
     boardsArticles(boardId, currPage - 1, 20)
       .then((res) => {
-        console.log("change page", currPage);
         setPosts(res.content);
         setPageInfo(res.pageInfo);
         setcurrPage(res.pageInfo.page + 1);
@@ -48,8 +46,6 @@ export default function BoardsView() {
 
     const targetElement = document.getElementById("post-top-bar"); // 스크롤할 요소 선택
     if (targetElement) {
-      // comment scroll to
-      // console.log('targetElement', targetElement)
       const targetPosition =
         targetElement.getBoundingClientRect().top + window.scrollY; // 요소의 상단 위치
       window.scrollTo({ top: targetPosition, behavior: "smooth" });
@@ -68,6 +64,7 @@ export default function BoardsView() {
             post={post}
             boardId={boardId}
             currPage={currPage}
+            IsAuth={authUser.accessToken}
           />
         ))}
 

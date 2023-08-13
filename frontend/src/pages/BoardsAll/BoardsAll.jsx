@@ -89,8 +89,18 @@ export default function BoardsAll() {
                 />
                 <button
                   className={styles.searchbutton}
-                  onClick={() => navigate(`/boards/search/${keywordAll}`)}
-                >
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (authUser.accessToken) {
+                      if (keywordAll.trim()) {
+                        navigate(`/boards/search/${encodeURIComponent(keywordAll)}`, { state : encodeURIComponent(keywordAll) })
+                      } else {
+                        alert('검색어를 입력해주세요!')
+                      }
+                    } else {
+                      alert('로그인 후 이용해주세요!')
+                    }
+                  }}>
                   <FiSearch />
                 </button>
               </div>
@@ -99,13 +109,14 @@ export default function BoardsAll() {
             <div className={styles.boardsallBestContainer}>
               <div className={styles.bestbannerTitle}>전체 best 게시글</div>
               <div className={styles.boardsallBestBox}>
-                <Slider {...settings} className={styles.bestContentContainer}>
+                <Slider {...settings}>
                   {bestPostlist.map((data, index) => (
                     <div
                       key={index}
                       className={styles.bestContentContainer}
-                      onClick={() => navigate(`/boards/${data.boardId}/${data.articleId}`)}
-                    >
+                      onClick={() => {if (authUser.accessToken) 
+                        (navigate(`/boards/${data.boardId}/${data.articleId}`))
+                      else (alert('로그인 후 이용해주세요!'))}}>
                       <span className={styles.bestContent}>
                         {data.boardName}
                       </span>
@@ -140,8 +151,11 @@ export default function BoardsAll() {
             <div className={styles.postcreateContainer}>
               <button
                 className={styles.createpageButton}
-                onClick={() => navigate(`/boards/${boardId}/create`, { state: currboardName })}
-              >
+                onClick={() => {if(authUser.accessToken) 
+                  (navigate(`/boards/${boardId}/create`, { state: currboardName }))
+                else (
+                 alert('로그인 후 이용해주세요!') 
+                )}}>
                 <CgAddR className={styles.createpageIcon} size="20" />새 글 작성
               </button>
             </div>
@@ -166,11 +180,18 @@ export default function BoardsAll() {
                 />
                 <button
                   className={styles.searchbutton}
-                  onClick={() => {
-                    navigate(`/boards/${boardId}/search/${keywordBoard}`);
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }}
-                >
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (authUser.accessToken) {
+                      if (keywordBoard.trim()) {
+                        navigate(`${boardId}/search/${encodeURIComponent(keywordBoard)}`, { state : currboardName });
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      } else {
+                        alert('검색어를 입력해주세요!')
+                      }
+                    } else (
+                      alert('로그인 후 이용해주세요!')
+                    )}}>
                   <FiSearch />
                 </button>
               </div>
@@ -181,7 +202,7 @@ export default function BoardsAll() {
         <div className={styles.sideviewContainer}>
           <div className={styles.sideContentContainer}>
             <div className={styles.sidecontentmiddleBox}>
-              <BestpostsWidget />
+              <BestpostsWidget IsAuth={authUser.accessToken}/>
               <ServerTime />
             </div>
           </div>

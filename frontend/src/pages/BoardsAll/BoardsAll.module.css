@@ -7,6 +7,7 @@
 
 .boardsTopContainer {
   height: 120px;
+  margin: 40px 0 0 0;
   /* border: 1px dotted red; */
 }
 
@@ -62,8 +63,8 @@
 }
 
 .boardsallBestBox {
-  padding: 2px 0 0 15px;
-  margin: 1px 0 5px;
+  padding: 2px 0 5px 0;
+  margin: 1px 0 5px 0;
   height: 32px;
 
   /* border: 1px dotted red; */
@@ -78,7 +79,7 @@
 
 .bestbannerTitle {
   height: 32px;
-  width: 160px;
+  width: 178px;
   padding: 3px 0 0 0;
 
   color: rgba(10, 10, 10, 0.571);
@@ -86,7 +87,7 @@
 }
 
 .bestContentContainer {
-  height: 32px;
+  height: 34.5px;
   /* border: 1px dotted red;  */
 }
 
@@ -125,7 +126,7 @@ div .slick-list {
 
 /* 광고 container */
 .advContainer {
-  margin: 35px auto;
+  margin: 2px auto;
 
   width: 840px;
   height: 120px;
@@ -137,7 +138,7 @@ div .slick-list {
   display: flex;
   width: 620px;
 
-  margin: 15px auto;
+  margin: 40px auto;
 
   /* border: 1px dotted red; */
 }
@@ -270,7 +271,7 @@ div .slick-list {
 
 /* Content Outlet */
 .boardsPostsContainer {
-  margin: 10px 0 15px 0;
+  margin: 10px 0 0 0;
 
   /* border: 1px dotted blue; */
 }
