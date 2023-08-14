@@ -32,7 +32,7 @@ public class Comment {
     @JoinColumn(name = "article_id", nullable = false)
     private Article article;
 
-    @Column(length = 1000, nullable = false)
+    @Column(length = 300, nullable = false)
     private String content;
 
     @Column(length = 20, nullable = false)
