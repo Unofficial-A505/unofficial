@@ -11,7 +11,7 @@ class WebRtcPage extends Component {
 
     // These properties are in the state's component in order to re-render the HTML whenever their values change
     this.state = {
-      mySessionId: "SessionA",
+      mySessionId: "",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       session: undefined,
       mainStreamManager: undefined, // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
@@ -28,10 +28,13 @@ class WebRtcPage extends Component {
     this.onbeforeunload = this.onbeforeunload.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     window.addEventListener("beforeunload", this.onbeforeunload);
-    this.findRoom();
-    this.joinSession();
+    await this.findRoom().then(() => {
+      console.log("state---------------------------------");
+      console.log(this.state);
+      this.joinSession();
+    });
   }
 
   componentWillUnmount() {
@@ -176,9 +179,17 @@ class WebRtcPage extends Component {
 
   leaveSession() {
     // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
-
     const mySession = this.state.session;
+    let nowSessionId = null;
+    try {
+      nowSessionId = this.state.session.sessionId;
+    } catch (e) {
+      nowSessionId = null;
+    }
 
+    if (nowSessionId != null) {
+      this.leaveRoom(nowSessionId);
+    }
     if (mySession) {
       mySession.disconnect();
     }
@@ -188,7 +199,7 @@ class WebRtcPage extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      mySessionId: "SessionA",
+      mySessionId: "",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       mainStreamManager: undefined,
       publisher: undefined,
@@ -196,41 +207,46 @@ class WebRtcPage extends Component {
   }
 
   async switchCamera() {
-    try {
-      const devices = await this.OV.getDevices();
-      var videoDevices = devices.filter(
-        (device) => device.kind === "videoinput"
-      );
+    window.alert("다른방 전환");
+    this.leaveSession();
+    await this.findRoom().then(() => {
+      this.joinSession();
+    });
+    // try {
+    //   const devices = await this.OV.getDevices();
+    //   var videoDevices = devices.filter(
+    //     (device) => device.kind === "videoinput"
+    //   );
 
-      if (videoDevices && videoDevices.length > 1) {
-        var newVideoDevice = videoDevices.filter(
-          (device) => device.deviceId !== this.state.currentVideoDevice.deviceId
-        );
+    //   if (videoDevices && videoDevices.length > 1) {
+    //     var newVideoDevice = videoDevices.filter(
+    //       (device) => device.deviceId !== this.state.currentVideoDevice.deviceId
+    //     );
 
-        if (newVideoDevice.length > 0) {
-          // Creating a new publisher with specific videoSource
-          // In mobile devices the default and first camera is the front one
-          var newPublisher = this.OV.initPublisher(undefined, {
-            videoSource: newVideoDevice[0].deviceId,
-            publishAudio: true,
-            publishVideo: true,
-            mirror: false,
-          });
+    //     if (newVideoDevice.length > 0) {
+    //       // Creating a new publisher with specific videoSource
+    //       // In mobile devices the default and first camera is the front one
+    //       var newPublisher = this.OV.initPublisher(undefined, {
+    //         videoSource: newVideoDevice[0].deviceId,
+    //         publishAudio: true,
+    //         publishVideo: true,
+    //         mirror: false,
+    //       });
 
-          //newPublisher.once("accessAllowed", () => {
-          await this.state.session.unpublish(this.state.mainStreamManager);
+    //       //newPublisher.once("accessAllowed", () => {
+    //       await this.state.session.unpublish(this.state.mainStreamManager);
 
-          await this.state.session.publish(newPublisher);
-          this.setState({
-            currentVideoDevice: newVideoDevice[0],
-            mainStreamManager: newPublisher,
-            publisher: newPublisher,
-          });
-        }
-      }
-    } catch (e) {
-      console.error(e);
-    }
+    //       await this.state.session.publish(newPublisher);
+    //       this.setState({
+    //         currentVideoDevice: newVideoDevice[0],
+    //         mainStreamManager: newPublisher,
+    //         publisher: newPublisher,
+    //       });
+    //     }
+    //   }
+    // } catch (e) {
+    //   console.error(e);
+    // }
   }
 
   render() {
@@ -395,9 +411,21 @@ class WebRtcPage extends Component {
           headers: { "Content-Type": "application/json" },
         }
       )
-      .then((res) =>
-        console.log("findroom", (this.state.mySessionId = res.data))
+      .then(
+        (res) => console.log("findroom", (this.state.mySessionId = res.data))
+        // console.log("findroom", (this.state.mySessionId = "asd123123"))
       );
+  }
+
+  async leaveRoom(sessionId) {
+    const response = await customAxios.get(
+      `${process.env.REACT_APP_SERVER}/api/sessions/` + sessionId + "/leave",
+      {},
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    return response.data; // The token
   }
 }
 

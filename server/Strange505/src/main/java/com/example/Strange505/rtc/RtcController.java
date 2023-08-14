@@ -42,10 +42,6 @@ public class RtcController {
 	public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
 			throws OpenViduJavaClientException, OpenViduHttpException {
 		SessionProperties properties = SessionProperties.fromJson(params).build();
-//		Session session = openvidu.getActiveSession((String)params.get("customSessionId"));
-//		if (session == null) {
-//			session = openvidu.createSession(properties);
-//		}
 		Session session = session = openvidu.createSession(properties);
 		return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK);
 	}
@@ -74,9 +70,9 @@ public class RtcController {
 		return ResponseEntity.status(HttpStatus.OK).body(rtcRoomService.findRoom());
 	}
 
-	@PostMapping("api/sessions/outRoom")
-	public ResponseEntity<?> outRoom() {
-
+	@GetMapping("/api/sessions/{sessionId}/leave")
+	public ResponseEntity<?> outRoom(@PathVariable("sessionId") String sessionId) {
+		rtcRoomService.leaveSession(sessionId);
 		return ResponseEntity.ok().build();
 	}
 }

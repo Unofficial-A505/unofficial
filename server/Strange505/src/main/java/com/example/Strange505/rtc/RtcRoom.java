@@ -36,4 +36,9 @@ public class RtcRoom {
     public void countUP() {
         this.manCount += 1;
     }
+
+    public int countDown() {
+        this.manCount -= 1;
+        return this.manCount;
+    }
 }
