@@ -10,7 +10,8 @@ import Slider from "react-slick";
 import lunch_loading from "./../../assets/images/lunch_loading.jpg";
 import spoon from "./../../assets/images/spoon.png";
 import IconButton from "@mui/joy/IconButton";
-import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 export default function Card({ lunchZip }) {
   const settings = {
@@ -46,13 +47,14 @@ export default function Card({ lunchZip }) {
 function Menu({ menu }) {
   const authUser = useSelector((state) => state.authUser);
   const { name, cal } = extractNameCal(menu.name);
-  const { likeCnt, setLikeCnt } = useState(0);
-  const [isLunchLoading, setIsLunchLoading] = useState(false);
+  const [likesCnt, setLikesCnt] = useState(menu.likes);
+  const [noMenuImg, setNoMenuImg] = useState(false);
+  const [isLike, setIsLike] = useState(menu.isLike);
 
   const handleImageError = (e) => {
     e.target.onerror = null;
     e.target.src = lunch_loading;
-    setIsLunchLoading(true);
+    setNoMenuImg(true);
   };
 
   const likeMenu = () => {
@@ -61,36 +63,38 @@ function Menu({ menu }) {
       return;
     }
 
-    customAxios
-      .post(`${process.env.REACT_APP_SERVER}/api/lunch/like/${menu.id}`)
-      .then((res) => {
-        setLikeCnt(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (!isLike) {
+      customAxios
+        .post(`${process.env.REACT_APP_SERVER}/api/lunch/like/${menu.id}`)
+        .then((res) => {
+          setLikesCnt(res.data);
+          setIsLike(!isLike);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      customAxios
+        .delete(`${process.env.REACT_APP_SERVER}/api/lunch/dislike/${menu.id}`)
+        .then((res) => {
+          setLikesCnt(res.data);
+          setIsLike(!isLike);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
     <div className={styles.menu}>
       <div className={styles.imageContainer}>
-        <IconButton
-          onClick={likeMenu}
-          variant="plain"
-          sx={{
-            "--IconButton-size": "30px",
-          }}
-          className={styles.likeButton}
-        >
-          <FavoriteBorder />
-        </IconButton>
         <img
           src={menu.imageUrl}
           onError={handleImageError}
           alt={name}
-          className={isLunchLoading ? styles.lunchLoading : ""}
+          className={noMenuImg ? styles.lunchLoading : ""}
         />
-        <p className={styles.likeCount}>{likeCnt}</p>
       </div>
       <div className={styles.textContainer}>
         <div className="d-flex justify-content-between mb-2">
@@ -99,16 +103,25 @@ function Menu({ menu }) {
             {cal}kcal
           </p>
         </div>
-        <h2
-          className="mb-1"
-          style={{
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
-        >
-          {name}
-        </h2>
+        <div className="d-flex justify-content-between mb-1">
+          <h2
+            style={{
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {name}
+          </h2>
+          <div onClick={likeMenu} className={styles.likeButton}>
+            {isLike ? (
+              <FavoriteIcon fontSize="1.5rem" style={{ color: "red" }} />
+            ) : (
+              <FavoriteBorderIcon fontSize="1.5rem" />
+            )}
+            <p>{likesCnt}</p>
+          </div>
+        </div>
         <p className={styles.detail}>{menu.detail}</p>
       </div>
     </div>
