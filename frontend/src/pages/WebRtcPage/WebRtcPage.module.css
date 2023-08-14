@@ -1,13 +1,12 @@
 .container {
-	height: 90vh;
+  height: 100vh;
 }
 .joinContainer {
-	position: relative;
-	top: 5rem;
+  position: relative;
+  top: 5rem;
 }
 .formGroup {
-	width: 400px;
-	margin: 2rem auto;
-	text-align: left;
+  width: 400px;
+  margin: 2rem auto;
+  text-align: left;
 }
-

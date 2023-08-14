@@ -11,7 +11,7 @@ import java.util.Map;
 
 @CrossOrigin(origins = "*")
 @RestController
-public class Controller {
+public class RtcController {
 
 	@Value("${OPENVIDU_URL}")
 	private String OPENVIDU_URL;
@@ -20,6 +20,14 @@ public class Controller {
 	private String OPENVIDU_SECRET;
 
 	private OpenVidu openvidu;
+
+	private RtcRoomService rtcRoomService;
+
+
+	public RtcController(RtcRoomService rtcRoomService) {
+//		this.openvidu = new OpenVidu(OPENVIDU_URL, OPENVIDU_SECRET);
+		this.rtcRoomService = rtcRoomService;
+	}
 
 	@PostConstruct
 	public void init() {
@@ -34,10 +42,6 @@ public class Controller {
 	public ResponseEntity<String> initializeSession(@RequestBody(required = false) Map<String, Object> params)
 			throws OpenViduJavaClientException, OpenViduHttpException {
 		SessionProperties properties = SessionProperties.fromJson(params).build();
-//		Session session = openvidu.getActiveSession((String)params.get("customSessionId"));
-//		if (session == null) {
-//			session = openvidu.createSession(properties);
-//		}
 		Session session = session = openvidu.createSession(properties);
 		return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK);
 	}
@@ -61,4 +65,14 @@ public class Controller {
 		return new ResponseEntity<>(connection.getToken(), HttpStatus.OK);
 	}
 
+	@GetMapping("/api/sessions/getRoom")
+	public ResponseEntity<String> getRoom() {
+		return ResponseEntity.status(HttpStatus.OK).body(rtcRoomService.findRoom());
+	}
+
+	@GetMapping("/api/sessions/{sessionId}/leave")
+	public ResponseEntity<?> outRoom(@PathVariable("sessionId") String sessionId) {
+		rtcRoomService.leaveSession(sessionId);
+		return ResponseEntity.ok().build();
+	}
 }
