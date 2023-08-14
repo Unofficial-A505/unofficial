@@ -37,7 +37,7 @@ export default function BestpostsWidget({ IsAuth }){
       <div className={styles.bestpostsContainer}>
         {posts.map((post, index) => 
           <div key={index} className={styles.bestpostContents} onClick={() => { 
-            if (IsAuth) (navigate(`/boards/${post.boardId}/${post.articleId}`))
+            if (IsAuth) (navigate(`/boards/${post.boardId}/${post.articleId}`, { state: 1 }))
             else (alert('로그인 후 이용해주세요!'))}}>
             <span className={styles.bestboardTitles}>{post.boardName?.slice(0, -3)}</span>
             <span title={post.title} className={styles.bestcontentTitles}>{post.title}</span>

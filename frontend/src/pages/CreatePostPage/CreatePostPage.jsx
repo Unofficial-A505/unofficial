@@ -11,6 +11,8 @@ import "react-quill/dist/quill.snow.css";
 import ImageResize from "@looop/quill-image-resize-module-react";
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
+
 Quill.register("modules/ImageResize", ImageResize);
 
 const QuillContainer = () => {
@@ -18,6 +20,8 @@ const QuillContainer = () => {
   
   const navigate = useNavigate();
   const authUser = useSelector((state) => state.authUser);
+
+  // const [ modalOpen, setModalOpen ] = useState(false)
 
   useEffect(() => {
     if (!authUser.accessToken) {
@@ -219,6 +223,7 @@ const QuillContainer = () => {
 
   return (
     <div className={styles.craetecontainer}>
+      {/* {isLoading && <LoadingSpinner className={styles.loadingSpinner}/>} */}
       <div className={styles.topmenu}>
         <h3 className={styles.topmenuBox}>
           <p className={styles.boardTitle}>{currboardName}</p>
