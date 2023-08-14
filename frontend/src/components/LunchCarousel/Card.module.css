@@ -53,6 +53,7 @@
   color: #dcdcdc;
   display: flex;
   justify-content: space-between;
+  transition: transform 1s
 }
 .likeButton:hover {
   color: rgb(255, 170, 170);
