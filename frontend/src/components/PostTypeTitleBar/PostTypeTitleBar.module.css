@@ -1,0 +1,42 @@
+.postsTitletab {
+  width: 96%;
+  height: 30px;
+  margin: 0 auto;
+  background-color: #f6f7f8;
+
+  display: flex;
+  justify-content: space-between;
+
+  color: #616060;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+}
+
+.postsTitletabLeft {
+  width: 60%;
+  display: flex;
+
+  margin: 0 0 0 50px;
+  /* border: 1px dotted red; */
+
+  justify-content: center;
+  align-items: center;
+}
+
+.postsTitletabRight {
+  width: 30%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.postTitles {
+  width: 70px;
+  /* border: 1px dotted red; */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

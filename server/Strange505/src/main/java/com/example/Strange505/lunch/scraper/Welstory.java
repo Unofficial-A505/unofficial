@@ -1,7 +1,7 @@
 package com.example.Strange505.lunch.scraper;
 
 import com.example.Strange505.lunch.DateUtil;
-import com.example.Strange505.lunch.Lunch;
+import com.example.Strange505.lunch.domain.Lunch;
 import com.example.Strange505.lunch.RestUtil;
 import com.example.Strange505.lunch.responseDTO.WelstoryDTO;
 import com.example.Strange505.lunch.responseDTO.WelstoryMeal;
@@ -83,7 +83,11 @@ public class Welstory {
             lunch.setDate(date);
             lunch.setLocal(location);
             lunch.setName(meal.getMenuName() + " (" + meal.getSumKcal() + ")");
-            lunch.setImageUrl(meal.getPhotoUrl() + meal.getPhotoCd());
+            if (meal.getPhotoCd()!=null) {
+                lunch.setImageUrl(meal.getPhotoUrl() + meal.getPhotoCd());
+            } else {
+                lunch.setImageUrl("");
+            }
             lunch.setRestaurantId(restaurantCode.get(location));
             lunch.setDetail(meal.getSubMenuTxt());
             lunch.setCourseName(meal.getCourseTxt());

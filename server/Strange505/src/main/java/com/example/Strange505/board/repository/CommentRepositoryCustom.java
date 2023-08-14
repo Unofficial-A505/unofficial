@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface CommentRepositoryCustom {
     Page<Comment> searchByArticle(Long articleId, Pageable pageable);
+    Integer getCountByArticle(Long articleId);
     Page<Comment> searchByUser(Long userId, Pageable pageable);
 }

@@ -21,7 +21,7 @@ import java.util.Objects;
 public class Article {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_id")
     private Long id;
     @Column(length = 100, nullable = false)

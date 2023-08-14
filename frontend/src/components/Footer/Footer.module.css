@@ -1,7 +1,7 @@
 .footer {
   width: 100%;
   position: relative;
-  transform: translateY(0%);
+  bottom: 0;
   background-color: #222;
   height: 15rem;
   margin-top: 3rem;
@@ -56,5 +56,5 @@
   align-items: flex-end;
 }
 .footerImage img {
-  max-width: 400px;
+  max-width: 270px;
 }

@@ -2,7 +2,10 @@ package com.example.Strange505.board.domain;
 
 import com.example.Strange505.user.domain.User;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,7 +20,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class Comment {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private Long id;
 
@@ -52,6 +55,10 @@ public class Comment {
         children.add(child);
     }
 
+    public void removeChild(Comment child) {
+        children.remove(child);
+    }
+
     public void remove() {
         this.isRemoved = true;
     }
@@ -59,14 +66,12 @@ public class Comment {
     public List<Comment> findRemovableList() {
         List<Comment> result = new ArrayList<>();
         Optional.ofNullable(this.parent).ifPresentOrElse(
-                parentComment -> {//대댓글인 경우 (부모가 존재하는 경우)
+                parentComment -> {//대댓글인 경우
                     result.add(this);
                 },
                 () -> {//댓글인 경우
-                    if (isAllChildRemoved()) { // 자식 댓글이 다 지워진 경우
+                    if (isAllChildRemoved()) { // 자식 댓글이 다 지워진 경우만 삭제 가능하도록
                         result.add(this);
-                    } else {
-                        this.content = "삭제된 댓글입니다.";
                     }
                 }
         );
@@ -76,7 +81,7 @@ public class Comment {
 
 
     //모든 자식 댓글이 삭제되었는지 판단
-    private boolean isAllChildRemoved() {
+    public boolean isAllChildRemoved() {
         return getChildren().stream()
                 .map(Comment::getIsRemoved)//지워졌는지 여부로 바꾼다
                 .filter(isDelete -> !isDelete)//지워졌으면 true, 안지워졌으면 false이다. 따라서 filter에 걸러지는 것은 false인 녀석들이고, 있다면 false를 없다면 orElse를 통해 true를 반환한다.

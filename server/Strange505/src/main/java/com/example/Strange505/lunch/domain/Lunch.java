@@ -1,4 +1,4 @@
-package com.example.Strange505.lunch;
+package com.example.Strange505.lunch.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,6 +9,18 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
+@Table(name = "lunch",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "lunch_unique",
+                        columnNames = {
+                                "date",
+                                "local",
+                                "course_name"
+                        }
+                )
+        }
+)
 public class Lunch {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -40,11 +40,11 @@ public class AuthService {
                 .authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        if (!userService.getUserByEmail(loginDto.getEmail()).is_activated()) {
+        if (!userService.getUserByEmail(loginDto.getEmail()).getIs_activated()) {
             throw new NotActivatedException("이메일 인증이 이루어 지지 않았습니다.");
         }
 
-        if (userService.getUserByEmail(loginDto.getEmail()).is_withdraw()) {
+        if (userService.getUserByEmail(loginDto.getEmail()).getWithdrawalDate() != null) {
             throw new NotActivatedException("탈퇴한 회원입니다.");
         }
 
@@ -61,6 +61,9 @@ public class AuthService {
     @Transactional
     public AuthDto.TokenDto reissue(String requestAccessTokenInHeader, String requestRefreshToken) {
         String requestAccessToken = resolveToken(requestAccessTokenInHeader);
+
+        System.out.println("requestRefreshToken "+requestRefreshToken);
+        System.out.println("requestAccessToken "+requestAccessToken);
 
         Authentication authentication = jwtTokenProvider.getAuthentication(requestAccessToken);
         String principal = getPrincipal(requestAccessToken);
@@ -149,9 +152,9 @@ public class AuthService {
         }
 
         // Redis에 로그아웃 처리한 AT 저장
-        long expiration = jwtTokenProvider.getTokenExpirationTime(requestAccessToken) - new Date().getTime();
-        redisService.setValuesWithTimeout(requestAccessToken,
-                "logout",
-                expiration);
+//        long expiration = jwtTokenProvider.getTokenExpirationTime(requestAccessToken) - new Date().getTime();
+//        redisService.setValuesWithTimeout(requestAccessToken,
+//                "logout",
+//                expiration);
     }
 }

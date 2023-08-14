@@ -1,10 +1,41 @@
 .bestpostwidgetContainer {
-  width: 276px;
+  width: 260px;
   height: 350px;
 
   border: 2px solid #75757593;
   border-radius: 1rem;
   margin: 0 0 10px 0;
+}
+
+.bestwidgetTopbar {
+  display: flex;
+  justify-content: space-between;
+
+  /* border: 1px dotted red; */
+}
+
+/* 회전 애니메이션 정의 */
+@keyframes rotate360 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.bestrefreshIcon {
+  height: 25px;
+  margin: 19px 24px 0 0;
+  cursor: pointer;
+  animation: rotate360 5s linear infinite;
+
+  /* border: 1px dotted blue; */
+}
+
+.bestrefreshIcon:hover {
+  animation-play-state: paused;
+  width: 17px;
 }
 
 /* 베스트 게시글 */

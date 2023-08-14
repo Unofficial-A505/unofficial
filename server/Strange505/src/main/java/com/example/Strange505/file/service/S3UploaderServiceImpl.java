@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Optional;
 import java.util.UUID;
 @Service
@@ -71,6 +69,20 @@ public class S3UploaderServiceImpl implements S3UploaderService {
 
     private String putS3(File uploadFile, String fileName) {
         amazonS3.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
+        return amazonS3.getUrl(bucket, fileName).toString();
+    }
+
+    @Override
+    public String putS3(ByteArrayOutputStream baos, String fileName) throws IOException {
+        baos.flush();
+        InputStream imageStream = new ByteArrayInputStream(baos.toByteArray());
+        baos.close();
+        // S3에 이미지 업로드
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(baos.size()); // 이미지 크기 설정
+        amazonS3.putObject(new PutObjectRequest(bucket, fileName, imageStream, metadata));
+
+        // 업로드한 파일의 URL 생성
         return amazonS3.getUrl(bucket, fileName).toString();
     }
 

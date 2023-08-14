@@ -1,13 +1,15 @@
 .card {
   width: 630px;
-  height: 92%;
+  height: 96%;
   display: flex;
   flex-direction: column;
   padding: 0.7rem 0.3rem 0 0.3rem;
-  border-radius: 0.5rem;
-  border: 0.5px solid rgba(0,0,0,.04);
-  box-shadow: 0 0 0 1px #e3e5e8, 5px 5px 10px 0 rgba(0,0,0,.04);
-  background-color: #f6f7f8;
+  border-radius: 12px;
+  background-color: #f3f6f9;
+}
+.title {
+  display: flex;
+  justify-content: center;
 }
 .title p {
   text-align: center;
@@ -16,38 +18,65 @@
   margin-bottom: 10px;
 }
 .menu {
-  width: 13rem;
+  width: 12.8rem;
   display: flex;
   flex-direction: column;
   padding: 0.2rem;
+  border-radius: 10px;
 }
-.menu img {
+.imageContainer {
+  position: relative;
   width: auto;
-  height: 8.8rem;
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  border: 0.2px solid #cdcdcd;
+  height: 9rem;
+  border-bottom: 0.2px solid #e8e8e8;
   background-color: #fff;
-  border-radius: 0.3rem;
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+}
+.imageContainer img {
+  object-fit: "cover";
   transition: transform 0.2s ease-in-out;
 }
-/* .menu img:hover {
-  cursor: pointer;
-  transform: scale(1.02);
-} */
+.imageContainer img:hover:not(.lunchLoading) {
+  transform: scale(1.15);
+}
 .menu h2 {
   text-align: left;
   font-size: 0.9rem;
   font-weight: 600;
-  margin-top: 0;
-  margin-bottom: 0.5rem;
+  margin: 0;
   padding: 0 0.4rem;
+}
+.likeButton {
+  width: 2.2rem;
+  align-self: center;
+  color: #dcdcdc;
+  display: flex;
+  justify-content: space-between;
+  transition: transform 1s
+}
+.likeButton:hover {
+  color: rgb(255, 170, 170);
+  background-color: #fbfbfb;
+  border-radius: 5px;
+}
+.likeButton p {
+  align-self: center;
+  font-weight: 600;
+  color: #222;
 }
 .menu p {
   font-size: 0.7rem;
   margin: 0;
   text-align: left;
   padding: 0 0.4rem;
+}
+.textContainer {
+  height: 6rem;
+  padding: 0.2rem;
+  padding-top: 0.4rem;
+  background-color: #fff;
+  border-radius: 0 0 16px 16px;
 }
 .detail {
   display: -webkit-box;

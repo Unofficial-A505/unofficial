@@ -1,12 +1,12 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://unofficial.kr/ssafy_web_db?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://172.18.0.60:3306/ssafy_web_db?serverTimezone=Asia/Seoul
     username: root
     password: strange505
   data:
     redis:
-      host: unofficial.kr
+      host: 172.18.0.70
       port: 6379
   jpa:
     hibernate:

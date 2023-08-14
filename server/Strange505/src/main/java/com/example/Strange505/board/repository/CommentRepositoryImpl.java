@@ -40,6 +40,16 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
     }
 
     @Override
+    public Integer getCountByArticle(Long articleId) {
+        QComment comment = QComment.comment;
+        return Math.toIntExact(queryFactory.select(comment.count())
+                .from(comment)
+                .where(comment.article.id.eq(articleId))
+                .where(comment.isRemoved.isFalse())
+                .fetchFirst());
+    }
+
+    @Override
     public Page<Comment> searchByUser(Long userId, Pageable pageable) {
         QComment comment = QComment.comment;
         List<Comment> result = queryFactory.select(comment)

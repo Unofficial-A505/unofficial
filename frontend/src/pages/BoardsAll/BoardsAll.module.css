@@ -1,11 +1,20 @@
+.boardsAllContainer {
+  width: 1180px;
+  margin: 0 auto;
+  
+  /* border: 1px dotted red; */
+}
+
 .boardsTopContainer {
   height: 120px;
+  margin: 40px 0 0 0;
+  /* border: 1px dotted red; */
 }
 
 /* 전체 검색 박스 */
 .searchboxall {
   display: flex;
-  width: 750px;
+  width: 720px;
   margin: 10px auto;
 }
 
@@ -19,8 +28,8 @@
 
 .searchInputBox {
   position: relative;
-  margin: 0 10px 0 0;
-  width: 600px;
+  margin: 0 20px 0 0;
+  width: 580px;
   /* height: 50px; */
 
   border: 1px solid #757575;
@@ -28,7 +37,7 @@
 }
 
 #all {
-  height: 45px;
+  height: 40px;
 }
 
 .search {
@@ -54,17 +63,23 @@
 }
 
 .boardsallBestBox {
-  padding: 2px 0 0 15px;
+  padding: 2px 0 5px 0;
+  margin: 1px 0 5px 0;
   height: 32px;
 
   /* border: 1px dotted red; */
   width: 500px;
   text-align: start;
+
+  /* width 넘어가는 글자들 ... 처리*/
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .bestbannerTitle {
   height: 32px;
-  width: 160px;
+  width: 178px;
   padding: 3px 0 0 0;
 
   color: rgba(10, 10, 10, 0.571);
@@ -72,8 +87,12 @@
 }
 
 .bestContentContainer {
-  height: 32px;
+  height: 34.5px;
   /* border: 1px dotted red;  */
+}
+
+.bestContentContainer:hover {
+  cursor: pointer;
 }
 
 div .slick-list {
@@ -98,11 +117,18 @@ div .slick-list {
   line-height: normal;
 } 
 
+.bestContentTitle:hover {
+  font-weight: 500;
+
+  text-decoration: underline;
+  text-underline-position: under;
+}
+
 /* 광고 container */
 .advContainer {
-  margin: 30px auto;
+  margin: 2px auto;
 
-  width: 920px;
+  width: 840px;
   height: 120px;
 }
 
@@ -112,14 +138,14 @@ div .slick-list {
   display: flex;
   width: 620px;
 
-  margin: 15px auto;
+  margin: 40px auto;
 
   /* border: 1px dotted red; */
 }
 
 #here {
   width: 94%;
-  height: 45px;
+  height: 40px;
 }
 
 .searchboxhere p {
@@ -156,8 +182,15 @@ div .slick-list {
 }
 
 /* board 전체 컨테이너*/
+.boardsviewContainer {
+  width: 1180px;
+  display: flex;
+
+  /* border: 1px dotted red; */
+}
+
 .boardcontainer{
-  width: 1200px;
+  width: 920px;
   margin: 0 auto;
   /* border: 1px dotted green; */
 }
@@ -238,7 +271,9 @@ div .slick-list {
 
 /* Content Outlet */
 .boardsPostsContainer {
-  margin: 10px 0 30px 0;
+  margin: 10px 0 0 0;
+
+  /* border: 1px dotted blue; */
 }
 
 .pagination {
@@ -255,7 +290,28 @@ div .slick-list {
   display: flex;
   justify-content: space-between;
 
-  width: 1176px;
+  width: 820px;
+  margin: 0 auto;
   /* border: 1px dotted gray; */
 }
 
+
+/* 사이드바 */
+.sideviewContainer {
+  position: sticky;
+  width: 260px;
+  /* border: 1px red dotted; */
+}
+
+.sideContentContainer {
+  position: sticky;
+  right: 1%;
+  top: 3%;
+  /* border: 1px dotted violet; */
+}
+
+.sidecontentmiddleBox {
+  width: 260px;
+  margin: 0 auto;
+  /* border: 1px dotted orangered; */
+}

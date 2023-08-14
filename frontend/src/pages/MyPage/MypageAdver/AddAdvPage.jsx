@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import styles from "./AddAdvPage.module.css";
 import customAxios from "../../../util/customAxios";
@@ -13,7 +14,9 @@ export default function AddAdvPage() {
 
   useEffect(() => {
     if (!accessToken) {
+      alert("로그인 후에 사용해 주세요.");
       navigate("/");
+      return;
     }
   }, []);
 
@@ -101,7 +104,7 @@ export default function AddAdvPage() {
         return customAxios.post("/api/ads/upload", formData);
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         return res.data;
       })
       .catch((err) => {
@@ -116,9 +119,15 @@ export default function AddAdvPage() {
 
   const onDurationChange = (event) => {
     const value = event.target.value;
+
+    if (value && !/^\d+$/.test(value)) {
+      alert("정수만 입력 가능합니다.");
+      event.target.value = duration;
+      return;
+    }
     if (value < 0) {
       alert("음수는 불가능 합니다.");
-      event.target.value = 0;
+      event.target.value = 1;
       return;
     }
     setDuration(value);
@@ -158,7 +167,10 @@ export default function AddAdvPage() {
         );
         return; // Return early to stop the rest of the function
       }
-
+      if (duration === "0" || duration === 0) {
+        alert("광고 기간은 0일일 수 없습니다.");
+        return; // Return early to stop the rest of the function
+      }
       const uploadedImagePath = await uploadToServer();
       let endDate = new Date();
       endDate.setDate(endDate.getDate() + parseInt(duration) + 1);
@@ -213,7 +225,7 @@ export default function AddAdvPage() {
             )}
           </div>
 
-          <div className="row g-3 align-items-center mb-1">
+          <div className="row g-3 align-items-center mb-2">
             <div className="col-auto">
               <label for="inputAddress" className="col-form-label">
                 연결하는 주소
@@ -223,14 +235,14 @@ export default function AddAdvPage() {
               <input
                 type="text"
                 id="inputAddress"
-                className="form-control form-control-sm"
-                placeholder="ex) https://www.naver.com"
+                className="form-control form-control"
+                placeholder="(선택)  ex) https://www.naver.com"
                 onChange={onRedirectUrlChange}
               />
             </div>
           </div>
 
-          <div className="row g-3 align-items-center mb-1">
+          <div className="row g-3 align-items-center mb-2">
             <div className="col-auto">
               <label for="advDays" className="col-form-label">
                 광고 기간 (일)
@@ -240,14 +252,14 @@ export default function AddAdvPage() {
               <input
                 type="text"
                 id="advDays"
-                className="form-control form-control-sm"
-                placeholder="ex) 3"
+                className="form-control form-control"
+                placeholder="(필수)  ex) 3"
                 onChange={onDurationChange}
               />
             </div>
           </div>
 
-          <div className="row g-3 align-items-center mb-1">
+          <div className="row g-3 align-items-center mb-2">
             <div className="col-auto">
               <label for="myMileage" className="col-form-label">
                 나의 마일리지
@@ -257,7 +269,7 @@ export default function AddAdvPage() {
               <input
                 type="text"
                 id="myMileage"
-                className="form-control form-control-sm"
+                className="form-control form-control"
                 value={userPoint}
                 disabled
                 readOnly
@@ -275,7 +287,7 @@ export default function AddAdvPage() {
               <input
                 type="text"
                 id="myMileage"
-                className="form-control form-control-sm"
+                className="form-control form-control"
                 value={adsCost}
                 disabled
                 readOnly

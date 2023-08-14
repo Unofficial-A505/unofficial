@@ -99,6 +99,8 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
                 .where(article.board.id.eq(boardId))
                 .where(article.isRemoved.isFalse())
                 .orderBy(article.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
 
         Long count = queryFactory

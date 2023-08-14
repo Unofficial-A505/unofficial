@@ -1,13 +1,10 @@
 import styles from './BoardView.module.css'
-import axios from 'axios';
-import { useEffect, useState, useParams } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 import PostView from '../PostView/PostView'
-import customAxios from '../../util/customAxios';
 
-export default function BoardView({ posts, searchView, keyword, myBoard }){
+export default function BoardView({ posts, searchView, keyword, myBoard, boardId, currPage, IsAuth}){
   if (!posts) { posts = [] }
 
   const [ currentPage, setCurrentPage ] = useState(1);
@@ -19,7 +16,7 @@ export default function BoardView({ posts, searchView, keyword, myBoard }){
     <div>
       {posts.map((post, index) => (
         <div key={index}>
-          <PostView post={post} boardId={post.boardId} searchView={searchView} keyword={keyword} myBoard={myBoard}/>
+          <PostView post={post} boardId={post.boardId} searchView={searchView} keyword={keyword} myBoard={myBoard} currPage={currPage} IsAuth={IsAuth}/>
         </div>
       ))}
     </div>

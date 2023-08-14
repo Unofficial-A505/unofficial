@@ -2,7 +2,7 @@
 /* post detail 전체 container */
 .postdetailallContainer {
   position: relative;
-  width: 1290px;
+  width: 1180px;
   margin: 0 auto;
 
   display: flex;
@@ -17,39 +17,28 @@
 
 /* post 내용 container */
 .postviewContainer {
-  width: 1000px;
+  width: 900px;
   /* border: 1px dotted aqua; */
 }
 
-.postContentContainer {
-  width: 90%;
-  overflow-x: auto;
-}
-
-/* post, comment 비율 */
-.postContainer {
-  text-align: start;
-  margin: 0 45px;
-  overflow-x: auto;
-}
-
 .postTopbar {
-  width: 90%;
+  width: 820px;
   margin: 23px auto;
   display: flex;
   text-align: start;
   justify-content: space-between;
+
+  /* border: 1px dotted red; */
 }
 
 .boardTitle {
-  color: #000;
-  text-align: center;
-  font-feature-settings: 'clig' off, 'liga' off;
-  font-family: Inter;
+  color: #034BB9;
   font-size: 24px;
   font-style: normal;
-  font-weight: 400;
-  line-height: 100%; /* 25.955px */
+  font-weight: 700;
+  line-height: normal;
+
+  cursor: pointer;
 }
 
 .grayoutbutton {
@@ -62,9 +51,20 @@
   font-weight: 400;
 }
 
+
+
+/* post content 영역 */
+.postContainer {
+  width: 820px;
+  text-align: start;
+  margin: 0 auto;
+  overflow-x: auto;
+
+  /* border: 1px dotted violet; */
+}
+
 .postTitle {
   color: #000;
-  font-feature-settings: 'clig' off, 'liga' off;
   font-size: 31.567px;
   font-style: normal;
   font-weight: 700;
@@ -75,25 +75,10 @@
   color: #034BB9;
   font-size: 17px;
   font-style: normal;
-  font-weight: 300;
+  font-weight: 400;
   line-height: normal;
-
-  margin: 15px 10px;
-}
-
-.posttimeago {
-  color: #000;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 300;
-  line-height: normal;
-
-  margin: 0 10px;
-}
-
-.tabIcon {
-  margin: 0 8px 4px 0;
-  cursor: pointer;
+  
+  margin: 15px 0;
 }
 
 /* 생성일자 및 조회수*/
@@ -102,24 +87,70 @@
   /* border: 1px dotted red; */
 }
 
+.posttimeago {
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  
+  margin: 0 15px 0 0;
+}
+
+.postContentContainer {
+  width: 820px;
+  overflow-x: auto;
+
+  /* border: 1px dotted green; */
+}
+
+.postBottombar {
+  width: 795px;
+  margin: 15px auto;
+  display: flex;
+  justify-content: space-between;
+
+  /* border: 1px dotted red; */
+}
+
+.tabthumbIcon {
+  margin: 0 0 0 0;
+  /* border: 1px dotted red; */
+}
+
+.tabIcon {
+  margin: 0 8px 4px 0;
+  cursor: pointer;
+}
+
+.tabupIcon {
+  margin: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+.tabregupIcon {
+  margin: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+
 .postcontentContainer {
   margin: 50px 20px;
 }
 
-.postBottombar {
-  width: 94%;
-  margin: 15px auto;
-  display: flex;
-  justify-content: space-between;
-}
 
 .postupdateBottom {
   display: flex;
+  margin: 0 8px 0 0;
+
+  /* border: 1px dotted violet; */
 }
 
 .postupdateBottomtab {
-  margin: 0 15px 0 0;
+  margin: 0 0 0 10px;
   cursor: pointer;
+
+  /* border: 1px dotted green; */
 }
 
 /* comment input css */
@@ -138,7 +169,7 @@
   display: flex;
   justify-content: space-between;
   width: 280px;
-  margin: 15px 0 10px 0;
+  margin: 15px 0 15px 0;
   /* align-items: start; */
 }
 
@@ -196,7 +227,6 @@ textarea:focus {
 /* comment pagination */
 .commentPagination {
   margin: 0 auto;
-  width: 80px;
 }
 
 .pageBottomtab {
@@ -237,7 +267,7 @@ textarea:focus {
 
 .sideviewContainer {
   position: sticky;
-  width: 280px;
+  width: 260px;
   /* border: 1px red dotted; */
 }
 
@@ -249,8 +279,12 @@ textarea:focus {
 }
 
 .sidecontentmiddleBox {
-  width: 280px;
+  width: 260px;
   margin: 0 auto;
   /* border: 1px dotted orangered; */
+}
+
+.postmorePagination {
+  margin: 20px 0 0 0;
 }
 

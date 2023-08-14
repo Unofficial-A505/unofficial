@@ -27,12 +27,10 @@ customAxios.interceptors.response.use(
     return response;
   },
   async (error) => {
-    console.log(error);
+    const state = store.getState();
+    console.log("error", error);
     const originalRequest = error.config;
-    if (
-      (error.response?.status === 404 || error.response?.status === 401) &&
-      !originalRequest._retry
-    ) {
+    if ( error.response?.status === 401 && !originalRequest._retry ) {
       originalRequest._retry = true;
       const refreshToken = localStorage.getItem("REFRESH_TOKEN");
       // Replace '/refresh' with your refresh token endpoint
@@ -40,20 +38,35 @@ customAxios.interceptors.response.use(
       const res = await axios.post(
         `${process.env.REACT_APP_SERVER}/api/auth/reissue`,
         { params: {} },
-        { headers: { REFRESH_TOKEN: refreshToken } }
-      ).catch(()=> {
-        alert("로그인 만료")
+        {
+          headers: {
+            REFRESH_TOKEN: refreshToken,
+            Authorization: originalRequest.headers.Authorization
+          }
+        })
+      .catch(() => {
+        alert("로그인 해주세요")
         store.dispatch(setAccessToken(""))
         store.dispatch(setAuthUserEmail(""))
-        localStorage.setItem("REFRESH_TOKEN","")
-        window.document.location.href("/")
-      });
-      if (res.status === 201) {
-        store.dispatch({
-          type: "UPDATE_ACCESS_TOKEN",
-          payload: res.data.accessToken,
-        }); // Dispatch an action to update the access token in Redux
+        localStorage.setItem("REFRESH_TOKEN", "")
+        window.document.location.href = "/"
+      })
+      if (res.status === 200) {
+        store.dispatch(
+          setAccessToken(res.headers.authorization.split(" ")[1])
+        ); // Dispatch an action to update the access token in Redux
         return customAxios(originalRequest);
+      } else {
+        axios.post(
+          process.env.REACT_APP_SERVER + `/api/auth/logout`,
+          { params: {} },
+          {
+            headers: {
+              Authorization: originalRequest.Authorization
+            }
+          }
+        )
+        .catch((err) => console.log(err))
       }
     }
     return Promise.reject(error);

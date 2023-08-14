@@ -6,7 +6,7 @@ import useDocumentTitle from "./../../useDocumentTitle";
 const ForgotPasswordPage = () => {
   useDocumentTitle("비밀번호 찾기");
 
-  const [isComplete, setIsComplete] = useState(false);
+  const [isComplete, setIsComplete] = useState("false");
   const [userEmail, setUserEmail] = useState("");
   const [selectedLocal, setSelectedLocal] = useState("");
   const [selectedGen, setSelectedGen] = useState("");
@@ -23,30 +23,30 @@ const ForgotPasswordPage = () => {
 
   const requestNewPassword = async (e) => {
     e.preventDefault();
+    setIsComplete("loading");
 
     if (!userEmail || !selectedLocal || !selectedGen) {
       alert("지역, 기수 또는 이메일을 입력하세요.");
       return;
     }
 
-    try {
-      const response = await axios.post(
-        "https://unofficial.kr/api/auth/pwdInit",
-        {
-          email: userEmail,
-          local: selectedLocal,
-          gen: selectedGen,
-        }
-      );
-      setIsComplete(true);
-      console.log(response);
-    } catch (err) {
-      alert("입력하신 정보를 확인해주세요.");
-      return;
-    }
+    axios
+      .post(`${process.env.REACT_APP_SERVER}/api/auth/pwdInit`, {
+        email: userEmail,
+        local: selectedLocal,
+        gen: selectedGen,
+      })
+      .then(() => {
+        setIsComplete("true");
+      })
+      .catch((err) => {
+        setIsComplete("false");
+        alert("입력하신 정보를 확인해주세요.");
+        return;
+      });
   };
 
-  if (!isComplete) {
+  if (isComplete === "false") {
     return (
       <div className={styles.forgotPasswordPage}>
         <form onSubmit={requestNewPassword}>
@@ -56,12 +56,16 @@ const ForgotPasswordPage = () => {
               회원가입에 등록한 이메일을 이용하여 비밀번호를 찾을 수 있습니다.
             </p>
           </div>
-          <div className="mb-4">
+          <div className={styles.completeContainer}>
             <div className="d-flex justify-content-between mb-2">
               <div className={styles.selectContainer}>
                 <label className="form-label mb-0">지역</label>
-                <select name="enter_local" onChange={handleLocalChange}>
-                  <option disabled selected>
+                <select
+                  name="enter_local"
+                  value={selectedLocal}
+                  onChange={handleLocalChange}
+                >
+                  <option value="" disabled>
                     지역을 선택하세요
                   </option>
                   <option value="서울">서울 캠퍼스</option>
@@ -73,8 +77,12 @@ const ForgotPasswordPage = () => {
               </div>
               <div className={styles.selectContainer}>
                 <label className="form-label mb-0">기수</label>
-                <select name="enter_gen" onChange={handleGenChange}>
-                  <option disabled selected>
+                <select
+                  name="enter_gen"
+                  value={selectedGen}
+                  onChange={handleGenChange}
+                >
+                  <option value="" disabled>
                     기수를 선택하세요
                   </option>
                   <option value="1">1기</option>
@@ -90,18 +98,39 @@ const ForgotPasswordPage = () => {
                 </select>
               </div>
             </div>
-            <label for="inputEmail" className="form-label">
-              이메일
-            </label>
-            <input
-              type="email"
-              class="form-control"
-              id="inputEmail"
-              onInput={onEmailHandler}
-            />
+            <div className="mb-4">
+              <label htmlFor="inputEmail" className="form-label">
+                이메일
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="inputEmail"
+                onInput={onEmailHandler}
+              />
+            </div>
+            <button type="submit">비밀번호 변경</button>
           </div>
-          <button type="submit">비밀번호 변경</button>
         </form>
+      </div>
+    );
+  } else if (isComplete === "loading") {
+    return (
+      <div className={styles.forgotPasswordPage}>
+        <div>
+          <h3>비밀번호 찾기</h3>
+          <p>
+            회원가입에 등록한 이메일을 이용하여 비밀번호를 찾을 수 있습니다.
+          </p>
+        </div>
+        <div className={styles.completeContainer}>
+          <br />
+          <br />
+          <br />
+          <p st>잠시만 기다려 주세요...</p>
+          <br />
+          <br />
+        </div>
       </div>
     );
   } else {
@@ -114,7 +143,7 @@ const ForgotPasswordPage = () => {
           </p>
         </div>
         <div className={styles.completeContainer}>
-          <p className="mt-5">비밀번호 변경 요청이 완료되었습니다.</p>
+          <p className="mt-0">비밀번호 변경 요청이 완료되었습니다.</p>
           <p>
             새로운 비밀번호는{" "}
             <span style={{ color: "#034BB9", fontSize: "1.1rem" }}>이메일</span>

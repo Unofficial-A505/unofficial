@@ -1,6 +1,5 @@
 package com.example.Strange505.user.configuration;
 
-
 import com.example.Strange505.user.security.JwtAccessDeniedHandler;
 import com.example.Strange505.user.security.JwtAuthenticationEntryPoint;
 import com.example.Strange505.user.security.JwtAuthenticationFilter;
@@ -65,10 +64,20 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeRequests() // '인증'이 필요하다
-                .requestMatchers("/api/mypage/**").authenticated() // 마이페이지 인증 필요
-                .requestMatchers("/user/**").authenticated()
-                .requestMatchers("/api/admin/**").hasRole("ADMIN") // 관리자 페이지
-                .anyRequest().permitAll()
+                .requestMatchers("/api/lunch").permitAll()
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/best").permitAll()
+                .requestMatchers("/api/verify/**").permitAll()
+                .requestMatchers("/api/ads/active").permitAll()
+                .requestMatchers("/api/boards").permitAll()
+                .requestMatchers("/api/articles/board/**").permitAll()
+                .requestMatchers("/api/swagger-ui/**").permitAll()
+                .requestMatchers("/api/swagger-ui").permitAll()
+                .requestMatchers("/v3/api-docs/swagger-config").permitAll()
+                .requestMatchers("/v3/api-docs").permitAll()
+                .requestMatchers("/api/users").hasRole("ADMIN")
+                .anyRequest().authenticated()
+
 
                 .and()
                 .headers()

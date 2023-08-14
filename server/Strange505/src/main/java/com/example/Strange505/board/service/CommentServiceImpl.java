@@ -5,12 +5,15 @@ import com.example.Strange505.board.domain.Comment;
 import com.example.Strange505.board.dto.CommentRequestDto;
 import com.example.Strange505.board.dto.CommentResponseDto;
 import com.example.Strange505.board.dto.MypageCommentResponseDto;
+import com.example.Strange505.board.exception.CanNotDeleteException;
 import com.example.Strange505.board.exception.NoResultException;
 import com.example.Strange505.board.exception.NotAuthorException;
 import com.example.Strange505.board.repository.ArticleRepository;
 import com.example.Strange505.board.repository.CommentRepository;
+import com.example.Strange505.dto.PageResponseDto;
 import com.example.Strange505.pointHistory.dto.PointHistoryDto;
 import com.example.Strange505.pointHistory.service.PointHistoryService;
+import com.example.Strange505.user.domain.Role;
 import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -101,37 +103,74 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Page<CommentResponseDto> getCommentByArticle(Long articleId, Pageable pageable) {
-
-        Page<Comment> repoList = commentRepository.searchByArticle(articleId, pageable);
+    public PageResponseDto<CommentResponseDto> getCommentByArticle(Long articleId, String email, Pageable pageable) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
+        Page<Comment> repoList = commentRepository.searchByArticle(articleId, pageable); // 삭제된 댓글은 안불러옴!!!
         List<CommentResponseDto> list = new ArrayList<>();
+
         for (Comment c :
                 repoList) {
-            checkParent(c, list);
+            checkParent(c, user, list);
         }
 
-        Page<CommentResponseDto> result = new PageImpl<>(list);
-        return result;
+        Collections.sort(list, new Comparator<CommentResponseDto>() {
+            @Override
+            public int compare(CommentResponseDto s1, CommentResponseDto s2) {
+                return (int) (s1.getOrderId() - s2.getOrderId());
+            }
+        });
+
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("page", pageable.getPageNumber());
+        pageInfo.put("size", pageable.getPageSize());
+        pageInfo.put("totalElements", repoList.getTotalElements());
+        pageInfo.put("totalPages", repoList.getTotalPages());
+
+        return new PageResponseDto<CommentResponseDto>(pageInfo, list);
     }
 
-    private void checkParent(Comment c, List<CommentResponseDto> list) {
-        if (c.getParent() == null) {
+    public boolean checkUser(Long commentUserId, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NoResultException("사용자가 존재하지 않습니다."));
+        if (userId == commentUserId || user.getRole() == Role.ADMIN) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-            List<CommentResponseDto> reComment = c.getChildren().stream().map(comment -> new CommentResponseDto(
+    private void checkParent(Comment c, User currUser, List<CommentResponseDto> list) {
+        if (c.getParent() == null) { // 부모 댓글이라면 orderId는 자신의 아이디 * 1000
+
+            list.add(CommentResponseDto.builder()
+                    .id(c.getId())
+                    .articleId(c.getArticle().getId())
+                    .content(c.getContent())
+                    .parentId(null)
+                    .nickName(c.getNickName())
+                    .gen(c.getUser().getGen())
+                    .local(c.getUser().getLocal())
+                    .isUser(checkUser(c.getUser().getId(), currUser.getId()))
+                    .orderId(c.getId() * 1000L)
+                    .hasChildren(!c.isAllChildRemoved()) // 자식 댓글이 있다면 true 반환
+                    .createTime(c.getCreateTime())
+                    .modifyTime(c.getModifyTime())
+                    .build());
+
+            // 자식 댓글(대댓글)
+            List<CommentResponseDto> reComment = c.getChildren().stream().filter(child -> child.getIsRemoved() == false).map(comment -> new CommentResponseDto(
                     comment.getId(),
-//                    comment.getUser().getId(),
-                    comment.getArticle().getId(), comment.getContent(), null,
+                    comment.getArticle().getId(), comment.getContent(), c.getId(),
                     comment.getNickName(),
                     comment.getUser().getGen(), comment.getUser().getLocal(),
+                    checkUser(comment.getUser().getId(), currUser.getId()),
+                    0L, false,
                     comment.getCreateTime(), comment.getModifyTime(), null)).toList();
 
-            list.add(new CommentResponseDto(
-                    c.getId(),
-//                    c.getUser().getId(),
-                    c.getArticle().getId(), c.getContent(), null,
-                    c.getNickName(),
-                    c.getUser().getGen(), c.getUser().getLocal(),
-                    c.getCreateTime(), c.getModifyTime(), reComment));
+            for (int i = 0; i < reComment.size(); i++) { // 자식댓글, 즉 대댓글이라면 부모댓글 * 1000에 차례대로 1씩 더해짐
+                reComment.get(i).setOrderId(reComment.get(i).getParentId() * 1000L + (i + 1));
+                list.add(reComment.get(i));
+            }
+
         }
     }
 
@@ -173,9 +212,9 @@ public class CommentServiceImpl implements CommentService {
     public CommentResponseDto updateComment(Long id, CommentRequestDto dto, String email) {
         User user = userRepository.findByEmail(email).orElseThrow();
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("해당 댓글이 존재하지 않습니다."));
-        if (user.getId() == comment.getUser().getId()) {
+        if (user.getId() == comment.getUser().getId() || user.getRole() == Role.ADMIN) {
             comment.update(dto.getContent(), LocalDateTime.now());
-            Comment modifiedComment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("해당 댓글이 존재하지 않습니다."));;
+            Comment modifiedComment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("해당 댓글이 존재하지 않습니다."));
             return new CommentResponseDto(modifiedComment);
         } else {
             throw new NotAuthorException("작성자만 삭제 가능합니다.");
@@ -188,14 +227,20 @@ public class CommentServiceImpl implements CommentService {
     public void deleteComment(Long id, String email) {
         User user = userRepository.findByEmail(email).orElseThrow();
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new NoResultException("Comment not found"));
-        if (user.getId() == comment.getUser().getId()) {
-            comment.remove();
+        if (user.getId() == comment.getUser().getId() || user.getRole() == Role.ADMIN) { // 권한이 있는 경우
             List<Comment> removableCommentList = comment.findRemovableList();
-            log.info("removeList = {}", removableCommentList);
-            for (Comment c: removableCommentList) {
-                c.remove();
+            if (removableCommentList.size() == 0) {  // 삭제할 댓글이 없는 경우 = 부모 삭제하려는데 자식이 있는 경우
+                throw new CanNotDeleteException("대댓글이 존재하므로 삭제할 수 없습니다.");
+            } else {  // 자식 없는 부모거나, 자식인 경우
+                for (Comment c : removableCommentList) {
+                    c.remove();
+                    if (c.getParent() != null) {  // 자식인 경우
+                        Comment parent = c.getParent();
+                        parent.removeChild(c); // 부모의 자식 리스트에서 삭제
+                    }
+                }
             }
-        } else {
+        } else { // 권한이 없는 경우
             throw new NotAuthorException("작성자만 삭제 가능합니다.");
         }
     }

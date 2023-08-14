@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class BestArticle {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "best_article_id")
     private Long id;
 
