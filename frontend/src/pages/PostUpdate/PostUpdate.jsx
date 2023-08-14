@@ -1,22 +1,15 @@
 import styles from "./PostUpdate.module.css";
-
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { postUpdateApi, postImageApi } from "../../api/posts";
+import useDocumentTitle from "../../useDocumentTitle";
 
 import Quill from "quill";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImageResize from "@looop/quill-image-resize-module-react";
-
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
-
-import TopSpace from "../../components/TopSpace/TopSpace";
-import Footer from "../../components/Footer/Footer";
-import NavBar from "../../components/NavBar/NavBar";
-
-import { postUpdateApi, postImageApi } from "../../api/posts"
-
-import useDocumentTitle from "../../useDocumentTitle";
 
 Quill.register("modules/ImageResize", ImageResize);
 
@@ -24,16 +17,24 @@ const PostUpdate = () => {
   useDocumentTitle("게시글 수정");
 
   const navigate = useNavigate();
+  const authUser = useSelector((state) => state.authUser);
+  const accessToken = authUser.accessToken;
+
+  useEffect(() => {
+    if (!accessToken) {
+      alert("로그인 후에 사용해 주세요.");
+      navigate("/");
+      return;
+    }
+  }, []);
+
   const { boardId } = useParams();
   const { postId } = useParams();
-  const { state : postDetail } = useLocation(); 
+  const { state: postDetail } = useLocation();
   const [isLoading, setIsLoading] = useState(false);
-  
-  // const [value, setValue] = useState("");
-  // const [ nickNameInput, setnickName ] = useState('');
   const TitleElement = useRef(null);
   const quillElement = useRef(null);
-  const [ imageList, setimageList ] = useState([])
+  const [imageList, setimageList] = useState([]);
 
   const modules = {
     toolbar: {
@@ -71,27 +72,46 @@ const PostUpdate = () => {
   ];
 
   useEffect(() => {
-    const delta = quillElement.current.editor.clipboard.convert(postDetail.content)
-    quillElement.current.editor.setContents(delta, 'silent')
-  }, [])
+    const editor = document.querySelector(".ql-editor");
+    if (editor) {
+      editor.classList.add("fs-6");
+    }
+  }, []);
+
+  useEffect(() => {
+    const delta = quillElement.current.editor.clipboard.convert(
+      postDetail.content
+    );
+    quillElement.current.editor.setContents(delta, "silent");
+  }, []);
 
   useEffect(() => {
     quillElement.current.editor
       .getModule("toolbar")
-      .addHandler("image", function() {selectLocalImage();});
+      .addHandler("image", function () {
+        selectLocalImage();
+      });
 
-      window.scrollTo({ top: 0, behavior: "smooth" });
-
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [imageList]);
 
-  // const onChangeValue = (e) => {
-  //   setValue(e);
-  //   console.log(e);
-  // };
+  const handleTabDown = (event) => {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      window.document.querySelector(".ql-editor").focus();
+    }
+  };
+
+  const handleShiftTabDown = (event) => {
+    if (event.key === "Tab" && event.shiftKey) {
+      event.preventDefault();
+      window.document.querySelector("#inputTitle").focus();
+    }
+  };
 
   const changeImageList = (url, file) => {
     setimageList([...imageList, { url, file }]);
-  }
+  };
 
   // 이미지 url 추출 함수
   function selectLocalImage() {
@@ -113,8 +133,11 @@ const PostUpdate = () => {
       // console.log('fileURL', fileURL)
 
       // const range = quillElement.current.editor.getSelection();
-      quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${fileURL}`);
-
+      quillElement.current.editor.insertEmbed(
+        quillElement.current.editor.root,
+        "image",
+        `${fileURL}`
+      );
 
       // 이미지 로컬 url 및 formData 담을 file ImageList에 담기
       changeImageList(fileURL, file);
@@ -122,63 +145,64 @@ const PostUpdate = () => {
   }
 
   // 새로 첨부된 이미지 formData에 담아서 전송
-  function sendformData () {
+  function sendformData() {
     let content = quillElement.current.editor.root.innerHTML;
-    if (content == '<p><br></p>') {
-      alert('내용을 입력하세요!')}
-    else {
-      return new Promise(function(resolve, reject) {
+    if (content == "<p><br></p>") {
+      alert("내용을 입력하세요!");
+    } else {
+      return new Promise(function (resolve, reject) {
         // let content = quillElement.current.editor.root.innerHTML;
         // console.log(imageList)
-        const imagePromises = []
-    
+        const imagePromises = [];
+
         //글 등록하는 현재 content에 존재하는 image만 formData에 싣기
         imageList.forEach((image) => {
-          let regexOne = new RegExp(`${image.url}`)
-          let imageString = String(regexOne)
-          imageString = imageString.replace(/\\/g, '')
-      
-          const imageChecked = content.match(regexOne)
-      
+          let regexOne = new RegExp(`${image.url}`);
+          let imageString = String(regexOne);
+          imageString = imageString.replace(/\\/g, "");
+
+          const imageChecked = content.match(regexOne);
+
           if (imageChecked) {
-            // formData에 해당 이미지 싣기 
+            // formData에 해당 이미지 싣기
             const formData = new FormData();
             formData.append("uploadFile", image.file);
-    
+
             const promise = postImageApi(formData)
-            .then((res) => {
-              // console.log('image', res.url)
-              // console.log("success");
-              const uploadPath = res.data;
-              content = content.replace(regexOne, `${uploadPath}`)
-              // console.log('change source', content)
-              // quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${uploadPath}`);
-              
-              window.URL.revokeObjectURL(image.url)
-            }).catch((err) => console.log(err));
-  
-            imagePromises.push(promise)
-          } 
-        })
+              .then((res) => {
+                // console.log('image', res.url)
+                // console.log("success");
+                const uploadPath = res.data;
+                content = content.replace(regexOne, `${uploadPath}`);
+                // console.log('change source', content)
+                // quillElement.current.editor.insertEmbed(quillElement.current.editor.root, "image", `${uploadPath}`);
+
+                window.URL.revokeObjectURL(image.url);
+              })
+              .catch((err) => console.log(err));
+
+            imagePromises.push(promise);
+          }
+        });
         Promise.all(imagePromises)
-        .then(() => resolve(content))
-        .catch((err) => reject(err));
-      })
+          .then(() => resolve(content))
+          .catch((err) => reject(err));
+      });
     }
   }
 
   // content 수정한 내용 수정하는 PUT 요청
   function sendPost(content) {
-    return new Promise(function(resolve, reject){
+    return new Promise(function (resolve, reject) {
       const title = TitleElement.current.value;
       const boardName = postDetail.boardName;
-      const nickName = postDetail.nickName
+      const nickName = postDetail.nickName;
       const id = postId;
-    
+
       postUpdateApi(postId, id, title, content, boardName, nickName)
-      .then(() => navigate(`/boards/${boardId}/${postId}`, { replace: true }) )
-      .catch((err) => console.log(err))
-    })
+        .then(() => navigate(`/boards/${boardId}/${postId}`, { replace: true }))
+        .catch((err) => console.log(err));
+    });
   }
 
   const updateRequest = () => {
@@ -186,19 +210,19 @@ const PostUpdate = () => {
     let contentTest = quillElement.current.editor.root.innerHTML;
     // console.log(contentTest)
     if (!titleTest) {
-      alert('제목을 입력해주세요!')
-    } else if (contentTest == '<p><br></p>') {
-      alert('내용을 입력하세요!')
+      alert("제목을 입력해주세요!");
+    } else if (contentTest == "<p><br></p>") {
+      alert("내용을 입력하세요!");
     } else {
-      updatePost()
+      updatePost();
     }
-  }
+  };
 
   // 글 수정 PUT 요청 (sendformData -> sendPost)
   async function updatePost() {
     const title = TitleElement.current.value;
     if (!title) {
-      alert('제목을 입력해주세요!')
+      alert("제목을 입력해주세요!");
     } else {
       try {
         setIsLoading(true);
@@ -206,14 +230,14 @@ const PostUpdate = () => {
         // console.log("sendformData completed");
         await sendPost(content);
         // console.log("sendPost completed");
-      }  catch (err) {
+      } catch (err) {
         console.error("Error in createPost:", err);
       } finally {
         setIsLoading(false); // 로딩 종료
       }
     }
   }
-   
+
   // 이외 함수들
   const handleCancel = () => {
     navigate(-1);
@@ -221,53 +245,61 @@ const PostUpdate = () => {
 
   return (
     <div>
-      <TopSpace />
-      <NavBar />
       <div className={styles.craetecontainer}>
-        <div className={styles.upmenu}>
+        <div className={styles.topmenu}>
           <h3 className={styles.topmenuBox}>
             <p className={styles.boardTitle}>{postDetail.boardName}</p>
             <p>글 수정</p>
-            </h3>
-          <button onClick={updateRequest} className="btn" id={styles.createsubmitbutton}>
+          </h3>
+          <button
+            className="btn"
+            id={styles.createsubmitbutton}
+            onClick={updateRequest}
+            disabled={isLoading}
+          >
             등록하기
           </button>
         </div>
 
+        <div className={styles.nickNameContainer}>
+          <label for="inputNickname" class="form-label">
+            닉네임
+          </label>
+          <input
+            id="inputNickname"
+            type="text"
+            disabled
+            class="form-control"
+            placeholder={!postDetail.nickName ? "익명" : postDetail.nickName}
+          />
+        </div>
+
         <div>
           <input
+            id="inputTitle"
             className={styles.inputTitle}
             type="text"
             defaultValue={postDetail.title}
             ref={TitleElement}
+            onKeyDown={handleTabDown}
           />
-          {/* <TitleInput placeholder="제목을 입력하세요" ref={TitleElement}/> */}
         </div>
 
         <ReactQuill
           id="react-quill"
-          // value={value}
-          // onChange={onChangeValue}
           modules={modules}
           formats={formats}
           selection={{ start: 0, end: 0 }}
           theme="snow"
-          style={{ height: "100%" }}
+          style={{ height: "600px" }}
           ref={quillElement}
-          // dangerouslySetInnerHTML={{ __html: content }}
+          onKeyDown={handleShiftTabDown}
         />
-
-        <div className={styles.nicknameContainer}>
-          <span className={styles.nicknametitleBox}>닉네임</span>
-          <span className={styles.nicknametitleBox}>
-          {!postDetail.nickName ? "익명" : postDetail.nickName}
-          </span>
-        </div>
 
         <div className={styles.undermenu}>
           <button className={styles.grayoutbutton} onClick={handleCancel}>
-            <IoIosArrowBack />
-            목록으로 돌아가기
+            <IoIosArrowBack className="align-self-center" />
+            <p className="align-self-center">목록으로 돌아가기</p>
           </button>
           <button
             className="btn"
@@ -278,9 +310,6 @@ const PostUpdate = () => {
             등록하기
           </button>
         </div>
-      </div>
-      <div className={styles.footerContainer}>
-        <Footer />
       </div>
     </div>
   );

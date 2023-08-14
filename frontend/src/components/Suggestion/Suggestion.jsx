@@ -4,6 +4,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 import customAxios from "../../util/customAxios";
 import Swal from "sweetalert2";
 import mobile_logo from "./../../assets/images/mobile_logo.png";
+import { FcAssistant } from "@react-icons/all-files/fc/FcAssistant";
 
 export default function Suggestion({ show, handleClose }) {
   const [title, setTitle] = useState("");
@@ -53,7 +54,7 @@ export default function Suggestion({ show, handleClose }) {
 
   return (
     <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
+      <Modal.Header style={{ padding: "0.5rem 1rem" }} closeButton>
         <Modal.Title className={styles.title}>
           <img
             src={mobile_logo}
@@ -61,35 +62,52 @@ export default function Suggestion({ show, handleClose }) {
             width={35}
             className="me-2"
           />
-          건의하기
+          <p style={{ margin: "0" }}>언오피셜 건의함</p>
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body style={{ padding: "1.8rem" }}>
+      <Modal.Body style={{ padding: " 1.5rem 1.5rem" }}>
+        <div className={styles.cautionContainer}>
+          <p>
+            언오피셜에 이 양식이 제출됩니다. 비밀번호와 같은 중요한 개인 정보가
+            노출되지 않도록 주의해주세요.
+          </p>
+        </div>
         <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3">
-            <Form.Label>제목</Form.Label>
+          <Form.Group className="mb-2">
+            <Form.Label className={styles.inputLabel}>제목</Form.Label>
             <Form.Control
               type="text"
               value={title}
+              style={{ borderRadius: "0", fontSize: "13px" }}
               onChange={handleTitleChange}
               required
             />
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>내용</Form.Label>
+            <Form.Label className={styles.inputLabel}>
+              건의하실 내용을 입력해주세요.
+            </Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
               value={content}
+              style={{ borderRadius: "0", fontSize: "13px" }}
               onChange={handleContentChange}
               required
             />
           </Form.Group>
           <div className="d-flex justify-content-end">
-            <Button variant="primary" type="submit">
-              제출
-            </Button>
+            <button
+              type="button"
+              className="btn btn-light btn-sm me-2"
+              onClick={() => handleClose()}
+            >
+              뒤로가기
+            </button>
+            <button type="submit" className="btn btn-primary btn-sm">
+              제출하기
+            </button>
           </div>
         </Form>
       </Modal.Body>

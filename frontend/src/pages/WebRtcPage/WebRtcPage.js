@@ -193,6 +193,72 @@ class WebRtcPage extends Component {
     if (mySession) {
       mySession.disconnect();
     }
+  }
+
+  render() {
+    const mySessionId = this.state.mySessionId;
+    const myUserName = this.state.myUserName;
+    console.log("state", this.state);
+
+    return (
+      <div className={styles.container}>
+        {this.state.session === undefined ? (
+          <div id="join">
+            <div id="join-dialog" className={styles.joinContainer}>
+              <h1> Join a video session </h1>
+              <form className={styles.formGroup} onSubmit={this.joinSession}>
+                <p>
+                  <label>Participant:</label>
+                  <input
+                    className="form-control mb-4"
+                    type="text"
+                    id="userName"
+                    value={myUserName}
+                    onChange={this.handleChangeUserName}
+                    required
+                  />
+                </p>
+                <p>
+                  <label>Session:</label>
+                  <input
+                    className="form-control mb-4"
+                    type="text"
+                    id="sessionId"
+                    value={mySessionId}
+                    onChange={this.handleChangeSessionId}
+                    required
+                  />
+                </p>
+                <p className="text-center">
+                  <input
+                    className="btn btn-success"
+                    name="commit"
+                    type="submit"
+                    value="참여하기"
+                  />
+                </p>
+              </form>
+            </div>
+          </div>
+        ) : (
+          <div id="session">
+            <div id="session-header">
+              <h1 id="session-title">{mySessionId}</h1>
+              <input
+                className="btn btn-danger"
+                type="button"
+                id="buttonLeaveSession"
+                onClick={this.leaveSession}
+                value="Leave session"
+              />
+              <input
+                className="btn btn-success"
+                type="button"
+                id="buttonSwitchCamera"
+                onClick={this.switchCamera}
+                value="Switch Camera"
+              />
+            </div>
 
     // Empty all properties...
     this.OV = null;

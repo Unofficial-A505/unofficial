@@ -1,6 +1,5 @@
 import styles from './BestpostsWidget.module.css'
 
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,9 +9,8 @@ import customAxios from '../../util/customAxios';
 
 import { bestPostsApi } from '../../api/boards.js'
 
-export default function BestpostsWidget(){
+export default function BestpostsWidget({ IsAuth }){
   const navigate = useNavigate();
-
   const [ posts, setPosts ] = useState([])
 
   const bestRefresh = () => {
@@ -34,13 +32,15 @@ export default function BestpostsWidget(){
     <div className={styles.bestpostwidgetContainer}>
       <div className={styles.bestwidgetTopbar}>
         <div className={styles.bestTitle}>Best 게시글<FaCrown className={styles.bestIcons}/></div>
-        <FiRefreshCw className={styles.bestrefreshIcon} onClick={bestRefresh}/>
+        <FiRefreshCw className={styles.bestrefreshIcon} onClick={bestRefresh} title="새로고침"/>
       </div>
       <div className={styles.bestpostsContainer}>
         {posts.map((post, index) => 
-          <div key={index} className={styles.bestpostContents}>
-            <span className={styles.bestboardTitles} onClick={() => {navigate(`/boards/${post.boardId}`)}}>{post.boardName?.slice(0, -3)}</span>
-            <span title={post.title} className={styles.bestcontentTitles} onClick={() => navigate(`/boards/${post.boardId}/${post.articleId}`)}>{post.title}</span>
+          <div key={index} className={styles.bestpostContents} onClick={() => { 
+            if (IsAuth) (navigate(`/boards/${post.boardId}/${post.articleId}`, { state: 1 }))
+            else (alert('로그인 후 이용해주세요!'))}}>
+            <span className={styles.bestboardTitles}>{post.boardName?.slice(0, -3)}</span>
+            <span title={post.title} className={styles.bestcontentTitles}>{post.title}</span>
           </div>
         )}
       </div>  

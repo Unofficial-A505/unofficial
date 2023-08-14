@@ -143,7 +143,7 @@ export default function MyChangePassword() {
                 type="password"
                 className="form-control"
                 id="inputPassword1"
-                autocomplete="off"
+                autoComplete="off"
                 onChange={onOldPasswordHandler}
               />
             </div>

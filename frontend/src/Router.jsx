@@ -32,9 +32,12 @@ import Signup2 from "./pages/SignupPage/Signup2";
 import Signup3 from "./pages/SignupPage/Signup3";
 import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
 
+import WebRtc from "./pages/WebRtcPage/WebRtc";
+
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
+  { path: "webrtc", element: <WebRtc /> },
   {
     path: "",
     element: <App />,
@@ -83,7 +86,9 @@ const router = createBrowserRouter([
           { path: ":boardId/search/:keyword", element: <BoardSearchView /> },
         ],
       },
+      { path: "boards/:boardId/create", element: <CreatePostPage /> },
       { path: "boards/:boardId/:postId", element: <PostDetail /> },
+      { path: "boards/:boardId/:postId/update", element: <PostUpdate /> },
       { path: "boards/search/:keyword", element: <SearchView /> },
       { path: "web-rtc", element: <WebRTC /> },
       { path: "forgot-password", element: <ForgotPasswordPage /> },
@@ -99,8 +104,6 @@ const router = createBrowserRouter([
       { path: "complete", element: <Signup3 /> },
     ],
   },
-  { path: "boards/:boardId/create", element: <CreatePostPage /> },
-  { path: "boards/:boardId/:postId/update", element: <PostUpdate /> },
   { path: "user/advertisement/form", element: <AddAdvPage /> },
   { path: "verify", element: <EmailVerifyPage /> },
 ]);

@@ -8,9 +8,9 @@ export default function PostTypeTitleBar() {
             <div>제목</div>
           </div>
           <div className={styles.postsTitletabRight}>
-            <div className={styles.postTitles}>댓글</div>
+            {/* <div className={styles.postTitles}>댓글</div> */}
             <div className={styles.postTitles}>작성일</div>
-            <div className={styles.postTitles}>좋아요</div>
+            <div className={styles.postTitles}>추천</div>
             <div className={styles.postTitles}>조회수</div>
           </div>
         </div>

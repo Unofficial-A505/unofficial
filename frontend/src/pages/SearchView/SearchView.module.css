@@ -95,12 +95,21 @@
   text-align: start;
 }
 
+.searchkeywordBox {
+  max-width: 800px;
+  overflow: hidden; 
+
+  /* border: 1px dotted red; */
+}
+
 /* 검색 범위와 검색 키워드 */
 .searchUpheader {
   margin: 20px 30px;
 
   display: flex;
   justify-content: space-between;
+
+  /* border: 1px dotted red; */
 }
 
 .boardTitle {
@@ -114,6 +123,12 @@
   margin: 0 5px 0 10px;
   font-size: 23px;
   font-weight: 700;
+  max-width: 200px;
+
+  /* border: 1px dotted red; */
+  white-space: nowrap;
+  text-overflow: ellipsis; 
+  overflow: hidden; 
 }
 
 .grayoutbutton {
@@ -121,10 +136,11 @@
   background-color: transparent;
 
   color: rgba(117, 117, 117, 0.8);
-  font-family: Inter;
   font-size: 17.537px;
   font-style: normal;
   font-weight: 400;
+
+  /* border: 1px dotted gray; */
 }
 
 .searchbutton {
@@ -214,4 +230,5 @@
 .noSearchSentence {
   font-size: 25px;
   text-align: center;
+  padding: 60px 0;
 }

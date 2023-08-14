@@ -130,7 +130,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     public boolean checkUser(Long commentUserId, Long userId) {
-        if (userId == commentUserId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NoResultException("사용자가 존재하지 않습니다."));
+        if (userId == commentUserId || user.getRole() == Role.ADMIN) {
             return true;
         } else {
             return false;
@@ -150,13 +151,13 @@ public class CommentServiceImpl implements CommentService {
                     .local(c.getUser().getLocal())
                     .isUser(checkUser(c.getUser().getId(), currUser.getId()))
                     .orderId(c.getId() * 1000L)
-                    .hasChildren(c.getChildren().size() > 0) // 자식 댓글이 있다면 true 반환
+                    .hasChildren(!c.isAllChildRemoved()) // 자식 댓글이 있다면 true 반환
                     .createTime(c.getCreateTime())
                     .modifyTime(c.getModifyTime())
                     .build());
 
             // 자식 댓글(대댓글)
-            List<CommentResponseDto> reComment = c.getChildren().stream().map(comment -> new CommentResponseDto(
+            List<CommentResponseDto> reComment = c.getChildren().stream().filter(child -> child.getIsRemoved() == false).map(comment -> new CommentResponseDto(
                     comment.getId(),
                     comment.getArticle().getId(), comment.getContent(), c.getId(),
                     comment.getNickName(),

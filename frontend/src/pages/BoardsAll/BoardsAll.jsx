@@ -15,20 +15,21 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import useDocumentTitle from "../../useDocumentTitle";
+import { useSelector } from "react-redux";
 
 export default function BoardsAll() {
   useDocumentTitle("게시판");
 
+  const navigate = useNavigate();
+  const authUser = useSelector((state) => state.authUser);
+
+  const { boardId } = useParams();
   const [boardNames, setboardNames] = useState([]);
   const [currboardName, setcurrboardName] = useState("");
-  const { boardId } = useParams();
   const [keywordAll, setKeywordAll] = useState("");
   const [keywordBoard, setKeywordBoard] = useState("");
   const [bestPostlist, setbestPostlist] = useState([]);
-
   const boardsearchMessage = `${currboardName}에서 찾고싶은 게시글의 키워드를 검색`;
-
-  const navigate = useNavigate();
 
   const settings = {
     // dots: false,
@@ -45,16 +46,17 @@ export default function BoardsAll() {
   useEffect(() => {
     // best 게시글 api
     bestPostsApi()
-    .then((res) => {
-      setbestPostlist(res);
-    }).catch((err) => console.log(err));
-   
+      .then((res) => {
+        setbestPostlist(res);
+      })
+      .catch((err) => console.log(err));
+
     // boards Title api
     boardNamesApi()
       .then((res) => {
         setboardNames(res);
         res.forEach((board) => {
-          if (board.id+'' === boardId) {
+          if (board.id + "" === boardId) {
             setcurrboardName(board.name);
           }
         });
@@ -62,7 +64,6 @@ export default function BoardsAll() {
       .catch((err) => console.log(err));
 
     window.scrollTo({ top: 0, behavior: "smooth" });
-
   }, [boardId || boardNames]);
 
   return (
@@ -85,11 +86,22 @@ export default function BoardsAll() {
                   onChange={(e) => {
                     setKeywordAll(e.target.value);
                   }}
+                  maxlength="25"
                 />
                 <button
                   className={styles.searchbutton}
-                  onClick={() => navigate(`/boards/search/${keywordAll}`)}
-                >
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (authUser.accessToken) {
+                      if (keywordAll.trim()) {
+                        navigate(`/boards/search/${encodeURIComponent(keywordAll)}`, { state : encodeURIComponent(keywordAll) })
+                      } else {
+                        alert('검색어를 입력해주세요!')
+                      }
+                    } else {
+                      alert('로그인 후 이용해주세요!')
+                    }
+                  }}>
                   <FiSearch />
                 </button>
               </div>
@@ -98,18 +110,27 @@ export default function BoardsAll() {
             <div className={styles.boardsallBestContainer}>
               <div className={styles.bestbannerTitle}>전체 best 게시글</div>
               <div className={styles.boardsallBestBox}>
-                <Slider {...settings} className={styles.bestContentContainer}>
+                <Slider {...settings}>
                   {bestPostlist.map((data, index) => (
-                    <div key={index} className={styles.bestContentContainer} onClick={() => navigate(`/boards/${data.boardId}/${data.articleId}`)}>
-                      <span className={styles.bestContent}>{data.boardName}</span>
-                      <span className={styles.bestContentTitle}>{data.title}</span>
+                    <div
+                      key={index}
+                      className={styles.bestContentContainer}
+                      onClick={() => {if (authUser.accessToken) 
+                        (navigate(`/boards/${data.boardId}/${data.articleId}`))
+                      else (alert('로그인 후 이용해주세요!'))}}>
+                      <span className={styles.bestContent}>
+                        {data.boardName}
+                      </span>
+                      <span className={styles.bestContentTitle}>
+                        {data.title}
+                      </span>
                     </div>
                   ))}
                 </Slider>
               </div>
             </div>
           </div>
-          
+
           <div className={styles.boardtabContainer}>
             <div>
               {boardNames.map((board, index) => (
@@ -120,9 +141,9 @@ export default function BoardsAll() {
                       ? styles.boardtabSelected
                       : styles.boardtab
                   }
-                  onClick={() =>
-                    navigate(`/boards/${board.id}`, { state: board.name })
-                  }
+                  onClick={() => {
+                    navigate(`/boards/${board.id}`, { state: board.name });
+                  }}
                 >
                   {board.name}
                 </button>
@@ -131,8 +152,11 @@ export default function BoardsAll() {
             <div className={styles.postcreateContainer}>
               <button
                 className={styles.createpageButton}
-                onClick={() => navigate(`/boards/${boardId}/create`, { state : currboardName })}
-              >
+                onClick={() => {if(authUser.accessToken) 
+                  (navigate(`/boards/${boardId}/create`, { state: currboardName }))
+                else (
+                 alert('로그인 후 이용해주세요!') 
+                )}}>
                 <CgAddR className={styles.createpageIcon} size="20" />새 글 작성
               </button>
             </div>
@@ -154,14 +178,22 @@ export default function BoardsAll() {
                   onChange={(e) => {
                     setKeywordBoard(e.target.value);
                   }}
+                  maxlength="18"
                 />
                 <button
                   className={styles.searchbutton}
-                  onClick={() => {
-                    navigate(`/boards/${boardId}/search/${keywordBoard}`);
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }}
-                >
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (authUser.accessToken) {
+                      if (keywordBoard.trim()) {
+                        navigate(`${boardId}/search/${encodeURIComponent(keywordBoard)}`, { state : currboardName });
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      } else {
+                        alert('검색어를 입력해주세요!')
+                      }
+                    } else (
+                      alert('로그인 후 이용해주세요!')
+                    )}}>
                   <FiSearch />
                 </button>
               </div>
@@ -172,19 +204,16 @@ export default function BoardsAll() {
         <div className={styles.sideviewContainer}>
           <div className={styles.sideContentContainer}>
             <div className={styles.sidecontentmiddleBox}>
-              <BestpostsWidget />
+              <BestpostsWidget IsAuth={authUser.accessToken}/>
               <ServerTime />
             </div>
           </div>
         </div>
-
       </div>
-
 
       <div className={styles.advContainer}>
         <AdHorizontal />
       </div>
-
     </div>
   );
 }

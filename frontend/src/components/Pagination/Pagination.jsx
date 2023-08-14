@@ -1,32 +1,30 @@
-import styles from './Pagination.module.css'
+import styles from "./Pagination.module.css";
+import Pagination from "@mui/material/Pagination";
 
-export default function Pagination({totalPages, paginate, currPage, Pagechange}) {
-  const pageNumbers = []
-  console.log(totalPages, currPage)
+export default function PaginationCustom({
+  totalPages,
+  paginate,
+  currPage,
+}) {
 
-  const paginationLength = totalPages % 10
-  const paginationWidth = 100 + 40 * paginationLength
+  const paginationLength = totalPages % 10;
+  const paginationWidth = 100 + 40 * paginationLength;
 
-  for (let i=1; i<=totalPages; i++) {
-    pageNumbers.push(i)
-  }
+  const handlePageChange = (event, value) => {
+    paginate(value);
+  };
 
   return (
-    <nav className={styles.paginationContainer} style={{ '--width': `${paginationWidth}px` }}>
-      <div>이쪽</div>
-      <div className={styles.paginationNumsContainer}>
-        {pageNumbers.map(num => 
-          <div className={num-1==currPage?styles.paginationNumBoxcurr:styles.paginationNumBox} 
-          onClick={() => {
-            paginate(num-1);
-            if (Pagechange) {
-              Pagechange();}}}
-          key={num}>
-            <a className={num-1==currPage?styles.paginationNumcurr:styles.paginationNum}  >{num}</a>
-          </div>  
-        )}
-        </div>
-      <div>저쪽</div>
-    </nav>
-  )
+    <div
+      className={styles.paginationContainer}
+      style={{ "--width": `${paginationWidth}px` }}
+    >
+      <Pagination
+        count={totalPages}
+        color="primary"
+        page={currPage}
+        onChange={handlePageChange}
+      />
+    </div>
+  );
 }

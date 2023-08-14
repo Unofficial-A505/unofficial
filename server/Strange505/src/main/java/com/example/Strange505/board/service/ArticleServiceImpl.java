@@ -26,6 +26,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Slf4j
@@ -105,7 +108,7 @@ public class ArticleServiceImpl implements ArticleService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NoResultException("사용자가 존재하지 않습니다."));
 
-        if (user.getId() == article.getUser().getId()) {
+        if (user.getId() == article.getUser().getId() || user.getRole() == Role.ADMIN) {
             return true;
         } else {
             return false;
@@ -155,7 +158,9 @@ public class ArticleServiceImpl implements ArticleService {
             boardId = null;
         }
 
-        Page<Article> articles = articleRepository.searchByTitleAndContent(keyword, boardId, pageable);
+        String decodedKeyword = URLDecoder.decode(keyword, StandardCharsets.UTF_8);
+
+        Page<Article> articles = articleRepository.searchByTitleAndContent(decodedKeyword, boardId, pageable);
         Page<ArticleListResponseDto> responseDtoList = articles.map(findArticle ->
                 new ArticleListResponseDto(
                         findArticle.getId(),

@@ -10,21 +10,6 @@
   /* border: 1px dotted red; */
 }
 
-.welcomeContainer {
-  /* height: 4%; */
-  /* padding: 0 2rem; */
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  /* border-bottom: 1px solid #dedede; */
-  /* border: 1px dotted red; */
-}
-
-.welcomeContainer p {
-  margin-bottom: 0.2rem;
-  color: #747474;
-}
-
 .myContentContainer {
   height: 87%;
   padding: 0.6rem 2rem;
@@ -68,15 +53,17 @@
 /* 코멘트 표시 컨테이너*/
 .CommentsContainer {
   /* background-color: #d9e0f871; */
-  width: 100%;
-  height: 100px;
+  width: 95%;
+  height: 340px;
+  margin: 5px auto;
   /* border-radius: 6px; */
+  /* border: 1px dotted red; */
 }
 
 .commentContentsContainer {
   /* border: 1px dotted aqua; */
   cursor: pointer;
-  margin: 20px 0;
+  margin: 0 0 0 0;
   border-bottom: 1px solid rgba(128, 128, 128, 0.315);
 }
 
@@ -91,26 +78,84 @@
 }
 
 .commentContainer {
-  height: 45%;
+  height: 25px;
   width: 70%;
   margin: 10px auto;
+
+  /* width 넘어가는 글자들 ... 처리*/
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+
+  font-size: 14px;
 
   /* border: 1px dotted red; */
 }
 
+.commentContainer:hover {
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.posttitleContainer {
+  display: flex;
+  height: 25px;
+
+  background-color: #f6f7f8;
+  padding: 0 0 0 10px;
+  /* border: 1px solid #757575aa; */
+  /* border-width: 1px 0 0 0; */
+}
+
+#boardName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .postContainer {
   display: flex;
-  height: 30%;
+  height: 25px;
+  width: 160px;
+
+  /* border: 1px solid #757575aa; */
 }
  
-#nickName {
-  width: 100%;
+.commentContent {
+  width: 80px;
   justify-content: space-between;
+
+  cursor: pointer;
+
+  color: #757575;
+  font-size: 11.224px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  text-align: center;
+  /* width 넘어가는 글자들 ... 처리*/
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+
+  /* border: 1px dotted red; */
 }
 
 /* #createTime {
+  width: 90px;
+  justify-content: space-between;
 
-}  */
+  cursor: pointer;
+
+  color: #757575;
+  font-size: 11.224px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  border: 1px dotted red;
+} */
 
 /* myPosyView */
 .boardpostContainer{
@@ -137,6 +182,10 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .postContent {
@@ -152,4 +201,7 @@
 
 .commentInd {
   display: flex;
+  height: 38px;
+
+  /* border: 1px dotted red; */
 }
