@@ -5,7 +5,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); /* 배경을 어둡게 설정 */
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: 99;
 }
 
@@ -15,9 +15,7 @@
   width: 80px;
   height: 80px;
   position: relative;
-
-  /* border: 1px dotted red; */
-}
+} 
 .sk-circle .sk-child {
   width: 100%;
   height: 100%;
@@ -35,7 +33,7 @@
   border-radius: 100%;
   -webkit-animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
           animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
-}
+} 
 .sk-circle .sk-circle2 {
   -webkit-transform: rotate(30deg);
       -ms-transform: rotate(30deg);
@@ -112,7 +110,7 @@
           animation-delay: -0.2s; }
 .sk-circle .sk-circle12:before {
   -webkit-animation-delay: -0.1s;
-          animation-delay: -0.1s; }
+          animation-delay: -0.1s; } 
 
 @-webkit-keyframes sk-circleBounceDelay {
   0%, 80%, 100% {
@@ -132,12 +130,9 @@
     -webkit-transform: scale(1);
             transform: scale(1);
   }
-}
+} 
 
-.spinner-title {
-  /* border: 1px dotted red; */
-
-  /* top: 200px; */
+ .spinner-title {
   margin: 50px auto;
   color: #cecece;
-}
+} 

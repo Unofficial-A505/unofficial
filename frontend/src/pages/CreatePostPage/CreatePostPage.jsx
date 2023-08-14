@@ -31,6 +31,21 @@ const QuillContainer = () => {
     }
   }, []);
 
+  const [limit, setLimit] = useState(false); 
+  const [size, setSize] = useState();
+
+  const handleLimit = (e) => {
+    const size = new Blob([e]).size 
+    setSize(size)
+  
+    if (size <= 4500) {
+      setLimit(false);
+    } else {
+      setLimit(true);
+      quillElement.current.editor.root.innerHTML = quillElement.current.editor.root.innerHTML.substring(0, 4505);
+    }
+  }
+
   const [isLoading, setIsLoading] = useState(false);
   const [nickNameInput, setnickName] = useState("");
   const [imageList, setimageList] = useState([]);
@@ -240,16 +255,16 @@ const QuillContainer = () => {
       </div>
 
       <div className={styles.nickNameContainer}>
-        <label for="inputNickname" class="form-label">
+        <label for="inputNickname" className="form-label">
           닉네임
         </label>
         <input
           id="inputNickname"
           type="text"
-          class="form-control"
+          className="form-control"
           onChange={(e) => setnickName(e.target.value)}
           placeholder="닉네임을 입력하세요"
-          maxlength="19"
+          maxLength="19"
         />
       </div>
 
@@ -261,7 +276,7 @@ const QuillContainer = () => {
           placeholder="제목을 입력하세요"
           ref={TitleElement}
           onKeyDown={handleTabDown}
-          maxlength="99"
+          maxLength="99"
         />
       </div>
 
@@ -274,8 +289,15 @@ const QuillContainer = () => {
         style={{ height: "600px" }}
         ref={quillElement}
         onKeyDown={handleShiftTabDown}
-        maxlength="9999"
+        onChange={(e) => handleLimit(e)}
       />
+
+      <div className={styles.contentLimitcountContainer}>
+        {limit && (
+          <div className={styles.contentlimitMessage}>최대 글자수를 초과했습니다!</div>
+        )}
+        <div className={styles.contentlimitCount}>{size} / 4500 </div>
+      </div>
 
       <div className={styles.undermenu}>
         <button className={styles.grayoutbutton} onClick={handleCancel}>
