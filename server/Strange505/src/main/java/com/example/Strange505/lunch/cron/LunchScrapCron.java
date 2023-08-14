@@ -120,7 +120,9 @@ public class LunchScrapCron {
                 lunch.setId(fromDB.getId());
                 lunch.setLikes(fromDB.getLikes());
             }
-            if (!lunch.getImageUrl().equals("") && (fromDB==null || !fromDB.getImageUrl().startsWith("https://505bucket"))) {
+            if (fromDB != null && fromDB.getImageUrl().startsWith("https://505bucket")) {
+                lunch.setImageUrl(fromDB.getImageUrl());
+            } else if (!lunch.getImageUrl().equals("")) {
                 lunch.setImageUrl(upload(lunch.getImageUrl()));
             }
             lunchRepository.save(lunch);
