@@ -1,13 +1,10 @@
 package com.example.Strange505.rtc;
 
-import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -16,21 +13,28 @@ public class RtcRoomService {
 
     private final RtcRoomRepository rtcRoomRepository;
 
-    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
-    public String findRoom() {
-        List<RtcRoom> rooms = rtcRoomRepository.findByManCountLow2();
-        if (rooms.size() == 0) {
+//    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    public String findRoom(String sessionId) {
+//        List<RtcRoom> rooms = rtcRoomRepository.findByManCountLow2(sessionId);
+        List<RtcRoom> rooms = rtcRoomRepository.findAll();
+
+        List<RtcRoom> result = rooms.stream().filter(room -> !room.getName().equals(sessionId) && room.getManCount() < 2).toList();
+
+        if (result.size() == 0) {
             return makeRoom();
         } else {
-            RtcRoom room = rooms.get(getRandom(rooms.size()));
+            RtcRoom room = result.get(getRandom(result.size()));
             room.countUP();
             return room.getName();
         }
     }
 
-    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+//    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     public void leaveSession(String sessionId) {
-        RtcRoom room = rtcRoomRepository.findByName(sessionId).orElseThrow(()->new NoSuchElementException("존재하지 않는 방입니다."));
+        RtcRoom room = rtcRoomRepository.findByName(sessionId).orElse(null);
+        if (room == null) {
+            return;
+        }
         int nowCount = room.countDown();
         if (nowCount == 0) {
             rtcRoomRepository.delete(room);

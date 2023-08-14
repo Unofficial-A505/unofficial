@@ -31,7 +31,6 @@ class WebRtcPage extends Component {
   async componentDidMount() {
     window.addEventListener("beforeunload", this.onbeforeunload);
     await this.findRoom().then(() => {
-      console.log("state---------------------------------");
       console.log(this.state);
       this.joinSession();
     });
@@ -187,7 +186,7 @@ class WebRtcPage extends Component {
       nowSessionId = null;
     }
 
-    if (nowSessionId != null) {
+    if (nowSessionId != null && nowSessionId != "") {
       this.leaveRoom(nowSessionId);
     }
     if (mySession) {
@@ -208,10 +207,18 @@ class WebRtcPage extends Component {
 
   async switchCamera() {
     window.alert("다른방 전환");
-    this.leaveSession();
-    await this.findRoom().then(() => {
-      this.joinSession();
-    });
+    console.log(
+      "state switch ````````````````````````````````````````````````````````````````"
+    );
+    let sessionIdForSwitch = this.state.mySessionId;
+    try {
+      await this.leaveSession(); // Wait for leaveSession() to complete
+      await this.findRoom(sessionIdForSwitch); // Once leaveSession() completes, find a room
+      this.joinSession(); // Once findRoom() completes, join the session
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+
     // try {
     //   const devices = await this.OV.getDevices();
     //   var videoDevices = devices.filter(
@@ -402,18 +409,21 @@ class WebRtcPage extends Component {
     return response.data; // The token
   }
 
-  async findRoom() {
+  async findRoom(sessionId) {
+    console.log("now session", sessionId);
+
     const response = await customAxios
       .get(
-        `${process.env.REACT_APP_SERVER}/api/sessions/getRoom`,
+        `${process.env.REACT_APP_SERVER}/api/sessions/` +
+          sessionId +
+          `/getRoom`,
         {},
         {
           headers: { "Content-Type": "application/json" },
         }
       )
-      .then(
-        (res) => console.log("findroom", (this.state.mySessionId = res.data))
-        // console.log("findroom", (this.state.mySessionId = "asd123123"))
+      .then((res) =>
+        console.log("findroom", (this.state.mySessionId = res.data))
       );
   }
 

@@ -65,9 +65,9 @@ public class RtcController {
 		return new ResponseEntity<>(connection.getToken(), HttpStatus.OK);
 	}
 
-	@GetMapping("/api/sessions/getRoom")
-	public ResponseEntity<String> getRoom() {
-		return ResponseEntity.status(HttpStatus.OK).body(rtcRoomService.findRoom());
+	@GetMapping("/api/sessions/{sessionId}/getRoom")
+	public ResponseEntity<String> getRoom(@PathVariable("sessionId") String sessionId) {
+		return ResponseEntity.status(HttpStatus.OK).body(rtcRoomService.findRoom(sessionId));
 	}
 
 	@GetMapping("/api/sessions/{sessionId}/leave")

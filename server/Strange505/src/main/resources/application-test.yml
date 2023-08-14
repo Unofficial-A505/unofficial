@@ -13,10 +13,10 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        show_sql: true
+        show_sql: false
         default_batch_fetch_size: 1000
-        format_sql: true
-        use_sql_comments: true
+#        format_sql: true
+#        use_sql_comments: true
 
 jwt:
   secret: VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4=VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4= # 임의의 문자열을 Base64로 인코딩한 값
@@ -41,9 +41,9 @@ file:
 mail:
   base-url : "http://localhost:3000/verify?verificationCode="
 
-decorator:
-  datasource:
-    p6spy:
-      enable-logging: true
+#decorator:
+#  datasource:
+#    p6spy:
+#      enable-logging: true
 
 test: test
