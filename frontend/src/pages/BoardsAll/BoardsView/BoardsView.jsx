@@ -16,9 +16,7 @@ export default function BoardsView() {
   // const [postPerPage, setpostPerPage] = useState(20)
   const [pageInfo, setPageInfo] = useState([]);
   const authUser = useSelector((state) => state.authUser);
-  const handleFilterByLikes = () => {
-    setFilterByLikes(!filterByLikes);
-  };
+
   useEffect(() => {
     boardsArticles(boardId, currPage - 1, 20)
       .then((res) => {
@@ -58,26 +56,18 @@ export default function BoardsView() {
   if (posts) {
     return (
       <div id="post-top-bar">
-        <button onClick={handleFilterByLikes}>
-          {filterByLikes ? "모든 게시글 보기" : "인기 게시글만 보기"}
-        </button>
         <PostTypeTitleBar />
 
-        {posts.map((post, index) => {
-          if (!filterByLikes || (filterByLikes && post.likes >= 1)) { 
-            return (
-              <PostsView
-                key={index}
-                boardTitle={boardTitle}
-                post={post}
-                boardId={boardId}
-                currPage={currPage}
-                IsAuth={authUser.accessToken}
-              />
-            );
-          }
-          return null;
-        })}
+        {posts.map((post, index) => (
+          <PostsView
+            key={index}
+            boardTitle={boardTitle}
+            post={post}
+            boardId={boardId}
+            currPage={currPage}
+            IsAuth={authUser.accessToken}
+          />
+        ))}
 
         <div className={styles.paginationContainer}>
           <PaginationCustom
