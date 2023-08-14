@@ -38,6 +38,10 @@ public class LunchScrapCron {
         lunches = localScraper.getWeeklyMenu();
         updateMenu(lunches);
 
+        localScraper = new GwangjuScraper();
+        lunches = localScraper.getWeeklyMenu();
+        updateMenu(lunches);
+
     }
 
     @Scheduled(cron = "0 0 23 ? * FRI", zone = "Asia/Seoul")
@@ -55,7 +59,7 @@ public class LunchScrapCron {
         updateMenu(lunches);
 
         localScraper = new GwangjuScraper();
-        lunches = localScraper.getDailyMenu(DateUtil.getNextMonday(0));
+        lunches = localScraper.getWeeklyMenu();
         updateMenu(lunches);
 
     }
@@ -68,6 +72,10 @@ public class LunchScrapCron {
 
         localScraper = new GumiScraper();
         lunches = localScraper.getDailyMenu(DateUtil.getToday(1));
+        updateMenu(lunches);
+
+        localScraper = new BusanScraper();
+        lunches = localScraper.getDailyMenu(DateUtil.getNextMonday(1));
         updateMenu(lunches);
 
     }
@@ -106,7 +114,8 @@ public class LunchScrapCron {
 
     public void updateMenu(List<Lunch> lunches) throws Exception {
         for (Lunch lunch : lunches) {
-            Lunch fromDB = lunchRepository.findByDateAndLocalAndCourseName(lunch.getDate(), lunch.getLocal(), lunch.getCourseName());
+            System.out.println(lunch);
+            Lunch fromDB = lunchRepository.findByDateAndLocalAndCourseName(lunch.getDate(), lunch.getLocal(), lunch.getCourseName()).orElse(null);
             if (lunch.equals(fromDB)) {
                 lunch.setId(fromDB.getId());
                 lunch.setLikes(fromDB.getLikes());
