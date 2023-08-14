@@ -105,7 +105,7 @@ export default function PostDetail() {
     // 게시글 상세정보 가져오기
     postDetailApi(postId)
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         setpostDetail(res);
         setBoardTitle(res.boardName);
         getComment();
@@ -359,6 +359,7 @@ export default function PostDetail() {
                   type="text"
                   placeholder="닉네임을 입력하세요"
                   onChange={(e) => setcommentnickName(e.target.value)}
+                  maxlength='19'
                 />
               </div>
               <div className={styles.commentbox}>
@@ -370,6 +371,7 @@ export default function PostDetail() {
                     setcreateComment(e.target.value);
                   }}
                   placeholder="댓글을 작성해보세요"
+                  maxlength="999"
                 />
                 <button
                   className={styles.commentButton}
