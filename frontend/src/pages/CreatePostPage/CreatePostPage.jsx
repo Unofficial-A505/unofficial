@@ -223,7 +223,7 @@ const QuillContainer = () => {
 
   return (
     <div className={styles.craetecontainer}>
-      {/* {isLoading && <LoadingSpinner className={styles.loadingSpinner}/>} */}
+      {isLoading && <LoadingSpinner />}
       <div className={styles.topmenu}>
         <h3 className={styles.topmenuBox}>
           <p className={styles.boardTitle}>{currboardName}</p>
