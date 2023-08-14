@@ -9,7 +9,6 @@ import Slider from "react-slick";
 
 import lunch_loading from "./../../assets/images/lunch_loading.jpg";
 import spoon from "./../../assets/images/spoon.png";
-import IconButton from "@mui/joy/IconButton";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
