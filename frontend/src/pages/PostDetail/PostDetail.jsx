@@ -69,10 +69,10 @@ export default function PostDetail() {
   const [currboardPosts, setcurrboardPosts] = useState([]);
   const [recommendedState, setrecommendedState] = useState(null);
 
-  const [currcommentPage, setcurrcommentPage] = useState(0);
+  const [currcommentPage, setcurrcommentPage] = useState(1);
   const [commentPageInfo, setcommentPageInfo] = useState([]);
 
-  const [currpostPage, setcurrpostPage] = useState(0);
+  const [currpostPage, setcurrpostPage] = useState(1);
   const [pageInfo, setPageInfo] = useState([]);
 
   // 탭 제목 설정하기
@@ -112,11 +112,11 @@ export default function PostDetail() {
       .catch((err) => console.log(err));
 
     //현재 board 게시글
-    boardsArticles(boardId, currPage, 20)
+    boardsArticles(boardId, currPage - 1, 20)
       .then((res) => {
         setcurrboardPosts(res.content);
         setPageInfo(res.pageInfo);
-        setcurrpostPage(res.pageInfo.page);
+        // setcurrpostPage(res.pageInfo.page);
       })
       .catch((err) => console.log(err));
 
@@ -133,7 +133,7 @@ export default function PostDetail() {
       .then((res) => {
         setcurrboardPosts(res.content);
         setPageInfo(res.pageInfo);
-        setcurrpostPage(res.pageInfo.page + 1);
+        // setcurrpostPage(res.pageInfo.page + 1);
       })
       .catch((err) => console.log(err));
   }, [!postId, currpostPage]);
