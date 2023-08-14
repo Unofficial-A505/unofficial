@@ -281,14 +281,14 @@ const PostUpdate = () => {
         </div>
 
         <div className={styles.nickNameContainer}>
-          <label for="inputNickname" class="form-label">
+          <label className="form-label">
             닉네임
           </label>
           <input
             id="inputNickname"
             type="text"
             disabled
-            class="form-control"
+            className="form-control"
             placeholder={!postDetail.nickName ? "익명" : postDetail.nickName}
           />
         </div>
