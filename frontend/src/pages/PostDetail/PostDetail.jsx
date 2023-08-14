@@ -105,7 +105,7 @@ export default function PostDetail() {
     // 게시글 상세정보 가져오기
     postDetailApi(postId)
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         setpostDetail(res);
         setBoardTitle(res.boardName);
         getComment();
