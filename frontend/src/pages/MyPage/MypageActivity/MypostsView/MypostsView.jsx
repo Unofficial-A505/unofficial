@@ -1,4 +1,5 @@
 import styles from "./MypostsView.module.css";
+import { useSelector } from "react-redux";
 
 import BoardView from "../../../../components/BoardView/BoardView";
 import PostTypeTitleBar from "../../../../components/PostTypeTitleBar/PostTypeTitleBar";
@@ -11,6 +12,8 @@ export default function MypostsView() {
   const [page, setPage] = useState(1);
   const [pageInfo, setPageInfo] = useState({});
   const size = 7;
+
+  const authUser = useSelector((state) => state.authUser);
 
   useEffect(() => {
     customAxios
@@ -37,7 +40,7 @@ export default function MypostsView() {
         {!myPosts.length ? (
           <p className="ms-3 mt-4">아직 작성한 게시글이 없습니다.</p>
         ) : (
-          <div className={styles.ContentsBox}><BoardView posts={myPosts} myBoard='myBoard' /></div>
+          <div className={styles.ContentsBox}><BoardView posts={myPosts} myBoard='myBoard' IsAuth={authUser.accessToken}/></div>
         )}
       <div style={{ width: "100%" }} className="d-flex justify-content-center">
         <PaginationControl
