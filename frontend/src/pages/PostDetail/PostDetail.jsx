@@ -371,7 +371,7 @@ export default function PostDetail() {
                     setcreateComment(e.target.value);
                   }}
                   placeholder="댓글을 작성해보세요"
-                  maxlength="999"
+                  maxlength="299"
                 />
                 <button
                   className={styles.commentButton}

@@ -11,6 +11,8 @@ import "react-quill/dist/quill.snow.css";
 import ImageResize from "@looop/quill-image-resize-module-react";
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
+
 Quill.register("modules/ImageResize", ImageResize);
 
 const PostUpdate = () => {
@@ -245,6 +247,7 @@ const PostUpdate = () => {
 
   return (
     <div>
+      {isLoading && <LoadingSpinner />}
       <div className={styles.craetecontainer}>
         <div className={styles.topmenu}>
           <h3 className={styles.topmenuBox}>
