@@ -18,12 +18,14 @@ export default function BoardsView() {
   const authUser = useSelector((state) => state.authUser);
 
   useEffect(() => {
+    setcurrPage(1)
+
     boardsArticles(boardId, currPage - 1, 20)
       .then((res) => {
         // console.log(res);
         setPosts(res.content);
         setPageInfo(res.pageInfo);
-        setcurrPage(res.pageInfo.page + 1);
+        // setcurrPage(res.pageInfo.page + 1);
       })
       .catch((err) => console.log(err));
   }, [boardId]);
@@ -33,7 +35,7 @@ export default function BoardsView() {
       .then((res) => {
         setPosts(res.content);
         setPageInfo(res.pageInfo);
-        setcurrPage(res.pageInfo.page + 1);
+        // setcurrPage(res.pageInfo.page + 1);
       })
       .catch((err) => console.log(err));
   }, [currPage]);
