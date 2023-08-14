@@ -249,6 +249,7 @@ const QuillContainer = () => {
           class="form-control"
           onChange={(e) => setnickName(e.target.value)}
           placeholder="닉네임을 입력하세요"
+          maxlength="19"
         />
       </div>
 
@@ -260,6 +261,7 @@ const QuillContainer = () => {
           placeholder="제목을 입력하세요"
           ref={TitleElement}
           onKeyDown={handleTabDown}
+          maxlength="99"
         />
       </div>
 
@@ -272,6 +274,7 @@ const QuillContainer = () => {
         style={{ height: "600px" }}
         ref={quillElement}
         onKeyDown={handleShiftTabDown}
+        maxlength="9999"
       />
 
       <div className={styles.undermenu}>
