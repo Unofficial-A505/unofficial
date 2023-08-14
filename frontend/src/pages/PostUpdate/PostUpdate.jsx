@@ -30,6 +30,22 @@ const PostUpdate = () => {
     }
   }, []);
 
+
+  const [limit, setLimit] = useState(false); 
+  const [size, setSize] = useState();
+
+  const handleLimit = (e) => {
+    const size = new Blob([e]).size 
+    setSize(size)
+  
+    if (size <= 4500) {
+      setLimit(false);
+    } else {
+      setLimit(true);
+      quillElement.current.editor.root.innerHTML = quillElement.current.editor.root.innerHTML.substring(0, 4505);
+    }
+  }
+
   const { boardId } = useParams();
   const { postId } = useParams();
   const { state: postDetail } = useLocation();
@@ -265,14 +281,14 @@ const PostUpdate = () => {
         </div>
 
         <div className={styles.nickNameContainer}>
-          <label for="inputNickname" class="form-label">
+          <label className="form-label">
             닉네임
           </label>
           <input
             id="inputNickname"
             type="text"
             disabled
-            class="form-control"
+            className="form-control"
             placeholder={!postDetail.nickName ? "익명" : postDetail.nickName}
           />
         </div>
@@ -297,7 +313,15 @@ const PostUpdate = () => {
           style={{ height: "600px" }}
           ref={quillElement}
           onKeyDown={handleShiftTabDown}
+          onChange={(e) => handleLimit(e)}
         />
+
+        <div className={styles.contentLimitcountContainer}>
+          {limit && (
+            <div className={styles.contentlimitMessage}>최대 글자수를 초과했습니다!</div>
+          )}
+          <div className={styles.contentlimitCount}>{size} / 4500 </div>
+        </div>
 
         <div className={styles.undermenu}>
           <button className={styles.grayoutbutton} onClick={handleCancel}>
