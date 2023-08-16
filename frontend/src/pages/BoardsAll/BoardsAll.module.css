@@ -1,5 +1,5 @@
 .boardsAllContainer {
-  width: 1180px;
+  width: 1200px;
   margin: 0 auto;
   
   /* border: 1px dotted red; */
@@ -55,7 +55,7 @@
 
   width: 720px;
   height: 35px;
-  margin: 15px auto;
+  margin: 17px auto;
 
   border: 1px solid #75757579;
   border-radius: 1rem;
@@ -183,7 +183,7 @@ div .slick-list {
 
 /* board 전체 컨테이너*/
 .boardsviewContainer {
-  width: 1180px;
+  width: 1200px;
   display: flex;
 
   /* border: 1px dotted red; */
