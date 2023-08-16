@@ -84,7 +84,7 @@ export default function PostDetail() {
       method: "get",
       url: `/api/comments/article/${postId}?page=${
         currcommentPage - 1
-      }&size=${2}`,
+      }&size=${20}`,
     })
       .then((res) => {
         setComments(res.data.content);
