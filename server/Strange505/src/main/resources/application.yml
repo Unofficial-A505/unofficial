@@ -25,11 +25,11 @@ spring:
             required: true
           auth: true
 
-#logging:
-#  level:
-#    org.hibernate.SQL: debug
-#    org.hibernate.type: debug
-#    p6spy: info
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: debug
+    p6spy: info
 
 jwt:
   secret: VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4=VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4= # 임의의 문자열을 Base64로 인코딩한 값
@@ -51,10 +51,10 @@ cloud:
 file:
   dir: C:\Users\SSAFY\Desktop/file/
 
-#decorator:
-#  datasource:
-#    p6spy:
-#      enable-logging: true
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
 
 OPENVIDU_URL: https://ec2.unofficial.kr/
 OPENVIDU_SECRET: STRANGE505

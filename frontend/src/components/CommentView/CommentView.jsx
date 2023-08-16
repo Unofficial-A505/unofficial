@@ -108,7 +108,7 @@ export default function CommentView({ comment, commentUpdate, getComment}){
                 id = "recomment-input"
                 onChange={(e) => setreComments(e.target.value)}
                 placeholder="댓글을 작성해보세요"
-                maxLength="299"
+                maxlength="999"
               />
               <button onClick={recommentCreate} className={styles.commentButton} disabled={isButtonDisabled}>
                 <IoChatboxOutline size="23" />
@@ -137,7 +137,7 @@ export default function CommentView({ comment, commentUpdate, getComment}){
         </div>
         
         <div className={styles.updateinputContainer}>
-          <textarea  className={styles.updateInput} type="text" defaultValue={comment.content} ref={updateContent} maxlength="299"/>
+          <textarea  className={styles.updateInput} type="text" defaultValue={comment.content} ref={updateContent}/>
           {/* <div className={styles.commentContent}>{comment.content}</div> */}
         </div>
   

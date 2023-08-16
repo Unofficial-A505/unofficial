@@ -199,34 +199,32 @@
 }
 
 .boardtabContainer {
-  width: 85.5%;
-  margin: 10px 0 0 0;
+  width: 98%;
+  margin: 10px auto;
   display: flex;
   justify-content: space-between;
   /* border: 1px red dotted; */
 }
 
-#boardtab {
-  margin: 0;
+.boardtab {
+  margin: 6px;
   color: #000;
 
-  /* border: 0;
-  background-color: transparent; */
+  border: 0;
+  background-color: transparent;
 
-  font-size: 17px;
+  font-size: 20px;
   font-style: normal;
-  font-weight: 550;
+  font-weight: 400;
   line-height: normal;
-
-  /* border: 1px dotted blue; */
 }
 
 .boardtab:hover {
   color: #034bb9;
-  font-size: 17px;
-  font-style: normal;
-  font-weight: 550;
-  line-height: normal;
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-position: under;
 }
 
 .noSearchSentence {

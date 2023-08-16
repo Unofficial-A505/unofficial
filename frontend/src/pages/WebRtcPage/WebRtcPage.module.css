@@ -1,19 +1,13 @@
-.entrance {
-  max-width: 1280px;
-  height: 470px;
-  margin: 0 auto;
-}
 .container {
-  background-color: #111;
-  max-width: 1280px;
-  padding-bottom: 0.2rem;
+	height: 90vh;
 }
 .joinContainer {
-  position: relative;
-  top: 5rem;
+	position: relative;
+	top: 5rem;
 }
 .formGroup {
-  width: 400px;
-  margin: 2rem auto;
-  text-align: left;
+	width: 400px;
+	margin: 2rem auto;
+	text-align: left;
 }
+

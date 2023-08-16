@@ -64,28 +64,6 @@
   font-size: 1.5rem;
 }
 
-.contentLimitcountContainer {
-  display: flex;
-  justify-content: flex-end;
-  margin: 60px 0 0 0;
-  padding: 0 20px 0 0;
-
-  /* border: 1px dotted red; */
-}
-
-.contentlimitMessage {
-  color: red;
-  margin: 0 20px;
-
-  font-weight: 600;
-
-  /* border: 1px dotted red; */
-}
-
-.contentlimitCount {
-  font-weight: 500;
-}
-
 .undermenu {
   width: 100%;
   display: flex;

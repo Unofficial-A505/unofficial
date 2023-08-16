@@ -29,9 +29,7 @@ export default function Footer() {
         </div>
 
         <div className={styles.footerImage}>
-          <a href="/">
-            <img src={main_logo} alt="main_logo" />
-          </a>
+          <img src={main_logo} alt="main_logo" />
         </div>
       </div>
     </div>

@@ -199,9 +199,6 @@ public class ArticleServiceImpl implements ArticleService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new NoResultException("사용자를 찾을 수 없습니다."));
         Board board = boardRepository.findByName(dto.getBoardName()).orElseThrow(() -> new NoResultException("게시판을 찾을 수 없습니다."));
         Article article = articleRepository.findById(dto.getId()).orElseThrow(() -> new NoResultException("게시글을 찾을 수 없습니다."));
-
-        System.out.println(article.getContent());
-
         if (user.getId() == article.getUser().getId() || user.getRole() == Role.ADMIN) {
             imageService.deleteImageForUpdate(article.getContent(), dto);
             article.updateArticle(dto, board);

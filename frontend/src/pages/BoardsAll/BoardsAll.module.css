@@ -1,5 +1,5 @@
 .boardsAllContainer {
-  width: 1200px;
+  width: 1180px;
   margin: 0 auto;
   
   /* border: 1px dotted red; */
@@ -55,7 +55,7 @@
 
   width: 720px;
   height: 35px;
-  margin: 17px auto;
+  margin: 15px auto;
 
   border: 1px solid #75757579;
   border-radius: 1rem;
@@ -183,7 +183,7 @@ div .slick-list {
 
 /* board 전체 컨테이너*/
 .boardsviewContainer {
-  width: 1200px;
+  width: 1180px;
   display: flex;
 
   /* border: 1px dotted red; */
@@ -199,33 +199,22 @@ div .slick-list {
 
 .boardtabContainer {
   width: 98%;
-  /* padding: 0 20px 0 0; */
   margin: 10px auto;
   display: flex;
   justify-content: space-between;
-
-  /* border: 1px dotted red; */
 }
 
-.boardTabsBox {
-  /* border: 1px dotted violet; */
-}
-
-#boardtab {
-  margin: 0;
+.boardtab {
+  margin: 6px;
   color: #000;
 
-  /* border: 0; */
-  /* background-color: transparent; */
+  border: 0;
+  background-color: transparent;
 
-  /* border: 1px dotted red; */
-
-  font-size: 17px;
+  font-size: 20px;
   font-style: normal;
-  font-weight: 550;
+  font-weight: 400;
   line-height: normal;
-
-  /* border: 1px dotted blue; */
 }
 
 .boardtabSelected {
@@ -244,50 +233,45 @@ div .slick-list {
 
 .boardtab:hover {
   color: #034BB9;
-  font-size: 17px;
-  font-style: normal;
-  font-weight: 550;
-  line-height: normal;
-  /* text-decoration: underline; */
-  /* text-underline-position: under; */
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-position: under;
 }
 
 /* 새 글 작성 버튼 스타일링 */
 
 .createpageButton {
-  width: 140px;
-  margin: 10px 15px 0 0;
+  margin: 6px 15px 0 0;
   color: #000;
 
   border: 0;
   background-color: transparent;
 
-  font-size: 18px;
+  font-size: 20px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400;
   line-height: normal;
-
-  /* border: 1px dotted blue; */
 }
 
 .createpageButton:hover {
-  margin: 10px 15px 0 0;
+  margin: 6px 15px 0 0;
 
   border: 0;
   background-color: transparent;
 
-  color: #1976d2;
-  font-size: 18px;
-  font-weight: 500;
+  color: #034BB9;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .createpageIcon {
-  margin: 0 5px 3px 10px;
+  margin: 0 5px 5px 10px;
 }
 
 /* Content Outlet */
 .boardsPostsContainer {
-  margin: 15px 0 0 0;
+  margin: 10px 0 0 0;
 
   /* border: 1px dotted blue; */
 }
@@ -317,8 +301,6 @@ div .slick-list {
   position: sticky;
   width: 260px;
   /* border: 1px red dotted; */
-
-  padding: 0 0 38px 0;
 }
 
 .sideContentContainer {

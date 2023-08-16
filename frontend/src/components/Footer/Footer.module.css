@@ -1,5 +1,4 @@
 .footer {
-  /*display: none;*/
   width: 100%;
   position: relative;
   bottom: 0;
@@ -12,7 +11,7 @@
   height: 100%;
   background-color: inherit;
   margin: 0 auto;
-  display: flex;
+  display:flex;
   color: #ebebeb;
   justify-content: space-between;
   align-items: start;
@@ -47,7 +46,7 @@
   transition: color 0.3s;
 }
 .footer_inner ul li a:hover {
-  color: #007bff;
+  color: #007BFF;
 }
 .footerImage {
   flex: 1;
