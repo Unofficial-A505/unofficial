@@ -1,9 +1,13 @@
-import { OpenVidu } from "openvidu-browser";
-
+import styles from "./WebRtcPage.module.css";
 import customAxios from "./../../util/customAxios";
 import React, { Component } from "react";
-import "./App.css";
+
 import UserVideoComponent from "./UserVideoComponent";
+import { OpenVidu } from "openvidu-browser";
+
+import CallEndIcon from "@mui/icons-material/CallEnd";
+import userAccount from "./../../assets/images/userAccount.png";
+// import { LuSwitchCamera } from "@react-icons/all-files/lu"
 
 class WebRtcPage extends Component {
   constructor(props) {
@@ -11,6 +15,7 @@ class WebRtcPage extends Component {
 
     // These properties are in the state's component in order to re-render the HTML whenever their values change
     this.state = {
+      isConneted: false,
       mySessionId: "",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       session: undefined,
@@ -19,6 +24,7 @@ class WebRtcPage extends Component {
       subscribers: [],
     };
 
+    this.connectRtc = this.connectRtc.bind(this);
     this.joinSession = this.joinSession.bind(this);
     this.leaveSession = this.leaveSession.bind(this);
     this.switchCamera = this.switchCamera.bind(this);
@@ -31,7 +37,6 @@ class WebRtcPage extends Component {
   async componentDidMount() {
     window.addEventListener("beforeunload", this.onbeforeunload);
     await this.findRoom().then(() => {
-      console.log(this.state);
       this.joinSession();
     });
   }
@@ -206,10 +211,7 @@ class WebRtcPage extends Component {
   }
 
   async switchCamera() {
-    window.alert("다른방 전환");
-    console.log(
-      "state switch ````````````````````````````````````````````````````````````````"
-    );
+    alert("다른 방으로 이동합니다");
     let sessionIdForSwitch = this.state.mySessionId;
     try {
       await this.leaveSession(); // Wait for leaveSession() to complete
@@ -218,149 +220,86 @@ class WebRtcPage extends Component {
     } catch (error) {
       console.error("An error occurred:", error);
     }
+  }
 
-    // try {
-    //   const devices = await this.OV.getDevices();
-    //   var videoDevices = devices.filter(
-    //     (device) => device.kind === "videoinput"
-    //   );
+  connectRtc(e) {
+    e.preventDefault();
 
-    //   if (videoDevices && videoDevices.length > 1) {
-    //     var newVideoDevice = videoDevices.filter(
-    //       (device) => device.deviceId !== this.state.currentVideoDevice.deviceId
-    //     );
-
-    //     if (newVideoDevice.length > 0) {
-    //       // Creating a new publisher with specific videoSource
-    //       // In mobile devices the default and first camera is the front one
-    //       var newPublisher = this.OV.initPublisher(undefined, {
-    //         videoSource: newVideoDevice[0].deviceId,
-    //         publishAudio: true,
-    //         publishVideo: true,
-    //         mirror: false,
-    //       });
-
-    //       //newPublisher.once("accessAllowed", () => {
-    //       await this.state.session.unpublish(this.state.mainStreamManager);
-
-    //       await this.state.session.publish(newPublisher);
-    //       this.setState({
-    //         currentVideoDevice: newVideoDevice[0],
-    //         mainStreamManager: newPublisher,
-    //         publisher: newPublisher,
-    //       });
-    //     }
-    //   }
-    // } catch (e) {
-    //   console.error(e);
-    // }
+    this.setState({
+      isConneted: true,
+    });
   }
 
   render() {
-    const mySessionId = this.state.mySessionId;
-    const myUserName = this.state.myUserName;
+    // const mySessionId = this.state.mySessionId;
 
-    return (
-      <div className="container">
-        {/* {this.state.session === undefined ? (
-          <div id="join">
-            <div id="img-div">
-              <img
-                src="resources/images/openvidu_grey_bg_transp_cropped.png"
-                alt="OpenVidu logo"
-              />
-            </div>
-            <div id="join-dialog" className="jumbotron vertical-center">
-              <h1> Join a video session </h1>
-              <form className="form-group" onSubmit={this.joinSession}>
-                <p>
-                  <label>Participant: </label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    id="userName"
-                    value={myUserName}
-                    onChange={this.handleChangeUserName}
-                    required
-                  />
-                </p>
-                <p>
-                  <label> Session: </label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    id="sessionId"
-                    value={mySessionId}
-                    onChange={this.handleChangeSessionId}
-                    required
-                  />
-                </p>
-                <p className="text-center">
-                  <input
-                    className="btn btn-lg btn-success"
-                    name="commit"
-                    type="submit"
-                    value="JOIN"
-                  />
-                </p>
-              </form>
-            </div>
+    return !this.state.isConneted ? (
+      <div className={styles.entrance}>
+        <form
+          style={{ width: "400px", margin: "10rem auto" }}
+          onSubmit={this.connectRtc}
+        >
+          <div class="mb-3">
+            <label>언오피셜 랜덤채팅에 접속하시겠습니까?</label>
           </div>
-        ) : null} */}
-
-        {/* {this.state.session !== undefined ? ( */}
-        {true ? (
-          <div id="session">
-            <div id="session-header">
-              <h1 id="session-title">{mySessionId}</h1>
-              <input
-                className="btn btn-large btn-danger"
-                type="button"
-                id="buttonLeaveSession"
-                onClick={this.leaveSession}
-                value="Leave session"
-              />
-              <input
-                className="btn btn-large btn-success"
-                type="button"
-                id="buttonSwitchCamera"
-                onClick={this.switchCamera}
-                value="Switch Camera"
-              />
-            </div>
-            {this.state.mainStreamManager !== undefined ? (
-              <div id="main-video" className="col-md-6">
-                {/* <UserVideoComponent
-                  streamManager={this.state.mainStreamManager}
-                /> */}
+          <button type="submit" className="btn btn-primary">
+            접속하기
+          </button>
+        </form>
+      </div>
+    ) : (
+      <div className="container">
+        <div id="session" className={styles.container}>
+          <div id="video-container" className="d-flex">
+            {this.state.publisher !== undefined ? (
+              <div
+                className="stream-container"
+                onClick={() => this.handleMainVideoStream(this.state.publisher)}
+              >
+                <UserVideoComponent streamManager={this.state.publisher} />
               </div>
             ) : null}
-            <div id="video-container" className="col-md-12">
-              {this.state.publisher !== undefined ? (
-                <div
-                  className="stream-container col-md-6 col-xs-6"
-                  onClick={() =>
-                    this.handleMainVideoStream(this.state.publisher)
-                  }
-                >
-                  <div>pub</div>
-                  <UserVideoComponent streamManager={this.state.publisher} />
-                </div>
-              ) : null}
-              {this.state.subscribers.map((sub, i) => (
+
+            {this.state.subscribers.length ? (
+              this.state.subscribers.map((sub, _) => (
                 <div
                   key={sub.id}
-                  className="stream-container col-md-6 col-xs-6"
+                  className="stream-container"
                   onClick={() => this.handleMainVideoStream(sub)}
                 >
-                  <span>{sub.id}</span>
-                  <span>sub</span>
                   <UserVideoComponent streamManager={sub} />
                 </div>
-              ))}
+              ))
+            ) : (
+              <div
+                className="d-flex justify-content-center align-items-center"
+                style={{ width: "50%", color: "#fff" }}
+              >
+                <p style={{ color: "#fff" }}>상대가 없습니다...</p>
+              </div>
+            )}
+          </div>
+          <div id="session-header" className="my-3">
+            <div
+              className="btn btn-light rounded-pill me-3"
+              type="button"
+              id="buttonSwitchCamera"
+              style={{ width: "5rem" }}
+              onClick={this.switchCamera}
+            >
+              <img src={userAccount} alt="userAccount" width={25} />
+            </div>
+            <div
+              className="btn btn-danger rounded-pill ms-3"
+              type="button"
+              id="buttonLeaveSession"
+              style={{ width: "5rem" }}
+              onClick={this.leaveSession}
+            >
+              <CallEndIcon />
             </div>
           </div>
-        ) : null}
+        </div>
       </div>
     );
   }
@@ -410,20 +349,18 @@ class WebRtcPage extends Component {
   }
 
   async findRoom(sessionId) {
-    console.log("now session", sessionId);
-
-    const response = await customAxios
+    customAxios
       .get(
         `${process.env.REACT_APP_SERVER}/api/sessions/` +
           sessionId +
           `/getRoom`,
-        {},
         {
           headers: { "Content-Type": "application/json" },
         }
       )
-      .then((res) =>
-        console.log("findroom", (this.state.mySessionId = res.data))
+      .then(
+        (res) => {}
+        // console.log("findroom", (this.state.mySessionId = res.data))
       );
   }
 
