@@ -2,9 +2,10 @@
   width: 260px;
   height: 350px;
 
-  border: 2px solid #75757593;
+  border: 1px solid #75757593;
+  /* background-color: #f3f6f9; */
   border-radius: 1rem;
-  margin: 0 0 10px 0;
+  margin: 0 0 30px 0;
 }
 
 .bestwidgetTopbar {
@@ -13,7 +14,7 @@
 
   /* border: 1px dotted red; */
 }
-
+s
 /* 회전 애니메이션 정의 */
 @keyframes rotate360 {
   from {

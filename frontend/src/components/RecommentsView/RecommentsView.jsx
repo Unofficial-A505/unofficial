@@ -91,7 +91,7 @@ export default function RecommentsView({ recomment, getComment, articleId, paren
             </div>
     
             <div className={styles.updateinputContainer}>
-              <textarea  className={styles.updateInput} type="text" defaultValue={recomment.content} onChange={(e) => setupdatereComment(e.target.value)} maxlength="999"/>
+              <textarea  className={styles.updateInput} type="text" defaultValue={recomment.content} onChange={(e) => setupdatereComment(e.target.value)} maxlength="299"/>
             </div>
     
             <div className={styles.recommentUnderContainer}>
