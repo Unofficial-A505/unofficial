@@ -295,7 +295,7 @@ export default function PostDetail() {
               </div>
 
               <hr />
-              <div className={styles.postcontentContainer}>
+              <div className={styles.postContentContainer}>
                 <div dangerouslySetInnerHTML={{ __html: postDetail.content }} />
               </div>
 
@@ -359,7 +359,7 @@ export default function PostDetail() {
                   type="text"
                   placeholder="닉네임을 입력하세요"
                   onChange={(e) => setcommentnickName(e.target.value)}
-                  maxlength='19'
+                  maxLength='19'
                 />
               </div>
               <div className={styles.commentbox}>
@@ -371,7 +371,7 @@ export default function PostDetail() {
                     setcreateComment(e.target.value);
                   }}
                   placeholder="댓글을 작성해보세요"
-                  maxlength="999"
+                  maxLength="299"
                 />
                 <button
                   className={styles.commentButton}

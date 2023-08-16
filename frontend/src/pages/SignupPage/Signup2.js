@@ -30,7 +30,7 @@ export default function Signup2() {
     setUserEmail(event.target.value)
   }
   const handleEmailValid = (event) => {
-    const pattern = /^([0-9a-zA-Z_.-]+)@[0-9a-zA-Z_-]+\.[a-zA-Z_-]{2,3}$/
+    const pattern = /^([0-9a-zA-Z_.-]+)@[0-9a-zA-Z_-]+\.[a-zA-Z_.-]{2,6}$/
     if (!event.target.value.match(pattern)) {
       setEmailValid(false)
       return
