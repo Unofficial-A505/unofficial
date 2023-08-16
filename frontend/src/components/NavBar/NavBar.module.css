@@ -1,8 +1,11 @@
 .container {
-  margin: 10px auto;
+  margin: 5px auto;
   /* width: 1008px; */
-  max-width: 1280px;
+  width: 1280px;
   /* border: 1px dotted red; */
+}
+.container lord-icon:hover {
+  cursor: pointer;
 }
 .tab {
   width: 150px;
