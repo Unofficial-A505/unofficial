@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from "./CreatePostPage.module.css";
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
@@ -11,13 +12,13 @@ import "react-quill/dist/quill.snow.css";
 import ImageResize from "@looop/quill-image-resize-module-react";
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 
-import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 Quill.register("modules/ImageResize", ImageResize);
 
 const QuillContainer = () => {
   useDocumentTitle("게시글 작성");
-  
+
   const navigate = useNavigate();
   const authUser = useSelector((state) => state.authUser);
 
@@ -31,20 +32,21 @@ const QuillContainer = () => {
     }
   }, []);
 
-  const [limit, setLimit] = useState(false); 
+  const [limit, setLimit] = useState(false);
   const [size, setSize] = useState();
 
   const handleLimit = (e) => {
-    const size = new Blob([e]).size 
-    setSize(size)
-  
+    const size = new Blob([e]).size;
+    setSize(size);
+
     if (size <= 4500) {
       setLimit(false);
     } else {
       setLimit(true);
-      quillElement.current.editor.root.innerHTML = quillElement.current.editor.root.innerHTML.substring(0, 4505);
+      quillElement.current.editor.root.innerHTML =
+        quillElement.current.editor.root.innerHTML.substring(0, 4505);
     }
-  }
+  };
 
   const [isLoading, setIsLoading] = useState(false);
   const [nickNameInput, setnickName] = useState("");
@@ -88,7 +90,7 @@ const QuillContainer = () => {
   useEffect(() => {
     const editor = document.querySelector(".ql-editor");
     if (editor) {
-      editor.classList.add("fs-6");
+      editor.classList.add("fs-5");
     }
   }, []);
 
@@ -255,7 +257,7 @@ const QuillContainer = () => {
       </div>
 
       <div className={styles.nickNameContainer}>
-        <label for="inputNickname" className="form-label">
+        <label htmlFor="inputNickname" className="form-label">
           닉네임
         </label>
         <input
@@ -268,7 +270,10 @@ const QuillContainer = () => {
         />
       </div>
 
-      <div>
+      <div className="mb-2">
+        <label htmlFor="inputTitle" className="form-label d-flex">
+          제목
+        </label>
         <input
           id="inputTitle"
           className={styles.inputTitle}
@@ -280,21 +285,28 @@ const QuillContainer = () => {
         />
       </div>
 
-      <ReactQuill
-        id="react-quill"
-        modules={modules}
-        formats={formats}
-        selection={{ start: 0, end: 0 }}
-        theme="snow"
-        style={{ height: "600px" }}
-        ref={quillElement}
-        onKeyDown={handleShiftTabDown}
-        onChange={(e) => handleLimit(e)}
-      />
+      <div>
+        <label htmlFor="react-quill" className="form-label d-flex">
+          내용
+        </label>
+        <ReactQuill
+          id="react-quill"
+          modules={modules}
+          formats={formats}
+          selection={{ start: 0, end: 0 }}
+          theme="snow"
+          style={{ height: "600px" }}
+          ref={quillElement}
+          onKeyDown={handleShiftTabDown}
+          onChange={(e) => handleLimit(e)}
+        />
+      </div>
 
       <div className={styles.contentLimitcountContainer}>
         {limit && (
-          <div className={styles.contentlimitMessage}>최대 글자수를 초과했습니다!</div>
+          <div className={styles.contentlimitMessage}>
+            최대 글자수를 초과했습니다!
+          </div>
         )}
         <div className={styles.contentlimitCount}>{size} / 4500 </div>
       </div>
