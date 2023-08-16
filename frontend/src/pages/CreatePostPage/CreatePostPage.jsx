@@ -114,8 +114,12 @@ const QuillContainer = () => {
     fileInput.addEventListener("change", function (e) {
       e.preventDefault();
       // editor에 이미지 삽입
-      const fileURL = window.URL.createObjectURL(e.target.files[0]);
       const file = fileInput.files[0];
+      if (file && file.size > 5 * 1024 * 1024) {
+        alert("이미지 크기가 5MB를 초과합니다.");
+        return; // 함수 실행 중지
+      }
+      const fileURL = window.URL.createObjectURL(file);
       const Image = Quill.import("formats/image");
       Image.sanitize = (fileURL) => fileURL;
       quillElement.current.editor.insertEmbed(
