@@ -4,8 +4,20 @@
   margin: 0 auto;
 }
 .container {
+  position:relative;
   background-color: #111;
   max-width: 1280px;
-  min-height: 470px;
+  min-height: 560px;
   padding-bottom: 0.2rem;
+  margin: 5rem auto;
+}
+.vedioContainer {
+  display: flex;
+  min-height: 480px;
+}
+.buttonContainer {
+  width: 100%;
+  margin: 1.2rem auto;
+  position: absolute;
+  bottom: 0;
 }

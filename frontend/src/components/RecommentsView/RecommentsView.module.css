@@ -14,15 +14,15 @@
 
 .commentContainer {
     width: 100%;
-    text-aligns: right;
+    text-align: right;
 
     /* border: 1px dotted red; */
   }
 
 .commentTopbar {
-  margin: 5px 20px;
+  margin: 0 20px;
   /* width: 270px; */
-  height: 30px;
+  /* height: 30px; */
 
   display: flex;
   /* justify-content: space-between; */

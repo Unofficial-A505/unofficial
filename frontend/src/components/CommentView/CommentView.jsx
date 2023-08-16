@@ -89,6 +89,7 @@ export default function CommentView({ comment, commentUpdate, getComment }) {
             className={styles.recommentButton}
             onClick={() => setrecommentBox((prev) => !prev)}
           >
+            <IoChatboxOutline />&nbsp;
             답글
           </button>
           {isUser && (

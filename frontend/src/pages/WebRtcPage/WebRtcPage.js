@@ -236,7 +236,7 @@ class WebRtcPage extends Component {
     return !this.state.isConneted ? (
       <div className={styles.entrance}>
         <form
-          style={{ width: "400px", margin: "10rem auto" }}
+          style={{ width: "400px", margin: "15rem auto" }}
           onSubmit={this.connectRtc}
         >
           <div class="mb-3">
@@ -250,7 +250,7 @@ class WebRtcPage extends Component {
     ) : (
       <div className="container">
         <div id="session" className={styles.container}>
-          <div id="video-container" className="d-flex">
+          <div id="video-container" className={styles.vedioContainer}>
             {this.state.publisher !== undefined ? (
               <div
                 className="stream-container"
@@ -279,7 +279,7 @@ class WebRtcPage extends Component {
               </div>
             )}
           </div>
-          <div id="session-header" className="my-3">
+          <div id="session-header" className={styles.buttonContainer}>
             <div
               className="btn btn-light rounded-pill me-3"
               type="button"
@@ -338,8 +338,8 @@ class WebRtcPage extends Component {
   async createToken(sessionId) {
     const response = await customAxios.post(
       `${process.env.REACT_APP_SERVER}/api/sessions/` +
-      sessionId +
-      "/connections",
+        sessionId +
+        "/connections",
       {},
       {
         headers: { "Content-Type": "application/json" },
@@ -356,14 +356,14 @@ class WebRtcPage extends Component {
     customAxios
       .get(
         `${process.env.REACT_APP_SERVER}/api/sessions/` +
-        sessionId +
-        `/getRoom`,
+          sessionId +
+          `/getRoom`,
         {
           headers: { "Content-Type": "application/json" },
         }
       )
       .then(
-        (res) => { }
+        (res) => {}
         // console.log("findroom", (this.state.mySessionId = res.data))
       );
   }

@@ -76,8 +76,6 @@ export default function PostDetail() {
   const [currpostPage, setcurrpostPage] = useState(1);
   const [pageInfo, setPageInfo] = useState([]);
 
-  const [loading, setLoading] = useState(false);
-
   // 탭 제목 설정하기
   useDocumentTitle(boardTitle);
 
@@ -159,23 +157,21 @@ export default function PostDetail() {
 
   // 게시글 추천
   const postRecommendedInput = () => {
-    if (!recommendedState) {
-      const articleId = postId;
-
-      postRecommendInputApi(articleId)
-        .then(() => {
-          setTimeout(() => setrecommendedState((prev) => !prev), 300);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setLoading(false);
-          postDetail.likes += 1;
-        });
-    } else {
+    if (recommendedState) {
       alert("이미 추천한 게시글입니다!");
+      return;
     }
+    setTimeout(() => setrecommendedState(true), 200);
+
+    postRecommendInputApi(postId)
+      .then(() => {
+        postDetailApi(postId).then((res) => {
+          setpostDetail(res);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // 댓글 생성
