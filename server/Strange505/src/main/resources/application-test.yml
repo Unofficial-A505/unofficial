@@ -2,20 +2,21 @@ spring:
   data:
     redis:
       host: unofficial.kr
-      port: 6379
-
+      port: 8123
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://unofficial.kr:8888/ssafy_qa_db?serverTimezone=Asia/Seoul
+    username: root
+    password: strange505
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
-        show_sql: true
+        show_sql: false
         default_batch_fetch_size: 1000
-        format_sql: true
-        use_sql_comments: true
-
-
+#        format_sql: true
+#        use_sql_comments: true
 
 jwt:
   secret: VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4=VGhpcyBpcyBhIGRlbW8gcHJvamVjdCBmb3IgaW1wbGVtZW50aW5nIGp3dC4= # 임의의 문자열을 Base64로 인코딩한 값
@@ -40,9 +41,9 @@ file:
 mail:
   base-url : "http://localhost:3000/verify?verificationCode="
 
-decorator:
-  datasource:
-    p6spy:
-      enable-logging: true
+#decorator:
+#  datasource:
+#    p6spy:
+#      enable-logging: true
 
 test: test

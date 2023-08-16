@@ -36,6 +36,12 @@ export default function AddAdvPage() {
     }
 
     const file = event.target.files[0];
+    // 파일 크기 확인
+    if (file.size > 5 * 1024 * 1024) { // 5MB를 초과하는 경우
+      alert("파일 크기가 5MB를 초과할 수 없습니다.");
+      setInputKey(Date.now()); // 입력 필드를 초기화
+      return; // 함수 종료
+    }
     setSelectedFile(file);
 
     const reader = new FileReader();
