@@ -89,7 +89,7 @@ export default function SearchView() {
                 onChange={(e) => {
                   setKeywordAll(e.target.value);
                 }}
-                maxlength="25"
+                maxLength="25"
               />
               <button
                 className={styles.searchbutton}
