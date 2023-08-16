@@ -69,10 +69,10 @@ export default function PostDetail() {
   const [currboardPosts, setcurrboardPosts] = useState([]);
   const [recommendedState, setrecommendedState] = useState(null);
 
-  const [currcommentPage, setcurrcommentPage] = useState(0);
+  const [currcommentPage, setcurrcommentPage] = useState(1);
   const [commentPageInfo, setcommentPageInfo] = useState([]);
 
-  const [currpostPage, setcurrpostPage] = useState(0);
+  const [currpostPage, setcurrpostPage] = useState(1);
   const [pageInfo, setPageInfo] = useState([]);
 
   // 탭 제목 설정하기
@@ -105,6 +105,7 @@ export default function PostDetail() {
     // 게시글 상세정보 가져오기
     postDetailApi(postId)
       .then((res) => {
+        // console.log(res)
         setpostDetail(res);
         setBoardTitle(res.boardName);
         getComment();
@@ -112,11 +113,11 @@ export default function PostDetail() {
       .catch((err) => console.log(err));
 
     //현재 board 게시글
-    boardsArticles(boardId, currPage, 20)
+    boardsArticles(boardId, currPage - 1, 20)
       .then((res) => {
         setcurrboardPosts(res.content);
         setPageInfo(res.pageInfo);
-        setcurrpostPage(res.pageInfo.page);
+        // setcurrpostPage(res.pageInfo.page);
       })
       .catch((err) => console.log(err));
 
@@ -133,7 +134,7 @@ export default function PostDetail() {
       .then((res) => {
         setcurrboardPosts(res.content);
         setPageInfo(res.pageInfo);
-        setcurrpostPage(res.pageInfo.page + 1);
+        // setcurrpostPage(res.pageInfo.page + 1);
       })
       .catch((err) => console.log(err));
   }, [!postId, currpostPage]);
@@ -294,7 +295,7 @@ export default function PostDetail() {
               </div>
 
               <hr />
-              <div className={styles.postcontentContainer}>
+              <div className={styles.postContentContainer}>
                 <div dangerouslySetInnerHTML={{ __html: postDetail.content }} />
               </div>
 
@@ -358,6 +359,7 @@ export default function PostDetail() {
                   type="text"
                   placeholder="닉네임을 입력하세요"
                   onChange={(e) => setcommentnickName(e.target.value)}
+                  maxLength='19'
                 />
               </div>
               <div className={styles.commentbox}>
@@ -369,6 +371,7 @@ export default function PostDetail() {
                     setcreateComment(e.target.value);
                   }}
                   placeholder="댓글을 작성해보세요"
+                  maxLength="299"
                 />
                 <button
                   className={styles.commentButton}

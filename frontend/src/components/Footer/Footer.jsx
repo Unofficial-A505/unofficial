@@ -25,12 +25,13 @@ export default function Footer() {
             <p>개발팀: 이상한 개발팀 오영오</p>
             <p>개발자 대표: 정승구</p>
             <p>이메일: jsgoo2001@naver.com</p>
-            <p>전화번호: 010-1234-5678</p>
           </div>
         </div>
 
         <div className={styles.footerImage}>
-          <img src={main_logo} alt="main_logo" />
+          <a href="/">
+            <img src={main_logo} alt="main_logo" />
+          </a>
         </div>
       </div>
     </div>

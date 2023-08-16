@@ -6,7 +6,7 @@
 .topmenu {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .topmenuBox {
@@ -22,7 +22,6 @@
 .boardTitle {
   color: #034BB9;
   margin-right: 10px;
-  margin-bottom: 1rem;
   font-size: 20px;
   font-weight: 700;
 }
@@ -38,10 +37,12 @@
   margin-bottom: 0;
   text-align: left;
   align-self: center;
+  font-size: 0.9rem;
 }
 
 .nickNameContainer input::placeholder {
   font-size: 0.9rem;
+  color: #c2c2c2;
 }
 
 .inputTitle {
@@ -49,14 +50,29 @@
   border: none;
   margin-bottom: 1rem;
   width: 100%;
+  border-bottom: 1px solid #c2c2c2;
 }
 
 .inputTitle::placeholder {
   font-size: 1.5rem;
+  color: #c2c2c2;
 }
 
-.ql-container .ql-snow .ql-editor p {
-  font-size: 30px !important;
+.contentLimitcountContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin: 60px 0 0 0;
+  padding: 0 20px 0 0;
+}
+
+.contentlimitMessage {
+  color: red;
+  margin: 0 20px;
+  font-weight: 600;
+}
+
+.contentlimitCount {
+  font-weight: 500;
 }
 
 .undermenu {

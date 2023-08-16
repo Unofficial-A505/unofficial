@@ -10,6 +10,7 @@ import PostTypeTitleBar from "../../../components/PostTypeTitleBar/PostTypeTitle
 export default function BoardsView() {
   const [posts, setPosts] = useState(null);
   const { state: boardTitle } = useLocation();
+  const [filterByLikes, setFilterByLikes] = useState(false);
   let { boardId } = useParams();
   const [currPage, setcurrPage] = useState(0);
   // const [postPerPage, setpostPerPage] = useState(20)
@@ -17,12 +18,14 @@ export default function BoardsView() {
   const authUser = useSelector((state) => state.authUser);
 
   useEffect(() => {
+    setcurrPage(1)
+
     boardsArticles(boardId, currPage - 1, 20)
       .then((res) => {
         // console.log(res);
         setPosts(res.content);
         setPageInfo(res.pageInfo);
-        setcurrPage(res.pageInfo.page + 1);
+        // setcurrPage(res.pageInfo.page + 1);
       })
       .catch((err) => console.log(err));
   }, [boardId]);
@@ -32,7 +35,7 @@ export default function BoardsView() {
       .then((res) => {
         setPosts(res.content);
         setPageInfo(res.pageInfo);
-        setcurrPage(res.pageInfo.page + 1);
+        // setcurrPage(res.pageInfo.page + 1);
       })
       .catch((err) => console.log(err));
   }, [currPage]);
