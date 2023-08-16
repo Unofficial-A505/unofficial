@@ -76,12 +76,12 @@ export default function NavBar() {
         style={{ borderBottom: "1px solid #dcdcdc" }}
       >
         <div className={`container-fluid ${styles.container}`}>
-          <a className="navbar-brand" style={{ padding: "10px" }} href="/">
+          <a className="navbar-brand" href="/">
             <img
               src={main_logo}
               alt="main_logo"
               width={155}
-              style={{ marginBottom: "2px" }}
+              style={{ alignSelf: "center" }}
             />
           </a>
           <div className="collapse navbar-collapse">

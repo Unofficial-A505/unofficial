@@ -2,6 +2,7 @@
   margin: 5px auto;
   /* width: 1008px; */
   width: 1280px;
+  padding: 0;
   /* border: 1px dotted red; */
 }
 .container lord-icon:hover {

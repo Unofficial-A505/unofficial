@@ -32,12 +32,9 @@ import Signup2 from "./pages/SignupPage/Signup2";
 import Signup3 from "./pages/SignupPage/Signup3";
 import EmailVerifyPage from "./pages/EmailVerifyPage/EmailVerifyPage";
 
-import WebRtc from "./pages/WebRtcPage/WebRtc";
-
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
-  { path: "webrtc", element: <WebRtc /> },
   {
     path: "",
     element: <App />,
