@@ -27,7 +27,7 @@ public class Article {
     @Column(length = 100, nullable = false)
     private String title;
 
-    @Column(length = 5000, nullable = false)
+    @Column(length = 10000, nullable = false)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)

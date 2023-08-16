@@ -2,12 +2,11 @@
 /* post detail 전체 container */
 .postdetailallContainer {
   position: relative;
-  width: 1200px;
+  width: 1180px;
   margin: 0 auto;
 
   display: flex;
   justify-content: space-between;
-  /* border: 1px dotted red; */
 }
 
 /* button 디폴트 layout 삭제 */
@@ -18,7 +17,7 @@
 
 /* post 내용 container */
 .postviewContainer {
-  width: 920px;
+  width: 900px;
   /* border: 1px dotted aqua; */
 }
 
@@ -59,7 +58,7 @@
   width: 820px;
   text-align: start;
   margin: 0 auto;
-  /* overflow-x: auto; */
+  overflow-x: auto;
 
   /* border: 1px dotted violet; */
 }
@@ -103,7 +102,6 @@
   overflow-x: auto;
 
   /* border: 1px dotted green; */
-  margin: 50px 0 50px 0;
 }
 
 .postBottombar {
@@ -229,8 +227,6 @@ textarea:focus {
 /* comment pagination */
 .commentPagination {
   margin: 0 auto;
-
-  /* border: 1px dotted red; */
 }
 
 .pageBottomtab {
@@ -273,8 +269,6 @@ textarea:focus {
   position: sticky;
   width: 260px;
   /* border: 1px red dotted; */
-
-  padding: 0 0 38px 0;
 }
 
 .sideContentContainer {
@@ -291,8 +285,6 @@ textarea:focus {
 }
 
 .postmorePagination {
-  /* width: 600px; */
-  margin: 20px auto;
-  /* border: 1px dotted red; */
+  margin: 20px 0 0 0;
 }
 

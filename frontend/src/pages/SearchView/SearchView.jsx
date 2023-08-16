@@ -18,9 +18,6 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import useDocumentTitle from "../../useDocumentTitle";
 
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-
 export default function SearchView() {
   const searchView = true
   useDocumentTitle("게시글 찾기");
@@ -32,12 +29,6 @@ export default function SearchView() {
   const [bestPostlist, setbestPostlist] = useState([]);
   const [boardNames, setboardNames] = useState([]);
   const navigate = useNavigate();
-
-  const [value, setValue] = useState(0);
-
-  const handleChange = (e, index) => {
-    setValue(index);
-  };
 
   const authUser = useSelector((state) => state.authUser);
 
@@ -98,7 +89,7 @@ export default function SearchView() {
                 onChange={(e) => {
                   setKeywordAll(e.target.value);
                 }}
-                maxLength="25"
+                maxlength="25"
               />
               <button
                 className={styles.searchbutton}
@@ -131,25 +122,19 @@ export default function SearchView() {
         </div>
         <div className={styles.boardcontainer}>
           <div className={styles.boardtabContainer}>
-            <Tabs
-                value={value}
-                onChange={handleChange}
-                variant="scrollable"
-                scrollButtons
-                allowScrollButtonsMobile
-                aria-label="scrollable force tabs example"
-                className={styles.boardTabsBox}
-              >
+            <div>
               {boardNames.map((board, index) => (
-                  <Tab 
+                <button
                   key={index}
-                  id={styles.boardtab}
-                  // className={board.id == boardId? styles.boardtabSelected : styles.boardtab}
-                  onClick={() => {navigate(`/boards/${board.id}`, { state: board.name });}}
-                  label={board.name}
-                  />
-                ))}
-              </Tabs>
+                  className={styles.boardtab}
+                  onClick={() =>
+                    navigate(`/boards/${board.id}`, { state: board.name })
+                  }
+                >
+                  {board.name}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
   

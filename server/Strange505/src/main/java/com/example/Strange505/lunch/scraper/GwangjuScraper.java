@@ -10,8 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.*;
 
 public class GwangjuScraper implements LocalScraper {
-    private final String urlThisWeek = "https://front.cjfreshmeal.co.kr/meal/v1/week-meal?storeIdx=6444&weekType=1";
-    private final String url = "https://front.cjfreshmeal.co.kr/meal/v1/week-meal?storeIdx=6444&weekType=2";
+    private final String urlThisWeek = "https://front.cjfreshmeal.co.kr/meal/v1/week-meal?storeIdx=6442&weekType=1";
+    private final String url = "https://front.cjfreshmeal.co.kr/meal/v1/week-meal?storeIdx=6442&weekType=2";
     private final String location = "광주";
     private final Set<String> corners = new HashSet<>() {{
         add("소담상");

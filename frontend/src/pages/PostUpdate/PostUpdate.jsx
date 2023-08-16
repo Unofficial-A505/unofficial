@@ -11,8 +11,6 @@ import "react-quill/dist/quill.snow.css";
 import ImageResize from "@looop/quill-image-resize-module-react";
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
 
-import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
-
 Quill.register("modules/ImageResize", ImageResize);
 
 const PostUpdate = () => {
@@ -29,22 +27,6 @@ const PostUpdate = () => {
       return;
     }
   }, []);
-
-
-  const [limit, setLimit] = useState(false); 
-  const [size, setSize] = useState();
-
-  const handleLimit = (e) => {
-    const size = new Blob([e]).size 
-    setSize(size)
-  
-    if (size <= 4500) {
-      setLimit(false);
-    } else {
-      setLimit(true);
-      quillElement.current.editor.root.innerHTML = quillElement.current.editor.root.innerHTML.substring(0, 4505);
-    }
-  }
 
   const { boardId } = useParams();
   const { postId } = useParams();
@@ -263,7 +245,6 @@ const PostUpdate = () => {
 
   return (
     <div>
-      {isLoading && <LoadingSpinner />}
       <div className={styles.craetecontainer}>
         <div className={styles.topmenu}>
           <h3 className={styles.topmenuBox}>
@@ -281,14 +262,14 @@ const PostUpdate = () => {
         </div>
 
         <div className={styles.nickNameContainer}>
-          <label className="form-label">
+          <label for="inputNickname" class="form-label">
             닉네임
           </label>
           <input
             id="inputNickname"
             type="text"
             disabled
-            className="form-control"
+            class="form-control"
             placeholder={!postDetail.nickName ? "익명" : postDetail.nickName}
           />
         </div>
@@ -313,15 +294,7 @@ const PostUpdate = () => {
           style={{ height: "600px" }}
           ref={quillElement}
           onKeyDown={handleShiftTabDown}
-          onChange={(e) => handleLimit(e)}
         />
-
-        <div className={styles.contentLimitcountContainer}>
-          {limit && (
-            <div className={styles.contentlimitMessage}>최대 글자수를 초과했습니다!</div>
-          )}
-          <div className={styles.contentlimitCount}>{size} / 4500 </div>
-        </div>
 
         <div className={styles.undermenu}>
           <button className={styles.grayoutbutton} onClick={handleCancel}>

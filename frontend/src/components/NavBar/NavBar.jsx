@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import main_logo from "./../../assets/images/main_logo.png";
 import styles from "./NavBar.module.css";
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 import Suggestion from "../Suggestion/Suggestion";
 import { useSelector } from "react-redux";
 
@@ -17,15 +17,14 @@ export default function NavBar() {
 
   const DEBUGRTC = () => {
     Swal.fire({
-      title: "공사중",
-      text: "죄송합니다. 아직 업데이트 중입니다.",
-      imageUrl:
-        "https://505bucket.s3.ap-northeast-2.amazonaws.com/static/Starnge505_alert2.png",
+      title: '공사중',
+      text: '죄송합니다. 아직 업데이트 중입니다.',
+      imageUrl: 'https://505bucket.s3.ap-northeast-2.amazonaws.com/static/Starnge505_alert2.png',
       imageWidth: 400,
       imageHeight: 200,
-      imageAlt: "Custom image",
-    });
-  };
+      imageAlt: 'Custom image',
+    })
+  }
 
   const suggestionHandeler = () => {
     if (authUser.accessToken) {
@@ -71,38 +70,33 @@ export default function NavBar() {
 
   return (
     <div>
-      <nav
-        className="navbar navbar-expand mb-4"
-        style={{ borderBottom: "1px solid #dcdcdc" }}
-      >
+      {/* <nav className="navbar navbar-expand-sm"> */}
+      <nav className="navbar navbar-expand">
         <div className={`container-fluid ${styles.container}`}>
-          <a className="navbar-brand" href="/">
+          <a className="navbar-brand" style={{ padding: "10px" }} href="/">
             <img
               src={main_logo}
               alt="main_logo"
               width={155}
-              style={{ alignSelf: "center" }}
+              style={{ marginBottom: "2px" }}
             />
           </a>
           <div className="collapse navbar-collapse">
             <MenuItems />
           </div>
-          {authUser.accessToken ? (
-            <lord-icon
-              className={styles.myPage}
-              src="https://cdn.lordicon.com/bhfjfgqz.json"
-              trigger="hover"
-              colors="primary:#121331"
-              style={{ width: "35px", height: "35px" }}
-              onClick={() => {
-                navigate("/user/password");
-              }}
-            ></lord-icon>
-          ) : null}
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
         </div>
       </nav>
 
-      {/* <div
+      <div
         className="offcanvas offcanvas-end"
         tabIndex="-1"
         id="offcanvasNavbar"
@@ -122,7 +116,7 @@ export default function NavBar() {
         <div className="offcanvas-body">
           <MenuItems />
         </div>
-      </div> */}
+      </div>
       <Suggestion show={modalShow} handleClose={handleClose} />
     </div>
   );
