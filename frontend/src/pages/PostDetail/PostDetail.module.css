@@ -228,6 +228,8 @@ textarea:focus {
 /* comment pagination */
 .commentPagination {
   margin: 0 auto;
+
+  /* border: 1px dotted red; */
 }
 
 .pageBottomtab {
@@ -270,6 +272,8 @@ textarea:focus {
   position: sticky;
   width: 260px;
   /* border: 1px red dotted; */
+
+  padding: 0 0 38px 0;
 }
 
 .sideContentContainer {
@@ -286,6 +290,8 @@ textarea:focus {
 }
 
 .postmorePagination {
-  margin: 20px 0 0 0;
+  /* width: 600px; */
+  margin: 20px auto;
+  /* border: 1px dotted red; */
 }
 
