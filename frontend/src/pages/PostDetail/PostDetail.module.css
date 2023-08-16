@@ -59,7 +59,7 @@
   width: 820px;
   text-align: start;
   margin: 0 auto;
-  overflow-x: auto;
+  /* overflow-x: auto; */
 
   /* border: 1px dotted violet; */
 }
