@@ -51,11 +51,6 @@
   /* border: 1px dotted red; */
 }
 
-
-.recommentButton {
-  cursor: pointer;
-}
-
 .commentBottombar {
   margin: 10px 20px 0 20px;
 
@@ -101,7 +96,7 @@ textarea::-webkit-scrollbar {
 
 textarea::-webkit-scrollbar-thumb {
   height: 40%; /* 스크롤바의 길이 */
-  background: #d9d9d96a; /* 스크롤바의 색상 */
+  background: #f5f4f46a; /* 스크롤바의 색상 */
   
   border-radius: 10px;
 }
@@ -109,15 +104,21 @@ textarea::-webkit-scrollbar-thumb {
 textarea::-webkit-scrollbar-track {
   background: rgba(232, 232, 232, 0.1);  /*스크롤바 뒷 배경 색상*/
 }
-
+.recommentButton {
+  border-radius: 2px;
+  border: 1px solid #dcdcdc;
+  background-color: #fff;
+  padding: 3px 10px;
+}
 /* 대댓글 */
 /* 대댓글 전체 container */
 .recommentBoxContainer {
-  margin: 20px 0 0 0;
+  margin: 20px;
+  display: flex;
 }
 
 .reCommentContainer {
-  width: 90%;
+  width: 100%;
   /* padding: 0 0 0 30px; */
   margin: 0 auto;
 
@@ -126,8 +127,9 @@ textarea::-webkit-scrollbar-track {
 }
 
 .recommentNicknameBox {
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
+  display: flex;
   /* border: 1px dotted red; */
 }
 
@@ -137,16 +139,18 @@ textarea::-webkit-scrollbar-track {
 }
 
 .recommentNicknameInput {
+  padding-left: 8px;
   border: 2px solid #D9D9D9;
   border-radius: 0.3rem;
 }
-
+.recommentNicknameInput::placeholder {
+  font-size: 1rem;
+}
 .recommentEnter {
   width: 20px;
   height: 20px;
-  margin: 10px;
-  /* border: 1px red dotted; */
-
+  margin-left: 10px;
+  margin-right: 20px;
   font-size: 1.5rem;
   color: #9b9b9b;
 
@@ -183,12 +187,20 @@ input:focus {
 
 .commentButton {
   position: absolute;
-  right: 20px;
-  top: 40%;
+    right: 0;
+    bottom: 0;
+    width: 4rem;
+    height: 100%;
   
-  border: 0;
-  border-radius: 1rem;
-  background-color: transparent;
+    font-size: 0.9rem;
+    border: 0;
+    border-radius: 0 0.2rem 0.2rem 0;
+    background-color: #2c7dd6;
+    color: #fff;
+}
+
+.commentButton:hover {
+  background-color: #034BB9;
 }
 
 pre {

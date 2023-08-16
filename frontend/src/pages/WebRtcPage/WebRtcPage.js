@@ -338,8 +338,8 @@ class WebRtcPage extends Component {
   async createToken(sessionId) {
     const response = await customAxios.post(
       `${process.env.REACT_APP_SERVER}/api/sessions/` +
-        sessionId +
-        "/connections",
+      sessionId +
+      "/connections",
       {},
       {
         headers: { "Content-Type": "application/json" },
@@ -349,17 +349,21 @@ class WebRtcPage extends Component {
   }
 
   async findRoom(sessionId) {
+    if (sessionId === null || sessionId === "") {
+      sessionId = "none";
+    }
+
     customAxios
       .get(
         `${process.env.REACT_APP_SERVER}/api/sessions/` +
-          sessionId +
-          `/getRoom`,
+        sessionId +
+        `/getRoom`,
         {
           headers: { "Content-Type": "application/json" },
         }
       )
       .then(
-        (res) => {}
+        (res) => { }
         // console.log("findroom", (this.state.mySessionId = res.data))
       );
   }

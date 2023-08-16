@@ -90,6 +90,7 @@ export default function Suggestion({ show, handleClose }) {
             </Form.Label>
             <Form.Control
               as="textarea"
+              resize="none"
               rows={3}
               value={content}
               style={{ borderRadius: "0", fontSize: "13px" }}
