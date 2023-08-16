@@ -17,6 +17,9 @@ import Slider from "react-slick";
 import useDocumentTitle from "../../useDocumentTitle";
 import { useSelector } from "react-redux";
 
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+
 export default function BoardsAll() {
   useDocumentTitle("게시판");
 
@@ -30,6 +33,12 @@ export default function BoardsAll() {
   const [keywordBoard, setKeywordBoard] = useState("");
   const [bestPostlist, setbestPostlist] = useState([]);
   const boardsearchMessage = `${currboardName}에서 찾고싶은 게시글의 키워드를 검색`;
+
+  const [value, setValue] = useState(0);
+
+  const handleChange = (e, index) => {
+    setValue(index);
+  };
 
   const settings = {
     // dots: false,
@@ -132,23 +141,25 @@ export default function BoardsAll() {
           </div>
 
           <div className={styles.boardtabContainer}>
-            <div>
-              {boardNames.map((board, index) => (
-                <button
-                  key={index}
-                  className={
-                    board.id == boardId
-                      ? styles.boardtabSelected
-                      : styles.boardtab
-                  }
-                  onClick={() => {
-                    navigate(`/boards/${board.id}`, { state: board.name });
-                  }}
-                >
-                  {board.name}
-                </button>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              variant="scrollable"
+              scrollButtons
+              allowScrollButtonsMobile
+              aria-label="scrollable force tabs example"
+              className={styles.boardTabsBox}
+            >
+            {boardNames.map((board, index) => (
+                <Tab 
+                key={index}
+                id={styles.boardtab}
+                // className={board.id == boardId? styles.boardtabSelected : styles.boardtab}
+                onClick={() => {navigate(`/boards/${board.id}`, { state: board.name });}}
+                label={board.name}
+                />
               ))}
-            </div>
+            </Tabs>
             <div className={styles.postcreateContainer}>
               <button
                 className={styles.createpageButton}
@@ -157,7 +168,7 @@ export default function BoardsAll() {
                 else (
                  alert('로그인 후 이용해주세요!') 
                 )}}>
-                <CgAddR className={styles.createpageIcon} size="20" />새 글 작성
+                <CgAddR className={styles.createpageIcon} size="18" />새 글 작성
               </button>
             </div>
           </div>

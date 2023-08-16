@@ -1,12 +1,12 @@
 .paginationContainer {
-  --width: 100px;
-  width: var(--width);
+  /* --width: 100px;
+  width: var(--width); */
   display: flex;
   justify-content: center;
   align-items: center;
   height: 45px;  
-  margin: 0 auto;
-  border: 1px solid #75757570;
+  margin: 20px auto;
+  /* border: 1px solid #75757570; */
   border-radius: 3rem;
   margin-top: 1rem;
   

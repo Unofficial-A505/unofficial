@@ -295,7 +295,7 @@ export default function PostDetail() {
               </div>
 
               <hr />
-              <div className={styles.postcontentContainer}>
+              <div className={styles.postContentContainer}>
                 <div dangerouslySetInnerHTML={{ __html: postDetail.content }} />
               </div>
 
