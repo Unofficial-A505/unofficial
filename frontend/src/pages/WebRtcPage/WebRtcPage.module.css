@@ -6,14 +6,6 @@
 .container {
   background-color: #111;
   max-width: 1280px;
+  min-height: 470px;
   padding-bottom: 0.2rem;
-}
-.joinContainer {
-  position: relative;
-  top: 5rem;
-}
-.formGroup {
-  width: 400px;
-  margin: 2rem auto;
-  text-align: left;
 }

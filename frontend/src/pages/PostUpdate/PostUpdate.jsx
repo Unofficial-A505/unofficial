@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from "./PostUpdate.module.css";
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
@@ -92,7 +93,7 @@ const PostUpdate = () => {
   useEffect(() => {
     const editor = document.querySelector(".ql-editor");
     if (editor) {
-      editor.classList.add("fs-6");
+      editor.classList.add("fs-5");
     }
   }, []);
 
@@ -281,9 +282,7 @@ const PostUpdate = () => {
         </div>
 
         <div className={styles.nickNameContainer}>
-          <label className="form-label">
-            닉네임
-          </label>
+          <label className="form-label">닉네임</label>
           <input
             id="inputNickname"
             type="text"
@@ -294,6 +293,9 @@ const PostUpdate = () => {
         </div>
 
         <div>
+          <label htmlFor="inputTitle" className="form-label d-flex">
+            제목
+          </label>
           <input
             id="inputTitle"
             className={styles.inputTitle}
@@ -301,24 +303,32 @@ const PostUpdate = () => {
             defaultValue={postDetail.title}
             ref={TitleElement}
             onKeyDown={handleTabDown}
+            maxLength="99"
           />
         </div>
 
-        <ReactQuill
-          id="react-quill"
-          modules={modules}
-          formats={formats}
-          selection={{ start: 0, end: 0 }}
-          theme="snow"
-          style={{ height: "600px" }}
-          ref={quillElement}
-          onKeyDown={handleShiftTabDown}
-          onChange={(e) => handleLimit(e)}
-        />
+        <div>
+          <label htmlFor="react-quill" className="form-label d-flex">
+            내용
+          </label>
+          <ReactQuill
+            id="react-quill"
+            modules={modules}
+            formats={formats}
+            selection={{ start: 0, end: 0 }}
+            theme="snow"
+            style={{ height: "600px" }}
+            ref={quillElement}
+            onKeyDown={handleShiftTabDown}
+            onChange={(e) => handleLimit(e)}
+          />
+        </div>
 
         <div className={styles.contentLimitcountContainer}>
           {limit && (
-            <div className={styles.contentlimitMessage}>최대 글자수를 초과했습니다!</div>
+            <div className={styles.contentlimitMessage}>
+              최대 글자수를 초과했습니다!
+            </div>
           )}
           <div className={styles.contentlimitCount}>{size} / 4500 </div>
         </div>
