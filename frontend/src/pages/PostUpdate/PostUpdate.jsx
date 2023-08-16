@@ -11,7 +11,8 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImageResize from "@looop/quill-image-resize-module-react";
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
-
+import Button from "@mui/material/Button";
+import SendIcon from "@mui/icons-material/Send";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
 
 Quill.register("modules/ImageResize", ImageResize);
@@ -271,14 +272,15 @@ const PostUpdate = () => {
             <p className={styles.boardTitle}>{postDetail.boardName}</p>
             <p>글 수정</p>
           </h3>
-          <button
-            className="btn"
-            id={styles.createsubmitbutton}
+          <Button
+            variant="contained"
+            size="medium"
             onClick={updateRequest}
             disabled={isLoading}
+            endIcon={<SendIcon />}
           >
-            등록하기
-          </button>
+            수정하기
+          </Button>
         </div>
 
         <div className={styles.nickNameContainer}>
@@ -338,14 +340,15 @@ const PostUpdate = () => {
             <IoIosArrowBack className="align-self-center" />
             <p className="align-self-center">목록으로 돌아가기</p>
           </button>
-          <button
-            className="btn"
-            id={styles.createsubmitbutton}
+          <Button
+            variant="contained"
+            size="medium"
             onClick={updateRequest}
             disabled={isLoading}
+            endIcon={<SendIcon />}
           >
-            등록하기
-          </button>
+            수정하기
+          </Button>
         </div>
       </div>
     </div>

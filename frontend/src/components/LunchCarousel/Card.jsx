@@ -9,7 +9,6 @@ import Slider from "react-slick";
 
 import lunch_loading from "./../../assets/images/lunch_loading.jpg";
 import spoon from "./../../assets/images/spoon.png";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 export default function Card({ lunchZip }) {
@@ -67,7 +66,7 @@ function Menu({ menu }) {
         .post(`${process.env.REACT_APP_SERVER}/api/lunch/like/${menu.id}`)
         .then((res) => {
           setLikesCnt(res.data);
-          setIsLike(!isLike);
+          setTimeout(() => setIsLike(!isLike), 300);
         })
         .catch((err) => {
           console.log(err);
@@ -114,9 +113,17 @@ function Menu({ menu }) {
           </h2>
           <div onClick={likeMenu} className={styles.likeButton}>
             {isLike ? (
-              <FavoriteIcon fontSize="1.5rem" style={{ color: "red" }} />
+              <FavoriteIcon
+                style={{ width: "1.2rem", height: "1.2rem", color: "red" }}
+              />
             ) : (
-              <FavoriteBorderIcon fontSize="1.5rem" />
+              <lord-icon
+                src="https://cdn.lordicon.com/pnhskdva.json"
+                trigger="click"
+                colors="primary:#e83a30"
+                state="morph"
+                style={{ width: "1.2rem", height: "1.2rem" }}
+              ></lord-icon>
             )}
             <p>{likesCnt}</p>
           </div>

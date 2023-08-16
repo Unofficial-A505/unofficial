@@ -17,6 +17,7 @@ import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
 // 작성 timeago 아이콘
 import { IoRocketOutline } from "@react-icons/all-files/io5/IoRocketOutline";
 // 추천 아이콘
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { FaRegThumbsUp } from "@react-icons/all-files/fa/FaRegThumbsUp";
 import { FaThumbsUp } from "@react-icons/all-files/fa/FaThumbsUp";
 // 삭제 아이콘
@@ -156,25 +157,21 @@ export default function PostDetail() {
 
   // 게시글 추천
   const postRecommendedInput = () => {
-    if (!recommendedState) {
-      if (window.confirm("해당 게시글을 추천하시겠습니까?")) {
-        const articleId = postId;
-
-        postRecommendInputApi(articleId)
-          .then(() => {
-            if (!recommendedState) {
-              postDetail.likes += 1;
-            } else {
-              postDetail.likes -= 1;
-            }
-            setrecommendedState((prev) => !prev);
-            alert("추천 완료!");
-          })
-          .catch((err) => console.log(err));
-      }
-    } else {
+    if (recommendedState) {
       alert("이미 추천한 게시글입니다!");
+      return;
     }
+    setTimeout(() => setrecommendedState(true), 200);
+
+    postRecommendInputApi(postId)
+      .then(() => {
+        postDetailApi(postId).then((res) => {
+          setpostDetail(res);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // 댓글 생성
@@ -305,10 +302,28 @@ export default function PostDetail() {
                   className={styles.tabthumbIcon}
                 >
                   {recommendedState ? (
-                    <FaThumbsUp className={styles.tabupIcon} />
+                    <FavoriteIcon
+                      style={{
+                        width: "2.5rem",
+                        height: "2.5rem",
+                        marginBottom: "0.3rem",
+                        color: "#e8308c",
+                      }}
+                    />
                   ) : (
-                    <FaRegThumbsUp className={styles.tabregupIcon} />
+                    <lord-icon
+                      src="https://cdn.lordicon.com/pnhskdva.json"
+                      trigger="click"
+                      colors="primary:#e8308c"
+                      state="morph"
+                      style={{
+                        width: "2.5rem",
+                        height: "2.5rem",
+                        marginBottom: "0.3rem",
+                      }}
+                    ></lord-icon>
                   )}
+                  <p>좋아요</p>
                   {postDetail.likes}
                 </div>
 
@@ -352,14 +367,14 @@ export default function PostDetail() {
               </div>
 
               <div className={styles.commentnickName}>
-                <div>닉네임</div>
+                <label htmlFor="comment-nickname-input">닉네임</label>
                 <input
                   id="comment-nickname-input"
                   className={styles.commentnickNameInput}
                   type="text"
                   placeholder="닉네임을 입력하세요"
                   onChange={(e) => setcommentnickName(e.target.value)}
-                  maxLength='19'
+                  maxLength="19"
                 />
               </div>
               <div className={styles.commentbox}>
@@ -378,7 +393,7 @@ export default function PostDetail() {
                   onClick={commentCreate}
                   disabled={isButtonDisabled}
                 >
-                  <IoChatboxOutline size="23" />
+                  등록
                 </button>
               </div>
             </div>
