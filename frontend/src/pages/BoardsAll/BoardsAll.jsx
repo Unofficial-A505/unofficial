@@ -86,7 +86,7 @@ export default function BoardsAll() {
                   onChange={(e) => {
                     setKeywordAll(e.target.value);
                   }}
-                  maxlength="25"
+                  maxLength="25"
                 />
                 <button
                   className={styles.searchbutton}
@@ -178,7 +178,7 @@ export default function BoardsAll() {
                   onChange={(e) => {
                     setKeywordBoard(e.target.value);
                   }}
-                  maxlength="18"
+                  maxLength="18"
                 />
                 <button
                   className={styles.searchbutton}
