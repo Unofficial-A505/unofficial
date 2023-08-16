@@ -199,22 +199,33 @@ div .slick-list {
 
 .boardtabContainer {
   width: 98%;
+  /* padding: 0 20px 0 0; */
   margin: 10px auto;
   display: flex;
   justify-content: space-between;
+
+  /* border: 1px dotted red; */
 }
 
-.boardtab {
-  margin: 6px;
+.boardTabsBox {
+  /* border: 1px dotted violet; */
+}
+
+#boardtab {
+  margin: 0;
   color: #000;
 
-  border: 0;
-  background-color: transparent;
+  /* border: 0; */
+  /* background-color: transparent; */
 
-  font-size: 20px;
+  /* border: 1px dotted red; */
+
+  font-size: 17px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 550;
   line-height: normal;
+
+  /* border: 1px dotted blue; */
 }
 
 .boardtabSelected {
@@ -233,45 +244,50 @@ div .slick-list {
 
 .boardtab:hover {
   color: #034BB9;
-  font-size: 20px;
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-position: under;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 550;
+  line-height: normal;
+  /* text-decoration: underline; */
+  /* text-underline-position: under; */
 }
 
 /* 새 글 작성 버튼 스타일링 */
 
 .createpageButton {
-  margin: 6px 15px 0 0;
+  width: 140px;
+  margin: 10px 15px 0 0;
   color: #000;
 
   border: 0;
   background-color: transparent;
 
-  font-size: 20px;
+  font-size: 18px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   line-height: normal;
+
+  /* border: 1px dotted blue; */
 }
 
 .createpageButton:hover {
-  margin: 6px 15px 0 0;
+  margin: 10px 15px 0 0;
 
   border: 0;
   background-color: transparent;
 
-  color: #034BB9;
-  font-size: 20px;
-  font-weight: 700;
+  color: #1976d2;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .createpageIcon {
-  margin: 0 5px 5px 10px;
+  margin: 0 5px 3px 10px;
 }
 
 /* Content Outlet */
 .boardsPostsContainer {
-  margin: 10px 0 0 0;
+  margin: 15px 0 0 0;
 
   /* border: 1px dotted blue; */
 }
