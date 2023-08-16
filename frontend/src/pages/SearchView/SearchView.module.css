@@ -221,12 +221,26 @@
   /* border: 1px dotted blue; */
 }
 
-.boardtab:hover {
-  color: #034bb9;
+#boardtab:hover {
+  color: #1973cd;
   font-size: 17px;
   font-style: normal;
   font-weight: 550;
   line-height: normal;
+  /* text-decoration: underline; */
+  /* text-underline-position: under; */
+}
+
+#boardtabSelected {
+  margin: 0;
+  border: 0;
+  background-color: transparent;
+
+  color: #1973cd;
+  font-size: 17px;
+  font-weight: 700;
+  /* text-decoration: underline;
+  text-underline-position: under; */
 }
 
 .noSearchSentence {

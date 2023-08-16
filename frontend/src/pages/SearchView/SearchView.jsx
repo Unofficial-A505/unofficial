@@ -143,7 +143,7 @@ export default function SearchView() {
               {boardNames.map((board, index) => (
                   <Tab 
                   key={index}
-                  id={styles.boardtab}
+                  id={value==index?styles.boardtabSelected:styles.boardtab}
                   // className={board.id == boardId? styles.boardtabSelected : styles.boardtab}
                   onClick={() => {navigate(`/boards/${board.id}`, { state: board.name });}}
                   label={board.name}
