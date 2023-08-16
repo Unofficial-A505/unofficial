@@ -53,6 +53,7 @@ export default function BoardsAll() {
   };
 
   useEffect(() => {
+    setValue(boardId - 1)
     // best 게시글 api
     bestPostsApi()
       .then((res) => {
