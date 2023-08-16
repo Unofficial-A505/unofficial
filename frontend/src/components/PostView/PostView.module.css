@@ -24,7 +24,7 @@
 .postContainerB {
   display: flex;
   justify-content: space-between;
-  margin: 8px 3px 0 0;
+  margin: 4px 3px 0 0;
   width: 28.6%;
   text-align: right;
 
@@ -34,7 +34,7 @@
 .postContainerC {
   display: flex;
   justify-content: space-between;
-  margin: 8PX 18px 0 0;
+  margin: 4PX 18px 0 0;
   width: 26.5%;
   text-align: right;
 
@@ -125,8 +125,16 @@
 }
 
 #postId {
-  width: 40px;
+  width: 55px;
   text-align: start;
+  margin: 0 5px 0 0;
+
+  /* width 넘어가는 글자들 ... 처리*/
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+
+  /* border: 1px dotted red; */
 }
 
 .postIcon {
@@ -156,21 +164,38 @@
 
   width: 60px;
   text-align: center;
-  padding: 0 5px 0 0;
+  padding: 0 6px 0 0;
   margin: 0 0 0 5px;
 
   /* border: 1px aqua dotted; */
 }
 
+#postrecommendBoxB {
+  /* border: 1px dotted aqua; */
+  width: 55px;
+  text-align: center;
+  padding: 0 2px 0 0;
+  margin: 0 3px 0 0;
+}
+
+#postrecommendBoxC {
+  /* border: 1px dotted aqua; */
+  width: 55px;
+  text-align: center;
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+}
+
+
 #postcreateBox {
   width: 75px;
-  padding: 0 3px 0 0;
+  padding: 2px 3px 0 0;
   text-align: center;
   font-size: 12px;
 
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
 
   /* border: 1px aqua dotted; */
 }

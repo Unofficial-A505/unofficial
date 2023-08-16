@@ -71,7 +71,7 @@ export default function PostView({ post, boardId, searchView, keyword, myBoard, 
         <div className={searchView!=='all'?styles.postContainerB:styles.postContainerC}>
           {/* <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}>{post.commentsCount}</div> */}
           <div className={styles.postContent} id={myBoard?styles.postcreateBoxsmall:styles.postcreateBox}>{format(post.createTime, 'ko')}</div>
-          <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}>
+          <div className={styles.postContent} id={searchView!=='all'?styles.postrecommendBoxB:styles.postrecommendBoxC}>
             {/* <FaRegThumbsUp className={styles.postIcon}/> */}
             {post.likes}</div>
           {searchView=='all'?<div className={styles.postContent} id={styles.postviewBoxSearch}>{post.views}</div>
