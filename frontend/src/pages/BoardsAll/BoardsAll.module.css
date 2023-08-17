@@ -228,22 +228,20 @@ div .slick-list {
   /* border: 1px dotted blue; */
 }
 
-.boardtabSelected {
-  margin: 6px;
-  color: #000;
-
+#boardtabSelected {
+  margin: 0;
   border: 0;
   background-color: transparent;
 
-  color: #034BB9;
-  font-size: 20px;
+  color: #1973cd;
+  font-size: 17px;
   font-weight: 700;
   /* text-decoration: underline;
   text-underline-position: under; */
 }
 
-.boardtab:hover {
-  color: #034BB9;
+#boardtab:hover {
+  color: #1973cd;
   font-size: 17px;
   font-style: normal;
   font-weight: 550;

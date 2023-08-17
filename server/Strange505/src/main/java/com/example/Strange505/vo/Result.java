@@ -24,4 +24,6 @@ public class Result<T> {
     public static Result fail(String message) {
         return new Result(false,message);
     }
+
+    public static Result successFail(String message) { return new Result(true,message); }
 }

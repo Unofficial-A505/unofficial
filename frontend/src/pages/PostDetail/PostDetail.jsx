@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from "./PostDetail.module.css";
 
-import { useState, useEffect, useDebugValue, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -17,15 +18,16 @@ import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
 // 작성 timeago 아이콘
 import { IoRocketOutline } from "@react-icons/all-files/io5/IoRocketOutline";
 // 추천 아이콘
-import { FaRegThumbsUp } from "@react-icons/all-files/fa/FaRegThumbsUp";
-import { FaThumbsUp } from "@react-icons/all-files/fa/FaThumbsUp";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+// import { FaRegThumbsUp } from "@react-icons/all-files/fa/FaRegThumbsUp";
+// import { FaThumbsUp } from "@react-icons/all-files/fa/FaThumbsUp";
 // 삭제 아이콘
 import { IoTrashOutline } from "@react-icons/all-files/io5/IoTrashOutline";
 // 수정 아이콘
 import { HiOutlinePencilAlt } from "@react-icons/all-files/hi/HiOutlinePencilAlt";
-import { HiOutlineSpeakerphone } from "@react-icons/all-files/hi/HiOutlineSpeakerphone";
+// import { HiOutlineSpeakerphone } from "@react-icons/all-files/hi/HiOutlineSpeakerphone";
 // 말풍선 아이콘
-import { IoChatboxOutline } from "@react-icons/all-files/io5/IoChatboxOutline";
+// import { IoChatboxOutline } from "@react-icons/all-files/io5/IoChatboxOutline";
 // 조회수 아이콘
 import { AiOutlineEye } from "@react-icons/all-files/ai/AiOutlineEye";
 
@@ -36,10 +38,10 @@ import {
   postRecommendInputApi,
 } from "../../api/posts";
 import {
-  postCommentsApi,
+  // postCommentsApi,
   postCommentCreateApi,
   postCommentUpdateApi,
-  postCommentDeleteApi,
+  // postCommentDeleteApi,
 } from "../../api/comments";
 
 import customAxios from "../../util/customAxios";
@@ -79,12 +81,10 @@ export default function PostDetail() {
   useDocumentTitle(boardTitle);
 
   // 댓글 가져오기
-  const getComment = () => {
+  const getComment = (curr) => {
     customAxios({
       method: "get",
-      url: `/api/comments/article/${postId}?page=${
-        currcommentPage - 1
-      }&size=${20}`,
+      url: `/api/comments/article/${postId}?page=${curr - 1}&size=${20}`,
     })
       .then((res) => {
         setComments(res.data.content);
@@ -100,6 +100,7 @@ export default function PostDetail() {
 
   useEffect(() => {
     setcurrpostPage(currPage);
+    console.log('currcommentpage', currcommentPage)
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     // 게시글 상세정보 가져오기
@@ -108,7 +109,7 @@ export default function PostDetail() {
         // console.log(res)
         setpostDetail(res);
         setBoardTitle(res.boardName);
-        getComment();
+        getComment(1);
       })
       .catch((err) => console.log(err));
 
@@ -140,8 +141,8 @@ export default function PostDetail() {
   }, [!postId, currpostPage]);
 
   useEffect(() => {
-    getComment();
-  }, [currcommentPage]);
+    getComment(currcommentPage);
+  }, [!postId, currcommentPage]);
 
   // 게시글 삭제
   const postDelete = () => {
@@ -156,25 +157,21 @@ export default function PostDetail() {
 
   // 게시글 추천
   const postRecommendedInput = () => {
-    if (!recommendedState) {
-      if (window.confirm("해당 게시글을 추천하시겠습니까?")) {
-        const articleId = postId;
-
-        postRecommendInputApi(articleId)
-          .then(() => {
-            if (!recommendedState) {
-              postDetail.likes += 1;
-            } else {
-              postDetail.likes -= 1;
-            }
-            setrecommendedState((prev) => !prev);
-            alert("추천 완료!");
-          })
-          .catch((err) => console.log(err));
-      }
-    } else {
+    if (recommendedState) {
       alert("이미 추천한 게시글입니다!");
+      return;
     }
+    setTimeout(() => setrecommendedState(true), 300);
+
+    postRecommendInputApi(postId)
+      .then(() => {
+        postDetailApi(postId).then((res) => {
+          setpostDetail(res);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // 댓글 생성
@@ -192,7 +189,7 @@ export default function PostDetail() {
 
       try {
         await postCommentCreateApi(articleId, content, parentId, nickName);
-        await getComment();
+        await getComment(currcommentPage);
 
         document.getElementById("comment-nickname-input").value = null;
         document.getElementById("comment-input").value = null;
@@ -210,7 +207,7 @@ export default function PostDetail() {
   const commentUpdate = (id, articleId, content, parentId, nickName) => {
     postCommentUpdateApi(id, articleId, content, parentId, nickName)
       .then(() => {
-        getComment();
+        getComment(currcommentPage);
       })
       .catch((err) => console.log(err));
   };
@@ -305,10 +302,28 @@ export default function PostDetail() {
                   className={styles.tabthumbIcon}
                 >
                   {recommendedState ? (
-                    <FaThumbsUp className={styles.tabupIcon} />
+                    <FavoriteIcon
+                      style={{
+                        width: "2.5rem",
+                        height: "2.5rem",
+                        marginBottom: "0.3rem",
+                        color: "#e8308c",
+                      }}
+                    />
                   ) : (
-                    <FaRegThumbsUp className={styles.tabregupIcon} />
+                    <lord-icon
+                      src="https://cdn.lordicon.com/pnhskdva.json"
+                      trigger="click"
+                      colors="primary:#e8308c"
+                      state="morph"
+                      style={{
+                        width: "2.5rem",
+                        height: "2.5rem",
+                        marginBottom: "0.3rem",
+                      }}
+                    ></lord-icon>
                   )}
+                  <p>좋아요</p>
                   {postDetail.likes}
                 </div>
 
@@ -352,14 +367,14 @@ export default function PostDetail() {
               </div>
 
               <div className={styles.commentnickName}>
-                <div>닉네임</div>
+                <label htmlFor="comment-nickname-input">닉네임</label>
                 <input
                   id="comment-nickname-input"
                   className={styles.commentnickNameInput}
                   type="text"
                   placeholder="닉네임을 입력하세요"
                   onChange={(e) => setcommentnickName(e.target.value)}
-                  maxLength='19'
+                  maxLength="19"
                 />
               </div>
               <div className={styles.commentbox}>
@@ -378,7 +393,7 @@ export default function PostDetail() {
                   onClick={commentCreate}
                   disabled={isButtonDisabled}
                 >
-                  <IoChatboxOutline size="23" />
+                  등록
                 </button>
               </div>
             </div>
@@ -393,6 +408,7 @@ export default function PostDetail() {
                         comment={comment}
                         commentUpdate={commentUpdate}
                         getComment={getComment}
+                        currcommentPage={currcommentPage}
                       />
                     </div>
                   );
@@ -404,6 +420,7 @@ export default function PostDetail() {
                         parentId={comment.parentId}
                         getComment={getComment}
                         articleId={comment.articleId}
+                        currcommentPage={currcommentPage}
                       />
                     </div>
                   );

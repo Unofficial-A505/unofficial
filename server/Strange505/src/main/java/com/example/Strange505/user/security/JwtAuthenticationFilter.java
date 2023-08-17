@@ -29,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Access Token 추출
         String accessToken = resolveToken(request);
         log.info("auth filter and token = {}", accessToken);
-        try { // 정상 토큰인지 검사
+        try { // 정상 토큰인지 검사, false일 경우 컨텍스트 홀더에 데이터를 저장하지 않는 방식으로 인증이 안됨을 표시
             if (accessToken != null && jwtTokenProvider.validateAccessToken(accessToken)) {
                 Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);

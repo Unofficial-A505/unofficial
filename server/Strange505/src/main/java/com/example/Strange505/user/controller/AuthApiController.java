@@ -4,7 +4,6 @@ import com.example.Strange505.user.dto.AuthDto;
 import com.example.Strange505.user.service.AuthService;
 import com.example.Strange505.user.service.UserService;
 import com.example.Strange505.verificate.UUIDProvider;
-import com.example.Strange505.verificate.service.EmailVerifyService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;

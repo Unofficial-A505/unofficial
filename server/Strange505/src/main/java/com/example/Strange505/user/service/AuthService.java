@@ -1,7 +1,10 @@
 package com.example.Strange505.user.service;
 
+import com.example.Strange505.user.domain.User;
 import com.example.Strange505.user.dto.AuthDto;
+import com.example.Strange505.user.exception.EmailException;
 import com.example.Strange505.user.exception.NotActivatedException;
+import com.example.Strange505.user.exception.PasswordException;
 import com.example.Strange505.user.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +13,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,12 +30,20 @@ public class AuthService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RedisService redisService;
     private final UserService userService;
+    private final BCryptPasswordEncoder encoder;
+
 
     private final String SERVER = "Server";
 
     // 로그인: 인증 정보 저장 및 비어 토큰 발급
     @Transactional
     public AuthDto.TokenDto login(AuthDto.LoginDto loginDto) {
+
+        User user = userService.getUserByEmail(loginDto.getEmail());
+
+        if (user == null) throw new EmailException("아이디 또는 비밀번호가 틀렸습니다.");
+
+        if (!encoder.matches(loginDto.getPassword(), user.getPassword())) throw new PasswordException("아이디 또는 비밀번호가 틀렸습니다.");
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());

@@ -11,7 +11,8 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImageResize from "@looop/quill-image-resize-module-react";
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
-
+import Button from "@mui/material/Button";
+import SendIcon from "@mui/icons-material/Send";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 Quill.register("modules/ImageResize", ImageResize);
@@ -135,8 +136,12 @@ const QuillContainer = () => {
     fileInput.addEventListener("change", function (e) {
       e.preventDefault();
       // editor에 이미지 삽입
-      const fileURL = window.URL.createObjectURL(e.target.files[0]);
       const file = fileInput.files[0];
+      if (file && file.size > 5 * 1024 * 1024) {
+        alert("이미지 크기가 5MB를 초과합니다.");
+        return; // 함수 실행 중지
+      }
+      const fileURL = window.URL.createObjectURL(file);
       const Image = Quill.import("formats/image");
       Image.sanitize = (fileURL) => fileURL;
       quillElement.current.editor.insertEmbed(
@@ -246,14 +251,15 @@ const QuillContainer = () => {
           <p className={styles.boardTitle}>{currboardName}</p>
           <p>새 글 작성</p>
         </h3>
-        <button
-          className="btn"
-          id={styles.createsubmitbutton}
+        <Button
+          variant="contained"
+          size="medium"
           onClick={createRequest}
           disabled={isLoading}
+          endIcon={<SendIcon />}
         >
           게시하기
-        </button>
+        </Button>
       </div>
 
       <div className={styles.nickNameContainer}>
@@ -316,14 +322,15 @@ const QuillContainer = () => {
           <IoIosArrowBack className="align-self-center" />
           <p className="align-self-center">목록으로 돌아가기</p>
         </button>
-        <button
-          className="btn"
-          id={styles.createsubmitbutton}
+        <Button
+          variant="contained"
+          size="medium"
           onClick={createRequest}
           disabled={isLoading}
+          endIcon={<SendIcon />}
         >
           게시하기
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -1,21 +1,19 @@
+/* eslint-disable no-unused-vars */
 import styles from "./WebRtcPage.module.css";
 import customAxios from "./../../util/customAxios";
 import React, { Component } from "react";
 
-import UserVideoComponent from "./UserVideoComponent";
 import { OpenVidu } from "openvidu-browser";
+import UserVideoComponent from "./UserVideoComponent";
 
 import CallEndIcon from "@mui/icons-material/CallEnd";
 import userAccount from "./../../assets/images/userAccount.png";
-// import { LuSwitchCamera } from "@react-icons/all-files/lu"
 
 class WebRtcPage extends Component {
   constructor(props) {
     super(props);
-
     // These properties are in the state's component in order to re-render the HTML whenever their values change
     this.state = {
-      isConneted: false,
       mySessionId: "",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       session: undefined,
@@ -23,8 +21,6 @@ class WebRtcPage extends Component {
       publisher: undefined,
       subscribers: [],
     };
-
-    this.connectRtc = this.connectRtc.bind(this);
     this.joinSession = this.joinSession.bind(this);
     this.leaveSession = this.leaveSession.bind(this);
     this.switchCamera = this.switchCamera.bind(this);
@@ -32,35 +28,32 @@ class WebRtcPage extends Component {
     this.handleChangeUserName = this.handleChangeUserName.bind(this);
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
+    this.backToHome = this.backToHome.bind(this);
   }
-
   async componentDidMount() {
     window.addEventListener("beforeunload", this.onbeforeunload);
     await this.findRoom().then(() => {
+      console.log(this.state);
       this.joinSession();
     });
   }
-
   componentWillUnmount() {
     window.removeEventListener("beforeunload", this.onbeforeunload);
+    this.leaveSession();
   }
-
   onbeforeunload(event) {
     this.leaveSession();
   }
-
   handleChangeSessionId(e) {
     this.setState({
       mySessionId: e.target.value,
     });
   }
-
   handleChangeUserName(e) {
     this.setState({
       myUserName: e.target.value,
     });
   }
-
   handleMainVideoStream(stream) {
     if (this.state.mainStreamManager !== stream) {
       this.setState({
@@ -68,7 +61,6 @@ class WebRtcPage extends Component {
       });
     }
   }
-
   deleteSubscriber(streamManager) {
     let subscribers = this.state.subscribers;
     let index = subscribers.indexOf(streamManager, 0);
@@ -79,23 +71,17 @@ class WebRtcPage extends Component {
       });
     }
   }
-
   joinSession() {
     // --- 1) Get an OpenVidu object ---
-
     this.OV = new OpenVidu();
-
     // --- 2) Init a session ---
-
     this.setState(
       {
         session: this.OV.initSession(),
       },
       () => {
         var mySession = this.state.session;
-
         // --- 3) Specify the actions when events take place in the session ---
-
         // On every new Stream received...
         mySession.on("streamCreated", (event) => {
           // Subscribe to the Stream to receive it. Second parameter is undefined
@@ -103,26 +89,21 @@ class WebRtcPage extends Component {
           var subscriber = mySession.subscribe(event.stream, undefined);
           var subscribers = this.state.subscribers;
           subscribers.push(subscriber);
-
           // Update the state with the new subscribers
           this.setState({
             subscribers: subscribers,
           });
         });
-
         // On every Stream destroyed...
         mySession.on("streamDestroyed", (event) => {
           // Remove the stream from 'subscribers' array
           this.deleteSubscriber(event.stream.streamManager);
         });
-
         // On every asynchronous exception...
         mySession.on("exception", (exception) => {
           console.warn(exception);
         });
-
         // --- 4) Connect to the session with a valid user token ---
-
         // Get a token from the OpenVidu deployment
         this.getToken().then((token) => {
           // First param is the token got from the OpenVidu deployment. Second param can be retrieved by every user on event
@@ -131,7 +112,6 @@ class WebRtcPage extends Component {
             .connect(token, { clientData: this.state.myUserName })
             .then(async () => {
               // --- 5) Get your own camera stream ---
-
               // Init a publisher passing undefined as targetElement (we don't want OpenVidu to insert a video
               // element: we will manage it on our own) and with the desired properties
               let publisher = await this.OV.initPublisherAsync(undefined, {
@@ -144,11 +124,8 @@ class WebRtcPage extends Component {
                 insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
                 mirror: false, // Whether to mirror your local video or not
               });
-
               // --- 6) Publish your stream ---
-
               mySession.publish(publisher);
-
               // Obtain the current video device in use
               var devices = await this.OV.getDevices();
               var videoDevices = devices.filter(
@@ -161,7 +138,6 @@ class WebRtcPage extends Component {
               var currentVideoDevice = videoDevices.find(
                 (device) => device.deviceId === currentVideoDeviceId
               );
-
               // Set the main video in the page to display our webcam and store our Publisher
               this.setState({
                 currentVideoDevice: currentVideoDevice,
@@ -180,7 +156,6 @@ class WebRtcPage extends Component {
       }
     );
   }
-
   leaveSession() {
     // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
     const mySession = this.state.session;
@@ -190,14 +165,12 @@ class WebRtcPage extends Component {
     } catch (e) {
       nowSessionId = null;
     }
-
-    if (nowSessionId != null && nowSessionId != "") {
+    if (nowSessionId !== null && nowSessionId !== "") {
       this.leaveRoom(nowSessionId);
     }
     if (mySession) {
       mySession.disconnect();
     }
-
     // Empty all properties...
     this.OV = null;
     this.setState({
@@ -209,9 +182,11 @@ class WebRtcPage extends Component {
       publisher: undefined,
     });
   }
-
   async switchCamera() {
     alert("다른 방으로 이동합니다");
+    console.log(
+      "state switch ````````````````````````````````````````````````````````````````"
+    );
     let sessionIdForSwitch = this.state.mySessionId;
     try {
       await this.leaveSession(); // Wait for leaveSession() to complete
@@ -222,35 +197,19 @@ class WebRtcPage extends Component {
     }
   }
 
-  connectRtc(e) {
-    e.preventDefault();
-
-    this.setState({
-      isConneted: true,
-    });
+  async backToHome() {
+    await this.leaveSession();
+    window.location.href = "/";
   }
 
   render() {
     // const mySessionId = this.state.mySessionId;
-
-    return !this.state.isConneted ? (
-      <div className={styles.entrance}>
-        <form
-          style={{ width: "400px", margin: "10rem auto" }}
-          onSubmit={this.connectRtc}
-        >
-          <div class="mb-3">
-            <label>언오피셜 랜덤채팅에 접속하시겠습니까?</label>
-          </div>
-          <button type="submit" className="btn btn-primary">
-            접속하기
-          </button>
-        </form>
-      </div>
-    ) : (
+    // const myUserName = this.state.myUserName;
+    return (
       <div className="container">
         <div id="session" className={styles.container}>
-          <div id="video-container" className="d-flex">
+          <div id="video-container" className={styles.vedioContainer}>
+
             {this.state.publisher !== undefined ? (
               <div
                 className="stream-container"
@@ -259,8 +218,7 @@ class WebRtcPage extends Component {
                 <UserVideoComponent streamManager={this.state.publisher} />
               </div>
             ) : null}
-
-            {this.state.subscribers.length ? (
+            {this.state.subscribers.length ?
               this.state.subscribers.map((sub, _) => (
                 <div
                   key={sub.id}
@@ -269,17 +227,16 @@ class WebRtcPage extends Component {
                 >
                   <UserVideoComponent streamManager={sub} />
                 </div>
-              ))
-            ) : (
-              <div
-                className="d-flex justify-content-center align-items-center"
-                style={{ width: "50%", color: "#fff" }}
-              >
-                <p style={{ color: "#fff" }}>상대가 없습니다...</p>
-              </div>
-            )}
+              )) : (
+                <div
+                  className="d-flex justify-content-center align-items-center"
+                  style={{ width: "50%", color: "#fff" }}
+                >
+                  <p style={{ color: "#fff" }}>상대가 없습니다...</p>
+                </div>
+              )}
           </div>
-          <div id="session-header" className="my-3">
+          <div id="session-header" className={styles.buttonContainer}>
             <div
               className="btn btn-light rounded-pill me-3"
               type="button"
@@ -294,7 +251,7 @@ class WebRtcPage extends Component {
               type="button"
               id="buttonLeaveSession"
               style={{ width: "5rem" }}
-              onClick={this.leaveSession}
+              onClick={this.backToHome}
             >
               <CallEndIcon />
             </div>
@@ -303,7 +260,6 @@ class WebRtcPage extends Component {
       </div>
     );
   }
-
   /**
    * --------------------------------------------
    * GETTING A TOKEN FROM YOUR APPLICATION SERVER
@@ -323,7 +279,6 @@ class WebRtcPage extends Component {
     const sessionId = await this.createSession(this.state.mySessionId);
     return await this.createToken(sessionId);
   }
-
   async createSession(sessionId) {
     const response = await customAxios.post(
       `${process.env.REACT_APP_SERVER}/api/sessions`,
@@ -334,12 +289,11 @@ class WebRtcPage extends Component {
     );
     return response.data; // The sessionId
   }
-
   async createToken(sessionId) {
     const response = await customAxios.post(
       `${process.env.REACT_APP_SERVER}/api/sessions/` +
-        sessionId +
-        "/connections",
+      sessionId +
+      "/connections",
       {},
       {
         headers: { "Content-Type": "application/json" },
@@ -347,23 +301,22 @@ class WebRtcPage extends Component {
     );
     return response.data; // The token
   }
-
   async findRoom(sessionId) {
-    customAxios
+    console.log("now session", sessionId);
+    const response = await customAxios
       .get(
         `${process.env.REACT_APP_SERVER}/api/sessions/` +
-          sessionId +
-          `/getRoom`,
+        sessionId +
+        `/getRoom`,
+        {},
         {
           headers: { "Content-Type": "application/json" },
         }
       )
-      .then(
-        (res) => {}
-        // console.log("findroom", (this.state.mySessionId = res.data))
+      .then((res) =>
+        console.log("findroom", (this.state.mySessionId = res.data))
       );
   }
-
   async leaveRoom(sessionId) {
     const response = await customAxios.get(
       `${process.env.REACT_APP_SERVER}/api/sessions/` + sessionId + "/leave",
@@ -375,5 +328,4 @@ class WebRtcPage extends Component {
     return response.data; // The token
   }
 }
-
 export default WebRtcPage;
