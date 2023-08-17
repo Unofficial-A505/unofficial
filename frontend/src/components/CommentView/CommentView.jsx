@@ -19,7 +19,7 @@ import koLocale from "timeago.js/lib/lang/ko"; //한국어 선택
 
 register("ko", koLocale);
 
-export default function CommentView({ comment, commentUpdate, getComment }) {
+export default function CommentView({ comment, commentUpdate, getComment, currcommentPage }) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [updateState, setupdateState] = useState(false);
   const [recommentBox, setrecommentBox] = useState(false);
@@ -35,7 +35,7 @@ export default function CommentView({ comment, commentUpdate, getComment }) {
         alert("대댓글이 존재해 댓글을 삭제할 수 없습니다!");
       } else {
         postCommentDeleteApi(id)
-          .then(() => getComment())
+          .then(() => getComment(currcommentPage))
           .catch((err) => console.log(err));
       }
     }
@@ -51,7 +51,7 @@ export default function CommentView({ comment, commentUpdate, getComment }) {
       setIsButtonDisabled(true);
       postCommentCreateApi(articleId, recomments, id, recommentNickname)
         .then(() => {
-          getComment();
+          getComment(currcommentPage);
           document.getElementById("recomment-nickname-input").value = null;
           document.getElementById("recomment-input").value = null;
 
