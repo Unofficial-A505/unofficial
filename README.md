@@ -1,161 +1,148 @@
-# 온라인 화상 커뮤니티 Unofficial
+# 🚀 Unofficial: SSAFY 학생들의 진정한 커뮤니티 🚀
 
-<img src="./assets/images/simple_logo.png" width="400">
+<img src="./assets/images/main_logo.png" width="600">
 
-# Overview
+<br/>
 
-상대의 모습이 보이지 않아 정확하게 심리를 파악하기 어려운 기존의 온라인 카드게임은 이제 그만!
+## Overview
 
-온라인으로 실제와 같은 카드게임을 시작하세요!
+안녕하세요, SSAFY 교육생 여러분! 힘들게 학습하고, 꿈을 키우는 여러분들을 위해 "Unofficial"이라는 특별한 공간을 준비했습니다. 이곳은 여러분만의 공간, SSAFY 출신 교육생 전용 커뮤니티입니다.
 
-# Betting Royal 서비스 화면
+언오피셜과 함께 SSAFY 화상 커뮤니티를 시작하세요!
 
-### 로그인
+<br/>
 
-<img src="./docs/login.webp" width="600">
+## Unofficial 서비스 화면
 
-### 게임
+### 📝 회원가입 & 로그인
 
-<img src="./docs/game.webp" width="600">
+당신만의 아이덴티티로 Unofficial에 참여하세요. 안전하게 정보를 보호하며, 쉽고 빠르게 가입하고 로그인할 수 있습니다.
 
-### 게임에서 이겼을 때
+<img src="./assets/gif/un_regist.gif" width="300">
+<img src="./assets/gif/un_login.gif" width="300">
 
-<img src="./docs/win.webp" width="600">
+### 📹 랜덤 채팅
 
-### 게시판
+온라인에서도 친구들과 소통하세요. 멀리 있어도 마치 옆에 있는 것처럼!
 
-<img src="./docs/board.webp" width="600">
+<img src="./assets/gif/un_randomchat.gif" width="600">
 
-### 금고
+### 👤 마이페이지
 
-<img src="./docs/vault.webp" width="600">
+개인화된 정보와 설정, 여러분의 활동 내역을 한 눈에 확인하실 수 있습니다. 나만의 공간을 꾸미고, SSAFY 생활의 흔적을 남기세요.
 
-### 친구
+<img src="./assets/gif/un_mypage.gif" width="600">
 
-<img src="./docs/friend.webp" width="600">
+### 🍱 점심 메뉴 확인
 
-# 주요 기능
+오늘의 점심은 무엇일까요? 매일 업데이트되는 점심 메뉴를 통해 미리 선택하고 기대해보세요!
 
-### 서비스 소개
+<img src="./assets/gif/un_lunch.gif" width="600">
 
-최후의 1인을 가리는 일러미네이션 매치, 배틀로얄  
- X  
-결과가 불확실한 일에 돈을 거는 행위, 베팅  
-→ 상대의 심리를 파악하고 베팅하여 최후의 1인을 가리는 카드게임
+### 🎉 개인 광고 게시
+
+자신만의 소식, 홍보하고 싶은 것들을 공유하세요! 여러분의 소식을 기다립니다.
+
+<img src="./assets/gif/un_ads.gif" width="600">
+
+### 📝 익명 게시판 & 댓글
+
+여러분의 이야기, 정보, 질문을 자유롭게 나누세요. 함께 성장하는 커뮤니티가 될 것입니다.
+
+<img src="./assets/gif/un_article.gif" width="300">
+<img src="./assets/gif/un_comment.gif" width="300">
+
+<br />
+
+## 주요 기능
 
 ### 프로젝트 기능
 
-- 화상 카드게임 서비스
-  - WebRTC와 카드게임을 결합하여 상대방의 얼굴을 직접 보며 게임을 즐길 수 있다.
-  - 추가로 게임 서비스에 필요한 금고, 랭킹, 친구 추가, 뱃지 기능 등을 구현하였다.
-- 감성 인식 API
-  - Face API를 통해 평온, 기쁨, 슬픔, 화남, 놀람, 공포, 역함 중 상위 3개의 감정을 수치가 높은 순서로 보여주며 플레이어들은 서로의 상태를 보며 베팅 할 수 있다.
-- 공통 질문
-  - 게임 시작 시 플레이어들에게 공통 질문을 주고 서로 답할 수 있게 한다.
-  - 자유롭게 대화를 나누며 서로의 심리를 추측해 플레이에 도움을 받을 수 있다.
+- 화상 랜덤 채팅 서비스
+  - WebRTC 기술을 활용해, 상대방의 얼굴을 직접 볼 수 있는 실시간 채팅을 즐기세요. 진정한 대화의 즐거움을 경험해보세요.  
+- 마일리지로의 개인 광고 서비스
+  - 활발한 토론과 게시글 작성으로 마일리지를 획득하고, 그 마일리지로 Unofficial 메인페이지에서 자신만의 광고를 선보이세요.  
+- 익명의 자유로운 게시판
+  - 익명성을 보장하여, SSAFY 교육생들과 솔직하면서도 즐거운 이야기를 나눠보세요. 더욱 풍부한 소통의 공간입니다.
 
 ### 개발환경
 
 - OS
-  - Local : Windows 10
-  - AWS : Ubuntu 20.04.4 LTS
+  - Local : Windows
+  - AWS : Ubuntu
 - IDE
-  - IntelliJ IDE 2022.1.3
-  - Visual Studio Code 1.70.0
+  - IntelliJ IDE
+  - Visual Studio Code
 - UI / UX
   - Figma
 - DataBase
-  - MySQL workbench 8.0.20 (Windows 10)
-  - MySQL 8.0.30 (Ubuntu 20.04.2 LTS)
+  - MySQL workbench
+  - MySQL
+  - Redis
 - CI/CD
-  - Docker 20.10.17
+  - Docker
   - nginx
+  - GitLab CI/CD
 
 ### 상세 스택
 
-- Backend
-  - JAVA - openjdk 1.8.0_342
-  - Gradle 6.7
-  - SpringBoot 2.4.5, Quarydsl 4.4.0, Lombok 1.18.20, Swagger2 3.0.0
-  - Stomp 2.3.3-1
+- BackEnd
+  - JAVA 17
+  - Gradle
+  - SpringBoot 3.1.1, Quarydsl-JPA 5.0.0, Lombok, Swagger3, CertBot
 - FrontEnd
   - HTML5, CSS3, JavaScript(ES6)
-  - React 18.2.0, face-api.js 0.22.2, Material-UI
-  - Node.js 16.16.0, npm 8.15.0
-  - stompjs 2.3.3
-- Web RTC
-  - openvidu-browser 2.22.0
+  - React 18.2.0, React-redux 8.1.1, React-router-dom 6.14.1
+  - axios 1.4.0, Material-UI, bootstrap 5.3.0
+  - Node.js , npm, env-cmd 10.1.0
+  - Web RTC, openvidu-browser
+- ETC
+  - nginx 1.25.1
+  - redix:latest
+  - docker
 
 ### 협업 툴
 
 - 이슈 관리 : Jira
 - 형상 관리 : Gitlab, Git
-- 커뮤니케이션 : Notion, MatterMost, Webex
+- 커뮤니케이션 : Notion, MatterMost
 
 ### 서비스 아키텍처
 
-<img src="https://user-images.githubusercontent.com/56749776/185519575-74973bc4-0ed0-4361-b499-7f8278b474b9.png" width="600" height="400">
+<img src="./assets/images/stack.png" width="600">
 
 ### 요구 사항 정의서
 
-<img src="https://user-images.githubusercontent.com/56749776/185520424-0ac7f9c4-65e4-49c7-ac72-ef32cee04860.png" width="600" height="500">
-<img src="https://user-images.githubusercontent.com/56749776/185520471-e986a165-c45e-47ca-b1ad-6087d0eafb33.png" width="600" height="500">
+<img src="./assets/images/requirements spec1.PNG" width="600">
+<img src="./assets/images/requirements spec2.PNG" width="600">
 
-### 마일스톤
-
-<img src="https://user-images.githubusercontent.com/56749776/185520326-3b83b272-9c20-4f2e-824a-997040bc662d.png" width="600" height="650">
 
 ### 화면 설계서
 
-<img src="https://user-images.githubusercontent.com/56749776/185520252-dbc7307b-268a-4edc-a337-c0b588279785.png" width="600" height="500">
+<img src="./assets//images/figma.PNG" width="600">
 
 ### Git 컨벤션
 
-- Feat : 새로운 기능 추가 (넓은 개념)
-- Fix : 버그 수정
-- Design : css 등 UI 디자인 변경
-- Add : 코드, 테스트, 예제, 문서 등 추가 생성 (좁은 개념)
-- Delete : 코드 삭제
-- Rename : 이름 변경, 위치 옮기는 작업
-- Refactor : 코드 전면 수정
-- Test : 테스트 코드 추가, 테스트 코드 리팩토링
-
-### 커밋타입
-
-- 명령어로 작성한다.
-- 백앤드 [BE]와 프론트앤드 [FE] 구분
-
-```
-[Category] Type : subject
-
-ex) 회원가입 기능
-
-- 프론트 - [FE] Feat : Join in
-- 백 - [BE] Feat : Join in
-```
-
-### Jira
-
-<img src="https://user-images.githubusercontent.com/56749776/185520546-5946981f-e6ee-4df7-b546-3e29fb14869e.png" width="500" height="400">
-<img src="https://user-images.githubusercontent.com/56749776/185520581-68f7ae70-4923-41b2-97c0-d0fcf143c609.png" width="500" height="400">
+- feat : 새로운 기능 추가 (넓은 개념)
+- fix : 버그 수정
+- design : css 등 UI 디자인 변경
+- add : 코드, 테스트, 예제, 문서 등 추가 생성 (좁은 개념)
+- delete : 코드 삭제
+- rename : 이름 변경, 위치 옮기는 작업
+- refactor : 코드 전면 수정
+- test : 테스트 코드 추가, 테스트 코드 리팩토링
 
 ### ERD
 
-<img src="https://user-images.githubusercontent.com/56749776/185520712-9886453e-f13a-47d7-b891-5df452c2770b.png" width="600" height="500">
+<img src="./assets/images/ERD.png" width="600">
 
 ### EC2 포트 정리
 
-| 8443 | openvidu server      |
+| 포트 | 내용 |
 | ---- | -------------------- |
-| 8081 | openvidu server      |
-| 80   | nginx HTTP 기본 포트 |
+| 80   | nginx HTTP 기본 포트  |
 | 443  | nginx HTTPS          |
-| 8888 | kurento media server |
-| 3478 | docker proxy         |
-| 3306 | mysql                |
-| 3001 | react app            |
-| 8080 | Spring boot          |
 
 ### 팀원 역할
 
-<img src="https://user-images.githubusercontent.com/56749776/185519803-50f08ece-e0d3-47f2-93ba-bd822524a42e.png" width="600" height="400">
+<img src="./assets/images/teammates.PNG" width="600">
