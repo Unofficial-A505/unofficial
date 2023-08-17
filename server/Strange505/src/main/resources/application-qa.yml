@@ -16,6 +16,7 @@ spring:
       hibernate:
         default_batch_fetch_size: 1000
         format_sql: true
+    open-in-view: false
 mail:
   base-url : "https://dev.unofficial.kr/verify?verificationCode="
 
