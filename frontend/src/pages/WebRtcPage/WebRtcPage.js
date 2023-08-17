@@ -15,7 +15,6 @@ class WebRtcPage extends Component {
 
     // These properties are in the state's component in order to re-render the HTML whenever their values change
     this.state = {
-      isConneted: false,
       mySessionId: "",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       session: undefined,
@@ -192,7 +191,7 @@ class WebRtcPage extends Component {
       nowSessionId = null;
     }
 
-    if (nowSessionId != null && nowSessionId != "") {
+    if (nowSessionId !== null && nowSessionId !== "") {
       this.leaveRoom(nowSessionId);
     }
     if (mySession) {
@@ -228,32 +227,10 @@ class WebRtcPage extends Component {
     window.location.href = "/";
   }
 
-  connectRtc(e) {
-    e.preventDefault();
-
-    this.setState({
-      isConneted: true,
-    });
-  }
-
   render() {
     // const mySessionId = this.state.mySessionId;
 
-    return !this.state.isConneted ? (
-      <div className={styles.entrance}>
-        <form
-          style={{ width: "400px", margin: "15rem auto" }}
-          onSubmit={this.connectRtc}
-        >
-          <div class="mb-3">
-            <label>언오피셜 랜덤채팅에 접속하시겠습니까?</label>
-          </div>
-          <button type="submit" className="btn btn-primary">
-            접속하기
-          </button>
-        </form>
-      </div>
-    ) : (
+    return (
       <div className="container">
         <div id="session" className={styles.container}>
           <div id="video-container" className={styles.vedioContainer}>
@@ -355,10 +332,6 @@ class WebRtcPage extends Component {
   }
 
   async findRoom(sessionId) {
-    if (sessionId === null || sessionId === "") {
-      sessionId = "none";
-    }
-
     customAxios
       .get(
         `${process.env.REACT_APP_SERVER}/api/sessions/` +
