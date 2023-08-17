@@ -20,6 +20,7 @@ export default function RecommentsView({
   getComment,
   articleId,
   parentId,
+  currcommentPage,
 }) {
   const [updateState, setupdateState] = useState(false);
   const [updatereComment, setupdatereComment] = useState("");
@@ -30,7 +31,7 @@ export default function RecommentsView({
     if (window.confirm("댓글을 삭제하시겠습니까?")) {
       postCommentDeleteApi(id)
         .then(() => {
-          getComment();
+          getComment(currcommentPage);
         })
         .catch((err) => console.log(err));
     }
@@ -41,7 +42,7 @@ export default function RecommentsView({
     const nickName = recomment.nickName;
     postCommentUpdateApi(id, articleId, content, parentId, nickName)
       .then(() => {
-        getComment();
+        getComment(currcommentPage);
 
         setupdatereComment("");
         setupdateState((prev) => !prev);
