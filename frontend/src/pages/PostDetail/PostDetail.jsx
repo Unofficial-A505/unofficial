@@ -84,7 +84,7 @@ export default function PostDetail() {
   const getComment = (curr) => {
     customAxios({
       method: "get",
-      url: `/api/comments/article/${postId}?page=${curr - 1}&size=${2}`,
+      url: `/api/comments/article/${postId}?page=${curr - 1}&size=${20}`,
     })
       .then((res) => {
         setComments(res.data.content);
