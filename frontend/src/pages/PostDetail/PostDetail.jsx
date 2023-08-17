@@ -81,12 +81,10 @@ export default function PostDetail() {
   useDocumentTitle(boardTitle);
 
   // 댓글 가져오기
-  const getComment = () => {
+  const getComment = (curr) => {
     customAxios({
       method: "get",
-      url: `/api/comments/article/${postId}?page=${
-        currcommentPage - 1
-      }&size=${20}`,
+      url: `/api/comments/article/${postId}?page=${curr - 1}&size=${20}`,
     })
       .then((res) => {
         setComments(res.data.content);
@@ -102,6 +100,7 @@ export default function PostDetail() {
 
   useEffect(() => {
     setcurrpostPage(currPage);
+    console.log('currcommentpage', currcommentPage)
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     // 게시글 상세정보 가져오기
@@ -110,7 +109,7 @@ export default function PostDetail() {
         // console.log(res)
         setpostDetail(res);
         setBoardTitle(res.boardName);
-        getComment();
+        getComment(1);
       })
       .catch((err) => console.log(err));
 
@@ -142,8 +141,8 @@ export default function PostDetail() {
   }, [!postId, currpostPage]);
 
   useEffect(() => {
-    getComment();
-  }, [currcommentPage]);
+    getComment(currcommentPage);
+  }, [!postId, currcommentPage]);
 
   // 게시글 삭제
   const postDelete = () => {
@@ -190,7 +189,7 @@ export default function PostDetail() {
 
       try {
         await postCommentCreateApi(articleId, content, parentId, nickName);
-        await getComment();
+        await getComment(currcommentPage);
 
         document.getElementById("comment-nickname-input").value = null;
         document.getElementById("comment-input").value = null;
@@ -208,7 +207,7 @@ export default function PostDetail() {
   const commentUpdate = (id, articleId, content, parentId, nickName) => {
     postCommentUpdateApi(id, articleId, content, parentId, nickName)
       .then(() => {
-        getComment();
+        getComment(currcommentPage);
       })
       .catch((err) => console.log(err));
   };
@@ -409,6 +408,7 @@ export default function PostDetail() {
                         comment={comment}
                         commentUpdate={commentUpdate}
                         getComment={getComment}
+                        currcommentPage={currcommentPage}
                       />
                     </div>
                   );
@@ -420,6 +420,7 @@ export default function PostDetail() {
                         parentId={comment.parentId}
                         getComment={getComment}
                         articleId={comment.articleId}
+                        currcommentPage={currcommentPage}
                       />
                     </div>
                   );
