@@ -8,7 +8,7 @@ export default function AdVertical(){
   return(
     <>
       <div className={styles.advertiseVer}>
-        <ins class="adsbygoogle"
+        <ins className="adsbygoogle"
         style={{display:'block'}}
         data-ad-client="ca-pub-2110899329559840"
         data-ad-slot="4214547025"

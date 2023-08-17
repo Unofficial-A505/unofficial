@@ -55,6 +55,7 @@ customAxios.interceptors.response.use(
         store.dispatch(
           setAccessToken(res.headers.authorization.split(" ")[1])
         ); // Dispatch an action to update the access token in Redux
+        localStorage.setItem("REFRESH_TOKEN", res.headers.refresh_token);
         return customAxios(originalRequest);
       } else {
         axios.post(

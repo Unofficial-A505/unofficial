@@ -40,26 +40,29 @@
 .imageContainer img:hover:not(.lunchLoading) {
   transform: scale(1.15);
 }
-.imageContainer .likeButton {
-  position: absolute;
-  top: 3px;
-  right: 3px;
-  z-index: 10;
-  color: #dcdcdc;
-}
-.imageContainer .likeCount {
-  position: absolute;
-  top: 0;
-  right: 30px;
-  z-index: 10;
-}
 .menu h2 {
   text-align: left;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin-top: 0;
-  margin-bottom: 0.5rem;
+  margin: 0;
   padding: 0 0.4rem;
+}
+.likeButton {
+  align-self: center;
+  color: #dcdcdc;
+  display: flex;
+  justify-content: space-between;
+  transition: transform 1s
+}
+.likeButton:hover {
+  color: rgb(255, 170, 170);
+  background-color: #fbfbfb;
+  border-radius: 5px;
+}
+.likeButton p {
+  align-self: center;
+  font-weight: 600;
+  color: #222;
 }
 .menu p {
   font-size: 0.7rem;

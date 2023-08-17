@@ -31,28 +31,28 @@ export default function PostView({ post, boardId, searchView, keyword, myBoard, 
           </div>
 
           {!searchView ?
-          <div title={post.title} className={styles.postTitle}
+          <div title={post.title} className={myBoard?styles.postTitlemy:styles.postTitle}
             onClick={() => {
               if (IsAuth) 
               (navigate(`/boards/${boardId}/${post.id}`, { state : currPage }))
              else (
               alert('로그인 후 이용해주세요!'))}}>
-            <span >{post.title}</span>
-            <span className={styles.postrecommendBox}>[{post.commentsCount}]</span>
+            <div className={myBoard?styles.postTitleBoxmy:styles.postTitleBox}>{post.title}</div>
+            <div className={styles.postrecommendBox}>[{post.commentsCount}]</div>
           </div>
           : isKeywordIncluded? 
             (<div title={post.title} className={styles.postTitle}
             onClick={() => {if (IsAuth) 
               (navigate(`/boards/${boardId}/${post.id}`, { state : currPage }))
             else (alert('로그인 후 이용해주세요!'))}}>
-            <span dangerouslySetInnerHTML={{ __html: highlightedSentence }}></span>
+            <span className={styles.postTitleBox} dangerouslySetInnerHTML={{ __html: highlightedSentence }}></span>
             <span className={styles.postrecommendBox}>[{post.commentsCount}]</span>
             </div>) 
           : (<div title={post.title} className={styles.postTitle}
             onClick={() =>{if (IsAuth) 
               (navigate(`/boards/${boardId}/${post.id}`, { state : currPage }))
             else (alert('로그인 후 이용해주세요!'))}}>
-            <span >{post.title}</span>
+            <span className={styles.postTitleBox} >{post.title}</span>
             <span className={styles.postrecommendBox}>[{post.commentsCount}]</span>
             </div>)
           }
@@ -71,7 +71,7 @@ export default function PostView({ post, boardId, searchView, keyword, myBoard, 
         <div className={searchView!=='all'?styles.postContainerB:styles.postContainerC}>
           {/* <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}>{post.commentsCount}</div> */}
           <div className={styles.postContent} id={myBoard?styles.postcreateBoxsmall:styles.postcreateBox}>{format(post.createTime, 'ko')}</div>
-          <div className={styles.postContent} id={myBoard?styles.postrecommendBoxsmall:styles.postrecommendBox}>
+          <div className={styles.postContent} id={searchView!=='all'?styles.postrecommendBoxB:styles.postrecommendBoxC}>
             {/* <FaRegThumbsUp className={styles.postIcon}/> */}
             {post.likes}</div>
           {searchView=='all'?<div className={styles.postContent} id={styles.postviewBoxSearch}>{post.views}</div>

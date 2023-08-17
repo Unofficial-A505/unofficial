@@ -60,18 +60,18 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public List<String> parsingArticle(String data) {
         List<String> urls = new ArrayList<>();
-        int flag = data.indexOf("src=\"");
+        int flag = data.indexOf("<img src=\"");
         while (flag != -1) {
             data = urlExtract(data, urls);
-            flag = data.indexOf("src=\"");
+            flag = data.indexOf("<img src=\"");
         }
         return urls;
     }
 
     private String urlExtract(String data, List<String> urls) {
-        int idx = data.indexOf("src=\"");
+        int idx = data.indexOf("<img src=\"");
 
-        String now = data.substring(idx + 5);
+        String now = data.substring(idx + 10);
         idx = now.indexOf("\"");
 
         String URL = now.substring(0, idx);

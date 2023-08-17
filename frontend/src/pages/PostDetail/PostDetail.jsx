@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from "./PostDetail.module.css";
 
-import { useState, useEffect, useDebugValue, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -17,15 +18,16 @@ import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
 // 작성 timeago 아이콘
 import { IoRocketOutline } from "@react-icons/all-files/io5/IoRocketOutline";
 // 추천 아이콘
-import { FaRegThumbsUp } from "@react-icons/all-files/fa/FaRegThumbsUp";
-import { FaThumbsUp } from "@react-icons/all-files/fa/FaThumbsUp";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+// import { FaRegThumbsUp } from "@react-icons/all-files/fa/FaRegThumbsUp";
+// import { FaThumbsUp } from "@react-icons/all-files/fa/FaThumbsUp";
 // 삭제 아이콘
 import { IoTrashOutline } from "@react-icons/all-files/io5/IoTrashOutline";
 // 수정 아이콘
 import { HiOutlinePencilAlt } from "@react-icons/all-files/hi/HiOutlinePencilAlt";
-import { HiOutlineSpeakerphone } from "@react-icons/all-files/hi/HiOutlineSpeakerphone";
+// import { HiOutlineSpeakerphone } from "@react-icons/all-files/hi/HiOutlineSpeakerphone";
 // 말풍선 아이콘
-import { IoChatboxOutline } from "@react-icons/all-files/io5/IoChatboxOutline";
+// import { IoChatboxOutline } from "@react-icons/all-files/io5/IoChatboxOutline";
 // 조회수 아이콘
 import { AiOutlineEye } from "@react-icons/all-files/ai/AiOutlineEye";
 
@@ -36,10 +38,10 @@ import {
   postRecommendInputApi,
 } from "../../api/posts";
 import {
-  postCommentsApi,
+  // postCommentsApi,
   postCommentCreateApi,
   postCommentUpdateApi,
-  postCommentDeleteApi,
+  // postCommentDeleteApi,
 } from "../../api/comments";
 
 import customAxios from "../../util/customAxios";
@@ -69,10 +71,10 @@ export default function PostDetail() {
   const [currboardPosts, setcurrboardPosts] = useState([]);
   const [recommendedState, setrecommendedState] = useState(null);
 
-  const [currcommentPage, setcurrcommentPage] = useState(0);
+  const [currcommentPage, setcurrcommentPage] = useState(1);
   const [commentPageInfo, setcommentPageInfo] = useState([]);
 
-  const [currpostPage, setcurrpostPage] = useState(0);
+  const [currpostPage, setcurrpostPage] = useState(1);
   const [pageInfo, setPageInfo] = useState([]);
 
   // 탭 제목 설정하기
@@ -105,6 +107,7 @@ export default function PostDetail() {
     // 게시글 상세정보 가져오기
     postDetailApi(postId)
       .then((res) => {
+        // console.log(res)
         setpostDetail(res);
         setBoardTitle(res.boardName);
         getComment();
@@ -112,11 +115,11 @@ export default function PostDetail() {
       .catch((err) => console.log(err));
 
     //현재 board 게시글
-    boardsArticles(boardId, currPage, 20)
+    boardsArticles(boardId, currPage - 1, 20)
       .then((res) => {
         setcurrboardPosts(res.content);
         setPageInfo(res.pageInfo);
-        setcurrpostPage(res.pageInfo.page);
+        // setcurrpostPage(res.pageInfo.page);
       })
       .catch((err) => console.log(err));
 
@@ -133,7 +136,7 @@ export default function PostDetail() {
       .then((res) => {
         setcurrboardPosts(res.content);
         setPageInfo(res.pageInfo);
-        setcurrpostPage(res.pageInfo.page + 1);
+        // setcurrpostPage(res.pageInfo.page + 1);
       })
       .catch((err) => console.log(err));
   }, [!postId, currpostPage]);
@@ -155,25 +158,21 @@ export default function PostDetail() {
 
   // 게시글 추천
   const postRecommendedInput = () => {
-    if (!recommendedState) {
-      if (window.confirm("해당 게시글을 추천하시겠습니까?")) {
-        const articleId = postId;
-
-        postRecommendInputApi(articleId)
-          .then(() => {
-            if (!recommendedState) {
-              postDetail.likes += 1;
-            } else {
-              postDetail.likes -= 1;
-            }
-            setrecommendedState((prev) => !prev);
-            alert("추천 완료!");
-          })
-          .catch((err) => console.log(err));
-      }
-    } else {
+    if (recommendedState) {
       alert("이미 추천한 게시글입니다!");
+      return;
     }
+    setTimeout(() => setrecommendedState(true), 300);
+
+    postRecommendInputApi(postId)
+      .then(() => {
+        postDetailApi(postId).then((res) => {
+          setpostDetail(res);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // 댓글 생성
@@ -294,7 +293,7 @@ export default function PostDetail() {
               </div>
 
               <hr />
-              <div className={styles.postcontentContainer}>
+              <div className={styles.postContentContainer}>
                 <div dangerouslySetInnerHTML={{ __html: postDetail.content }} />
               </div>
 
@@ -304,10 +303,28 @@ export default function PostDetail() {
                   className={styles.tabthumbIcon}
                 >
                   {recommendedState ? (
-                    <FaThumbsUp className={styles.tabupIcon} />
+                    <FavoriteIcon
+                      style={{
+                        width: "2.5rem",
+                        height: "2.5rem",
+                        marginBottom: "0.3rem",
+                        color: "#e8308c",
+                      }}
+                    />
                   ) : (
-                    <FaRegThumbsUp className={styles.tabregupIcon} />
+                    <lord-icon
+                      src="https://cdn.lordicon.com/pnhskdva.json"
+                      trigger="click"
+                      colors="primary:#e8308c"
+                      state="morph"
+                      style={{
+                        width: "2.5rem",
+                        height: "2.5rem",
+                        marginBottom: "0.3rem",
+                      }}
+                    ></lord-icon>
                   )}
+                  <p>좋아요</p>
                   {postDetail.likes}
                 </div>
 
@@ -351,13 +368,14 @@ export default function PostDetail() {
               </div>
 
               <div className={styles.commentnickName}>
-                <div>닉네임</div>
+                <label htmlFor="comment-nickname-input">닉네임</label>
                 <input
                   id="comment-nickname-input"
                   className={styles.commentnickNameInput}
                   type="text"
                   placeholder="닉네임을 입력하세요"
                   onChange={(e) => setcommentnickName(e.target.value)}
+                  maxLength="19"
                 />
               </div>
               <div className={styles.commentbox}>
@@ -369,13 +387,14 @@ export default function PostDetail() {
                     setcreateComment(e.target.value);
                   }}
                   placeholder="댓글을 작성해보세요"
+                  maxLength="299"
                 />
                 <button
                   className={styles.commentButton}
                   onClick={commentCreate}
                   disabled={isButtonDisabled}
                 >
-                  <IoChatboxOutline size="23" />
+                  등록
                 </button>
               </div>
             </div>

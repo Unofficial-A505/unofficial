@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import styles from "./LunchCarousel.module.css";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import Card from "./Card";
 import Carousel from "./Carousel";
+import customAxios from "../../util/customAxios";
 
 export default function LunchCarousel({userLocal}) {
   const [cards, setCards] = useState([]);
@@ -55,7 +55,7 @@ export default function LunchCarousel({userLocal}) {
   const fetchLunchData = async () => {
     try {
       const today = getToday();
-      let response = await axios.get(
+      let response = await customAxios.get(
         `${process.env.REACT_APP_SERVER}/api/lunch?date=${today}`
       );
       // 중복 데이터 제거

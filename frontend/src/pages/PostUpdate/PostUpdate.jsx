@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from "./PostUpdate.module.css";
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
@@ -10,6 +11,9 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImageResize from "@looop/quill-image-resize-module-react";
 import { IoIosArrowBack } from "@react-icons/all-files/io/IoIosArrowBack";
+import Button from "@mui/material/Button";
+import SendIcon from "@mui/icons-material/Send";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner"
 
 Quill.register("modules/ImageResize", ImageResize);
 
@@ -27,6 +31,22 @@ const PostUpdate = () => {
       return;
     }
   }, []);
+
+
+  const [limit, setLimit] = useState(false); 
+  const [size, setSize] = useState();
+
+  const handleLimit = (e) => {
+    const size = new Blob([e]).size 
+    setSize(size)
+  
+    if (size <= 4500) {
+      setLimit(false);
+    } else {
+      setLimit(true);
+      quillElement.current.editor.root.innerHTML = quillElement.current.editor.root.innerHTML.substring(0, 4505);
+    }
+  }
 
   const { boardId } = useParams();
   const { postId } = useParams();
@@ -74,7 +94,7 @@ const PostUpdate = () => {
   useEffect(() => {
     const editor = document.querySelector(".ql-editor");
     if (editor) {
-      editor.classList.add("fs-6");
+      editor.classList.add("fs-5");
     }
   }, []);
 
@@ -245,36 +265,39 @@ const PostUpdate = () => {
 
   return (
     <div>
+      {isLoading && <LoadingSpinner />}
       <div className={styles.craetecontainer}>
         <div className={styles.topmenu}>
           <h3 className={styles.topmenuBox}>
             <p className={styles.boardTitle}>{postDetail.boardName}</p>
             <p>글 수정</p>
           </h3>
-          <button
-            className="btn"
-            id={styles.createsubmitbutton}
+          <Button
+            variant="contained"
+            size="medium"
             onClick={updateRequest}
             disabled={isLoading}
+            endIcon={<SendIcon />}
           >
-            등록하기
-          </button>
+            수정하기
+          </Button>
         </div>
 
         <div className={styles.nickNameContainer}>
-          <label for="inputNickname" class="form-label">
-            닉네임
-          </label>
+          <label className="form-label">닉네임</label>
           <input
             id="inputNickname"
             type="text"
             disabled
-            class="form-control"
+            className="form-control"
             placeholder={!postDetail.nickName ? "익명" : postDetail.nickName}
           />
         </div>
 
         <div>
+          <label htmlFor="inputTitle" className="form-label d-flex">
+            제목
+          </label>
           <input
             id="inputTitle"
             className={styles.inputTitle}
@@ -282,33 +305,50 @@ const PostUpdate = () => {
             defaultValue={postDetail.title}
             ref={TitleElement}
             onKeyDown={handleTabDown}
+            maxLength="99"
           />
         </div>
 
-        <ReactQuill
-          id="react-quill"
-          modules={modules}
-          formats={formats}
-          selection={{ start: 0, end: 0 }}
-          theme="snow"
-          style={{ height: "600px" }}
-          ref={quillElement}
-          onKeyDown={handleShiftTabDown}
-        />
+        <div>
+          <label htmlFor="react-quill" className="form-label d-flex">
+            내용
+          </label>
+          <ReactQuill
+            id="react-quill"
+            modules={modules}
+            formats={formats}
+            selection={{ start: 0, end: 0 }}
+            theme="snow"
+            style={{ height: "600px" }}
+            ref={quillElement}
+            onKeyDown={handleShiftTabDown}
+            onChange={(e) => handleLimit(e)}
+          />
+        </div>
+
+        <div className={styles.contentLimitcountContainer}>
+          {limit && (
+            <div className={styles.contentlimitMessage}>
+              최대 글자수를 초과했습니다!
+            </div>
+          )}
+          <div className={styles.contentlimitCount}>{size} / 4500 </div>
+        </div>
 
         <div className={styles.undermenu}>
           <button className={styles.grayoutbutton} onClick={handleCancel}>
             <IoIosArrowBack className="align-self-center" />
             <p className="align-self-center">목록으로 돌아가기</p>
           </button>
-          <button
-            className="btn"
-            id={styles.createsubmitbutton}
+          <Button
+            variant="contained"
+            size="medium"
             onClick={updateRequest}
             disabled={isLoading}
+            endIcon={<SendIcon />}
           >
-            등록하기
-          </button>
+            수정하기
+          </Button>
         </div>
       </div>
     </div>

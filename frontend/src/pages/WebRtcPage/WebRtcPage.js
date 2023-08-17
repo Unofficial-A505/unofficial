@@ -1,17 +1,21 @@
 import styles from "./WebRtcPage.module.css";
 import customAxios from "./../../util/customAxios";
 import React, { Component } from "react";
-import UserVideoComponent from "./UserVideoComponent";
 
+import UserVideoComponent from "./UserVideoComponent";
 import { OpenVidu } from "openvidu-browser";
 
-class WebRTC extends Component {
+import CallEndIcon from "@mui/icons-material/CallEnd";
+import userAccount from "./../../assets/images/userAccount.png";
+// import { LuSwitchCamera } from "@react-icons/all-files/lu"
+
+class WebRtcPage extends Component {
   constructor(props) {
     super(props);
 
     // These properties are in the state's component in order to re-render the HTML whenever their values change
     this.state = {
-      mySessionId: "SessionA",
+      mySessionId: "",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       session: undefined,
       mainStreamManager: undefined, // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
@@ -19,6 +23,8 @@ class WebRTC extends Component {
       subscribers: [],
     };
 
+    this.backToHome = this.backToHome.bind(this);
+    this.connectRtc = this.connectRtc.bind(this);
     this.joinSession = this.joinSession.bind(this);
     this.leaveSession = this.leaveSession.bind(this);
     this.switchCamera = this.switchCamera.bind(this);
@@ -28,8 +34,11 @@ class WebRTC extends Component {
     this.onbeforeunload = this.onbeforeunload.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     window.addEventListener("beforeunload", this.onbeforeunload);
+    await this.findRoom().then(() => {
+      this.joinSession();
+    });
   }
 
   componentWillUnmount() {
@@ -131,9 +140,9 @@ class WebRTC extends Component {
                 publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
                 publishVideo: true, // Whether you want to start publishing with your video enabled or not
                 resolution: "640x480", // The resolution of your video
-                frameRate: 60, // The frame rate of your video
+                frameRate: 30, // The frame rate of your video
                 insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
-                mirror: true, // Whether to mirror your local video or not
+                mirror: false, // Whether to mirror your local video or not
               });
 
               // --- 6) Publish your stream ---
@@ -174,9 +183,17 @@ class WebRTC extends Component {
 
   leaveSession() {
     // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
-
     const mySession = this.state.session;
+    let nowSessionId = null;
+    try {
+      nowSessionId = this.state.session.sessionId;
+    } catch (e) {
+      nowSessionId = null;
+    }
 
+    if (nowSessionId !== null && nowSessionId !== "") {
+      this.leaveRoom(nowSessionId);
+    }
     if (mySession) {
       mySession.disconnect();
     }
@@ -186,7 +203,7 @@ class WebRTC extends Component {
     this.setState({
       session: undefined,
       subscribers: [],
-      mySessionId: "SessionA",
+      mySessionId: "",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       mainStreamManager: undefined,
       publisher: undefined,
@@ -194,140 +211,78 @@ class WebRTC extends Component {
   }
 
   async switchCamera() {
+    alert("다른 방으로 이동합니다");
+    let sessionIdForSwitch = this.state.mySessionId;
     try {
-      const devices = await this.OV.getDevices();
-      var videoDevices = devices.filter(
-        (device) => device.kind === "videoinput"
-      );
-
-      if (videoDevices && videoDevices.length > 1) {
-        var newVideoDevice = videoDevices.filter(
-          (device) => device.deviceId !== this.state.currentVideoDevice.deviceId
-        );
-
-        if (newVideoDevice.length > 0) {
-          // Creating a new publisher with specific videoSource
-          // In mobile devices the default and first camera is the front one
-          var newPublisher = this.OV.initPublisher(undefined, {
-            videoSource: newVideoDevice[0].deviceId,
-            publishAudio: true,
-            publishVideo: true,
-            mirror: true,
-          });
-
-          //newPublisher.once("accessAllowed", () => {
-          await this.state.session.unpublish(this.state.mainStreamManager);
-
-          await this.state.session.publish(newPublisher);
-          this.setState({
-            currentVideoDevice: newVideoDevice[0],
-            mainStreamManager: newPublisher,
-            publisher: newPublisher,
-          });
-        }
-      }
-    } catch (e) {
-      console.error(e);
+      await this.leaveSession(); // Wait for leaveSession() to complete
+      await this.findRoom(sessionIdForSwitch); // Once leaveSession() completes, find a room
+      this.joinSession(); // Once findRoom() completes, join the session
+    } catch (error) {
+      console.error("An error occurred:", error);
     }
   }
 
+  async backToHome() {
+    await this.leaveSession();
+    window.location.href = "/";
+  }
+
   render() {
-    const mySessionId = this.state.mySessionId;
-    const myUserName = this.state.myUserName;
-    console.log("state", this.state);
+    // const mySessionId = this.state.mySessionId;
 
     return (
-      <div className={styles.container}>
-        {this.state.session === undefined ? (
-          <div id="join">
-            <div id="join-dialog" className={styles.joinContainer}>
-              <h1> Join a video session </h1>
-              <form className={styles.formGroup} onSubmit={this.joinSession}>
-                <p>
-                  <label>Participant:</label>
-                  <input
-                    className="form-control mb-4"
-                    type="text"
-                    id="userName"
-                    value={myUserName}
-                    onChange={this.handleChangeUserName}
-                    required
-                  />
-                </p>
-                <p>
-                  <label>Session:</label>
-                  <input
-                    className="form-control mb-4"
-                    type="text"
-                    id="sessionId"
-                    value={mySessionId}
-                    onChange={this.handleChangeSessionId}
-                    required
-                  />
-                </p>
-                <p className="text-center">
-                  <input
-                    className="btn btn-success"
-                    name="commit"
-                    type="submit"
-                    value="참여하기"
-                  />
-                </p>
-              </form>
-            </div>
-          </div>
-        ) : (
-          <div id="session">
-            <div id="session-header">
-              <h1 id="session-title">{mySessionId}</h1>
-              <input
-                className="btn btn-danger"
-                type="button"
-                id="buttonLeaveSession"
-                onClick={this.leaveSession}
-                value="Leave session"
-              />
-              <input
-                className="btn btn-success"
-                type="button"
-                id="buttonSwitchCamera"
-                onClick={this.switchCamera}
-                value="Switch Camera"
-              />
-            </div>
-
-            {this.state.mainStreamManager !== undefined ? (
-              <div id="main-video" className="col-md-6">
-                <UserVideoComponent
-                  streamManager={this.state.mainStreamManager}
-                />
+      <div className="container">
+        <div id="session" className={styles.container}>
+          <div id="video-container" className={styles.vedioContainer}>
+            {this.state.publisher !== undefined ? (
+              <div
+                className="stream-container"
+                onClick={() => this.handleMainVideoStream(this.state.publisher)}
+              >
+                <UserVideoComponent streamManager={this.state.publisher} />
               </div>
             ) : null}
-            <div id="video-container" className="col-md-6">
-              {this.state.publisher !== undefined ? (
+
+            {this.state.subscribers.length ? (
+              this.state.subscribers.map((sub, _) => (
                 <div
-                  className="stream-container col-md-3 col-xs-12"
-                  onClick={() =>
-                    this.handleMainVideoStream(this.state.publisher)
-                  }
+                  key={sub.id}
+                  className="stream-container"
+                  onClick={() => this.handleMainVideoStream(sub)}
                 >
-                  <UserVideoComponent streamManager={this.state.publisher} />
+                  <UserVideoComponent streamManager={sub} />
                 </div>
-              ) : (
-                this.state.subscribers.map((sub, i) => (
-                  <div
-                    key={sub.id}
-                    className="stream-container col-md-6 col-xs-6"
-                    onClick={() => this.handleMainVideoStream(sub)}
-                  >
-                    <span>{sub.id}</span>
-                    <UserVideoComponent streamManager={sub} />
-                  </div>
-                ))
-              )}
+              ))
+            ) : (
+              <div
+                className="d-flex justify-content-center align-items-center"
+                style={{ width: "50%", color: "#fff" }}
+              >
+                <p style={{ color: "#fff" }}>상대가 없습니다...</p>
+              </div>
+            )}
+          </div>
+          <div id="session-header" className={styles.buttonContainer}>
+            <div
+              className="btn btn-light rounded-pill me-3"
+              type="button"
+              id="buttonSwitchCamera"
+              style={{ width: "5rem" }}
+              onClick={this.switchCamera}
+            >
+              <img src={userAccount} alt="userAccount" width={25} />
+            </div>
+            <div
+              className="btn btn-danger rounded-pill ms-3"
+              type="button"
+              id="buttonLeaveSession"
+              style={{ width: "5rem" }}
+                onClick={this.backToHome}
+            >
+              <CallEndIcon />
             </div>
           </div>
-        )}
+        </div>
       </div>
     );
   }
@@ -375,6 +330,33 @@ class WebRTC extends Component {
     );
     return response.data; // The token
   }
+
+  async findRoom(sessionId) {
+    customAxios
+      .get(
+        `${process.env.REACT_APP_SERVER}/api/sessions/` +
+          sessionId +
+          `/getRoom`,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+      .then(
+        (res) => {}
+        // console.log("findroom", (this.state.mySessionId = res.data))
+      );
+  }
+
+  async leaveRoom(sessionId) {
+    const response = await customAxios.get(
+      `${process.env.REACT_APP_SERVER}/api/sessions/` + sessionId + "/leave",
+      {},
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    return response.data; // The token
+  }
 }
 
-export default WebRTC;
+export default WebRtcPage;
