@@ -15,17 +15,17 @@ export default function NavBar() {
   const handleClose = () => setModalShow(false);
   const handleShow = () => setModalShow(true);
 
-  const DEBUGRTC = () => {
-    Swal.fire({
-      title: "공사중",
-      text: "죄송합니다. 아직 업데이트 중입니다.",
-      imageUrl:
-        "https://505bucket.s3.ap-northeast-2.amazonaws.com/static/Starnge505_alert2.png",
-      imageWidth: 400,
-      imageHeight: 200,
-      imageAlt: "Custom image",
-    });
-  };
+  // const DEBUGRTC = () => {
+  //   Swal.fire({
+  //     title: "공사중",
+  //     text: "죄송합니다. 아직 업데이트 중입니다.",
+  //     imageUrl:
+  //       "https://505bucket.s3.ap-northeast-2.amazonaws.com/static/Starnge505_alert2.png",
+  //     imageWidth: 400,
+  //     imageHeight: 200,
+  //     imageAlt: "Custom image",
+  //   });
+  // };
 
   const suggestionHandeler = () => {
     if (authUser.accessToken) {
@@ -35,13 +35,13 @@ export default function NavBar() {
     }
   };
 
-  // const RtcHandeler = () => {
-  //   if (authUser.accessToken) {
-  //     navigate("/web-rtc");
-  //   } else {
-  //     alert("로그인 후 사용해 주세요.");
-  //   }
-  // };
+  const RtcHandeler = () => {
+    if (authUser.accessToken) {
+      navigate("/web-rtc");
+    } else {
+      alert("로그인 후 사용해 주세요.");
+    }
+  };
 
   const MenuItems = () => (
     <ul className="navbar-nav">
@@ -61,9 +61,9 @@ export default function NavBar() {
         </button>
       </li>
       <li className="nav-item">
-        {/* <button className={styles.tab} onClick={RtcHandeler}> */}
-        <button className={styles.tab} onClick={DEBUGRTC}>
-          디버깅
+        <button className={styles.tab} onClick={RtcHandeler}>
+        {/* <button className={styles.tab} onClick={DEBUGRTC}> */}
+          랜덤채팅
         </button>
       </li>
     </ul>

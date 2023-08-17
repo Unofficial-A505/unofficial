@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from "./PostDetail.module.css";
 
-import { useState, useEffect, useDebugValue, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -18,15 +19,15 @@ import { IoIosArrowForward } from "@react-icons/all-files/io/IoIosArrowForward";
 import { IoRocketOutline } from "@react-icons/all-files/io5/IoRocketOutline";
 // 추천 아이콘
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { FaRegThumbsUp } from "@react-icons/all-files/fa/FaRegThumbsUp";
-import { FaThumbsUp } from "@react-icons/all-files/fa/FaThumbsUp";
+// import { FaRegThumbsUp } from "@react-icons/all-files/fa/FaRegThumbsUp";
+// import { FaThumbsUp } from "@react-icons/all-files/fa/FaThumbsUp";
 // 삭제 아이콘
 import { IoTrashOutline } from "@react-icons/all-files/io5/IoTrashOutline";
 // 수정 아이콘
 import { HiOutlinePencilAlt } from "@react-icons/all-files/hi/HiOutlinePencilAlt";
-import { HiOutlineSpeakerphone } from "@react-icons/all-files/hi/HiOutlineSpeakerphone";
+// import { HiOutlineSpeakerphone } from "@react-icons/all-files/hi/HiOutlineSpeakerphone";
 // 말풍선 아이콘
-import { IoChatboxOutline } from "@react-icons/all-files/io5/IoChatboxOutline";
+// import { IoChatboxOutline } from "@react-icons/all-files/io5/IoChatboxOutline";
 // 조회수 아이콘
 import { AiOutlineEye } from "@react-icons/all-files/ai/AiOutlineEye";
 
@@ -37,10 +38,10 @@ import {
   postRecommendInputApi,
 } from "../../api/posts";
 import {
-  postCommentsApi,
+  // postCommentsApi,
   postCommentCreateApi,
   postCommentUpdateApi,
-  postCommentDeleteApi,
+  // postCommentDeleteApi,
 } from "../../api/comments";
 
 import customAxios from "../../util/customAxios";
@@ -161,7 +162,7 @@ export default function PostDetail() {
       alert("이미 추천한 게시글입니다!");
       return;
     }
-    setTimeout(() => setrecommendedState(true), 200);
+    setTimeout(() => setrecommendedState(true), 300);
 
     postRecommendInputApi(postId)
       .then(() => {

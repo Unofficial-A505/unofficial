@@ -24,6 +24,7 @@ class WebRtcPage extends Component {
       subscribers: [],
     };
 
+    this.backToHome = this.backToHome.bind(this);
     this.connectRtc = this.connectRtc.bind(this);
     this.joinSession = this.joinSession.bind(this);
     this.leaveSession = this.leaveSession.bind(this);
@@ -222,6 +223,11 @@ class WebRtcPage extends Component {
     }
   }
 
+  async backToHome() {
+    await this.leaveSession();
+    window.location.href = "/";
+  }
+
   connectRtc(e) {
     e.preventDefault();
 
@@ -294,7 +300,7 @@ class WebRtcPage extends Component {
               type="button"
               id="buttonLeaveSession"
               style={{ width: "5rem" }}
-              onClick={this.leaveSession}
+                onClick={this.backToHome}
             >
               <CallEndIcon />
             </div>
