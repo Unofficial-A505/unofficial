@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import styles from "./WebRtcPage.module.css";
 import customAxios from "./../../util/customAxios";
 import React, { Component } from "react";
@@ -38,6 +39,7 @@ class WebRtcPage extends Component {
   }
   componentWillUnmount() {
     window.removeEventListener("beforeunload", this.onbeforeunload);
+    this.leaveSession();
   }
   onbeforeunload(event) {
     this.leaveSession();
@@ -163,7 +165,7 @@ class WebRtcPage extends Component {
     } catch (e) {
       nowSessionId = null;
     }
-    if (nowSessionId != null && nowSessionId != "") {
+    if (nowSessionId !== null && nowSessionId !== "") {
       this.leaveRoom(nowSessionId);
     }
     if (mySession) {
@@ -193,37 +195,6 @@ class WebRtcPage extends Component {
     } catch (error) {
       console.error("An error occurred:", error);
     }
-    // try {
-    //   const devices = await this.OV.getDevices();
-    //   var videoDevices = devices.filter(
-    //     (device) => device.kind === "videoinput"
-    //   );
-    //   if (videoDevices && videoDevices.length > 1) {
-    //     var newVideoDevice = videoDevices.filter(
-    //       (device) => device.deviceId !== this.state.currentVideoDevice.deviceId
-    //     );
-    //     if (newVideoDevice.length > 0) {
-    //       // Creating a new publisher with specific videoSource
-    //       // In mobile devices the default and first camera is the front one
-    //       var newPublisher = this.OV.initPublisher(undefined, {
-    //         videoSource: newVideoDevice[0].deviceId,
-    //         publishAudio: true,
-    //         publishVideo: true,
-    //         mirror: false,
-    //       });
-    //       //newPublisher.once("accessAllowed", () => {
-    //       await this.state.session.unpublish(this.state.mainStreamManager);
-    //       await this.state.session.publish(newPublisher);
-    //       this.setState({
-    //         currentVideoDevice: newVideoDevice[0],
-    //         mainStreamManager: newPublisher,
-    //         publisher: newPublisher,
-    //       });
-    //     }
-    //   }
-    // } catch (e) {
-    //   console.error(e);
-    // }
   }
 
   async backToHome() {
@@ -232,12 +203,13 @@ class WebRtcPage extends Component {
   }
 
   render() {
-    const mySessionId = this.state.mySessionId;
-    const myUserName = this.state.myUserName;
+    // const mySessionId = this.state.mySessionId;
+    // const myUserName = this.state.myUserName;
     return (
       <div className="container">
         <div id="session" className={styles.container}>
           <div id="video-container" className={styles.vedioContainer}>
+
             {this.state.publisher !== undefined ? (
               <div
                 className="stream-container"
@@ -246,24 +218,23 @@ class WebRtcPage extends Component {
                 <UserVideoComponent streamManager={this.state.publisher} />
               </div>
             ) : null}
-
-            {this.state.subscribers.map((sub, _) => (
-              <div
-                key={sub.id}
-                className="stream-container"
-                onClick={() => this.handleMainVideoStream(sub)}
-              >
-                <UserVideoComponent streamManager={sub} />
-              </div>
-            ))}
-            {/* ) : (
-              <div
-                className="d-flex justify-content-center align-items-center"
-                style={{ width: "50%", color: "#fff" }}
-              >
-                <p style={{ color: "#fff" }}>상대가 없습니다...</p>
-              </div>
-            )} */}
+            {this.state.subscribers.length ?
+              this.state.subscribers.map((sub, _) => (
+                <div
+                  key={sub.id}
+                  className="stream-container"
+                  onClick={() => this.handleMainVideoStream(sub)}
+                >
+                  <UserVideoComponent streamManager={sub} />
+                </div>
+              )) : (
+                <div
+                  className="d-flex justify-content-center align-items-center"
+                  style={{ width: "50%", color: "#fff" }}
+                >
+                  <p style={{ color: "#fff" }}>상대가 없습니다...</p>
+                </div>
+              )}
           </div>
           <div id="session-header" className={styles.buttonContainer}>
             <div
