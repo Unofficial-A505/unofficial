@@ -100,7 +100,6 @@ export default function PostDetail() {
 
   useEffect(() => {
     setcurrpostPage(currPage);
-    console.log('currcommentpage', currcommentPage)
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     // 게시글 상세정보 가져오기
