@@ -140,7 +140,7 @@ deploy-react-dev: # This job runs in the deploy stage.
     - docker run -d --restart always --network ubuntu_default --ip 172.18.0.101 -e TZ=Asia/Seoul --name $NAME $IMAGE_NAME
   only:
     - develop
-
+ 
 finish-dev:
   stage: finish
   script:
