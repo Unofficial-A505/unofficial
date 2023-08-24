@@ -88,7 +88,7 @@ const router = createBrowserRouter([
       { path: "boards/:boardId/:postId", element: <PostDetail /> },
       { path: "boards/:boardId/:postId/update", element: <PostUpdate /> },
       { path: "boards/search/:keyword", element: <SearchView /> },
-      { path: "web-rtc", element: <EntrancePage /> },
+      //{ path: "web-rtc", element: <EntrancePage /> },
       //{ path: "web-rtc/connect", element: <WebRTC /> },
       { path: "forgot-password", element: <ForgotPasswordPage /> },
       { path: "user/advertisement/form", element: <AddAdvPage /> },
