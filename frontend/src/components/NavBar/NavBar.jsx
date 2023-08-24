@@ -60,12 +60,6 @@ export default function NavBar() {
           건의하기
         </button>
       </li>
-      <li className="nav-item">
-        <button className={styles.tab} onClick={RtcHandeler}>
-        {/* <button className={styles.tab} onClick={DEBUGRTC}> */}
-          랜덤채팅
-        </button>
-      </li>
     </ul>
   );
 
