@@ -3,7 +3,7 @@ import App from "./App";
 import MainPage from "./pages/MainPage/MainPage";
 import MyPage from "./pages/MyPage/MyPage";
 import EntrancePage from "./pages/WebRtcPage/EntrancePage";
-import WebRTC from "./pages/WebRtcPage/WebRtcPage";
+//import WebRTC from "./pages/WebRtcPage/WebRtcPage";
 import SuggestionM from "./pages/MyPage/SuggestionM/SuggestionM";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
 // 마이페이지
@@ -88,8 +88,8 @@ const router = createBrowserRouter([
       { path: "boards/:boardId/:postId", element: <PostDetail /> },
       { path: "boards/:boardId/:postId/update", element: <PostUpdate /> },
       { path: "boards/search/:keyword", element: <SearchView /> },
-      { path: "web-rtc", element: <EntrancePage /> },
-      { path: "web-rtc/connect", element: <WebRTC /> },
+      //{ path: "web-rtc", element: <EntrancePage /> },
+      //{ path: "web-rtc/connect", element: <WebRTC /> },
       { path: "forgot-password", element: <ForgotPasswordPage /> },
       { path: "user/advertisement/form", element: <AddAdvPage /> },
     ],
