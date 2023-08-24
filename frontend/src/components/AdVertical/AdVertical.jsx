@@ -1,19 +1,28 @@
-import styles from './AdVertical.module.css'
-import { useEffect, useState } from "react";
+import styles from './AdVertical.module.css';
+import { useEffect } from "react";
+
 export default function AdVertical(){
 
   useEffect(() => {
-    (window.adsbygoogle = window.adsbygoogle || []).push({});
+    // 카카오 애드핏 스크립트 로딩
+    const script = document.createElement("script");
+    script.src = "//t1.daumcdn.net/kas/static/ba.min.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
+
   return(
     <>
       <div className={styles.advertiseVer}>
-        <ins className="adsbygoogle"
-        style={{display:'block'}}
-        data-ad-client="ca-pub-2110899329559840"
-        data-ad-slot="4214547025"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
+        <ins className="kakao_ad_area" 
+             style={{display:'block'}}
+             data-ad-unit="DAN-zMXaxPxHgYpyVua6"
+             data-ad-width="300"
+             data-ad-height="250"></ins>
       </div>
     </>
   );
