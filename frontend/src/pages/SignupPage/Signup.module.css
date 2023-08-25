@@ -1,180 +1,228 @@
 .backButtonContainer {
-    text-decoration: none;
-    position: relative;
-    left: 1.5rem;
-    top: 1rem;
+  text-decoration: none;
+  position: relative;
+  left: 1.5rem;
+  top: 1rem;
 }
 .backButtonContainer:hover {
-    cursor: pointer;
-    scale: 1.004;
+  cursor: pointer;
+  scale: 1.004;
 }
 .backButtonContainer span {
-    position: relative;
-    font-weight: 600;
-    top: 0.15rem;
-    color: black;
+  position: relative;
+  font-weight: 600;
+  top: 0.15rem;
+  color: black;
 }
 .backButton {
-    text-decoration: none;
-    color: black;
-    position: relative;
-    left: 15px;
-    top: 15px;
-    font-weight: bold;
+  text-decoration: none;
+  color: black;
+  position: relative;
+  left: 15px;
+  top: 15px;
+  font-weight: bold;
 }
-
+#termsContainer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  /* border: 1px dotted red; */
+}
+#termsContainer h2 {
+  line-height: 30px;
+  color: #292929;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+#termsContainer h3 {
+  color: #292929;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+#termsContainer p {
+  line-height: 20px;
+  color: #333;
+  font-size: 13px;
+}
+#termsContainer ul li {
+  line-height: 20px;
+  color: #333;
+  font-size: 13px;
+}
+#termsContainer div button {
+  font-size: 1rem;
+  font-weight: 550;
+}
+.scrollable_div {
+  height: 380px;
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+.agreed_btn {
+  color: #fff;
+  background-color: #0969fb;
+}
+.agreed_btn:hover {
+  color: #fff;
+  background-color: #034bb9;
+}
 #container {
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    transform: translate(-50%, -50%);
-    box-sizing: border-box;
-    border: 1px solid #ededed;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 40px 60px;
-    width: 480px;
-    text-align: left;
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  border: 1px solid #ededed;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 60px;
+  width: 480px;
+  text-align: left;
 }
 #container .complete {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #container h2 {
-    line-height: 30px;
-    color: #292929;
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 4px;
+  line-height: 30px;
+  color: #292929;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 4px;
 }
 #container p {
-    line-height: 20px;
-    color: #737373;
-    font-size: 13px;
+  line-height: 20px;
+  color: #737373;
+  font-size: 13px;
 }
 #container label {
-    flex: auto;
-    line-height: 20px;
-    color: #737373;
-    font-size: 12px;
-    font-weight: bold;
-    margin-bottom: 0px;
+  flex: auto;
+  line-height: 20px;
+  color: #737373;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 0px;
 }
 #container select {
-    display: block;
-    box-sizing: border-box;
-    margin-top: 4px;
-    padding: 6px;
-    width: 100%;
-    height: 35px;
-    line-height: 24px;
-    border: 1px solid #ededed;
-    border-radius: 12px;
-    color: #292929;
-    font-size: 14px;
-    background-color: #f9f9f9;
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    background-size: 24px 24px;
+  display: block;
+  box-sizing: border-box;
+  margin-top: 4px;
+  padding: 6px;
+  width: 100%;
+  height: 35px;
+  line-height: 24px;
+  border: 1px solid #ededed;
+  border-radius: 12px;
+  color: #292929;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 24px 24px;
 }
-#container input[type=submit] {
-    display: block;
-    width: 100%;
-    height: 35px;
-    border: 0;
-    border-radius: 8px;
-    color: #fff;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: #0969FB;
+#container input[type="submit"] {
+  display: block;
+  width: 100%;
+  height: 35px;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #0969fb;
 }
-#container input[type=submit]:hover {
-    background-color: #034BB9;
+#container input[type="submit"]:hover {
+  background-color: #034bb9;
 }
 input::placeholder {
-    font-size: 0.8rem;
+  font-size: 0.8rem;
 }
 
 .complete {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-    padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 40px 60px;
 }
 .complete h2 {
-    margin-top: 5px;
-    line-height: 30px;
-    color: #565656;
-    font-size: 22px;
+  margin-top: 5px;
+  line-height: 30px;
+  color: #565656;
+  font-size: 22px;
 }
 .complete h2 span {
-    color: #fb6666;
+  color: #fb6666;
 }
 .complete p {
-    line-height: 20px;
-    color: #737373;
-    font-size: 13px;
-    margin-bottom: 5px;
+  line-height: 20px;
+  color: #737373;
+  font-size: 13px;
+  margin-bottom: 5px;
 }
 .complete a {
-    text-decoration: none;
-    font-size: 15px;
-    color: #0969FB;
+  text-decoration: none;
+  font-size: 15px;
+  color: #0969fb;
 }
 .complete a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 .complete button {
-    display: block;
-    margin-top: 18px;
-    width: 15em;
-    height: 35px;
-    border: 0;
-    border-radius: 6px;
-    color: #fff;
-    font-size: 14px;
-    background-color: #0969FB;
+  display: block;
+  margin-top: 18px;
+  width: 15em;
+  height: 35px;
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 14px;
+  background-color: #0969fb;
 }
 .complete button:hover {
-    background-color: #034BB9;
+  background-color: #034bb9;
 }
 /* 반응형 스타일 */
 @media (max-width: 768px) {
-    #container {
-        width: 450px;
-        padding: 40px 60px;
-    }
+  #container {
+    width: 450px;
+    padding: 40px 60px;
+  }
 }
 @media (max-width: 480px) {
-    #container {
-        width: 85vw;
-        padding: 40px 2vh;
-    }
-    #container h2 {
-        font-size: 18px;
-    }
-    #container p {
-        font-size: 11px;
-    }
-    #container select {
-        height: 32px;
-    }
-    #container input {
-        height: 32px;
-    }
-    .complete button {
-        width: 18em;
-        font-size: 12px;
-    }
-    .complete h2 {
-        font-size: 18px;
-    }
-    .complete p {
-        font-size: 12px;
-    }
+  #container {
+    width: 85vw;
+    padding: 40px 2vh;
+  }
+  #container h2 {
+    font-size: 18px;
+  }
+  #container p {
+    font-size: 11px;
+  }
+  #container select {
+    height: 32px;
+  }
+  #container input {
+    height: 32px;
+  }
+  .complete button {
+    width: 18em;
+    font-size: 12px;
+  }
+  .complete h2 {
+    font-size: 18px;
+  }
+  .complete p {
+    font-size: 12px;
+  }
 }

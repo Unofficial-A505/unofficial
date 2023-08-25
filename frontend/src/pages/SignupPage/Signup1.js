@@ -1,14 +1,31 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from "./Signup.module.css";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setLocal, setGen } from "./../../store/signupSlice";
 
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 export default function Signup1() {
-  let [selectedLocal, setSelectedLocal] = useState("");
-  let [selectedGen, setSelectedGen] = useState("");
+
+  let user = useSelector((state) => state.user)
+
+  useEffect(() => {
+    if (!user.agreed) {
+      navigate('/signup')
+    }
+  }, [])
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  let [selectedLocal, setSelectedLocal] = useState("");
+  let [selectedGen, setSelectedGen] = useState("");
+  
   const handleLocalChange = (event) => {
     setSelectedLocal(event.target.value);
   };
@@ -21,10 +38,10 @@ export default function Signup1() {
     if (!selectedLocal || !selectedGen) {
       alert("지역과 기수를 선택해주세요.");
     }
-    // 선택한 지역과 기수 정보를 user 객체에 저장
+
     dispatch(setLocal(selectedLocal));
     dispatch(setGen(selectedGen));
-    navigate("register");
+    navigate("/signup/register");
   };
 
   return (
@@ -39,43 +56,52 @@ export default function Signup1() {
       <p className="mt-0 mb-3" style={{ color: "red" }}>
         선택한 지역과 기수는 이후 변경이 불가합니다.
       </p>
-      <div className="mb-2">
-        <label className="form-label mb-0">지역</label>
-        <div />
-        <select
-          name="enter_local"
+
+      <FormControl sx={{ m: 0, minWidth: "100%" }} size="small" className="mb-4">
+        <InputLabel id="demo-select-small-label">지역</InputLabel>
+        <Select
+          labelId="demo-select-small-label"
+          id="demo-select-small"
           value={selectedLocal}
+          label="지역"
           onChange={handleLocalChange}
         >
-          <option value="" disabled>
-            지역을 선택하세요
-          </option>
-          <option value="서울">서울 캠퍼스</option>
-          <option value="대전">대전 캠퍼스</option>
-          <option value="구미">구미 캠퍼스</option>
-          <option value="광주">광주 캠퍼스</option>
-          <option value="부울경">부울경 캠퍼스</option>
-        </select>
-      </div>
-      <div className="mb-4">
-        <label className="form-label mb-0">기수</label>
-        <div />
-        <select name="enter_gen" value={selectedGen} onChange={handleGenChange}>
-          <option value="" disabled>
-            기수를 선택하세요
-          </option>
-          <option value="1">1기</option>
-          <option value="2">2기</option>
-          <option value="3">3기</option>
-          <option value="4">4기</option>
-          <option value="5">5기</option>
-          <option value="6">6기</option>
-          <option value="7">7기</option>
-          <option value="8">8기</option>
-          <option value="9">9기</option>
-          <option value="10">10기</option>
-        </select>
-      </div>
+          <MenuItem value="">
+            <em>지역을 선택하세요</em>
+          </MenuItem>
+          <MenuItem value="서울">서울 캠퍼스</MenuItem>
+          <MenuItem value="대전">대전 캠퍼스</MenuItem>
+          <MenuItem value="구미">구미 캠퍼스</MenuItem>
+          <MenuItem value="광주">광주 캠퍼스</MenuItem>
+          <MenuItem value="부울경">부울경 캠퍼스</MenuItem>
+        </Select>
+      </FormControl>
+
+      <FormControl sx={{ m: 0, minWidth: "100%" }} size="small" className="mb-4">
+        <InputLabel id="demo-select-small-label">기수</InputLabel>
+        <Select
+          labelId="demo-select-small-label"
+          id="demo-select-small"
+          value={selectedGen}
+          label="지역"
+          onChange={handleGenChange}
+        >
+          <MenuItem value="">
+            <em>기수를 선택하세요</em>
+          </MenuItem>
+          <MenuItem value="1">1기</MenuItem>
+          <MenuItem value="2">2기</MenuItem>
+          <MenuItem value="3">3기</MenuItem>
+          <MenuItem value="4">4기</MenuItem>
+          <MenuItem value="5">5기</MenuItem>
+          <MenuItem value="6">6기</MenuItem>
+          <MenuItem value="7">7기</MenuItem>
+          <MenuItem value="8">8기</MenuItem>
+          <MenuItem value="9">9기</MenuItem>
+          <MenuItem value="10">10기</MenuItem>
+        </Select>
+      </FormControl>
+
       <input type="submit" value="다음" />
     </form>
   );
