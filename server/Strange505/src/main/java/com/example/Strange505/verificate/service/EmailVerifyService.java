@@ -81,9 +81,9 @@ public class EmailVerifyService {
 
         User user = userRepository.findByEmail(email).orElse(null);
         if (user != null) {
-            if (user.getIs_activated()) {
-                return Result.success(null);
-            }
+//           if (user.getIs_activated()) {
+//               return Result.success(null);
+//            }
             return Result.fail("이미 존재하는 회원 입니다.");
         }
         if (emailRepository.findByEmail(email).orElse(null) != null) {
