@@ -2,7 +2,7 @@
 import App from "./App";
 import MainPage from "./pages/MainPage/MainPage";
 import MyPage from "./pages/MyPage/MyPage";
-import EntrancePage from "./pages/WebRtcPage/EntrancePage";
+// import EntrancePage from "./pages/WebRtcPage/EntrancePage";
 //import WebRTC from "./pages/WebRtcPage/WebRtcPage";
 import SuggestionM from "./pages/MyPage/SuggestionM/SuggestionM";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
@@ -28,6 +28,7 @@ import SearchView from "./pages/SearchView/SearchView";
 import CreatePostPage from "./pages/CreatePostPage/CreatePostPage";
 // 회원가입
 import Signup from "./pages/SignupPage/Signup";
+import Signup0 from "./pages/SignupPage/Signup0";
 import Signup1 from "./pages/SignupPage/Signup1";
 import Signup2 from "./pages/SignupPage/Signup2";
 import Signup3 from "./pages/SignupPage/Signup3";
@@ -98,7 +99,8 @@ const router = createBrowserRouter([
     path: "signup",
     element: <Signup />,
     children: [
-      { path: "", element: <Signup1 /> },
+      { path: "", element: <Signup0 />},
+      { path: "select", element: <Signup1 /> },
       { path: "register", element: <Signup2 /> },
       { path: "complete", element: <Signup3 /> },
     ],

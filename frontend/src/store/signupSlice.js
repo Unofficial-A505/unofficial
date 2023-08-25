@@ -3,12 +3,16 @@ import { createSlice } from '@reduxjs/toolkit'
 const user = createSlice({
   name: 'user',
   initialState: {
+    agreed: false,
     local: '',
     gen: '', 
     email: '', 
     password: '',
   },
   reducers: {
+    setAgreed(state, action) {
+      state.agreed = action.payload
+    },
     setLocal(state, action){
       state.local = action.payload
     },
@@ -24,6 +28,6 @@ const user = createSlice({
   }
 })
 
-export const { setLocal, setGen, setEmail, setPassword } = user.actions
+export const { setAgreed, setLocal, setGen, setEmail, setPassword } = user.actions
 
 export default user
