@@ -135,7 +135,7 @@ export default function MyPage() {
                   }
                 >
                   <RiAdvertisementLine className="me-2" size={20} />
-                  <p>광고 승인 및 취소(관리자)</p>
+                  <p>광고 승인(관리자)</p>
                 </div>
               )}
               {role === "ADMIN" && (

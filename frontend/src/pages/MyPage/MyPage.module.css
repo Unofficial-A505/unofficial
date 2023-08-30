@@ -1,6 +1,7 @@
 .mypageContainer {
   width: 1170px;
-  height: 600px;
+  height: fit-content;
+  min-height: calc(100vh - 15rem);
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -37,10 +38,15 @@
 .logoutTab {
   display: flex;
   align-items: center;
+  width: fit-content;
 }
 .logoutTab:hover {
   cursor: pointer;
-  font-weight: 500;
+  background-color: #ebebeb;
+}
+.logoutTab p {
+  line-height: 22px;
+  margin-bottom: 2px;
 }
 .mypageContentContainer {
   width: 870px;

@@ -16,6 +16,9 @@
   color: #fff;
   font-size: 13px;
 }
+.cautionContainer p {
+  margin-bottom: 0;
+}
 .inputLabel {
   color: #333;
   font-size: 13px;
