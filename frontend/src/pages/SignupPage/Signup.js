@@ -14,7 +14,7 @@ function Signup() {
     <div className="Singup">
       <div className={styles.backButtonContainer} onClick={() => { navigate('/') }}>
         <FaArrowLeft />&nbsp;
-        <span>뒤로가기</span>
+        <p>뒤로가기</p>
       </div>
       <Outlet />
     </div>

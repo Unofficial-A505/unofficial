@@ -320,7 +320,7 @@ const QuillContainer = () => {
       <div className={styles.undermenu}>
         <button className={styles.grayoutbutton} onClick={handleCancel}>
           <IoIosArrowBack className="align-self-center" />
-          <p className="align-self-center">목록으로 돌아가기</p>
+          <p className="align-self-center mb-0">목록으로 돌아가기</p>
         </button>
         <Button
           variant="contained"
