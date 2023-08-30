@@ -1,18 +1,21 @@
 .backButtonContainer {
   text-decoration: none;
   position: relative;
+  width: fit-content;
   left: 1.5rem;
   top: 1rem;
+  display: flex;
+  align-items: center;
 }
 .backButtonContainer:hover {
   cursor: pointer;
-  scale: 1.004;
+  background-color: #ededed;
 }
-.backButtonContainer span {
+.backButtonContainer p {
   position: relative;
   font-weight: 600;
-  top: 0.15rem;
   color: black;
+  margin-bottom: 0;
 }
 .backButton {
   text-decoration: none;

@@ -19,6 +19,10 @@
   display: flex;
 }
 
+.topmenuBox p {
+  margin-bottom: 0;
+}
+
 .boardTitle {
   color: #034BB9;
   margin-right: 10px;
