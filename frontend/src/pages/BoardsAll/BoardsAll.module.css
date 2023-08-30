@@ -1,7 +1,9 @@
 .boardsAllContainer {
   width: 1200px;
   margin: 0 auto;
-  
+  margin-bottom: 5rem;
+  height: fit-content;
+  min-height: calc(100vh - 15rem);
   /* border: 1px dotted red; */
 }
 
