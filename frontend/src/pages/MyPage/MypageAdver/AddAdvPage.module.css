@@ -1,5 +1,8 @@
 .AdvformContainer {
   width: 100%;
+  height: fit-content;
+  min-height: calc(100vh - 15rem);
+  margin-bottom: 5rem;
   display: flex;
   justify-content: center;
 }

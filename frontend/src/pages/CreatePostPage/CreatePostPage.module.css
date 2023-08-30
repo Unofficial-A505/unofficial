@@ -1,5 +1,7 @@
 .craetecontainer {
   width: 1200px;
+  height: fit-content;
+  min-height: calc(100vh - 15rem);
   margin: 10px auto;
 }
 
