@@ -83,6 +83,7 @@ export default function Signup2() {
     axios
       .post(`${process.env.REACT_APP_SERVER}/api/verify`, { email: userEmail })
       .then((res) => {
+        console.log(res)
         if (res.status === 200) {
           setEmailErrorMent(<p style={{ color: 'green', margin: "0" }}>사용 가능한 이메일입니다.</p>)
           setIsDuplicate(false)
