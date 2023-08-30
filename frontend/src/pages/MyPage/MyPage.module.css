@@ -38,10 +38,15 @@
 .logoutTab {
   display: flex;
   align-items: center;
+  width: fit-content;
 }
 .logoutTab:hover {
   cursor: pointer;
-  font-weight: 500;
+  background-color: #ebebeb;
+}
+.logoutTab p {
+  line-height: 22px;
+  margin-bottom: 2px;
 }
 .mypageContentContainer {
   width: 870px;
