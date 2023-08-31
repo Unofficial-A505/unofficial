@@ -1,8 +1,7 @@
-import styles from './AdVertical.module.css';
+import styles from "./AdVertical.module.css";
 import { useEffect } from "react";
 
-export default function AdVertical(){
-
+export default function AdVertical() {
   useEffect(() => {
     // 카카오 애드핏 스크립트 로딩
     const script = document.createElement("script");
@@ -15,15 +14,15 @@ export default function AdVertical(){
     };
   }, []);
 
-  return(
+  return (
     <>
-      <div className={styles.advertiseVer}>
-        <ins className="kakao_ad_area" 
-             style={{display:'block'}}
-             data-ad-unit="DAN-zMXaxPxHgYpyVua6"
-             data-ad-width="300"
-             data-ad-height="250"></ins>
-      </div>
+      <ins
+        className="kakao_ad_area"
+        style={{ display: "block" }}
+        data-ad-unit="DAN-zMXaxPxHgYpyVua6"
+        data-ad-width="300"
+        data-ad-height="250"
+      ></ins>
     </>
   );
 }
