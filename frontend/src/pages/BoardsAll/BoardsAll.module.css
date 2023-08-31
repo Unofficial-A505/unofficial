@@ -1,135 +1,106 @@
 .boardsAllContainer {
-  width: 1200px;
+  width: 1280px;
   margin: 0 auto;
   margin-bottom: 5rem;
   height: fit-content;
   min-height: calc(100vh - 15rem);
-  /* border: 1px dotted red; */
 }
 
 .boardsTopContainer {
   height: 120px;
   margin: 40px 0 0 0;
-  /* border: 1px dotted red; */
 }
 
 /* 전체 검색 박스 */
 .searchboxall {
   display: flex;
+  align-items: center;
   width: 720px;
-  margin: 10px auto;
+  margin: 1.5rem auto;
 }
 
 .searchboxall p {
-  width: 200px;
-  padding: 8px 5px 0 0;
-
+  width: 180px;
+  margin-bottom: 0;
   font-size: 18px;
   font-weight: 500;
 }
 
 .searchInputBox {
-  position: relative;
-  margin: 0 20px 0 0;
-  width: 580px;
-  /* height: 50px; */
-
+  width: 500px;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
   border: 1px solid #757575;
   border-radius: 0.3rem;
 }
 
-#all {
-  height: 40px;
+.search {
+  width: 95%;
+  height: 45px;
+  margin: 0 auto;
+  border: transparent;
 }
 
-.search {
-  width: 95%;;
-  margin: 0 auto;
-
+.search::placeholder {
   font-size: 0.9rem;
-  border: transparent;
 }
 
 /* 전체 게시판 베스트 게시글 */
 .boardsallBestContainer {
-  position: relative;
   display: flex;
-
+  align-items: center;
   width: 720px;
-  height: 35px;
-  margin: 17px auto;
-
-  border: 1px solid #75757579;
+  height: 2.2rem;
+  margin: 1rem auto;
+  border: 1px solid #e3e5e8;
   border-radius: 1rem;
-  background-color: #f6f7f8
+  background-color: #f6f7f8;
+}
+
+.boardsallBestContainer p {
+  width: 180px;
+  margin-bottom: 0;
+  line-height: 1rem;
+  color: #676767;
 }
 
 .boardsallBestBox {
-  padding: 2px 0 5px 0;
-  margin: 1px 0 5px 0;
-  height: 32px;
-
-  /* border: 1px dotted red; */
-  width: 500px;
-  text-align: start;
-
-  /* width 넘어가는 글자들 ... 처리*/
+  width: 540px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.bestbannerTitle {
-  height: 32px;
-  width: 178px;
-  padding: 3px 0 0 0;
-
-  color: rgba(10, 10, 10, 0.571);
-  /* border: 1px dotted red; */
+.bestContentContainer {
+  height: fit-content;
+  text-align: left;
 }
 
-.bestContentContainer {
-  height: 34.5px;
-  /* border: 1px dotted red;  */
+.bestContentContainer p {
+  line-height: 1rem;
+  margin-bottom: 0;
 }
 
 .bestContentContainer:hover {
   cursor: pointer;
 }
 
-div .slick-list {
-  height: 32px;
-}
-
-.bestContentBox {
-  /* border: 1px dotted red; */
-  /* 박스 길이 넘어가는 글자들 ... 처리*/
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
 .bestContent {
-  margin: 0 12px 0 0;
-
   color: #757575;
   font-size: 14px;
-  font-style: normal;
   font-weight: 400;
-  line-height: normal;
-} 
+  margin-right: 1rem;
+}
 
 .bestContentTitle:hover {
   font-weight: 500;
-
   text-decoration: underline;
-  text-underline-position: under;
 }
 
 /* 광고 container */
 .advContainer {
   margin: 2px auto;
-
   width: 920px;
   height: 120px;
 }
@@ -139,45 +110,33 @@ div .slick-list {
   position: relative;
   display: flex;
   width: 620px;
-
   margin: 40px auto;
-
-  /* border: 1px dotted red; */
 }
 
-#here {
-  width: 94%;
-  height: 40px;
+.searchboxhere p {
+  margin: 0;
 }
 
 .searchboxhere p {
   width: 250px;
   padding: 8px 5px 0 0;
-
   font-size: 18px;
   font-weight: 500;
 }
 
-
 .searchbutton {
-  position: absolute;
-  right: 20px;
-  top: 16%;
-  
   border: 0;
-  border-radius: 1rem;
   background-color: transparent;
 }
 
 .searchbutton:hover {
-  background-color: rgba(208, 208, 208, 0.264);        
+  background-color: rgba(208, 208, 208, 0.264);
 }
 
 .searchbuttonIcon {
   position: absolute;
   right: 20px;
   top: 30%;
-  
   border: 0;
   border-radius: 1rem;
   background-color: transparent;
@@ -187,59 +146,37 @@ div .slick-list {
 .boardsviewContainer {
   width: 1200px;
   display: flex;
-
-  /* border: 1px dotted red; */
 }
 
-.boardcontainer{
+.boardcontainer {
   width: 920px;
-  margin: 0 auto;
-  /* border: 1px dotted green; */
+  margin-right: 30px;
 }
 
 /* 게시판 탭 (자유게시판, 비밀게시판, 9기게시판 etc...) */
-
 .boardtabContainer {
   width: 98%;
-  /* padding: 0 20px 0 0; */
   margin: 10px auto;
   display: flex;
   justify-content: space-between;
-
-  /* border: 1px dotted red; */
-}
-
-.boardTabsBox {
-  /* border: 1px dotted violet; */
 }
 
 #boardtab {
   margin: 0;
   color: #000;
-
-  /* border: 0; */
-  /* background-color: transparent; */
-
-  /* border: 1px dotted red; */
-
   font-size: 17px;
   font-style: normal;
   font-weight: 550;
   line-height: normal;
-
-  /* border: 1px dotted blue; */
 }
 
 #boardtabSelected {
   margin: 0;
   border: 0;
   background-color: transparent;
-
   color: #1973cd;
   font-size: 17px;
   font-weight: 700;
-  /* text-decoration: underline;
-  text-underline-position: under; */
 }
 
 #boardtab:hover {
@@ -248,26 +185,19 @@ div .slick-list {
   font-style: normal;
   font-weight: 550;
   line-height: normal;
-  /* text-decoration: underline; */
-  /* text-underline-position: under; */
 }
 
 /* 새 글 작성 버튼 스타일링 */
-
 .createpageButton {
   width: 140px;
   margin: 10px 15px 0 0;
   color: #000;
-
   border: 0;
   background-color: transparent;
-
   font-size: 18px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-
-  /* border: 1px dotted blue; */
 }
 
 .createpageButton:hover {
@@ -288,36 +218,28 @@ div .slick-list {
 /* Content Outlet */
 .boardsPostsContainer {
   margin: 15px 0 0 0;
-
-  /* border: 1px dotted blue; */
 }
 
+
+/* 게시판 내 검색 + 페이지네이션 */
 .pagination {
   margin: 0 auto;
   margin-top: 20px;
   width: 80px;
   height: 50px;
-
-  /* border: 1px dotted red; */
 }
 
-/* 게시판 내 검색 + 페이지네이션 */
 .boardBottomBar {
   display: flex;
   justify-content: space-between;
-
-  width: 820px;
+  width: 640px;
   margin: 0 auto;
-  /* border: 1px dotted gray; */
 }
-
 
 /* 사이드바 */
 .sideviewContainer {
   position: sticky;
-  width: 260px;
-  /* border: 1px red dotted; */
-
+  width: 330px;
   padding: 0 0 38px 0;
 }
 
@@ -325,11 +247,9 @@ div .slick-list {
   position: sticky;
   right: 1%;
   top: 3%;
-  /* border: 1px dotted violet; */
 }
 
 .sidecontentmiddleBox {
-  width: 260px;
+  width: 330px;
   margin: 0 auto;
-  /* border: 1px dotted orangered; */
 }

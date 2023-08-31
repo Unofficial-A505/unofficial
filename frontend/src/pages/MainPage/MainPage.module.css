@@ -63,15 +63,9 @@
   margin: 0 0 6px 6px;
 }
 
-.posttypeTitlebarBox {
-  width: 99.4%;
-  /* border: 1px dotted red; */
-}
-
 .middleRightContainer {
   width: 330px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* border: 1px dotted pink; */
 }
