@@ -66,105 +66,106 @@ export default function CommentView({ comment, commentUpdate, getComment, currco
 
   if (!updateState) {
     return (
-      <div className={styles.commentContainer}>
-        <div className={styles.commentTopbar}>
-          <div className={styles.commentTitle}>
-            <span className={styles.commentGenLocalInfo}>
-              {comment.gen}기 {comment.local}
-            </span>
-            <span className={styles.commentNickName}>{comment.nickName}</span>
-            <span className={styles.commentcreateTimeago}>
-              <IoRocketOutline className={styles.commentIcons} />
-              {format(comment.createTime, "ko")}
-            </span>
+      <>
+        <div className={styles.commentContainer}>
+          <div className={styles.commentTopbar}>
+            <div className={styles.commentTitle}>
+              <span className={styles.commentGenLocalInfo}>
+                {comment.gen}기 {comment.local}
+              </span>
+              <span className={styles.commentNickName}>{comment.nickName}</span>
+              <span className={styles.commentcreateTimeago}>
+                <IoRocketOutline className={styles.commentIcons} />
+                {format(comment.createTime, "ko")}
+              </span>
+            </div>
           </div>
-        </div>
 
-        <div className={styles.commentContent}>
-          <pre className={styles.contentPretag}>{comment.content}</pre>
-        </div>
+          <div className={styles.commentContent}>
+            <pre className={styles.contentPretag}>{comment.content}</pre>
+          </div>
 
-        <div className={styles.commentBottombar}>
-          <button
-            className={styles.recommentButton}
-            onClick={() => setrecommentBox((prev) => !prev)}
-          >
-            <IoChatboxOutline />&nbsp;
-            답글
-          </button>
-          {isUser && (
-            <div>
-              <span
-                className={styles.updatetextPosition}
-                onClick={() => {
-                  setupdateState((prev) => !prev);
-                  // setcreateComment(createComment.content);
-                }}
-              >
-                <HiOutlinePencilAlt className={styles.commentIcons} />
-                수정하기
-              </span>
-              <span
-                onClick={() => {
-                  CommentDelete(id);
-                }}
-                className={styles.updatetextPosition}
-              >
-                <IoTrashOutline className={styles.commentIcons} />
-                삭제하기
-              </span>
-            </div>
-          )}
-        </div>
-
-        {recommentBox && (
-          <div className={styles.recommentBoxContainer}>
-            <div className={styles.recommentEnter}>
-              <BsArrowReturnRight />
-            </div>
-            <div style={{ width: "100%" }}>
-              <div className={styles.recommentNicknameBox}>
-                <label htmlFor="comment-nickname-input" className="me-2">
-                  닉네임
-                </label>
-                <input
-                  id="recomment-nickname-input"
-                  className={styles.recommentNicknameInput}
-                  type="text"
-                  placeholder="닉네임을 입력하세요"
-                  onChange={(e) => setrecommentNickname(e.target.value)}
-                  maxlength="19"
-                />
+          <div className={styles.commentBottombar}>
+            <button
+              className={styles.recommentButton}
+              onClick={() => setrecommentBox((prev) => !prev)}
+            >
+              <IoChatboxOutline />
+              &nbsp; 답글
+            </button>
+            {isUser && (
+              <div>
+                <span
+                  className={styles.updatetextPosition}
+                  onClick={() => {
+                    setupdateState((prev) => !prev);
+                    // setcreateComment(createComment.content);
+                  }}
+                >
+                  <HiOutlinePencilAlt className={styles.commentIcons} />
+                  수정하기
+                </span>
+                <span
+                  onClick={() => {
+                    CommentDelete(id);
+                  }}
+                  className={styles.updatetextPosition}
+                >
+                  <IoTrashOutline className={styles.commentIcons} />
+                  삭제하기
+                </span>
               </div>
-              <div className={styles.reCommentContainer}>
-                <div className={styles.commentbox}>
-                  <textarea
-                    className={styles.commentInput}
+            )}
+          </div>
+
+          {recommentBox && (
+            <div className={styles.recommentBoxContainer}>
+              <div className={styles.recommentEnter}>
+                <BsArrowReturnRight />
+              </div>
+              <div style={{ width: "100%" }}>
+                <div className={styles.recommentNicknameBox}>
+                  <label htmlFor="comment-nickname-input" className="me-2">
+                    닉네임
+                  </label>
+                  <input
+                    id="recomment-nickname-input"
+                    className={styles.recommentNicknameInput}
                     type="text"
-                    id="recomment-input"
-                    onChange={(e) => setreComments(e.target.value)}
-                    placeholder="댓글을 작성해보세요"
-                    maxLength="299"
+                    placeholder="닉네임을 입력하세요"
+                    onChange={(e) => setrecommentNickname(e.target.value)}
+                    maxlength="19"
                   />
-                  <button
-                    onClick={recommentCreate}
-                    className={styles.commentButton}
-                    disabled={isButtonDisabled}
-                  >
-                    등록
-                  </button>
+                </div>
+                <div className={styles.reCommentContainer}>
+                  <div className={styles.commentbox}>
+                    <textarea
+                      className={styles.commentInput}
+                      type="text"
+                      id="recomment-input"
+                      onChange={(e) => setreComments(e.target.value)}
+                      placeholder="댓글을 작성해보세요"
+                      maxLength="299"
+                    />
+                    <button
+                      onClick={recommentCreate}
+                      className={styles.commentButton}
+                      disabled={isButtonDisabled}
+                    >
+                      등록
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* {comment.children.map((recomment, index) => 
+          {/* {comment.children.map((recomment, index) => 
           <RecommentsView key={index} recomment={recomment} parentId={comment.id} getComment={getComment} articleId={articleId}/>
         )} */}
-
+        </div>
         <hr />
-      </div>
+      </>
     );
   } else {
     return (
