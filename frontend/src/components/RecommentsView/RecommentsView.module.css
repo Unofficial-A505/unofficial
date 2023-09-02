@@ -1,12 +1,19 @@
 .recommentContainer {
-  width: 90%;
+  width: 782px;
   display: flex;
   margin-left: 70px;
-
   /* border: 1px dotted red; */
 }
 
+.recommentEnter {
+  width: 50px;
+  padding: 0 13px;
+  font-size: 1.5rem;
+  color: #9b9b9b;
+}
+
 .recommentContentContainer {
+  margin-top: 13px;
   width: 100%;
   
   /* border: 1px dotted red; */
@@ -20,7 +27,7 @@
   }
 
 .commentTopbar {
-  margin: 0 20px;
+
   /* width: 270px; */
   /* height: 30px; */
 
@@ -61,12 +68,12 @@
 
 /* 수정하기 삭제하기 텍스트 위치 조정*/
 .updatetextPosition {
-  margin: 30px 6px 0 0;
+  margin: 30px 0 0 6px;
   cursor: pointer;
 }
 
 .commentContent {
-  margin: 12px 20px;
+  margin: 12px 0;
 }
 
 .recommentButton {
