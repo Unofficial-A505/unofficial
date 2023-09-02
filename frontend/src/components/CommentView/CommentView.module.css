@@ -1,10 +1,12 @@
 .commentContainer {
-  width: 100%;
+  width: 782px;
+  margin: 0 auto;
   /* border: 1px dotted red; */
 }
 
 .commentTopbar {
-  margin: 5px 20px 15px 20px;
+  margin-top: 5px;
+  margin-bottom: 15px;
 
   display: flex;
   justify-content: space-between;
@@ -34,7 +36,7 @@
 }
 
 .commentContent {
-  margin: 0 20px;
+  margin: 0;
   /* border: 1px dotted red; */
 }
 
@@ -55,7 +57,7 @@
 }
 
 .commentBottombar {
-  margin: 10px 20px 0 20px;
+  margin-top: 10px;
 
   display: flex;
   justify-content: space-between;
@@ -111,13 +113,13 @@ textarea::-webkit-scrollbar-track {
   border-radius: 2px;
   border: 1px solid #dcdcdc;
   background-color: #fff;
-  padding: 2px 8px;
+  padding: 4px 8px;
   font-size: 0.8rem;
 }
 /* 대댓글 */
 /* 대댓글 전체 container */
 .recommentBoxContainer {
-  margin: 20px;
+  margin-top: 7px;
   display: flex;
 }
 
@@ -132,7 +134,7 @@ textarea::-webkit-scrollbar-track {
 
 .recommentNicknameBox {
   width: 100%;
-  margin: 0 auto;
+  margin-top: 13px;
   display: flex;
   /* border: 1px dotted red; */
 }
@@ -144,17 +146,15 @@ textarea::-webkit-scrollbar-track {
 
 .recommentNicknameInput {
   padding-left: 8px;
-  border: 2px solid #d9d9d9;
+  border: 1px solid #e3e5e8;
   border-radius: 0.3rem;
 }
 .recommentNicknameInput::placeholder {
   font-size: 1rem;
 }
 .recommentEnter {
-  width: 20px;
-  height: 20px;
-  margin-left: 10px;
-  margin-right: 20px;
+  width: 50px;
+  padding: 0 13px;
   font-size: 1.5rem;
   color: #9b9b9b;
 }
@@ -164,9 +164,9 @@ textarea::-webkit-scrollbar-track {
   width: 100%;
 
   display: flex;
-  border: 2px solid #d9d9d9;
+  border: 1px solid #e3e5e8;
   border-radius: 0.3rem;
-  margin: 7px 0 13px 0;
+  margin-top: 7px;
 
   /* border: 1px dotted red; */
 }
