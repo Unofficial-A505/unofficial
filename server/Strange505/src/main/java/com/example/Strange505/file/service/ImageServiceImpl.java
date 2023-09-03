@@ -71,6 +71,8 @@ public class ImageServiceImpl implements ImageService {
     private String urlExtract(String data, List<String> urls) {
         int idx = data.indexOf("<img src=\"");
 
+
+
         String now = data.substring(idx + 10);
         idx = now.indexOf("\"");
 
@@ -78,7 +80,11 @@ public class ImageServiceImpl implements ImageService {
         String leftover = now.substring(idx + 1);
 
         System.out.println(URL);
-        urls.add(URL.substring(URL.indexOf("/article/")));
+        int nextIdx = URL.indexOf("/article/");
+        if (nextIdx == -1) {
+            return leftover;
+        }
+        urls.add(URL.substring(nextIdx));
         System.out.println(leftover);
         return leftover;
     }
