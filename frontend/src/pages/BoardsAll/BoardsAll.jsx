@@ -1,6 +1,6 @@
 import styles from "./BoardsAll.module.css";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, Outlet } from "react-router-dom";
+import { useNavigate, useParams, useLocation, Outlet } from "react-router-dom";
 
 import AdHorizontal from "../../components/AdHorizontal/AdHorizontal";
 import BestpostsWidget from "../../components/BestpostsWidget/BestpostsWidget";
@@ -25,6 +25,7 @@ export default function BoardsAll() {
 
   const navigate = useNavigate();
   const authUser = useSelector((state) => state.authUser);
+  const location = useLocation();
 
   const { boardId } = useParams();
   const [boardNames, setboardNames] = useState([]);
@@ -53,7 +54,8 @@ export default function BoardsAll() {
   };
 
   useEffect(() => {
-    setValue(boardId - 1);
+    // setValue(boardId - 1);
+    
     // best 게시글 api
     bestPostsApi()
       .then((res) => {
@@ -65,10 +67,15 @@ export default function BoardsAll() {
     boardNamesApi()
       .then((res) => {
         setboardNames(res);
+        let index = 0
         res.forEach((board) => {
           if (board.id + "" === boardId) {
             setcurrboardName(board.name);
           }
+          if (location.state===board.name) {
+            setValue(index)
+          }
+          index++;
         });
       })
       .catch((err) => console.log(err));
@@ -168,7 +175,7 @@ export default function BoardsAll() {
                     navigate(`/boards/${board.id}`, { state: board.name });
                   }}
                   label={board.name}
-                />
+                ></Tab>
               ))}
             </Tabs>
             <div className={styles.postcreateContainer}>
