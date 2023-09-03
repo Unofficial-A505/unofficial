@@ -10,9 +10,11 @@ import lombok.*;
 public class BoardResponseDto {
     private Long id;
     private String name;
+    private Integer sequence;
 
     public BoardResponseDto(Board board) {
         this.id = board.getId();
         this.name = board.getName();
+        this.sequence = board.getSequence();
     }
 }
