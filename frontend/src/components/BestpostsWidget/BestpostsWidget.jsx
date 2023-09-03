@@ -55,7 +55,8 @@ export default function BestpostsWidget({ IsAuth }) {
             }}
           >
             <span className={styles.bestboardTitles}>
-              {post.boardName?.slice(0, -3)}
+              {post.boardName.slice(-3)=='게시판' 
+              ? post.boardName?.slice(0, -3) : post.boardName}
             </span>
             <span title={post.title} className={styles.bestcontentTitles}>
               {post.title}
