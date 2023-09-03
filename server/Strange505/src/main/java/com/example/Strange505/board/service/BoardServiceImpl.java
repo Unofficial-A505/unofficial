@@ -42,6 +42,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<BoardResponseDto> getAllBoards() {
         List<Board> list = boardRepository.findAll();
+        list.sort((a, b) -> a.getSequence() - b.getSequence());
         List<BoardResponseDto> dtoList = new ArrayList<>();
         list.stream().forEach(findAll -> dtoList.add
                 (new BoardResponseDto(findAll)));
