@@ -72,7 +72,6 @@ export default function BoardsAll() {
           if (board.id + "" === boardId) {
             setcurrboardName(board.name);
           }
-          // console.log(location)
           if (location.state===board.name) {
             setValue(index)
           }
