@@ -105,7 +105,6 @@ export default function PostDetail() {
     // 게시글 상세정보 가져오기
     postDetailApi(postId)
       .then((res) => {
-        // console.log(res)
         setpostDetail(res);
         setBoardTitle(res.boardName);
         getComment(1);
@@ -250,7 +249,7 @@ export default function PostDetail() {
                 className={styles.boardTitle}
                 onClick={() =>
                   navigate(`/boards/${postDetail.boardId}`, {
-                    state: postDetail.boardId,
+                    state: postDetail.boardName,
                   })
                 }
               >
@@ -258,9 +257,9 @@ export default function PostDetail() {
               </span>
               <button
                 className={styles.grayoutbutton}
-                onClick={() =>
+                onClick={() => 
                   navigate(`/boards/${postDetail.boardId}`, {
-                    state: postDetail.boardId,
+                    state: postDetail.boardName,
                   })
                 }
               >
@@ -462,7 +461,7 @@ export default function PostDetail() {
                 className={styles.buttonlayoutDel}
                 onClick={() =>
                   navigate(`/boards/${postDetail.boardId}`, {
-                    state: postDetail.boardId,
+                    state: postDetail.boardName,
                   })
                 }
               >
@@ -475,7 +474,7 @@ export default function PostDetail() {
                 className={styles.grayoutbutton}
                 onClick={() =>
                   navigate(`/boards/${postDetail.boardId}`, {
-                    state: postDetail.boardId,
+                    state: postDetail.boardName,
                   })
                 }
               >

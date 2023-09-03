@@ -187,6 +187,25 @@
   line-height: normal;
 }
 
+Tab {
+  position: relative;
+}
+
+#newTabBox {
+  width: 15px;
+  height: 15px;
+  font-size: 4px;
+  cursor: pointer;
+  color: white;
+  border-radius: 100%;
+  background-color: #cd1919;
+  /* border: 1px dotted #1973cd ; */
+
+  position: absolute;
+  top: 4px;
+  right: 6px;
+}
+
 /* 새 글 작성 버튼 스타일링 */
 .createpageButton {
   width: 140px;
