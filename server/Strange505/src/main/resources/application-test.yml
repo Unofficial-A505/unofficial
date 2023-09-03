@@ -1,16 +1,16 @@
 spring:
   data:
     redis:
-      host: unofficial.kr
-      port: 8123
+      host: localhost
+      port: 6379
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://unofficial.kr:8888/ssafy_qa_db?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3308/ssafy_test?serverTimezone=Asia/Seoul
     username: root
-    password: strange505
+    password: 1234
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         show_sql: false
