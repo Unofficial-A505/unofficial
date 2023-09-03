@@ -22,6 +22,7 @@ public class Board {
     private LocalDateTime modifyTime;
     @OneToMany(mappedBy = "board")
     private List<Article> articles = new ArrayList<>();
+    private Integer sequence;
 
     public void update(String name, LocalDateTime modifyTime) {
         this.name = name;
