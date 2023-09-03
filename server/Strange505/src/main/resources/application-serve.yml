@@ -17,6 +17,11 @@ spring:
         format_sql: true
     open-in-view: false
 
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false
+
 
 mail:
   base-url : "https://unofficial.kr/verify?verificationCode="
